@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitsControl : MonoBehaviour {
@@ -72,13 +70,26 @@ public class UnitsControl : MonoBehaviour {
         previous5MovementInput = value;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        rb1.velocity = unit1Transform.up * (previous1MovementInput.y * moveSpeed);
-        rb2.velocity = unit2Transform.up * (previous2MovementInput.y * moveSpeed);
-        rb3.velocity = unit3Transform.up * (previous3MovementInput.y * moveSpeed);
-        rb4.velocity = unit4Transform.up * (previous4MovementInput.y * moveSpeed);
-        rb5.velocity = unit5Transform.up * (previous5MovementInput.y * moveSpeed);
+        MoveUnit(rb1, unit1Transform, previous1MovementInput.y);
+        MoveUnit(rb2, unit2Transform, previous2MovementInput.y);
+        MoveUnit(rb3, unit3Transform, previous3MovementInput.y);
+        MoveUnit(rb4, unit4Transform, previous4MovementInput.y);
+        MoveUnit(rb5, unit5Transform, previous5MovementInput.y);
+    }
+
+    private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY)
+    {
+        // Adjust the position based on the input and moveSpeed
+        Vector2 targetPosition = new Vector2(unitTransform.position.x,unitTransform.up.y * (inputY * moveSpeed));
+        // Debug.Log("UnitTransform.up: " + targetPosition);
+        Vector2 currentPosition = rb.position;
+
+        // Lerp the position to create smooth movement
+        Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime * moveSpeed);
+
+        // Set the new position
+        rb.MovePosition(newPosition);
     }
 }
