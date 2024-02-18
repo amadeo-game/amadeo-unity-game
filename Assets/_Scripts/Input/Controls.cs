@@ -295,8 +295,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Y-H"",
                     ""id"": ""5901b3e3-70bc-420d-8915-bba0ef07092e"",
-                    ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""path"": ""2DVector(mode=2)"",
+                    ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""RF1"",
@@ -304,23 +304,23 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
+                    ""name"": ""Up"",
                     ""id"": ""e2b3cf73-3ee1-4513-bace-7e1888f430df"",
                     ""path"": ""<Keyboard>/y"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Simulation"",
                     ""action"": ""RF1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""down"",
+                    ""name"": ""Down"",
                     ""id"": ""7770e8ab-1214-4989-ac6e-5c1a91e715ff"",
                     ""path"": ""<Keyboard>/h"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Simulation"",
                     ""action"": ""RF1"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true

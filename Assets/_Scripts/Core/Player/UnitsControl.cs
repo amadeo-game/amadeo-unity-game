@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class UnitsControl : MonoBehaviour {
     [Header("References")] 
@@ -24,8 +25,9 @@ public class UnitsControl : MonoBehaviour {
     
     private bool isLeftHand = false;
     
+    [FormerlySerializedAs("moveSpeed")]
     [Header("Settings")]
-    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float maxHeight = 4f;
 
     private void Start() {
         try {
@@ -82,14 +84,16 @@ public class UnitsControl : MonoBehaviour {
     private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY)
     {
         // Adjust the position based on the input and moveSpeed
-        Vector2 targetPosition = new Vector2(unitTransform.position.x,unitTransform.up.y * (inputY * moveSpeed));
+        Vector2 targetPosition = new Vector2(unitTransform.position.x, (inputY*MoveSpeed) + inputY*unitTransform.position.y);
         // Debug.Log("UnitTransform.up: " + targetPosition);
         Vector2 currentPosition = rb.position;
 
         // Lerp the position to create smooth movement
-        Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime * moveSpeed);
+        Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime);
 
         // Set the new position
         rb.MovePosition(newPosition);
     }
+
+    float MoveSpeed { get; set; } = 0.5f;
 }

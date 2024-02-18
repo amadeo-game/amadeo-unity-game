@@ -1,6 +1,8 @@
 using System;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Composites;
 using static Controls;
 [CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/InputReader")]
 public class InputReader : ScriptableObject, ILeftHandActions, IRightHandActions {
@@ -56,7 +58,10 @@ public class InputReader : ScriptableObject, ILeftHandActions, IRightHandActions
     
     // Right Hand Input Actions
 
+
     public void OnRF1(InputAction.CallbackContext context) {
+        Debug.Log("Current Input y " + context.ReadValue<Vector2>());
+
         OnRF1Event?.Invoke(context.ReadValue<Vector2>());
     }
 
