@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 71e873e550965cc499434284ca11f892
+guid: 7837892bcef8a9147ad6fa15cf57651a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 40
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,112 +108,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: PipeSpriteSheet2-transparent_0
-      rect:
-        serializedVersion: 2
-        x: 26
-        y: 683
-        width: 309
-        height: 86
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4d44331319c60f34e94bbc12f669443c
-      internalID: -602479636
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PipeSpriteSheet2-transparent_1
-      rect:
-        serializedVersion: 2
-        x: 25
-        y: 569
-        width: 271
-        height: 106
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d93b6934bab2e5c49b62dda60373483c
-      internalID: 1481758279
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PipeSpriteSheet2-transparent_2
-      rect:
-        serializedVersion: 2
-        x: 26
-        y: 771
-        width: 288
-        height: 250
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: de8c8d9c0a7bdd347af4976f3e8cfc8a
-      internalID: 1916163433
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PipeSpriteSheet2-transparent_3
-      rect:
-        serializedVersion: 2
-        x: 310
-        y: 420
-        width: 189
-        height: 155
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2177d8e0a2ee16c4fa0da71e70ce71ce
-      internalID: 1804850468
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PipeSpriteSheet2-transparent_4
-      rect:
-        serializedVersion: 2
-        x: 190
-        y: 24
-        width: 116
-        height: 118
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a10188fea1c51a249900d8a68b518780
-      internalID: -1469798587
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
@@ -224,12 +119,7 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable:
-      PipeSpriteSheet2-transparent_0: -602479636
-      PipeSpriteSheet2-transparent_1: 1481758279
-      PipeSpriteSheet2-transparent_2: 1916163433
-      PipeSpriteSheet2-transparent_3: 1804850468
-      PipeSpriteSheet2-transparent_4: 1926188402
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
