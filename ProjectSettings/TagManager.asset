@@ -41,12 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Pipes
-    uniqueID: 926131983
-    locked: 0
   - name: Background
     uniqueID: 2250418425
     locked: 0
   - name: UnitPlaceHolder
     uniqueID: 2402607489
+    locked: 0
+  - name: Pipes
+    uniqueID: 926131983
     locked: 0
