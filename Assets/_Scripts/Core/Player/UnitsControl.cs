@@ -3,6 +3,17 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class UnitsControl : MonoBehaviour {
+    
+
+    private void OnEnable() {
+        GameManager.OnUnitsPlaced += OnUnitsPlaced;
+    }
+
+    private void OnUnitsPlaced() {
+        Debug.Log("Stop moving units.");
+        gameObject.SetActive(false);
+    }
+
     [Header("References")] 
     [SerializeField] private InputReader inputReader;
     
@@ -28,6 +39,7 @@ public class UnitsControl : MonoBehaviour {
     [FormerlySerializedAs("moveSpeed")]
     [Header("Settings")]
     [SerializeField] private float maxHeight = 4f;
+    
 
     private void Start() {
         try {
