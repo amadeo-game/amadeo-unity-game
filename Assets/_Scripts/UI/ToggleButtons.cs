@@ -25,4 +25,6 @@ public class ToggleButtons : MonoBehaviour {
 
         button2.GetComponent<Image>().color = button1Pressed ?  defaultColor : activeColor;
     }
+    
+    
 }

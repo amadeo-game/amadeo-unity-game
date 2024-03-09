@@ -11,7 +11,7 @@ public class CheckSubjectID : MonoBehaviour
     [SerializeField] TextMeshProUGUI errorText;
     [SerializeField] private string errorMessage = "Subject ID doesn't exist";
     [SerializeField] private GameObject form;
-
+    
     private bool idIsValid;
 
     public void ValidateID() {
