@@ -11,8 +11,15 @@ public class SubjectSelectionManager : MonoBehaviour {
         CheckId,
         NewSubject
     };
+    
+    public enum HandSelection {
+        Left,
+        Right
+    }
 
-    public SubjectSelectionState currentState;
+    [SerializeField] private SubjectSelectionState currentState;
+
+    
 
     // TextMeshPro button Type
     [SerializeField] private TMP_Text panelTitle;
@@ -28,11 +35,13 @@ public class SubjectSelectionManager : MonoBehaviour {
 
     [SerializeField] private TMP_InputField sessionIDInput;
     [SerializeField] private TMP_Text sessionIdFeedbackMessage;
-    [SerializeField] private Button leftButton, rightButton, acceptButton;
+    [SerializeField]  private TMP_Dropdown handSelectionDropdown;
+    [SerializeField] private Button acceptButton;
 
     [Header("Back button")] [SerializeField]
     private Button backButton;
-
+    
+    private HandSelection currentHandSelection = HandSelection.Left;
     void Start() {
         currentState = SubjectSelectionState.Initial;
         checkButton.interactable = false;
@@ -85,7 +94,7 @@ public class SubjectSelectionManager : MonoBehaviour {
 
         // TODO: Replace with dropdown logic here
         string handSelection =
-            (leftButton.GetComponent<Image>().color == Color.green) ? "Left" : "Right"; // Get hand selection
+            currentHandSelection == HandSelection.Left ? "Left" : "Right"; // Get hand selection
 
         // Create subject folder and session subfolder
         var createdSubjectFolder = CreateSubjectFolder(subjectIDInput.text, sessionID);
@@ -141,6 +150,13 @@ public class SubjectSelectionManager : MonoBehaviour {
             MainMenu.Instance.ChangeState(MainMenuState.MainMenu);
         }
     }
+    
+    public void OnHandSelectionDropdownChanged() {
+        currentHandSelection = handSelectionDropdown.value == 0 ? HandSelection.Left : HandSelection.Right;
+        Debug.Log("Hand selection changed to: " + currentHandSelection);
+        // Debug.Log("Hand selection dropdown value after cast: " + value);
+    }
+    
 
     private void ShowSessionDetails(bool show) {
         subjectSessionDetails.SetActive(show);
