@@ -5,15 +5,16 @@ public class SpriteReplacer : MonoBehaviour {
     public Sprite newSprite; // The new sprite that you want to use
     [SerializeField] private bool isVertical = true; // To store if the sprite is vertical
 
-    void Start() {
+    
+    public void ReplaceSprite() {
         Sprite currentSprite = GetComponent<SpriteRenderer>().sprite;
         float numOfOriginalPixelPerUnit = currentSprite.pixelsPerUnit;
         float originalWidth = currentSprite.rect.width;
         float originalHeight = currentSprite.rect.height;
         var localScale = transform.localScale;
-        Debug.Log("Unity units ratio: " + " Height: " +
-                  (originalHeight * localScale.y) / numOfOriginalPixelPerUnit +
-                  " Width: " + (originalWidth * localScale.x) / numOfOriginalPixelPerUnit);
+        // Debug.Log("Unity units ratio: " + " Height: " +
+        //           (originalHeight * localScale.y) / numOfOriginalPixelPerUnit +
+        //           " Width: " + (originalWidth * localScale.x) / numOfOriginalPixelPerUnit);
 
         /* Normalize the width and height of the original sprite to unity units*/
         float normalizedWidthPerUnit = (originalWidth * localScale.x) / numOfOriginalPixelPerUnit;
@@ -31,9 +32,9 @@ public class SpriteReplacer : MonoBehaviour {
 
         // make the new sprite fill the same space of unity's units in the scene as the original sprite
         float newSpriteWidthSize = normalizedWidthPerUnit * numOfNewPixelPerUnit;
-        Debug.Log(newSpriteWidthSize);
+        // Debug.Log(newSpriteWidthSize);
         float newSpriteHeightSize = normalizedHeightPerUnit * numOfNewPixelPerUnit;
-        Debug.Log(newSpriteHeightSize);
+        // Debug.Log(newSpriteHeightSize);
 
         // Calculate the ratio of the new sprite's width and height to the original sprite's width and height
         float ratioWidth = newSpriteWidthSize / (isVertical ? height : width);
@@ -49,5 +50,7 @@ public class SpriteReplacer : MonoBehaviour {
         else {
             gameObject.transform.localScale = new Vector3(ratioWidth, ratioHeight, 1);
         }
+        
+        Debug.Log("Sprite replaced successfully!");
     }
 }
