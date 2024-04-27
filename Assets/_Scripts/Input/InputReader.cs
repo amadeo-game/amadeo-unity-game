@@ -60,7 +60,7 @@ public class InputReader : ScriptableObject, ILeftHandActions, IRightHandActions
 
 
     public void OnRF1(InputAction.CallbackContext context) {
-        Debug.Log("Current Input y " + context.ReadValue<Vector2>());
+        // Debug.Log("Current Input y " + context.ReadValue<Vector2>());
 
         OnRF1Event?.Invoke(context.ReadValue<Vector2>());
     }

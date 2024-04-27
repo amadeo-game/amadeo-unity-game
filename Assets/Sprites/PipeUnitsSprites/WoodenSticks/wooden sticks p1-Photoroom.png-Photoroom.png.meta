@@ -1831,9 +1831,9 @@ TextureImporter:
       name: wooden sticks p1-Photoroom.png-Photoroom_79
       rect:
         serializedVersion: 2
-        x: 151
+        x: 152
         y: 531
-        width: 37
+        width: 34
         height: 149
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

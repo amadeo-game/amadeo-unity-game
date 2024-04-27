@@ -3,45 +3,51 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 public class UnitsControl : MonoBehaviour {
+    [SerializeField] private InputReader inputReader;
+    private bool isUnitsSet = false;
+    private Transform unit1Transform;
+    private Transform unit2Transform;
+    private Transform unit3Transform;
+    private Transform unit4Transform;
+    private Transform unit5Transform;
+
+    private Rigidbody2D rb1;
+    private Rigidbody2D rb2;
+    private Rigidbody2D rb3;
+    private Rigidbody2D rb4;
+    private Rigidbody2D rb5;
     
+    private Vector2 previous1MovementInput;
+    private Vector2 previous2MovementInput;
+    private Vector2 previous3MovementInput;
+    private Vector2 previous4MovementInput;
+    private Vector2 previous5MovementInput;
+    
+
+
+    public void SetPlayerUnits(GameObject[] gameUnits) {
+        if (gameUnits.Length != 5) {
+            throw new ArgumentException("gameUnits must be length 5.");            
+        }
+        // gameUnits is length 5
+        unit1Transform = gameUnits[0].transform;
+        unit2Transform = gameUnits[1].transform;
+        unit3Transform = gameUnits[2].transform;
+        unit4Transform = gameUnits[3].transform;
+        unit5Transform = gameUnits[4].transform;
+        
+        rb1 = gameUnits[0].GetComponent<Rigidbody2D>();
+        rb2 = gameUnits[1].GetComponent<Rigidbody2D>();
+        rb3 = gameUnits[2].GetComponent<Rigidbody2D>();
+        rb4 = gameUnits[3].GetComponent<Rigidbody2D>();
+        rb5 = gameUnits[4].GetComponent<Rigidbody2D>();
+        
+        isUnitsSet = true;
+        
+    }
 
     private void OnEnable() {
         GameManager.OnUnitsPlaced += OnUnitsPlaced;
-    }
-
-    private void OnUnitsPlaced() {
-        Debug.Log("Stop moving units.");
-        gameObject.SetActive(false);
-    }
-
-    [Header("References")] 
-    [SerializeField] private InputReader inputReader;
-    
-    [SerializeField] private Transform unit1Transform;
-    private Vector2 previous1MovementInput;
-    [SerializeField] private Transform unit2Transform;
-    private Vector2 previous2MovementInput;
-    [SerializeField] private Transform unit3Transform;
-    private Vector2 previous3MovementInput;
-    [SerializeField] private Transform unit4Transform;
-    private Vector2 previous4MovementInput;
-    [SerializeField] private Transform unit5Transform;
-    private Vector2 previous5MovementInput;
-    
-    [SerializeField] private Rigidbody2D rb1;
-    [SerializeField] private Rigidbody2D rb2;
-    [SerializeField] private Rigidbody2D rb3;
-    [SerializeField] private Rigidbody2D rb4;
-    [SerializeField] private Rigidbody2D rb5;
-    
-    private bool isLeftHand = false;
-    
-    [FormerlySerializedAs("moveSpeed")]
-    [Header("Settings")]
-    [SerializeField] private float maxHeight = 4f;
-    
-
-    private void Start() {
         try {
             isLeftHand = PlayerPrefs.GetInt("IsLeftHand") == 1;
         }
@@ -63,6 +69,22 @@ public class UnitsControl : MonoBehaviour {
             inputReader.OnRF5Event += HandleMoveUnit5;
         }
     }
+
+    private void OnUnitsPlaced() {
+        Debug.Log("Stop moving units.");
+        gameObject.SetActive(false);
+    }
+
+    private bool isLeftHand = false;
+    
+    [FormerlySerializedAs("moveSpeed")]
+    [Header("Settings")]
+    [SerializeField] private float maxHeight = 4f;
+    
+
+    // private void Awake() {
+    //     enabled = false;
+    // }
     
     private void HandleMoveUnit1(Vector2 value) {
         previous1MovementInput = value;
@@ -84,8 +106,8 @@ public class UnitsControl : MonoBehaviour {
         previous5MovementInput = value;
     }
 
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
+        if (!isUnitsSet) return;
         MoveUnit(rb1, unit1Transform, previous1MovementInput.y);
         MoveUnit(rb2, unit2Transform, previous2MovementInput.y);
         MoveUnit(rb3, unit3Transform, previous3MovementInput.y);
