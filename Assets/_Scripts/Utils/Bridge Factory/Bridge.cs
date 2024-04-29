@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Bridge {
@@ -57,62 +58,71 @@ public class Bridge {
         }
     }
 
+    private static void LocationDebugger(Vector3 position) {
+        // return small white square game object
+        GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        go.transform.SetPositionAndRotation(position, Quaternion.identity);
+        go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+    }
+
     private void EnvElevationUnit(Transform leftUnit, Transform rightUnit) {
-        var leftUnitY = leftUnit.position.y;
-        var rightUnitY = rightUnit.position.y;
-        var validator = 0;
-        bool isHeightSignificant = Mathf.Abs(leftUnitY - rightUnitY) > 1;
-        while (leftUnitY + 1 < rightUnitY) {
-            if (validator > 5) {
-                break;
-            }
 
-            GameObject bridgeEnvUnit = GameObject.Instantiate(envUnitPrefab);
-            bridgeEnvUnit.transform.SetLocalPositionAndRotation(leftUnit.position + new Vector3(1.25f, 0.75f, 0f),
-                Quaternion.Euler(0, 0, 90));
-            SpriteReplacer.ReplaceSprite(bridgeSpritesCollection.EnvironmentSprites[0], bridgeEnvUnit);
-            leftUnitY++;
-            leftUnit.position += new Vector3(0, 1);
 
-            validator++;
+        // Calculate the position of the new square 
+        float xOffset = 0.3f;
+        float yOffset = 0.1f;
+        var position1 = leftUnit.position;
+        var position2 = rightUnit.position;
+        float square1LeftEdgeX = position1.x + (leftUnit.localScale.x / 2);
+        float square2RightEdgeX = position2.x - (rightUnit.localScale.x / 2);
+
+        var heightDifference = (position1.y - position2.y);
+        var absHeightDifference = Mathf.Abs(heightDifference);
+        Debug.Log("Height Difference: " + heightDifference);
+
+        var horizontalOffset = xOffset * ((heightDifference + xOffset) / (heightDifference + xOffset));
+        var verticalOffset = yOffset * ((heightDifference) / (absHeightDifference + yOffset));
+        Debug.Log("Horizontal Offset: " + horizontalOffset + " Vertical Offset: " + verticalOffset);
+
+        Vector3 square1EdgePosition =
+            new Vector3(square1LeftEdgeX + horizontalOffset, position1.y - verticalOffset, position1.z);
+        Vector3 square2EdgePosition =
+            new Vector3(square2RightEdgeX - horizontalOffset, position2.y + verticalOffset, position2.z);
+
+        Debug.Log("Square left position: " + square1EdgePosition);
+        Debug.Log("Square right position: " + square2EdgePosition);
+
+
+        Vector3 position = (square1EdgePosition + square2EdgePosition) / 2;
+
+
+        if (heightDifference == 0) {
+            EnvConnectingUnit(position, square1EdgePosition, square2EdgePosition);
         }
+        else {
+            var leftPos = square1EdgePosition;
+            Vector3 rightPos;
+            var x = (square2EdgePosition.x - square1EdgePosition.x) / absHeightDifference;
+            var y = (square2EdgePosition.y - square1EdgePosition.y) / absHeightDifference;
+            int i = 1;
+            while (i <= absHeightDifference) {
+                rightPos = leftPos + new Vector3(x, y, 0);
+                Debug.Log("Square2EdgePosition: " + square2EdgePosition);
+                LocationDebugger(leftPos);
+                LocationDebugger(rightPos);
 
-        while (leftUnitY - 1 > rightUnitY) {
-            if (validator < -5) {
-                break;
+                position = (leftPos + rightPos) / 2;
+                EnvConnectingUnit(position, leftPos, rightPos);
+                leftPos = rightPos;
+                i++;
             }
-
-            GameObject bridgeEnvUnit = GameObject.Instantiate(envUnitPrefab);
-            bridgeEnvUnit.transform.SetLocalPositionAndRotation(leftUnit.position + new Vector3(1.25f - 0.05f, -0.75f, 0f),
-                Quaternion.Euler(0, 0, 90));
-            SpriteReplacer.ReplaceSprite(bridgeSpritesCollection.EnvironmentSprites[0], bridgeEnvUnit);
-            leftUnitY--;
-            leftUnit.position += new Vector3(0, -2);
-
-            validator--;
         }
-
-        var newY = (validator < 0 ? 1 : (validator > 0 ? -1 : 0));
-        leftUnit.position += new Vector3(0, newY);
-        // rightUnit.localPosition += new Vector3(0,rightUnitY-rightUnit.position.y);
-        EnvConnectingUnit(leftUnit, rightUnit);
     }
 
 
-    private void EnvConnectingUnit(Transform leftUnit, Transform rightUnit) {
+    private void EnvConnectingUnit(Vector3 position, Vector3 square1EdgePosition, Vector3 square2EdgePosition) {
         GameObject bridgeEnvUnit = GameObject.Instantiate(envUnitPrefab);
 
-        // Calculate the position of the new square
-        var position1 = leftUnit.position;
-        float square1LeftEdgePos = position1.x + (leftUnit.localScale.x / 2);
-        var position2 = rightUnit.position;
-        float square2RightEdgePos = position2.x - (rightUnit.localScale.x / 2);
-
-        Vector3 square1EdgePosition =
-            new Vector3(square1LeftEdgePos + 0.3f, position1.y, position1.z);
-        Vector3 square2EdgePosition =
-            new Vector3(square2RightEdgePos - 0.3f, position2.y, position2.z);
-        Vector3 position = (square1EdgePosition + square2EdgePosition) / 2;
 
         // Calculate the rotation of the new square
         float angle =
