@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(UnitsControl))]
 public class BridgeGenerator : MonoBehaviour {
     private const int NumBridgeUnits = 5;
+    [SerializeField] private GameObject prefabExample;
 
     [SerializeField, Range(0, 5)]
     private int[] playerUnitsHeights = new int[NumBridgeUnits]; // Set this in the Inspector
@@ -14,7 +15,7 @@ public class BridgeGenerator : MonoBehaviour {
     [SerializeField] private GameObject bridgeEnvUnitPrefab;
     [SerializeField] private GameObject bridgePlayerUnitPrefab;
     [SerializeField] private GameObject playerUnitPlaceHolder;
-    [SerializeField] private BridgeSpritesCollection[] bridgeSpritesCollections;
+    [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
 
     private int chosenSpriteCollection = 0;
     private List<int> failedUnits = new List<int>();
@@ -33,10 +34,12 @@ public class BridgeGenerator : MonoBehaviour {
             bridgePlayerUnitPrefab,
             bridgeEnvUnitPrefab,
             playerUnitPlaceHolder,
-            bridgeSpritesCollections[chosenSpriteCollection]);
+            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections,
+            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection]
+            , prefabExample);
 
         bridge.BuildPlayerUnits();
-        
+
         bridge.ReplacePUnitSprite();
 
         FingerUnit[] fingerUnits =

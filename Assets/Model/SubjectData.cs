@@ -8,12 +8,12 @@ public class SubjectData : ScriptableObject {
 
     private void OnEnable()
     {
-        InitializeFlags();
+        // InitializeFlags();
     }
 
     private void InitializeFlags()
     {
-        flags.Clear();
+        // flags.Clear();
         flags["ZeroF"] = false;
         flags["MVC"] = false;
         flags["Individuation"] = false;

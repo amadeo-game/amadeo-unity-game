@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 
 public class Bridge {
+    private GameObject prefabExample;
+    private BridgeTypeSO bridgeTypeSO;
     private GameObject[] bridgeEnvUnits;
     public GameObject[] bridgePlayerUnits { get; private set; }
     private GameObject[] playerBridgeUnitsPlaceHolders;
@@ -9,7 +11,7 @@ public class Bridge {
     private readonly int[] playerUnitsHeights;
     private readonly GameObject envUnitPrefab;
     private readonly GameObject playerUnitPrefab;
-    private readonly BridgeSpritesCollection bridgeSpritesCollection;
+    private readonly BridgeSpriteCollection bridgeSpritesCollection;
     private readonly GameObject playerUnitPlaceHolder;
 
     private readonly int numBridgeUnits;
@@ -18,7 +20,9 @@ public class Bridge {
     public Bridge(
         int[] playerUnitsHeights, GameObject playerUnitPrefab, GameObject envUnitPrefab
         , GameObject playerUnitPlaceHolder,
-        BridgeSpritesCollection bridgeSpritesCollection) {
+        BridgeSpriteCollection bridgeSpritesCollection
+        ,BridgeTypeSO bridgeTypeSO,
+        GameObject prefabExample) {
         this.playerUnitsHeights = playerUnitsHeights;
         this.playerUnitPrefab = playerUnitPrefab;
         this.playerUnitPlaceHolder = playerUnitPlaceHolder;
@@ -26,6 +30,9 @@ public class Bridge {
         this.bridgeSpritesCollection = bridgeSpritesCollection;
         prefabLocalScale = envUnitPrefab.transform.localScale;
         numBridgeUnits = playerUnitsHeights.Length;
+        this.bridgeTypeSO = bridgeTypeSO;
+
+        this.prefabExample = prefabExample;
     }
 
 
@@ -66,8 +73,6 @@ public class Bridge {
     }
 
     private void EnvElevationUnit(Transform leftUnit, Transform rightUnit) {
-
-
         // Calculate the position of the new square 
         float xOffset = 0.3f;
         float yOffset = 0.1f;
@@ -95,26 +100,69 @@ public class Bridge {
 
         Vector3 position = (square1EdgePosition + square2EdgePosition) / 2;
 
-
-        if (heightDifference == 0) {
-            EnvConnectingUnit(position, square1EdgePosition, square2EdgePosition);
+        // if (heightDifference == -2) {
+        //     Vector2 leftPos = position1 + new Vector3(2, 0);
+        //     Debug.Log( "Left Pos: " + leftPos);
+        //     GameObject example = GameObject.Instantiate(prefabExample, leftPos, Quaternion.identity);
+        //     SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
+        //     foreach (var child in children) {
+        //         SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
+        //     }
+        // }
+        // else if (heightDifference == 2) {
+        //     Vector2 leftPos = position2 + new Vector3(-2, 0);
+        //     Debug.Log( "Left Pos: " + leftPos);
+        //     GameObject example = GameObject.Instantiate(prefabExample, leftPos, Quaternion.identity);
+        //     example.transform.localScale = new Vector3(-1, 1, 1);
+        //     SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
+        //     foreach (var child in children) {
+        //         SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
+        //     }
+        // }
+        if (heightDifference == -3) {
+            Vector2 leftPos = position1 + new Vector3(2, 0);
+            Debug.Log( "Left Pos: " + leftPos);
+            GameObject example = GameObject.Instantiate(bridgeTypeSO.BridgeEnvUnitPrefab(Mathf.RoundToInt(absHeightDifference)), leftPos, Quaternion.identity);
+            SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var child in children) {
+                SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
+            }
+        }
+        else if (heightDifference == 3) {
+            Vector2 leftPos = position2 + new Vector3(-2, 0);
+            Debug.Log( "Left Pos: " + leftPos);
+            GameObject example = GameObject.Instantiate(prefabExample, leftPos, Quaternion.identity);
+            SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
+            foreach (var child in children) {
+                SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
+            }
+            
+            // Flip the sprite horizontally
+            var localScale = example.transform.localScale;
+            localScale = new Vector3(-localScale.x, localScale.y, 1);
+            example.transform.localScale = localScale;
         }
         else {
-            var leftPos = square1EdgePosition;
-            Vector3 rightPos;
-            var x = (square2EdgePosition.x - square1EdgePosition.x) / absHeightDifference;
-            var y = (square2EdgePosition.y - square1EdgePosition.y) / absHeightDifference;
-            int i = 1;
-            while (i <= absHeightDifference) {
-                rightPos = leftPos + new Vector3(x, y, 0);
-                Debug.Log("Square2EdgePosition: " + square2EdgePosition);
-                LocationDebugger(leftPos);
-                LocationDebugger(rightPos);
+            if (heightDifference == 0) {
+                EnvConnectingUnit(position, square1EdgePosition, square2EdgePosition);
+            }
+            else {
+                var leftPos = square1EdgePosition;
+                Vector3 rightPos;
+                var x = (square2EdgePosition.x - square1EdgePosition.x) / absHeightDifference;
+                var y = (square2EdgePosition.y - square1EdgePosition.y) / absHeightDifference;
+                int i = 1;
+                while (i <= absHeightDifference) {
+                    rightPos = leftPos + new Vector3(x, y, 0);
+                    Debug.Log("Square2EdgePosition: " + square2EdgePosition);
+                    LocationDebugger(leftPos);
+                    LocationDebugger(rightPos);
 
-                position = (leftPos + rightPos) / 2;
-                EnvConnectingUnit(position, leftPos, rightPos);
-                leftPos = rightPos;
-                i++;
+                    position = (leftPos + rightPos) / 2;
+                    EnvConnectingUnit(position, leftPos, rightPos);
+                    leftPos = rightPos;
+                    i++;
+                }
             }
         }
     }
