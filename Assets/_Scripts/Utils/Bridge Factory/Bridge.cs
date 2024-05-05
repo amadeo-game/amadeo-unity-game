@@ -21,7 +21,7 @@ public class Bridge {
         int[] playerUnitsHeights, GameObject playerUnitPrefab, GameObject envUnitPrefab
         , GameObject playerUnitPlaceHolder,
         BridgeSpriteCollection bridgeSpritesCollection
-        ,BridgeTypeSO bridgeTypeSO,
+        , BridgeTypeSO bridgeTypeSO,
         GameObject prefabExample) {
         this.playerUnitsHeights = playerUnitsHeights;
         this.playerUnitPrefab = playerUnitPrefab;
@@ -74,96 +74,25 @@ public class Bridge {
 
     private void EnvElevationUnit(Transform leftUnit, Transform rightUnit) {
         // Calculate the position of the new square 
-        float xOffset = 0.3f;
-        float yOffset = 0.1f;
         var position1 = leftUnit.position;
         var position2 = rightUnit.position;
-        float square1LeftEdgeX = position1.x + (leftUnit.localScale.x / 2);
-        float square2RightEdgeX = position2.x - (rightUnit.localScale.x / 2);
 
         var heightDifference = (position1.y - position2.y);
         var absHeightDifference = Mathf.Abs(heightDifference);
-        Debug.Log("Height Difference: " + heightDifference);
+        int diffSign = Math.Sign(heightDifference);
 
-        var horizontalOffset = xOffset * ((heightDifference + xOffset) / (heightDifference + xOffset));
-        var verticalOffset = yOffset * ((heightDifference) / (absHeightDifference + yOffset));
-        Debug.Log("Horizontal Offset: " + horizontalOffset + " Vertical Offset: " + verticalOffset);
-
-        Vector3 square1EdgePosition =
-            new Vector3(square1LeftEdgeX + horizontalOffset, position1.y - verticalOffset, position1.z);
-        Vector3 square2EdgePosition =
-            new Vector3(square2RightEdgeX - horizontalOffset, position2.y + verticalOffset, position2.z);
-
-        Debug.Log("Square left position: " + square1EdgePosition);
-        Debug.Log("Square right position: " + square2EdgePosition);
-
-
-        Vector3 position = (square1EdgePosition + square2EdgePosition) / 2;
-
-        // if (heightDifference == -2) {
-        //     Vector2 leftPos = position1 + new Vector3(2, 0);
-        //     Debug.Log( "Left Pos: " + leftPos);
-        //     GameObject example = GameObject.Instantiate(prefabExample, leftPos, Quaternion.identity);
-        //     SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
-        //     foreach (var child in children) {
-        //         SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
-        //     }
-        // }
-        // else if (heightDifference == 2) {
-        //     Vector2 leftPos = position2 + new Vector3(-2, 0);
-        //     Debug.Log( "Left Pos: " + leftPos);
-        //     GameObject example = GameObject.Instantiate(prefabExample, leftPos, Quaternion.identity);
-        //     example.transform.localScale = new Vector3(-1, 1, 1);
-        //     SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
-        //     foreach (var child in children) {
-        //         SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
-        //     }
-        // }
-        if (heightDifference == -3) {
-            Vector2 leftPos = position1 + new Vector3(2, 0);
-            Debug.Log( "Left Pos: " + leftPos);
-            GameObject example = GameObject.Instantiate(bridgeTypeSO.BridgeEnvUnitPrefab(Mathf.RoundToInt(absHeightDifference)), leftPos, Quaternion.identity);
-            SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
-            foreach (var child in children) {
-                SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
-            }
+        Vector2 leftPos = diffSign < 0 ? position1 + new Vector3(2, 0) : position2 + new Vector3(-2, 0);
+        Debug.Log("Left Pos: " + leftPos);
+        GameObject example =
+            GameObject.Instantiate(bridgeTypeSO.BridgeEnvUnitPrefab(Mathf.RoundToInt(absHeightDifference)), leftPos,
+                Quaternion.identity);
+        SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
+        foreach (var child in children) {
+            SpriteReplacer.ReplaceSprite(bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
         }
-        else if (heightDifference == 3) {
-            Vector2 leftPos = position2 + new Vector3(-2, 0);
-            Debug.Log( "Left Pos: " + leftPos);
-            GameObject example = GameObject.Instantiate(prefabExample, leftPos, Quaternion.identity);
-            SpriteRenderer[] children = example.GetComponentsInChildren<SpriteRenderer>();
-            foreach (var child in children) {
-                SpriteReplacer.ReplaceSprite( bridgeSpritesCollection.EnvironmentSprites[0], child.gameObject);
-            }
-            
-            // Flip the sprite horizontally
-            var localScale = example.transform.localScale;
-            localScale = new Vector3(-localScale.x, localScale.y, 1);
-            example.transform.localScale = localScale;
-        }
-        else {
-            if (heightDifference == 0) {
-                EnvConnectingUnit(position, square1EdgePosition, square2EdgePosition);
-            }
-            else {
-                var leftPos = square1EdgePosition;
-                Vector3 rightPos;
-                var x = (square2EdgePosition.x - square1EdgePosition.x) / absHeightDifference;
-                var y = (square2EdgePosition.y - square1EdgePosition.y) / absHeightDifference;
-                int i = 1;
-                while (i <= absHeightDifference) {
-                    rightPos = leftPos + new Vector3(x, y, 0);
-                    Debug.Log("Square2EdgePosition: " + square2EdgePosition);
-                    LocationDebugger(leftPos);
-                    LocationDebugger(rightPos);
 
-                    position = (leftPos + rightPos) / 2;
-                    EnvConnectingUnit(position, leftPos, rightPos);
-                    leftPos = rightPos;
-                    i++;
-                }
-            }
+        if (diffSign > 0) {
+            example.transform.localScale = new Vector3(-1, 1, 1);
         }
     }
 

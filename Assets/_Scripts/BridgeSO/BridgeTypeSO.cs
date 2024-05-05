@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "BridgeType", menuName = "Bridge/BridgeType")]
 public class BridgeTypeSO : ScriptableObject {
     [SerializeField] private BridgeSpriteCollection bridgeSpritesCollections;
+    [SerializeField] private GameObject[] bridgeEnvUnit0Prefab;
     [SerializeField] private GameObject[] bridgeEnvUnit1Prefab;
     [SerializeField] private GameObject[] bridgeEnvUnit2Prefab;
     [SerializeField] private GameObject[] bridgeEnvUnit3Prefab;
@@ -16,6 +17,9 @@ public class BridgeTypeSO : ScriptableObject {
     public GameObject BridgeEnvUnitPrefab(int index) {
         int randomIndex;
         switch (index) {
+            case 0:
+                randomIndex = Random.Range(0, bridgeEnvUnit0Prefab.Length);
+                return bridgeEnvUnit0Prefab[randomIndex];
             case 1:
                 randomIndex = Random.Range(0, bridgeEnvUnit1Prefab.Length);
                 return bridgeEnvUnit1Prefab[randomIndex];
