@@ -9,9 +9,7 @@ public class BridgeTypeSO : ScriptableObject {
     [SerializeField] private GameObject[] bridgeEnvUnit3Prefab;
     [SerializeField] private GameObject[] bridgeEnvUnit4Prefab;
     [SerializeField] private GameObject[] bridgeEnvUnit5Prefab;
-
-    // setter with index as parameter for getting bridgeSpritesCollections[index]
-
+    
     public BridgeSpriteCollection BridgeSpritesCollections => bridgeSpritesCollections;
 
     public GameObject BridgeEnvUnitPrefab(int index) {
@@ -36,7 +34,7 @@ public class BridgeTypeSO : ScriptableObject {
                 randomIndex = Random.Range(0, bridgeEnvUnit5Prefab.Length);
                 return bridgeEnvUnit5Prefab[randomIndex];
             default:
-                Debug.LogError("BridgeEnvUnitPrefab index out of range");
+                Debug.LogError($"BridgeEnvUnitPrefab index {index} is out of range");
                 throw new System.ArgumentOutOfRangeException();
         }
     }
