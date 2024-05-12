@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -72,6 +73,22 @@ public class BridgeGenerator : MonoBehaviour {
 
         unitsControl.SetPlayerUnits(bridge.bridgePlayerUnits);
     }
+    
+    
+    public void HandleBridgeFailure()
+    {
+        if (bridge != null && animationManager != null)
+        {
+            StartCoroutine(AnimateShakeAndCollapseCoroutine());
+        }
+    }
+
+    IEnumerator AnimateShakeAndCollapseCoroutine()
+    {
+        yield return StartCoroutine(animationManager.AnimateShakeAndCollapse(bridge.bridgePlayerUnits));
+    }
+
+
 
 
     private void SetPlayerUnitsFingers(FingerUnit[] fingerUnits) {
@@ -80,3 +97,10 @@ public class BridgeGenerator : MonoBehaviour {
         }
     }
 }
+
+// private void Update() {
+//     if (Input.GetKeyDown(KeyCode.Space)) {
+//         unitsControl.enabled = false;
+//         HandleBridgeFailure();
+//     }
+// }
