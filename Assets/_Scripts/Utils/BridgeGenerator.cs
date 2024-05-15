@@ -1,6 +1,9 @@
-using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
+using static BridgeBuilder;
+using static Bridge;
+
 
 [RequireComponent(typeof(UnitsControl), typeof(BridgeAnimationManager))]
 public class BridgeGenerator : MonoBehaviour {
@@ -10,7 +13,6 @@ public class BridgeGenerator : MonoBehaviour {
     private int[] playerUnitsHeights = new int[NumBridgeUnits]; // Set this in the Inspector
 
 
-    [SerializeField] private GameObject bridgeEnvUnitPrefab;
     [SerializeField] private GameObject bridgePlayerUnitPrefab;
     [SerializeField] private GameObject playerUnitPlaceHolder;
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
@@ -24,7 +26,6 @@ public class BridgeGenerator : MonoBehaviour {
     private int chosenSpriteCollection = 0;
 
     // private List<int> failedUnits = new List<int>();
-    private Bridge bridge;
     private UnitsControl unitsControl;
 
 
@@ -34,73 +35,74 @@ public class BridgeGenerator : MonoBehaviour {
     void Start() {
         unitsControl = GetComponent<UnitsControl>();
         animationManager = GetComponent<BridgeAnimationManager>(); // Reference the animation manager
-
         Build();
     }
 
     private void Build() {
-        bridge = new Bridge(
-            playerUnitsHeights,
-            bridgePlayerUnitPrefab,
-            bridgeEnvUnitPrefab,
-            playerUnitPlaceHolder,
-            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections,
-            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection],
-            bridgeRiseDownOffset
-        );
+        GameObject bridgeHolder = new GameObject("Bridge Holder");
 
-        bridge.BuildPlayerUnits();
+        Vector2[] playerUnitsPositions = GetBridgePlayerPositions(playerUnitsHeights);
 
-        bridge.ReplacePUnitSprite();
+        GameObject[] playerUnits = BuildPlayerUnits(
+            bridge: bridgeHolder,
+            playableUnitsPositions: playerUnitsPositions,
+            playerUnitPrefab: bridgePlayerUnitPrefab,
+            bridgeRiseXOffset: bridgeRiseDownOffset);
 
-        SetPlayerUnitsFingers(FingerUnits);
+        GameObject[] playerUnitPlaceHolders = BuildPlaceHolderUnits(
+            bridge: bridgeHolder,
+            playableUnitsPositions: playerUnitsPositions,
+            playerUnitPlaceHolder: playerUnitPlaceHolder);
 
-        bridge.GenerateBridgeEnvironment();
-        bridge.ReplaceEnvSprites();
+        SpriteUnit playerUnitSprite = bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections
+            .PlayerUnitSprite;
 
-        StartCoroutine(AnimateBuildUp());
+        ReplacePUnitSprite(playerUnitSprite, playerUnits, playerUnitPlaceHolders);
+
+        SetPlayerUnitsFingers(FingerUnits, playerUnits);
+
+        UnitProperties[] bridgeEnvMeasures = GetBridgeEnvironmentHeights(playerUnitsHeights);
+        GameObject[] bridgeEnvUnits = GenerateBridgeEnvironment(unitPropertiesArray: bridgeEnvMeasures,
+            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection], bridgeHolder);
+
+        ReplaceEnvSprites(
+            bridgeEnvUnits: bridgeEnvUnits,
+            spriteUnit: bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections
+                .EnvironmentSprites[0]);
+
+        int[] bridgeEnvHeights = bridgeEnvMeasures.Select(unit => (int)unit.Position.y + bridgeRiseDownOffset).ToArray();
+        
+        int[] totalBridgeHeights = GetSequencedBridgeHeights( playerUnitsHeights, bridgeEnvHeights);
+        GameObject[] totalBridgeUnits = GetSequencedBridgeUnits(playerUnits, bridgeEnvUnits);
+
+        // StartCoroutine(AnimateBuildUp(totalBridgeHeights, totalBridgeUnits));
+
+        playerUnitPlaceHolders.ToList().ForEach(x => x.gameObject.SetActive(true));
     }
 
-    IEnumerator AnimateBuildUp() {
-        // Access bridge units through the bridge object
-        if (bridge != null) {
-            yield return StartCoroutine(
-                animationManager.AnimateBuildUpCoroutine(bridge.bridgePlayerUnits, bridge.BridgeEnvUnits,
-                    bridge.PlayerUnitsHeights, bridge.EnvUnitHeights));
-        }
+    IEnumerator AnimateBuildUp(int[] sequencedBridgeHeights, GameObject[] sequencedBridgeUnits) {
+        yield return StartCoroutine(
+            animationManager.AnimateBuildUpCoroutine(sequencedBridgeUnits, sequencedBridgeHeights));
 
-        bridge.EnablePlaceHolders();
 
-        unitsControl.SetPlayerUnits(bridge.bridgePlayerUnits);
-    }
-    
-    
-    public void HandleBridgeFailure()
-    {
-        if (bridge != null && animationManager != null)
-        {
-            StartCoroutine(AnimateShakeAndCollapseCoroutine());
-        }
-    }
-
-    IEnumerator AnimateShakeAndCollapseCoroutine()
-    {
-        yield return StartCoroutine(animationManager.AnimateShakeAndCollapse(bridge.bridgePlayerUnits));
+        // unitsControl.SetPlayerUnits(bridge.bridgePlayerUnits);
     }
 
 
+    // public void HandleBridgeFailure() {
+    //     if (bridge != null && animationManager != null) {
+    //         StartCoroutine(AnimateShakeAndCollapseCoroutine());
+    //     }
+    // }
+
+    // IEnumerator AnimateShakeAndCollapseCoroutine() {
+    //     yield return StartCoroutine(animationManager.AnimateShakeAndCollapse(bridge.bridgePlayerUnits));
+    // }
 
 
-    private void SetPlayerUnitsFingers(FingerUnit[] fingerUnits) {
+    private void SetPlayerUnitsFingers(FingerUnit[] fingerUnits, GameObject[] bridgePlayerUnits) {
         for (int i = 0; i < NumBridgeUnits; i++) {
-            bridge.bridgePlayerUnits[i].GetComponent<UnitPlaced>().fingerUnit = fingerUnits[i];
+            bridgePlayerUnits[i].GetComponent<UnitPlaced>().fingerUnit = fingerUnits[i];
         }
     }
 }
-
-// private void Update() {
-//     if (Input.GetKeyDown(KeyCode.Space)) {
-//         unitsControl.enabled = false;
-//         HandleBridgeFailure();
-//     }
-// }

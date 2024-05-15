@@ -6,20 +6,17 @@ public class BridgeAnimationManager : MonoBehaviour {
     [SerializeField] private AnimationCurve shakeIntensityCurve; // Curve for controlling shake intensity
     [SerializeField] private float shakeDuration; // Duration of shaking animation
 
-    public IEnumerator AnimateBuildUpCoroutine(GameObject[] bridgeUnits, GameObject[] bridgeEnvUnits,
-        int[] playerUnitHeights, int[] envUnitHeights) {
-        for (int i = 0; i < bridgeUnits.Length; i++) {
-            // Animate environment unit
-            StartCoroutine(AnimateUnitBuildUp(bridgeEnvUnits[i], envUnitHeights[i]));
-            yield return new WaitForSeconds(0.1f);
-            // Animate Player Unit
-            StartCoroutine(AnimateUnitBuildUp(bridgeUnits[i], playerUnitHeights[i]));
+    public IEnumerator AnimateBuildUpCoroutine(GameObject[] bridgeUnits, int[] heights) {
+        int len = bridgeUnits.Length;
+        if (len != heights.Length) {
+            Debug.LogError("Bridge units and heights arrays must have the same length");
+            yield break;
+            
+        }
+        for (int i = 0; i < len; i++) {
+            StartCoroutine(AnimateUnitBuildUp(bridgeUnits[i], heights[i]));
             yield return new WaitForSeconds(0.1f);
         }
-
-        StartCoroutine(AnimateUnitBuildUp(bridgeEnvUnits[^1], envUnitHeights[^1]));
-
-
         yield return new WaitForSeconds(2);
     }
 
