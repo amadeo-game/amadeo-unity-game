@@ -9,6 +9,7 @@ public class BridgeAnimationManager : MonoBehaviour {
     public IEnumerator AnimateBuildUpCoroutine(GameObject[] bridgeUnits, int[] heights) {
         int len = bridgeUnits.Length;
         if (len != heights.Length) {
+            Debug.Log( "heights len is " + heights.Length + " and bridgeUnits len is " + len);
             Debug.LogError("Bridge units and heights arrays must have the same length");
             yield break;
             

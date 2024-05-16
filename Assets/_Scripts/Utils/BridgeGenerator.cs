@@ -62,20 +62,26 @@ public class BridgeGenerator : MonoBehaviour {
         SetPlayerUnitsFingers(FingerUnits, playerUnits);
 
         UnitProperties[] bridgeEnvMeasures = GetBridgeEnvironmentHeights(playerUnitsHeights);
-        GameObject[] bridgeEnvUnits = GenerateBridgeEnvironment(unitPropertiesArray: bridgeEnvMeasures,
-            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection], bridgeHolder);
+        GameObject[] bridgeEnvUnits = GenerateBridgeEnvironment(
+            unitPropertiesArray: bridgeEnvMeasures,
+            bridgeCollectionSO.BridgeTypes[chosenSpriteCollection],
+            bridgeHolder,
+            bridgeRiseDownOffset);
 
         ReplaceEnvSprites(
             bridgeEnvUnits: bridgeEnvUnits,
             spriteUnit: bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections
                 .EnvironmentSprites[0]);
 
-        int[] bridgeEnvHeights = bridgeEnvMeasures.Select(unit => (int)unit.Position.y + bridgeRiseDownOffset).ToArray();
+        int[] bridgeEnvHeights = bridgeEnvMeasures.Select(unit => (int)unit.Position.y).ToArray();
         
-        int[] totalBridgeHeights = GetSequencedBridgeHeights( playerUnitsHeights, bridgeEnvHeights);
+        int[] totalBridgeHeights = GetSequencedBridgeHeights( bridgeEnvHeights, playerUnitsHeights);
         GameObject[] totalBridgeUnits = GetSequencedBridgeUnits(playerUnits, bridgeEnvUnits);
-
-        // StartCoroutine(AnimateBuildUp(totalBridgeHeights, totalBridgeUnits));
+        
+        Debug.Log( string.Join(", ", playerUnitsHeights.Select(x => x.ToString()).ToArray()));
+        Debug.Log( string.Join(", ", bridgeEnvHeights.Select(x => x.ToString()).ToArray()));
+        Debug.Log(string.Join(", ", totalBridgeHeights.Select(x => x.ToString()).ToArray()));
+        StartCoroutine(AnimateBuildUp(totalBridgeHeights, totalBridgeUnits));
 
         playerUnitPlaceHolders.ToList().ForEach(x => x.gameObject.SetActive(true));
     }

@@ -12,6 +12,18 @@ public class BridgeBuilder {
     private static readonly int[] PlayerUnitXPos = { -8, -4, 0, 4, 8 };
     private static readonly int[] EnvUnitXPos = { -10, -6, -2, 2, 6, 10 };
 
+    
+    public static Vector2[] GetBridgePlayerPositions(int[] playableUnitsHeights) {
+        int length = playableUnitsHeights.Length;
+        Vector2[] playerHeights = new Vector2[length];
+        
+        for (int i = 0; i < length; i++) {
+            playerHeights[i] = new Vector2(PlayerUnitXPos[i], playableUnitsHeights[i]);
+        }
+        return playerHeights;
+    }
+    
+    
     public static UnitProperties[] GetBridgeEnvironmentHeights(int[] playableUnitsHeights) {
         int length = playableUnitsHeights.Length;
         UnitProperties[] envUnits = new UnitProperties[length + 1];
@@ -32,15 +44,7 @@ public class BridgeBuilder {
         return envUnits;
     }
     
-    public static Vector2[] GetBridgePlayerPositions(int[] playableUnitsHeights) {
-        int length = playableUnitsHeights.Length;
-        Vector2[] playerHeights = new Vector2[length];
-        
-        for (int i = 0; i < length; i++) {
-            playerHeights[i] = new Vector2(PlayerUnitXPos[i], playableUnitsHeights[i]);
-        }
-        return playerHeights;
-    }
+
 
 
     private static UnitProperties EnvUnit(int leftY, int rightY, int xPos) {

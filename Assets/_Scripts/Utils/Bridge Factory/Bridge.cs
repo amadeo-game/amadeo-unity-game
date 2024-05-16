@@ -57,18 +57,17 @@ public abstract class Bridge {
     }
 
     public static GameObject[] GenerateBridgeEnvironment(UnitProperties[] unitPropertiesArray,
-        BridgeTypeSO bridgeTypeSO, GameObject bridge) {
+        BridgeTypeSO bridgeTypeSO, GameObject bridge,  int bridgeRiseXOffset) {
         var len = unitPropertiesArray.Length;
 
         // len is 6
         GameObject[] bridgeEnvUnits = new GameObject[len];
-
-
         for (int i = 0; i < len; i++) {
             UnitProperties unit = unitPropertiesArray[i];
             GameObject unitType = bridgeTypeSO.GetEnvUnitType(unit.UnitType);
+            Vector2 position = unit.Position - new Vector2(0, bridgeRiseXOffset);
             bridgeEnvUnits[i] =
-                EnvElevationUnit(position: unit.Position, unitType: unitType, unit.IsMirrored, bridge);
+                EnvElevationUnit(position: position, unitType: unitType, unit.IsMirrored, bridge);
         }
 
         return bridgeEnvUnits;
@@ -100,7 +99,7 @@ public abstract class Bridge {
     public static GameObject[] GetSequencedBridgeUnits(GameObject[] playableUnits, GameObject[] envUnits) {
         // add each element from each array intermittently, note that one of the arrays is shorter
         
-        return envUnits.Zip(playableUnits, (x, y) => new[] {x, y}).SelectMany(x => x).ToArray();
+        return envUnits.Zip(playableUnits, (x, y) => new[] {x, y}).SelectMany(x => x).Append( envUnits.Last()).ToArray();
         // GameObject[] bridgeUnits = new GameObject[playableUnits.Length + envUnits.Length];
         // for (int i = 0; i < envUnits.Length; i++) {
         //     bridgeUnits[i * 2] = envUnits[i];
@@ -113,7 +112,7 @@ public abstract class Bridge {
     public static int[] GetSequencedBridgeHeights(int[] bridgeEnvHeights, int[] playerUnitsHeights) {
         // add each element from each array intermittently, note that one of the arrays is shorter
         
-        return bridgeEnvHeights.Zip(playerUnitsHeights, (x, y) => new[] {x, y}).SelectMany(x => x).ToArray();
+        return bridgeEnvHeights.Zip(playerUnitsHeights, (x, y) => new[] {x, y}).SelectMany(x => x).Append( bridgeEnvHeights.Last()).ToArray();
         
         // int len = Mathf.Max( bridgeEnvHeights.Length, playerUnitsHeights.Length);
         // int[] sequencedBridgeHeights = new int[bridgeEnvHeights.Length + playerUnitsHeights.Length];
