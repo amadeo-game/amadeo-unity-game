@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -5,25 +6,45 @@ public class BridgeAnimationManager : MonoBehaviour {
     [SerializeField] private AnimationCurve riseCurve;
     [SerializeField] private AnimationCurve shakeIntensityCurve; // Curve for controlling shake intensity
     [SerializeField] private float shakeDuration; // Duration of shaking animation
+    [SerializeField] private float riseDuration = 0.1f; // Duration of collapse animation
+    [SerializeField] private float collapseDuration = 0.1f; // Duration of collapse animation
+    
+    
+    private BridgeStateMachine stateMachine;
 
-    public IEnumerator AnimateBuildUpCoroutine(GameObject[] bridgeUnits, int[] heights) {
-        int len = bridgeUnits.Length;
-        if (len != heights.Length) {
-            Debug.Log( "heights len is " + heights.Length + " and bridgeUnits len is " + len);
-            Debug.LogError("Bridge units and heights arrays must have the same length");
-            yield break;
-            
-        }
-        for (int i = 0; i < len; i++) {
-            StartCoroutine(AnimateUnitBuildUp(bridgeUnits[i], heights[i]));
-            yield return new WaitForSeconds(0.1f);
-        }
-        yield return new WaitForSeconds(2);
+    private void Awake() {
+        stateMachine = GetComponent<BridgeStateMachine>();
     }
 
-    IEnumerator AnimateUnitBuildUp(GameObject bridgeUnit, int height) {
+    private IEnumerator AnimateUnitsCoroutine(GameObject[] bridgeUnits, int height, float delay) {
+        foreach (var unit in bridgeUnits) { //TODO: Make the function wait for the last unit before changing state
+            StartCoroutine(AnimateUnitToDestination(unit, height));
+            yield return new WaitForSeconds(delay);
+        }
+        yield return new WaitForSeconds(delay*2);
+        stateMachine.FinishBuilding();
+    }
+
+    private IEnumerator AnimateShakeAndCollapse(GameObject[] bridgeUnits, int height) {
+        yield return StartCoroutine(ShakeUnit(bridgeUnits));
+        yield return StartCoroutine(AnimateUnitsCoroutine(bridgeUnits, height, collapseDuration));
+        stateMachine.CompleteCollapse();
+    }
+
+    public void AnimateFallDownUnits(GameObject[] bridgeUnits, int height) {
+        StartCoroutine(AnimateShakeAndCollapse(bridgeUnits, -height));
+
+    }
+
+    public void AnimateBuildUpUnits(GameObject[] bridgeUnits, int height) {
+        StartCoroutine(AnimateUnitsCoroutine(bridgeUnits, height, riseDuration));
+    }
+
+
+
+    IEnumerator AnimateUnitToDestination(GameObject bridgeUnit, int yHeight) {
         Vector2 startPosition = bridgeUnit.transform.position;
-        Vector2 endPosition = new Vector3(startPosition.x, height);
+        Vector2 endPosition = new Vector3(startPosition.x, startPosition.y + yHeight);
 
         float duration = 1.0f; // Duration of the rise animation in seconds
         float elapsed = 0.0f;
@@ -45,15 +66,30 @@ public class BridgeAnimationManager : MonoBehaviour {
 
 // TODO: Similar functions for shake and collapse animations
 
-    public IEnumerator AnimateShakeAndCollapse(GameObject[] bridgeUnits) {
-        // Shake animation
-        yield return StartCoroutine(AnimateShake(bridgeUnits));
 
-        // Collapse animation
-        yield return StartCoroutine(AnimateCollapse(bridgeUnits));
-    }
 
-    IEnumerator AnimateShake(GameObject[] bridgeUnits) {
+    // IEnumerator AnimateUnitShakeAndCollapse(GameObject bridgeUnits, int targetHeight) {
+    //     Vector2 startPosition = bridgeUnits.transform.position;
+    //     Vector2 endPosition = new Vector3(startPosition.x, targetHeight);
+    //
+    //     float duration = 1.0f; // Duration of the rise animation in seconds
+    //     float elapsed = 0.0f;
+    //
+    //     while (elapsed < duration) {
+    //         elapsed += Time.deltaTime;
+    //         float normalizedTime = elapsed / duration; // Goes from 0 to 1
+    //
+    //         // Calculate the current position based on the animation curve
+    //         float curveValue = riseCurve.Evaluate(normalizedTime); // Goes from 0 to 1
+    //         Vector3 currentPosition = Vector3.Lerp(startPosition, endPosition, curveValue);
+    //
+    //         bridgeUnits.transform.position = currentPosition;
+    //
+    //         yield return null;
+    //     }
+    // }
+
+    IEnumerator ShakeUnit(GameObject[] bridgeUnits) {
         float elapsedTime = 0;
         Vector3[] originalPositions = new Vector3[bridgeUnits.Length];
 
@@ -78,19 +114,9 @@ public class BridgeAnimationManager : MonoBehaviour {
             bridgeUnits[i].transform.localPosition = originalPositions[i];
         }
     }
-
-    IEnumerator AnimateCollapse(GameObject[] bridgeUnits) {
-        float collapseSpeed = 5.0f; // Adjust speed as needed
-
-        for (int i = 0; i < bridgeUnits.Length; i++) {
-            while (bridgeUnits[i].transform.position.y > -10) // Adjust Y position based on camera view
-            {
-                bridgeUnits[i].transform.position += Vector3.down * collapseSpeed * Time.deltaTime;
-                yield return null;
-            }
-
-            // Destroy bridge unit after reaching the collapse position
-            Destroy(bridgeUnits[i]);
-        }
-    }
 }
+
+
+/*
+
+ */

@@ -45,9 +45,26 @@ public class UnitsControl : MonoBehaviour {
         isUnitsSet = true;
         
     }
+    
+
+    private void OnDisable() {
+        if (isLeftHand) {
+            inputReader.OnLF1Event -= HandleMoveUnit1;
+            inputReader.OnLF2Event -= HandleMoveUnit2;
+            inputReader.OnLF3Event -= HandleMoveUnit3;
+            inputReader.OnLF4Event -= HandleMoveUnit4;
+            inputReader.OnLF5Event -= HandleMoveUnit5;
+        }
+        else {
+            inputReader.OnRF1Event -= HandleMoveUnit1;
+            inputReader.OnRF2Event -= HandleMoveUnit2;
+            inputReader.OnRF3Event -= HandleMoveUnit3;
+            inputReader.OnRF4Event -= HandleMoveUnit4;
+            inputReader.OnRF5Event -= HandleMoveUnit5;
+        }
+    }
 
     private void OnEnable() {
-        GameManager.OnUnitsPlaced += OnUnitsPlaced;
         try {
             isLeftHand = PlayerPrefs.GetInt("IsLeftHand") == 1;
         }
@@ -70,9 +87,9 @@ public class UnitsControl : MonoBehaviour {
         }
     }
 
-    private void OnUnitsPlaced() {
+    public void DisableControl() {
         Debug.Log("Stop moving units.");
-        gameObject.SetActive(false);
+        isUnitsSet = false;
     }
 
     private bool isLeftHand = false;

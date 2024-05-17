@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GameObject;
 using static UnityEngine.Object;
 
 public abstract class Bridge {
@@ -18,15 +16,10 @@ public abstract class Bridge {
         var len = playableUnitsPositions.Length;
         GameObject[] bridgePlayerUnits = new GameObject[len];
         
-        // debug.log playableUnitsPositions
-        
-        Debug.Log( string.Join(", ", playableUnitsPositions.Select(x => x.ToString()).ToArray()));
-        
         // generate code that offset the y position of each element from the playableUnitsPositions array by bridgeRiseXOffset
-        playableUnitsPositions = playableUnitsPositions.Select(pos => pos - new Vector2(0, bridgeRiseXOffset)).ToArray();
+        playableUnitsPositions =
+            playableUnitsPositions.Select(pos => pos - new Vector2(0, bridgeRiseXOffset)).ToArray();
         
-        Debug.Log( "after offset " + string.Join(", ", playableUnitsPositions.Select(x => x.ToString()).ToArray()));
-
 
         for (int i = 0; i < len; i++) {
             var rotation = playerUnitPrefab.transform.rotation;
@@ -57,7 +50,7 @@ public abstract class Bridge {
     }
 
     public static GameObject[] GenerateBridgeEnvironment(UnitProperties[] unitPropertiesArray,
-        BridgeTypeSO bridgeTypeSO, GameObject bridge,  int bridgeRiseXOffset) {
+        BridgeTypeSO bridgeTypeSO, GameObject bridge, int bridgeRiseXOffset) {
         var len = unitPropertiesArray.Length;
 
         // len is 6
@@ -97,30 +90,16 @@ public abstract class Bridge {
     }
 
     public static GameObject[] GetSequencedBridgeUnits(GameObject[] playableUnits, GameObject[] envUnits) {
-        // add each element from each array intermittently, note that one of the arrays is shorter
-        
-        return envUnits.Zip(playableUnits, (x, y) => new[] {x, y}).SelectMany(x => x).Append( envUnits.Last()).ToArray();
-        // GameObject[] bridgeUnits = new GameObject[playableUnits.Length + envUnits.Length];
-        // for (int i = 0; i < envUnits.Length; i++) {
-        //     bridgeUnits[i * 2] = envUnits[i];
-        //     bridgeUnits[i * 2 + 1] = playableUnits[i];
-        // }
-        //
-        // return bridgeUnits;
+        // add each element from each array intermittently
+
+        return envUnits.Zip(playableUnits, (x, y) => new[] { x, y }).SelectMany(x => x).Append(envUnits.Last())
+            .ToArray();
     }
 
     public static int[] GetSequencedBridgeHeights(int[] bridgeEnvHeights, int[] playerUnitsHeights) {
-        // add each element from each array intermittently, note that one of the arrays is shorter
-        
-        return bridgeEnvHeights.Zip(playerUnitsHeights, (x, y) => new[] {x, y}).SelectMany(x => x).Append( bridgeEnvHeights.Last()).ToArray();
-        
-        // int len = Mathf.Max( bridgeEnvHeights.Length, playerUnitsHeights.Length);
-        // int[] sequencedBridgeHeights = new int[bridgeEnvHeights.Length + playerUnitsHeights.Length];
-        // for (int i = 0; i < len; i++) {
-        //     sequencedBridgeHeights[i * 2] = bridgeEnvHeights[i];
-        //     sequencedBridgeHeights[i * 2 + 1] = playerUnitsHeights[i];
-        // }
-        //
-        // return sequencedBridgeHeights;
+        // add each element from each array intermittently
+
+        return bridgeEnvHeights.Zip(playerUnitsHeights, (x, y) => new[] { x, y }).SelectMany(x => x)
+            .Append(bridgeEnvHeights.Last()).ToArray();
     }
 }
