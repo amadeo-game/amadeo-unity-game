@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum BridgeState {
@@ -11,50 +13,88 @@ public enum BridgeState {
 }
 
 public class BridgeStateMachine : MonoBehaviour {
-    public event Action OnBuildStart;
-    public event Action OnBuildComplete;
-    public event Action OnSuccess;
-    public event Action OnCollapseStart;
-    public event Action OnCollapseComplete;
-
+    private BridgeMediator bridgeMediator;
+    private Dictionary<FingerUnit, bool> dicUnitPlaced;
     private BridgeState currentState = BridgeState.Idle;
 
-    public bool CanBuild() {
-        return currentState == BridgeState.Idle;
+    private void Awake()
+    {
+        dicUnitPlaced = new Dictionary<FingerUnit, bool>
+        {
+            { FingerUnit.first, false },
+            { FingerUnit.second, false },
+            { FingerUnit.third, false },
+            { FingerUnit.fourth, false },
+            { FingerUnit.fifth, false },
+        };
+    }
+
+    public void Initialize(BridgeMediator mediator)
+    {
+        bridgeMediator = mediator ? mediator : throw new ArgumentNullException(nameof(mediator), "BridgeMediator cannot be null.");
+        bridgeMediator.OnUnitPlaced += OnUnitPlaced;
+    }
+
+    private void OnDestroy()
+    {
+        if (bridgeMediator != null)
+        {
+            bridgeMediator.OnUnitPlaced -= OnUnitPlaced;
+        }
+    }
+
+    private void OnUnitPlaced(FingerUnit fingerUnit, bool isPlaced)
+    {
+        if (dicUnitPlaced.ContainsKey(fingerUnit))
+        {
+            dicUnitPlaced[fingerUnit] = isPlaced;
+        }
+
+        if (!dicUnitPlaced.Values.Contains(false))
+        {
+            StartSuccess();
+        }
     }
 
     public void StartBuilding() {
         if (currentState == BridgeState.Idle) {
             currentState = BridgeState.Building;
-            OnBuildStart?.Invoke();
+            bridgeMediator?.BuildStart();
         }
     }
 
     public void FinishBuilding() {
         if (currentState == BridgeState.Building) {
             currentState = BridgeState.Built;
-            OnBuildComplete?.Invoke();
+            bridgeMediator?.BuildComplete();
         }
     }
 
     public void StartCollapsing() {
         if (currentState == BridgeState.Built) {
             currentState = BridgeState.Collapsing;
-            OnCollapseStart?.Invoke();
-        }
-    }
-
-    public void StartSuccess() {
-        if (currentState == BridgeState.Built) {
-            currentState = BridgeState.Win;
-            OnSuccess?.Invoke();
+            bridgeMediator?.CollapseStart();
         }
     }
 
     public void CompleteCollapse() {
         if (currentState == BridgeState.Collapsing) {
             currentState = BridgeState.Collapsed;
-            OnCollapseComplete?.Invoke();
+            bridgeMediator?.CollapseComplete();
+        }
+    }
+
+    public void StartSuccess() {
+        if (currentState == BridgeState.Built) {
+            currentState = BridgeState.Win;
+            bridgeMediator?.SuccessStart();
+        }
+    }
+
+    public void FinishSuccess() {
+        if (currentState == BridgeState.Win) {
+            currentState = BridgeState.Idle;
+            bridgeMediator?.SuccessComplete();
         }
     }
 

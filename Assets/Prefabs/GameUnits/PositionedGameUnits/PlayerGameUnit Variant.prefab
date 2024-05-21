@@ -155,4 +155,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb969d94b401b7f4385ddc4756728065, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stateMachine: {fileID: 4068891930178062337, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
   fingerUnit: 0

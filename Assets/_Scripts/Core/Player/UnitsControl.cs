@@ -45,23 +45,11 @@ public class UnitsControl : MonoBehaviour {
         isUnitsSet = true;
         
     }
-    
 
-    private void OnDisable() {
-        if (isLeftHand) {
-            inputReader.OnLF1Event -= HandleMoveUnit1;
-            inputReader.OnLF2Event -= HandleMoveUnit2;
-            inputReader.OnLF3Event -= HandleMoveUnit3;
-            inputReader.OnLF4Event -= HandleMoveUnit4;
-            inputReader.OnLF5Event -= HandleMoveUnit5;
-        }
-        else {
-            inputReader.OnRF1Event -= HandleMoveUnit1;
-            inputReader.OnRF2Event -= HandleMoveUnit2;
-            inputReader.OnRF3Event -= HandleMoveUnit3;
-            inputReader.OnRF4Event -= HandleMoveUnit4;
-            inputReader.OnRF5Event -= HandleMoveUnit5;
-        }
+
+    public void DisableControl() {
+        Debug.Log("Stop moving units.");
+        isUnitsSet = false;
     }
 
     private void OnEnable() {
@@ -87,9 +75,21 @@ public class UnitsControl : MonoBehaviour {
         }
     }
 
-    public void DisableControl() {
-        Debug.Log("Stop moving units.");
-        isUnitsSet = false;
+    private void OnDisable() {
+        if (isLeftHand) {
+            inputReader.OnLF1Event -= HandleMoveUnit1;
+            inputReader.OnLF2Event -= HandleMoveUnit2;
+            inputReader.OnLF3Event -= HandleMoveUnit3;
+            inputReader.OnLF4Event -= HandleMoveUnit4;
+            inputReader.OnLF5Event -= HandleMoveUnit5;
+        }
+        else {
+            inputReader.OnRF1Event -= HandleMoveUnit1;
+            inputReader.OnRF2Event -= HandleMoveUnit2;
+            inputReader.OnRF3Event -= HandleMoveUnit3;
+            inputReader.OnRF4Event -= HandleMoveUnit4;
+            inputReader.OnRF5Event -= HandleMoveUnit5;
+        }
     }
 
     private bool isLeftHand = false;
@@ -98,10 +98,6 @@ public class UnitsControl : MonoBehaviour {
     [Header("Settings")]
     [SerializeField] private float maxHeight = 4f;
     
-
-    // private void Awake() {
-    //     enabled = false;
-    // }
     
     private void HandleMoveUnit1(Vector2 value) {
         previous1MovementInput = value;

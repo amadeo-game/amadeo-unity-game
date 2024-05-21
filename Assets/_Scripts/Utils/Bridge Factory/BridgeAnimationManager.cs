@@ -16,12 +16,22 @@ public class BridgeAnimationManager : MonoBehaviour {
         stateMachine = GetComponent<BridgeStateMachine>();
     }
 
-    private IEnumerator AnimateUnitsCoroutine(GameObject[] bridgeUnits, int height, float delay) {
-        foreach (var unit in bridgeUnits) { //TODO: Make the function wait for the last unit before changing state
-            StartCoroutine(AnimateUnitToDestination(unit, height));
-            yield return new WaitForSeconds(delay);
-        }
-        yield return new WaitForSeconds(delay*2);
+    public void AnimateBridgeFallDown(GameObject[] bridgeUnits, int height) {
+        StartCoroutine(AnimateShakeAndCollapse(bridgeUnits, -height));
+
+    }
+
+    public void AnimateBuildUpBridge(GameObject[] bridgeUnits, int height) {
+        StartCoroutine(AnimateBuildUpUnits(bridgeUnits, height));
+    }
+    
+    public void AnimateSuccess(GameObject[] playerUnits, int[] heights) {
+        StartCoroutine(AnimateSuccessOnUnits(playerUnits, heights));
+    }
+
+
+    private IEnumerator AnimateBuildUpUnits(GameObject[] bridgeUnits, int height) {
+        yield return StartCoroutine(AnimateUnitsCoroutine(bridgeUnits, height, riseDuration));
         stateMachine.FinishBuilding();
     }
 
@@ -31,16 +41,27 @@ public class BridgeAnimationManager : MonoBehaviour {
         stateMachine.CompleteCollapse();
     }
 
-    public void AnimateFallDownUnits(GameObject[] bridgeUnits, int height) {
-        StartCoroutine(AnimateShakeAndCollapse(bridgeUnits, -height));
-
+    private IEnumerator AnimateSuccessOnUnits(GameObject[] playerUnits, int[] heights) {  
+        // make an animation where all the player units will fit nicely on the Yaxis in heights array
+        for (int i = 0; i < playerUnits.Length; i++) {
+            yield return StartCoroutine(AnimateUnitToDestination(playerUnits[i], heights[i]));
+        }
+        stateMachine.FinishSuccess();
     }
 
-    public void AnimateBuildUpUnits(GameObject[] bridgeUnits, int height) {
-        StartCoroutine(AnimateUnitsCoroutine(bridgeUnits, height, riseDuration));
+
+    private IEnumerator AnimateUnitsCoroutine(GameObject[] bridgeUnits, int height, float delay) {
+        var unitsLength = bridgeUnits.Length;
+        for (var i = 0; i < unitsLength-1; i++) {
+            var unit = bridgeUnits[i];
+            //TODO: Make the function wait for the last unit before changing state
+            StartCoroutine(AnimateUnitToDestination(unit, height));
+            yield return new WaitForSeconds(delay);
+        }
+        // to handle the last unit before other operations
+        yield return StartCoroutine(AnimateUnitToDestination(bridgeUnits[unitsLength - 1], height));
+        yield return new WaitForSeconds(delay*2);
     }
-
-
 
     IEnumerator AnimateUnitToDestination(GameObject bridgeUnit, int yHeight) {
         Vector2 startPosition = bridgeUnit.transform.position;
@@ -62,32 +83,6 @@ public class BridgeAnimationManager : MonoBehaviour {
             yield return null;
         }
     }
-
-
-// TODO: Similar functions for shake and collapse animations
-
-
-
-    // IEnumerator AnimateUnitShakeAndCollapse(GameObject bridgeUnits, int targetHeight) {
-    //     Vector2 startPosition = bridgeUnits.transform.position;
-    //     Vector2 endPosition = new Vector3(startPosition.x, targetHeight);
-    //
-    //     float duration = 1.0f; // Duration of the rise animation in seconds
-    //     float elapsed = 0.0f;
-    //
-    //     while (elapsed < duration) {
-    //         elapsed += Time.deltaTime;
-    //         float normalizedTime = elapsed / duration; // Goes from 0 to 1
-    //
-    //         // Calculate the current position based on the animation curve
-    //         float curveValue = riseCurve.Evaluate(normalizedTime); // Goes from 0 to 1
-    //         Vector3 currentPosition = Vector3.Lerp(startPosition, endPosition, curveValue);
-    //
-    //         bridgeUnits.transform.position = currentPosition;
-    //
-    //         yield return null;
-    //     }
-    // }
 
     IEnumerator ShakeUnit(GameObject[] bridgeUnits) {
         float elapsedTime = 0;
@@ -115,8 +110,3 @@ public class BridgeAnimationManager : MonoBehaviour {
         }
     }
 }
-
-
-/*
-
- */

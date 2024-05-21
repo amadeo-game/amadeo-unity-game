@@ -31,7 +31,6 @@ public class BridgeBuilder {
         // make a new array that has 0 in beginning then playableUnitsHeights then 0 in the end
         int[] heightsWithEdges = new int[length + 2];
         Array.Fill(heightsWithEdges, 0);
-        string[] st = heightsWithEdges.Select(x => x.ToString()).ToArray();
         
         Array.Copy( playableUnitsHeights, 0, heightsWithEdges, 1, length);
         Debug.Log(string.Join(", ", heightsWithEdges));

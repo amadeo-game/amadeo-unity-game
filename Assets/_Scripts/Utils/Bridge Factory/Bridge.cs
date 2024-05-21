@@ -12,13 +12,13 @@ public abstract class Bridge {
     }
 
     public static GameObject[] BuildPlayerUnits(GameObject bridge, Vector2[] playableUnitsPositions,
-        GameObject playerUnitPrefab, int bridgeRiseXOffset) {
+        GameObject playerUnitPrefab, int bridgeRiseYOffset) {
         var len = playableUnitsPositions.Length;
         GameObject[] bridgePlayerUnits = new GameObject[len];
         
         // generate code that offset the y position of each element from the playableUnitsPositions array by bridgeRiseXOffset
         playableUnitsPositions =
-            playableUnitsPositions.Select(pos => pos - new Vector2(0, bridgeRiseXOffset)).ToArray();
+            playableUnitsPositions.Select(pos => pos - new Vector2(0, bridgeRiseYOffset)).ToArray();
         
 
         for (int i = 0; i < len; i++) {
@@ -31,7 +31,7 @@ public abstract class Bridge {
         return bridgePlayerUnits;
     }
 
-    public static GameObject[] BuildPlaceHolderUnits(GameObject bridge, Vector2[] playableUnitsPositions,
+    public static GameObject[] BuildGuideUnits(GameObject bridge, Vector2[] playableUnitsPositions,
         GameObject playerUnitPlaceHolder) {
         var len = playableUnitsPositions.Length;
 

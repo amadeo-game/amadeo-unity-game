@@ -27,12 +27,9 @@ public class InputReader : ScriptableObject, ILeftHandActions, IRightHandActions
             controls = new Controls();
             controls.LeftHand.SetCallbacks(this);
             controls.RightHand.SetCallbacks(this);
-
         }
         controls.LeftHand.Enable();
         controls.RightHand.Enable();
-
-        
     }
 
     // Left Hand Input Actions

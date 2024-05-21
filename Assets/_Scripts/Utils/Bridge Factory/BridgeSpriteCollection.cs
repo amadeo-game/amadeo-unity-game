@@ -11,6 +11,7 @@ public class BridgeSpriteCollection {
 
 [System.Serializable]
 public class SpriteUnit {
-    [FormerlySerializedAs("isVertical")] public bool IsVertical = true;
-    [FormerlySerializedAs("sprite")] public Sprite Sprite;
+    // if the sprite is vertical or horizontal visually from the sprite sheet, needed for sprite replacement
+    public bool IsVertical = true;
+    public Sprite Sprite;
 }
