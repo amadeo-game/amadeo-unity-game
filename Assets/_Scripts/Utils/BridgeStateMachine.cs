@@ -9,7 +9,9 @@ public enum BridgeState {
     Built,
     Collapsing,
     Collapsed,
-    Win,
+    Winning,
+    Win
+    
 }
 
 public class BridgeStateMachine : MonoBehaviour {
@@ -86,14 +88,14 @@ public class BridgeStateMachine : MonoBehaviour {
 
     public void StartSuccess() {
         if (currentState == BridgeState.Built) {
-            currentState = BridgeState.Win;
+            currentState = BridgeState.Winning;
             bridgeMediator?.SuccessStart();
         }
     }
 
     public void FinishSuccess() {
-        if (currentState == BridgeState.Win) {
-            currentState = BridgeState.Idle;
+        if (currentState == BridgeState.Winning) {
+            currentState = BridgeState.Win;
             bridgeMediator?.SuccessComplete();
         }
     }

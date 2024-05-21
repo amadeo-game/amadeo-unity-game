@@ -2764,7 +2764,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 342902682}
         m_TargetAssemblyTypeName: BridgeStateMachine, Assembly-CSharp
-        m_MethodName: StartCollapsing
+        m_MethodName: StartSuccess
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4659,6 +4659,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: shakeDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8111590682049343279, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

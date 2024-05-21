@@ -188,7 +188,7 @@ public class BridgeGenerator : MonoBehaviour {
     }
     
     private void AnimateSuccess() {
-        
+        DisableUnitsControl();
         animationManager.AnimateSuccess(playerUnits, playerUnitsHeights);
     }
 
