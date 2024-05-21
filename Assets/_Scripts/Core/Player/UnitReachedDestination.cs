@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
-
+using BridgePackage;
 public class UnitReachedDestination : MonoBehaviour
 {
     private BridgeMediator bridgeMediator;
-    public FingerUnit fingerUnit;
+    internal  FingerUnit fingerUnit;
 
-    public void Initialize(BridgeMediator mediator)
+    internal void Initialize(BridgeMediator mediator)
     {
         bridgeMediator = mediator ? mediator : throw new ArgumentNullException(nameof(mediator), "BridgeMediator cannot be null.");
     }

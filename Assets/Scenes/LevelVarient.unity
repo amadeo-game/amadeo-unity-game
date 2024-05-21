@@ -649,15 +649,21 @@ RectTransform:
   m_AnchoredPosition: {x: 594, y: -50}
   m_SizeDelta: {x: 180, y: 180}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &342902682 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4068891930178062337, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+--- !u!1 &342902676 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9053538703292718950, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
   m_PrefabInstance: {fileID: 7279761730366189132}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &342902684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 342902676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75fed3074ccae3846bf81393abbd7182, type: 3}
+  m_Script: {fileID: 11500000, guid: f0b44db0e96519240a03f09b208c7f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &511912001
@@ -2747,9 +2753,9 @@ MonoBehaviour:
   _startGame:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 342902682}
-        m_TargetAssemblyTypeName: BridgeStateMachine, Assembly-CSharp
-        m_MethodName: StartBuilding
+      - m_Target: {fileID: 342902684}
+        m_TargetAssemblyTypeName: BridgePackage.BridgeAPI, Assembly-CSharp
+        m_MethodName: BuildBridge
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2762,9 +2768,9 @@ MonoBehaviour:
   _endGame:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 342902682}
-        m_TargetAssemblyTypeName: BridgeStateMachine, Assembly-CSharp
-        m_MethodName: StartSuccess
+      - m_Target: {fileID: 342902684}
+        m_TargetAssemblyTypeName: BridgePackage.BridgeAPI, Assembly-CSharp
+        m_MethodName: CollapseBridge
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4663,6 +4669,26 @@ PrefabInstance:
       propertyPath: shakeDuration
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: riseAndFallCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: riseAndFallCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: riseAndFallCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: riseAndFallCurve.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: riseAndFallCurve.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8111590682049343279, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4710,7 +4736,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9053538703292718950, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      insertIndex: 1
+      addedObject: {fileID: 342902684}
   m_SourcePrefab: {fileID: 100100000, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
 --- !u!4 &7523487218127554087
 Transform:

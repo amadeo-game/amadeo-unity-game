@@ -1,48 +1,50 @@
 using System;
 using UnityEngine;
 
-public class BridgeMediator : MonoBehaviour
-{
-    public event Action<FingerUnit, bool> OnUnitPlaced;
-    public event Action OnBuildStart;
-    public event Action OnBuildComplete;
-    public event Action OnSuccessStart;
-    public event Action OnSuccessComplete;
-    public event Action OnCollapseStart;
-    public event Action OnCollapseComplete;
-
-    public void UnitPlaced(FingerUnit fingerUnit, bool isPlaced)
+namespace BridgePackage {
+    internal  class BridgeMediator : MonoBehaviour
     {
-        OnUnitPlaced?.Invoke(fingerUnit, isPlaced);
-    }
+        internal event Action<FingerUnit, bool> OnUnitPlaced;
+        internal event Action OnBuildStart;
+        internal event Action OnBuildComplete;
+        internal event Action OnSuccessStart;
+        internal event Action OnSuccessComplete;
+        internal event Action OnCollapseStart;
+        internal event Action OnCollapseComplete;
 
-    public void BuildStart()
-    {
-        OnBuildStart?.Invoke();
-    }
+        internal  void UnitPlaced(FingerUnit fingerUnit, bool isPlaced)
+        {
+            OnUnitPlaced?.Invoke(fingerUnit, isPlaced);
+        }
 
-    public void BuildComplete()
-    {
-        OnBuildComplete?.Invoke();
-    }
+        internal  void BuildStart()
+        {
+            OnBuildStart?.Invoke();
+        }
 
-    public void SuccessStart()
-    {
-        OnSuccessStart?.Invoke();
-    }
+        internal  void BuildComplete()
+        {
+            OnBuildComplete?.Invoke();
+        }
 
-    public void SuccessComplete()
-    {
-        OnSuccessComplete?.Invoke();
-    }
+        internal  void SuccessStart()
+        {
+            OnSuccessStart?.Invoke();
+        }
 
-    public void CollapseStart()
-    {
-        OnCollapseStart?.Invoke();
-    }
+        internal  void SuccessComplete()
+        {
+            OnSuccessComplete?.Invoke();
+        }
 
-    public void CollapseComplete()
-    {
-        OnCollapseComplete?.Invoke();
+        internal  void CollapseStart()
+        {
+            OnCollapseStart?.Invoke();
+        }
+
+        internal  void CollapseComplete()
+        {
+            OnCollapseComplete?.Invoke();
+        }
     }
 }
