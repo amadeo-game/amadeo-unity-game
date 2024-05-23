@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1110752615264533323}
   - component: {fileID: 7585684475137183281}
   - component: {fileID: 4068891930178062337}
+  - component: {fileID: 2260458259387714533}
   m_Layer: 0
   m_Name: BridgeGenerator
   m_TagString: Untagged
@@ -91,27 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 288d056ed95f5d7408eb946e4e64441c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riseCurve:
+  riseAndFallCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -140,8 +123,9 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   shakeDuration: 2
-  riseDuration: 0.1
-  collapseDuration: 0.1
+  riseAnimDuration: 0.1
+  collapseAnimDuration: 0.1
+  successAnimDuration: 0.1
 --- !u!114 &4068891930178062337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,5 +136,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75fed3074ccae3846bf81393abbd7182, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2260458259387714533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053538703292718950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0b44db0e96519240a03f09b208c7f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

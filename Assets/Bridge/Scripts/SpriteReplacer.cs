@@ -1,4 +1,5 @@
 using UnityEngine;
+using BridgePackage;
 public class SpriteReplacer : MonoBehaviour {
     public static void ReplaceSprite(SpriteUnit spriteUnit, GameObject bridgeUnit, bool isMirorred = false) {
         Sprite newSprite = spriteUnit.Sprite; // The new sprite

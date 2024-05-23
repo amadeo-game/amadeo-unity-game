@@ -8,6 +8,7 @@ namespace BridgePackage {
         Idle,
         Building,
         Built,
+        InGame,
         Collapsing,
         Collapsed,
         Winning,
@@ -58,11 +59,28 @@ namespace BridgePackage {
                 bridgeMediator?.BuildStart();
             }
         }
+        
+        internal void StartBuilding(int[] unitHeights) {
+            if (currentState == BridgeState.Idle) {
+                currentState = BridgeState.Building;
+                bridgeMediator?.BuildStart(unitHeights);
+            }
+        }
+
+
 
         internal void FinishBuilding() {
             if (currentState == BridgeState.Building) {
                 currentState = BridgeState.Built;
-                bridgeMediator?.BuildComplete();
+                
+            }
+        }
+        
+        internal void StartGame() {
+            if (currentState == BridgeState.Built) {
+                currentState = BridgeState.InGame;
+                bridgeMediator?.EnablePlayerUnits();
+                BridgeAPI.BridgeReady?.Invoke();
             }
         }
 

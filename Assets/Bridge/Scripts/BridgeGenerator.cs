@@ -45,7 +45,8 @@ namespace BridgePackage {
         private void OnEnable() {
             if (bridgeMediator != null) {
                 bridgeMediator.OnBuildStart += BuildBridge;
-                bridgeMediator.OnBuildComplete += EnableUnitsControl;
+                bridgeMediator.OnBuildStartWithHeights += BuildBridgeWithHeights;
+                bridgeMediator.OnEnablePlayerUnits += EnableUnitsControl;
                 bridgeMediator.OnCollapseStart += OnBridgeFailed;
                 bridgeMediator.OnCollapseComplete += OnCollapseComplete;
                 bridgeMediator.OnSuccessStart += AnimateSuccess;
@@ -55,11 +56,16 @@ namespace BridgePackage {
         private void OnDisable() {
             if (bridgeMediator != null) {
                 bridgeMediator.OnBuildStart -= BuildBridge;
-                bridgeMediator.OnBuildComplete -= EnableUnitsControl;
+                bridgeMediator.OnBuildStartWithHeights -= BuildBridgeWithHeights;
+                bridgeMediator.OnEnablePlayerUnits -= EnableUnitsControl;
                 bridgeMediator.OnCollapseStart -= OnBridgeFailed;
                 bridgeMediator.OnCollapseComplete -= OnCollapseComplete;
                 bridgeMediator.OnSuccessStart -= AnimateSuccess;
             }
+        }
+        
+        internal void SetPlayerHeights(int[] unitsHeights) {
+            playerUnitsHeights = unitsHeights;
         }
 
         private void EnableUnitsControl() {
@@ -81,6 +87,11 @@ namespace BridgePackage {
             bridgeMediator = GetComponent<BridgeMediator>();
 
             stateMachine.Initialize(bridgeMediator);
+        }
+
+        private void BuildBridgeWithHeights( int[] unitsHeights) {
+            SetPlayerHeights(unitsHeights);
+            BuildBridge();
         }
 
         private void BuildBridge() {

@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using BridgePackage;
 [CreateAssetMenu(fileName = "BridgeType", menuName = "Bridge/BridgeType")]
 public class BridgeTypeSO : ScriptableObject {
     [SerializeField] private BridgeSpriteCollection bridgeSpritesCollections;

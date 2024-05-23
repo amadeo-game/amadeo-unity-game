@@ -6,7 +6,9 @@ namespace BridgePackage {
     {
         internal event Action<FingerUnit, bool> OnUnitPlaced;
         internal event Action OnBuildStart;
-        internal event Action OnBuildComplete;
+        
+        internal event Action<int[]> OnBuildStartWithHeights; 
+        internal event Action OnEnablePlayerUnits;
         internal event Action OnSuccessStart;
         internal event Action OnSuccessComplete;
         internal event Action OnCollapseStart;
@@ -21,10 +23,16 @@ namespace BridgePackage {
         {
             OnBuildStart?.Invoke();
         }
-
-        internal  void BuildComplete()
+        
+        internal void BuildStart(int[] unitHeights)
         {
-            OnBuildComplete?.Invoke();
+            OnBuildStartWithHeights?.Invoke(unitHeights);
+        }
+
+        internal  void EnablePlayerUnits()
+        {
+            OnEnablePlayerUnits?.Invoke();
+            
         }
 
         internal  void SuccessStart()
