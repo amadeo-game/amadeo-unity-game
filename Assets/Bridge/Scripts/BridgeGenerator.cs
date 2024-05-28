@@ -1,12 +1,10 @@
-using System;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 using static BridgeBuilder;
 using static BridgeObjects;
 
 namespace BridgePackage {
-    internal  enum FingerUnit {
+    internal enum FingerUnit {
         first,
         second,
         third,
@@ -15,7 +13,7 @@ namespace BridgePackage {
     }
 
     [RequireComponent(typeof(UnitsControl), typeof(BridgeAnimationManager), typeof(BridgeStateMachine))]
-    internal  class BridgeGenerator : MonoBehaviour {
+    internal class BridgeGenerator : MonoBehaviour {
         private const int NumBridgeUnits = 5;
 
         [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
@@ -48,9 +46,17 @@ namespace BridgePackage {
                 bridgeMediator.OnBuildStartWithHeights += BuildBridgeWithHeights;
                 bridgeMediator.OnEnablePlayerUnits += EnableUnitsControl;
                 bridgeMediator.OnCollapseStart += OnBridgeFailed;
-                bridgeMediator.OnCollapseComplete += OnCollapseComplete;
+                bridgeMediator.OnCollapseComplete += OnDestroyBridge;
                 bridgeMediator.OnSuccessStart += AnimateSuccess;
+                bridgeMediator.OnForceResetBridge += OnForceResetWithHeights;
             }
+        }
+
+        private void OnForceResetWithHeights(int[] unitHeights, BridgeCollectionSO collectionSO = null,
+            int bridgeTypeIndex = 0) {
+            DisableUnitsControl();
+            OnDestroyBridge();
+            BuildBridgeWithHeights(unitHeights, collectionSO, bridgeTypeIndex);
         }
 
         private void OnDisable() {
@@ -59,11 +65,11 @@ namespace BridgePackage {
                 bridgeMediator.OnBuildStartWithHeights -= BuildBridgeWithHeights;
                 bridgeMediator.OnEnablePlayerUnits -= EnableUnitsControl;
                 bridgeMediator.OnCollapseStart -= OnBridgeFailed;
-                bridgeMediator.OnCollapseComplete -= OnCollapseComplete;
+                bridgeMediator.OnCollapseComplete -= OnDestroyBridge;
                 bridgeMediator.OnSuccessStart -= AnimateSuccess;
             }
         }
-        
+
         internal void SetPlayerHeights(int[] unitsHeights) {
             playerUnitsHeights = unitsHeights;
         }
@@ -89,10 +95,32 @@ namespace BridgePackage {
             stateMachine.Initialize(bridgeMediator);
         }
 
-        private void BuildBridgeWithHeights( int[] unitsHeights) {
+        private void BuildBridgeWithHeights(int[] unitsHeights, BridgeCollectionSO collectionSO = null,
+            int bridgeTypeIndex = 0) {
+            if (collectionSO != null) {
+                bridgeCollectionSO = collectionSO;
+            }
+
+            if (bridgeTypeIndex >= bridgeCollectionSO.BridgeTypes.Length) {
+                Debug.LogError("Bridge Type Index is out of range.");
+                return;
+            }
+
             SetPlayerHeights(unitsHeights);
+
+            chosenSpriteCollection = bridgeTypeIndex;
+
             BuildBridge();
         }
+
+        // internal bool SetChosenSpriteCollection(int index) {
+        //     if (index < 0 || index >= bridgeCollectionSO.BridgeTypes.Length) {
+        //         return false;
+        //     }
+        //     chosenSpriteCollection = index;
+        //     return true;
+        // }
+
 
         private void BuildBridge() {
             Build();
@@ -105,9 +133,19 @@ namespace BridgePackage {
         }
 
         private void Build() {
+            Debug.Log("Got to build method");
+
             if (bridgeHolder != null) {
+                if (bridgeHolder.gameObject != null) {
+                    Debug.Log("Bridge Holder GAMEOBJECT is not null.");
+                    return;
+                }
+
+                Debug.Log("Bridge Holder is not null.");
                 return;
             }
+
+            Debug.Log("Building Bridge.");
 
             bridgeHolder = new GameObject("Bridge Holder");
 
@@ -167,8 +205,8 @@ namespace BridgePackage {
         }
 
         private void OnBridgeFailed() {
-            DisableUnitsControl();
             SetPlayerGuideUnits(false);
+            DisableUnitsControl();
             AnimateBridgeFallDown();
         }
 
@@ -176,8 +214,15 @@ namespace BridgePackage {
             unitsControl.DisableControl();
         }
 
-        private void OnCollapseComplete() {
-            Destroy(bridgeHolder.gameObject);
+        private void OnDestroyBridge() {
+            if (ReferenceEquals(bridgeHolder, null)) {
+                return;
+            }
+
+            // Destroy(bridgeHolder.gameObject);
+            Destroy(bridgeHolder);
+            bridgeHolder = null;
+
             stateMachine.ResetState();
         }
 
@@ -193,6 +238,7 @@ namespace BridgePackage {
 
         private void AnimateSuccess() {
             DisableUnitsControl();
+            Debug.Log("AnimateSuccess");
             animationManager.AnimateSuccess(playerUnits, playerUnitsHeights);
         }
 

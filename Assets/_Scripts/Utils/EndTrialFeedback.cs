@@ -2,19 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class EndTrialFeedback : MonoBehaviour {
-    [SerializeField] private Image beaverText;
+    [SerializeField] private Image anouncementText;
     // private void OnEnable() {
     //     GameManager.OnUnitsPlaced += OnUnitsPlaced;
     // }
 
     private void Start() {
-        beaverText.gameObject.SetActive(false);
+        anouncementText.gameObject.SetActive(false);
     }
 
     private void OnUnitsPlaced() {
-        beaverText.gameObject.SetActive(true);
+        anouncementText.gameObject.SetActive(true);
     }
 }

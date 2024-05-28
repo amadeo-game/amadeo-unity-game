@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 
 public struct UnitProperties {
@@ -59,7 +58,7 @@ public class BridgeBuilder {
             : new Vector3(xPos, rightY);
         unit.Position = pos;
         unit.UnitType = absHeightDifference;
-        if (diffSign > 0) {
+        if (diffSign >= 0) {
             unit.IsMirrored = true;
         }
 

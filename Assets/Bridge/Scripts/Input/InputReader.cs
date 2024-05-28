@@ -1,8 +1,6 @@
 using System;
-using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Composites;
 using static Controls;
 [CreateAssetMenu(fileName = "New Input Reader", menuName = "Input/InputReader")]
 public class InputReader : ScriptableObject, ILeftHandActions, IRightHandActions {

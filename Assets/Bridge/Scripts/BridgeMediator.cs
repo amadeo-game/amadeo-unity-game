@@ -2,57 +2,52 @@ using System;
 using UnityEngine;
 
 namespace BridgePackage {
-    internal  class BridgeMediator : MonoBehaviour
-    {
+    internal class BridgeMediator : MonoBehaviour {
         internal event Action<FingerUnit, bool> OnUnitPlaced;
         internal event Action OnBuildStart;
-        
-        internal event Action<int[]> OnBuildStartWithHeights; 
+
+        internal event Action<int[], BridgeCollectionSO, int> OnBuildStartWithHeights;
+        internal event Action<int[], BridgeCollectionSO, int> OnForceResetBridge;
         internal event Action OnEnablePlayerUnits;
         internal event Action OnSuccessStart;
         internal event Action OnSuccessComplete;
         internal event Action OnCollapseStart;
         internal event Action OnCollapseComplete;
 
-        internal  void UnitPlaced(FingerUnit fingerUnit, bool isPlaced)
-        {
+        internal void UnitPlaced(FingerUnit fingerUnit, bool isPlaced) {
             OnUnitPlaced?.Invoke(fingerUnit, isPlaced);
         }
-
-        internal  void BuildStart()
-        {
+        
+        internal void BuildStart() {
             OnBuildStart?.Invoke();
         }
-        
-        internal void BuildStart(int[] unitHeights)
-        {
-            OnBuildStartWithHeights?.Invoke(unitHeights);
+
+        internal void BuildStart(int[] unitHeights, BridgeCollectionSO bridgeCollectionSO, int bridgeTypeIndex) {
+            OnBuildStartWithHeights?.Invoke(unitHeights, bridgeCollectionSO, bridgeTypeIndex);
         }
 
-        internal  void EnablePlayerUnits()
-        {
+        internal void EnablePlayerUnits() {
             OnEnablePlayerUnits?.Invoke();
-            
         }
 
-        internal  void SuccessStart()
-        {
+        internal void SuccessStart() {
             OnSuccessStart?.Invoke();
         }
 
-        internal  void SuccessComplete()
-        {
+        internal void SuccessComplete() {
             OnSuccessComplete?.Invoke();
         }
 
-        internal  void CollapseStart()
-        {
+        internal void CollapseStart() {
             OnCollapseStart?.Invoke();
         }
 
-        internal  void CollapseComplete()
-        {
+        internal void CollapseComplete() {
             OnCollapseComplete?.Invoke();
+        }
+
+        internal void ForceResetBridge(int[] unitHeights, BridgeCollectionSO bridgeCollectionSO, int bridgeTypeIndex) {
+            OnForceResetBridge?.Invoke(unitHeights, bridgeCollectionSO, bridgeTypeIndex);
         }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BridgePackage {
     internal  class BridgeAnimationManager : MonoBehaviour {
@@ -48,6 +47,7 @@ namespace BridgePackage {
         private IEnumerator AnimateSuccessOnUnits(GameObject[] playerUnits, int[] heights) {
             yield return StartCoroutine(AnimateUnitsToPosition(playerUnits, heights, successAnimDuration));
             stateMachine.FinishSuccess();
+            StopAllCoroutines();
         }
 
         // methods for animating the bridge units
@@ -94,8 +94,9 @@ namespace BridgePackage {
 
             float duration = 1.0f; // Duration of the rise animation in seconds
             float elapsed = 0.0f;
-
-            while (elapsed < duration) {
+            // tolarance for elapsed and duration floats
+            const float tolerance = 0.01f;
+            while (elapsed < Mathf.Abs(duration + tolerance)) {
                 elapsed += Time.deltaTime;
                 float normalizedTime = elapsed / duration; // Goes from 0 to 1
 
@@ -104,8 +105,12 @@ namespace BridgePackage {
                 Vector3 currentPosition = Vector3.Lerp(startPosition, endPosition, curveValue);
 
                 bridgeUnit.transform.position = currentPosition;
+                if (elapsed > Mathf.Abs(duration + tolerance)) {
+                    yield break;
+                }
+                // Debug.Log("Animating unit to destination - " + elapsed);
+                yield return new WaitForSecondsRealtime(0.001f);
 
-                yield return null;
             }
         }
 
