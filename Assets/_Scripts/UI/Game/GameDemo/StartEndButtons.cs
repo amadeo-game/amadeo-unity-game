@@ -16,7 +16,9 @@ public class StartEndButtons : MonoBehaviour {
         BridgePackage.BridgeAPI.OnGameStart += () => {
             start.interactable = false;
             success.interactable = true;
-            guideKeys.SetActive(true);
+            if (guideKeys != null) {
+                guideKeys?.SetActive(true);
+            }
         };
         BridgePackage.BridgeAPI.BridgeCollapsed += DisableButtons;
         BridgePackage.BridgeAPI.BridgeIsComplete += DisableButtons;
@@ -26,14 +28,16 @@ public class StartEndButtons : MonoBehaviour {
         start.interactable = false;
         end.interactable = false;
         success.interactable = false;
-        guideKeys.SetActive(false);
-
+        if (guideKeys != null) {
+            guideKeys?.SetActive(false);
+        }
     }
 
     private void EnableButtons() {
         start.interactable = true;
         end.interactable = true;
-        guideKeys.SetActive(false);
-
+        if (guideKeys != null) {
+            guideKeys?.SetActive(false);
+        }
     }
 }
