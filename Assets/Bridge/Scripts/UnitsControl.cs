@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BridgePackage {
-    internal class UnitsControl : MonoBehaviour {
+    public class UnitsControl : MonoBehaviour {
         [SerializeField] private InputReader inputReader;
         private bool isUnitsSet = false;
+
         private Transform unit1Transform;
         private Transform unit2Transform;
         private Transform unit3Transform;
@@ -24,14 +24,14 @@ namespace BridgePackage {
         private Vector2 previous4MovementInput;
         private Vector2 previous5MovementInput;
 
-
+        // Store the forces for each unit
+        private float[] unitForces = new float[5];
 
         internal void SetPlayerUnits(GameObject[] gameUnits) {
             if (gameUnits.Length != 5) {
                 throw new ArgumentException("gameUnits must be length 5.");
             }
 
-            // gameUnits is length 5
             unit1Transform = gameUnits[0].transform;
             unit2Transform = gameUnits[1].transform;
             unit3Transform = gameUnits[2].transform;
@@ -45,9 +45,7 @@ namespace BridgePackage {
             rb5 = gameUnits[4].GetComponent<Rigidbody2D>();
 
             isUnitsSet = true;
-
         }
-
 
         internal void DisableControl() {
             Debug.Log("Stop moving units.");
@@ -97,10 +95,10 @@ namespace BridgePackage {
 
         private bool isLeftHand = false;
 
-        [FormerlySerializedAs("moveSpeed")] [Header("Settings")] [SerializeField]
+        //[FormerlySerializedAs("moveSpeed")] [Header("Settings")] [SerializeField]
         private float maxHeight = 4f;
 
-
+        // Method to handle the move event for each unit
         private void HandleMoveUnit1(Vector2 value) {
             previous1MovementInput = value;
         }
@@ -121,29 +119,64 @@ namespace BridgePackage {
             previous5MovementInput = value;
         }
 
+        // FixedUpdate is called once per physics frame
         void FixedUpdate() {
             if (!isUnitsSet) return;
-            MoveUnit(rb1, unit1Transform, previous1MovementInput.y);
-            MoveUnit(rb2, unit2Transform, previous2MovementInput.y);
-            MoveUnit(rb3, unit3Transform, previous3MovementInput.y);
-            MoveUnit(rb4, unit4Transform, previous4MovementInput.y);
-            MoveUnit(rb5, unit5Transform, previous5MovementInput.y);
+
+            // Use the forces to move the units
+            MoveUnit(rb1, unit1Transform, previous1MovementInput.y, unitForces[0]);
+            MoveUnit(rb2, unit2Transform, previous2MovementInput.y, unitForces[1]);
+            MoveUnit(rb3, unit3Transform, previous3MovementInput.y, unitForces[2]);
+            MoveUnit(rb4, unit4Transform, previous4MovementInput.y, unitForces[3]);
+            MoveUnit(rb5, unit5Transform, previous5MovementInput.y, unitForces[4]);
         }
 
-        private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY) {
-            // Adjust the position based on the input and moveSpeed
+        // Modified MoveUnit to use both input and forces
+        private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY, float forceY) {
+            if (rb == null) return;
+                        
+            // Calculate the new target position
+            // Vector2 targetPosition = new Vector2(unitTransform.position.x,
+            //     unitTransform.position.y + inputY * MoveSpeed + forceY * MoveSpeed);// Apply both input and force
             Vector2 targetPosition = new Vector2(unitTransform.position.x,
-                (inputY * MoveSpeed) + inputY * unitTransform.position.y);
-            // Debug.Log("UnitTransform.up: " + targetPosition);
+                forceY * MoveSpeed);// Apply both input and force    
             Vector2 currentPosition = rb.position;
 
-            // Lerp the position to create smooth movement
+            // Lerp the position for smooth movement
             Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime);
 
-            // Set the new position
+            // Apply the new position
             rb.MovePosition(newPosition);
         }
 
         float MoveSpeed { get; set; } = 0.5f;
+
+        // Method to apply forces received from UDPClient
+        public void ApplyForces(double[] forces)
+        {
+            if (forces.Length != 10)
+            {
+                Debug.LogError("Invalid forces array length. Expected 10 forces.");
+                return;
+            }
+
+            // Map forces to the units. The first 5 are for left units.
+            if (isLeftHand)
+            {
+                for (int i = 0; i <5  ;i++)
+                {
+                    unitForces[i] = (float)forces[i];
+                }
+            }
+            else
+            {
+                for (int i = 0, j = 5; i <5 && j< forces.Length  ;i++, j++)
+                {
+                    unitForces[i] = (float)forces[j];
+                }
+            }
+            }
+        
+        
     }
 }
