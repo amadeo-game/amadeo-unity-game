@@ -24,9 +24,6 @@ public class GameManager : MonoBehaviour {
         if (instance == null) {
             instance = this;
         }
-
-        UDP_server s = new UDP_server();
-        UDP_server.OpenConnection();
     }
     
     public void OnValueChanged0(float value) {
