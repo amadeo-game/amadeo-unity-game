@@ -4,19 +4,23 @@
     using System.IO;
     using System;
     using System.Linq;
-
+    using BridgePackage;
+    using UnityEngine;
+    using UnityEngine.Events;
+    
+    
     public class UDP_server
     {
         private static UdpClient _udpServer; // UDP server
         private static IPEndPoint _remoteEndPoint;
 
-        private static void Main(string[] args)
+        public static void OpenConnection()
         {
             // Start the server
             StartServer();
 
             // Handle the incoming data
-            HandleIncomingData();
+           HandleIncomingData();
 
             Console.ReadLine();
         }
@@ -70,3 +74,4 @@
             return cleanedData;
         }
     }
+    

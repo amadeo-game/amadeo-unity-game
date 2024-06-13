@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 namespace BridgePackage {
-    public class UnitsControl : MonoBehaviour {
+    internal class UnitsControl : MonoBehaviour {
         [SerializeField] private InputReader inputReader;
         private bool isUnitsSet = false;
 

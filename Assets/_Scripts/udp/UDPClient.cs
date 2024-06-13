@@ -13,7 +13,7 @@ public class UDPClient : MonoBehaviour
     private IPEndPoint _remoteEndPoint;
     private CancellationTokenSource _cancellationTokenSource;
     private bool isReceiving = true;
-    [SerializeField] private UnitsControl unitsControl;
+    [SerializeField] private BridgeAPI bridgeApi;
 
     private void Start()
     {
@@ -28,7 +28,7 @@ public class UDPClient : MonoBehaviour
             Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
             return; // Exit if UdpClient initialization fails
         }
-
+        
         _cancellationTokenSource = new CancellationTokenSource();
 
         // Start receiving data asynchronously
@@ -67,17 +67,21 @@ public class UDPClient : MonoBehaviour
         }
     }
 
-    private  void HandleReceivedData(string data)
+    private void HandleReceivedData(string data)
     {
         string[] forces = data.Split('\t');
         double[] forcesNum = new double[10]; // Array to store parsed forces. We expect 10 force values.
-    
+        
+        PlayerPrefs.SetString("forces", data);
+        
+        
+        
         if (forces.Length == 11) // Ensuring we have exactly 11 values (1 time + 10 forces)
         {
             Debug.Log("HandleReceivedData ");
             Debug.Log(data);
             Debug.Log("time: " + forces[0]);
-            Debug.Log("force left 1 : " + forces[1]);
+            Debug.Log("force left 1 : " + forces[1] );
             Debug.Log("force left 2 : " + forces[2]);
             Debug.Log("force left 3 : " + forces[3]);
             Debug.Log("force left 4 : " + forces[4]);
@@ -100,10 +104,10 @@ public class UDPClient : MonoBehaviour
                     forcesNum[i] = 0; // or any other default/fallback value
                 }
             }
-            // Send the parsed forces to the UnitsControl script
-            if (unitsControl != null)
+            // Send the parsed forces to the bridgeApi script
+            if (bridgeApi != null)
             {
-                unitsControl.ApplyForces(forcesNum);
+                bridgeApi.ApplyForces(forcesNum);
             }
             else
             {

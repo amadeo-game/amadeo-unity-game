@@ -17,12 +17,16 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private StartEndButtons startEndButtons; // temp for demoUI handling.
     
     [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
+
     private int[] playerUnitsHeights = {0,0,0,0,0}; // Set this in the Inspector
-    
+    private UDP_server s = new UDP_server();
     private void Awake() {
         if (instance == null) {
             instance = this;
         }
+
+        UDP_server s = new UDP_server();
+        UDP_server.OpenConnection();
     }
     
     public void OnValueChanged0(float value) {
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour {
     public void StartGame() {
         // Enable the play button
         _startGame.Invoke();
+        UDP_server.OpenConnection();
     }
 
 

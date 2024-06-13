@@ -18,7 +18,7 @@ namespace BridgePackage {
     internal class BridgeStateMachine : MonoBehaviour {
         private BridgeMediator bridgeMediator;
         private Dictionary<FingerUnit, bool> dicUnitPlaced;
-        private BridgeState currentState = BridgeState.Idle;
+        internal BridgeState currentState = BridgeState.Idle;
 
         private void Awake() {
             dicUnitPlaced = new Dictionary<FingerUnit, bool> {
