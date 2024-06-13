@@ -1,0 +1,3961 @@
+fileFormatVersion: 2
+guid: 264393095fc71d345b4e122d20543600
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 80
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 889
+        width: 29
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe2ec30c17a58884f9b288ec5bd8db3f
+      internalID: -1239722108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_1
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 888
+        width: 18
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b0d52103f73bbb4f9578c29174e2a22
+      internalID: 865885546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_2
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 888
+        width: 18
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bca4fc34014e4a4eaa7c596caa173d2
+      internalID: 2021850559
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_3
+      rect:
+        serializedVersion: 2
+        x: 101
+        y: 888
+        width: 39
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20e20ff50e6a88e44b6981758b0c9cc9
+      internalID: 1476798966
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_4
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 887
+        width: 16
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ee707e9f8b675a4abe556d514a04819
+      internalID: -285497599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_5
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 888
+        width: 34
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80709cbacb645a54aaf3c78318dbbb78
+      internalID: 1947357463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_6
+      rect:
+        serializedVersion: 2
+        x: 222
+        y: 888
+        width: 51
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 500032adadc665e42833e6d6dab530ee
+      internalID: 860841108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_7
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 888
+        width: 31
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 311ca11a411c59948aafb7230d67b23b
+      internalID: 264545331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_8
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 888
+        width: 16
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0bd223eaada6d5498de1c1c34089141
+      internalID: -1132733342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_9
+      rect:
+        serializedVersion: 2
+        x: 363
+        y: 888
+        width: 29
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c098b4d3340ed9043b61b9b4484c948b
+      internalID: 191261284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_10
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 887
+        width: 28
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e07b8fc377b4ede46932a45421e39f00
+      internalID: -835139955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_11
+      rect:
+        serializedVersion: 2
+        x: 453
+        y: 888
+        width: 17
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef53de3beb8b6c348a26177457924732
+      internalID: -309646363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_12
+      rect:
+        serializedVersion: 2
+        x: 488
+        y: 889
+        width: 24
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a88ede1d59d5a2c45b7d66b116ecf504
+      internalID: 923209063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_13
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 886
+        width: 37
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b136d0cd669be4e47b0735d13259065e
+      internalID: -1043164407
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_14
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 887
+        width: 39
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40d42193fe55c2149857a465cd4d78d9
+      internalID: -737720638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_15
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 881
+        width: 60
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 385b3d78e3bbbbb449c48b0e016ad999
+      internalID: -500727667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_16
+      rect:
+        serializedVersion: 2
+        x: 699
+        y: 880
+        width: 64
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 237de75af07b8994faaab983473da81f
+      internalID: 742761314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_17
+      rect:
+        serializedVersion: 2
+        x: 772
+        y: 887
+        width: 57
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed8bb128e23cc21488af658dcbde1d19
+      internalID: -1214730628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_18
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 886
+        width: 52
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 26, y: 3}
+        - {x: 18, y: 6}
+        - {x: 17, y: 18}
+        - {x: 18, y: 29}
+        - {x: 11, y: 46}
+        - {x: 6, y: 53}
+        - {x: -4, y: 55}
+        - {x: -19, y: 55}
+        - {x: -22, y: 52}
+        - {x: -20, y: 37}
+        - {x: -6, y: -9}
+        - {x: -17, y: 6}
+        - {x: -22, y: 7}
+        - {x: -26, y: 4}
+        - {x: -26, y: -8}
+        - {x: -8, y: -30}
+        - {x: -10, y: -54}
+        - {x: -7, y: -55}
+        - {x: 6, y: -55}
+        - {x: 8, y: -50}
+        - {x: 10, y: -27}
+        - {x: 26, y: -11}
+      physicsShape: []
+      tessellationDetail: 0.25
+      bones: []
+      spriteID: 8a7cfb2bc601416449244e6bbbdea625
+      internalID: -1479818309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_19
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 889
+        width: 45
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 14.5, y: 52}
+        - {x: -22.5, y: 52}
+        - {x: -22.5, y: 37}
+        - {x: -3.5, y: 18}
+        - {x: -6.5, y: -1}
+        - {x: -11.5, y: -46}
+        - {x: -3.5, y: -52}
+        - {x: 10.5, y: -52}
+        - {x: 22.5, y: -15}
+        - {x: 22.5, y: 18}
+        - {x: 16.5, y: 44}
+      physicsShape: []
+      tessellationDetail: 0.2
+      bones: []
+      spriteID: fb571d76f0a2ae849b60573aedf7ef56
+      internalID: 373628271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_20
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 888
+        width: 18
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d291e0258b54264b9b97c510cc8486c
+      internalID: -104519564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_21
+      rect:
+        serializedVersion: 2
+        x: 954
+        y: 887
+        width: 29
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b03e263aa9838ed4f9df7d5aa59f0d76
+      internalID: -486672532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_22
+      rect:
+        serializedVersion: 2
+        x: 990
+        y: 888
+        width: 21
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92c14d74a4216e541a29936d46aeee83
+      internalID: -861305170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_23
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 770
+        width: 34
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 231b450d733b04f409a0586aace503cb
+      internalID: 1615710911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_24
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 771
+        width: 26
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 502280b91f495584591ff3c76eb1c1cd
+      internalID: 1839619783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_25
+      rect:
+        serializedVersion: 2
+        x: 93
+        y: 771
+        width: 20
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68f1b242c809a32458ce87f7218d8c1d
+      internalID: -785359423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_26
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 770
+        width: 20
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4223498a1d016e4a9231271539f3ba0
+      internalID: 342160762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_27
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 771
+        width: 16
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c40cabe20a02354e97fe1493d32a337
+      internalID: -434953633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_28
+      rect:
+        serializedVersion: 2
+        x: 190
+        y: 771
+        width: 20
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8fe72be8f67d8448b3f754e9298078
+      internalID: 1461857036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_29
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 770
+        width: 23
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9afc6362ddc05764381d7d4da6ddf799
+      internalID: -781309371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_30
+      rect:
+        serializedVersion: 2
+        x: 262
+        y: 771
+        width: 20
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff975149ad030a747b177fa10ffde3e8
+      internalID: -1759028790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_31
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 771
+        width: 18
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50385cc3c100a51418167b97c775ab58
+      internalID: 1155623076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_32
+      rect:
+        serializedVersion: 2
+        x: 326
+        y: 772
+        width: 34
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 17, y: 36, z: 10, w: 22}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebaf4223e81422447896622ffb44700d
+      internalID: 416807804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_33
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 771
+        width: 18
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5483599f60d3cd9448c544634d7fb52b
+      internalID: -514836345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_34
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 770
+        width: 26
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 89a4e7a458be6794b93d8a98f79e3a7d
+      internalID: -843096219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_35
+      rect:
+        serializedVersion: 2
+        x: 439
+        y: 772
+        width: 17
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 5, y: 24, z: 6, w: 20}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fcbd469e7adf52345b2e18318ba1c8fd
+      internalID: 1379989333
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_36
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 774
+        width: 13
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7355ba9739762442a581055278c3045
+      internalID: 744605377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_37
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 771
+        width: 17
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c4fe0ef35a6e00409cbb7063745520c
+      internalID: 571605330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_38
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 769
+        width: 32
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 708278928cafc514daeaeb21c09d834d
+      internalID: 1827371038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_39
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 770
+        width: 17
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c57f4f3d21d169045b106a5c91bb8d63
+      internalID: 1490225006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_40
+      rect:
+        serializedVersion: 2
+        x: 590
+        y: 771
+        width: 30
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5c2f891e3861e94aaae8f8b54085a54
+      internalID: -1240651899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_41
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 768
+        width: 37
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85731d64815b2bc458e007dba8e64e94
+      internalID: -1200187861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_42
+      rect:
+        serializedVersion: 2
+        x: 666
+        y: 768
+        width: 28
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb5fadf94abd16940868f9980988c0db
+      internalID: 1279353347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_43
+      rect:
+        serializedVersion: 2
+        x: 702
+        y: 768
+        width: 33
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbe21e9f55835e4449eb1d1e72a31ebb
+      internalID: 2046734421
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_44
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 768
+        width: 31
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ea95064e10fa046868158c4c79683f
+      internalID: -928099761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_45
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 768
+        width: 22
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c8d82517182109458fac8ab7a1eb0e9
+      internalID: -1580024601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_46
+      rect:
+        serializedVersion: 2
+        x: 824
+        y: 768
+        width: 14
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d1fa31839399cd44879ef2c93abbc0c
+      internalID: -170700119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_47
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 768
+        width: 30
+        height: 112
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a12c71407393d04b93ed01bad75c733
+      internalID: -957243552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_48
+      rect:
+        serializedVersion: 2
+        x: 887
+        y: 768
+        width: 33
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf85a21e3f1347f4bb0f15a179a8fe99
+      internalID: -1945560321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_49
+      rect:
+        serializedVersion: 2
+        x: 923
+        y: 768
+        width: 40
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27e7a901c35c0a04f88875aa2298c609
+      internalID: -409532257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_50
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 768
+        width: 41
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 927f155eede0fb446aca5a6175a5a9b8
+      internalID: -907966718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_51
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 691
+        width: 16
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 581bc0f4d585baa4d8640d23bdb05143
+      internalID: -42271946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_52
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 691
+        width: 14
+        height: 68
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43c9c2f6420328c489f805d4361b0a68
+      internalID: 1772232539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_53
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 692
+        width: 13
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2123a37a09a7ef64b87d69edf9b6eeb0
+      internalID: 780292730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_54
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 692
+        width: 14
+        height: 66
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 635c78d41e134bd47bfce0cc507d9b3b
+      internalID: -1756825711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_55
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 691
+        width: 12
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7574709cc46bbed48b74680657a3546b
+      internalID: -232361070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_56
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 691
+        width: 22
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b1e3b6d5f734d64286ff9d5c2b6e549
+      internalID: 1772526307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_57
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 691
+        width: 13
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 225a4fbb62ee4584cb0ed88b58392186
+      internalID: -1592746091
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_58
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 691
+        width: 14
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bc89dfbfbd92384bb8b734408f79af4
+      internalID: -1009928172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_59
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 690
+        width: 17
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fe3c1fa7753c004c87b1a8fccb1b448
+      internalID: -201638807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_60
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 691
+        width: 14
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f86fb0123c20e2f4091451929d363910
+      internalID: 474820745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_61
+      rect:
+        serializedVersion: 2
+        x: 264
+        y: 690
+        width: 14
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a16c0dcf423e5124381a7712db10c73b
+      internalID: 246689380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_62
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 690
+        width: 16
+        height: 69
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61f0b5aa18563bd4993d835253caf7de
+      internalID: -1449009993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_63
+      rect:
+        serializedVersion: 2
+        x: 321
+        y: 574
+        width: 41
+        height: 178
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc5e9f3383f2e594f836c4d5b38f6504
+      internalID: -1071864751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_64
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 581
+        width: 25
+        height: 176
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10c16480f79b87043b409f92d0f54948
+      internalID: 1802332712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_65
+      rect:
+        serializedVersion: 2
+        x: 404
+        y: 578
+        width: 22
+        height: 179
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e6e8af665a322f4ea92d16940496801
+      internalID: -1643560551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_66
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 577
+        width: 41
+        height: 181
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da22f27e8af747341befe47e111b9faf
+      internalID: 1613459645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_67
+      rect:
+        serializedVersion: 2
+        x: 484
+        y: 574
+        width: 33
+        height: 183
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e39c2722fbcb6744b50db090889a76a
+      internalID: 2082835142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_68
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 717
+        width: 144
+        height: 31
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0bd0284c3054b44a8445fba91ad197f
+      internalID: 817313317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_69
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 722
+        width: 78
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 979e750dc04ebd848a8d0c7b3a240cbb
+      internalID: -107844166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_70
+      rect:
+        serializedVersion: 2
+        x: 808
+        y: 722
+        width: 111
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c84d6a7dd52cc484d96ee3cc43ef9b6a
+      internalID: 918808356
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_71
+      rect:
+        serializedVersion: 2
+        x: 931
+        y: 728
+        width: 87
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cfd3cc66c7c12c42b079bce643b9004
+      internalID: 1920960991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_72
+      rect:
+        serializedVersion: 2
+        x: 535
+        y: 550
+        width: 63
+        height: 152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7910a6efb781d344e9a63ce62f89a5a4
+      internalID: 35411396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_73
+      rect:
+        serializedVersion: 2
+        x: 597
+        y: 644
+        width: 170
+        height: 51
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 85, y: 5.5}
+        - {x: 82, y: 8.5}
+        - {x: 59, y: 11.5}
+        - {x: 49, y: 9.5}
+        - {x: 10, y: -1.5}
+        - {x: -15, y: 11.5}
+        - {x: -30, y: 17.5}
+        - {x: -41, y: 10.5}
+        - {x: -45, y: 25.5}
+        - {x: -66, y: 25.5}
+        - {x: -82, y: 17.5}
+        - {x: -85, y: 14.5}
+        - {x: -85, y: 1.5}
+        - {x: -78, y: -5.5}
+        - {x: -78, y: -12.5}
+        - {x: -77, y: -20.5}
+        - {x: -73, y: -25.5}
+        - {x: -69, y: -25.5}
+        - {x: -53, y: -21.5}
+        - {x: -47, y: -16.5}
+        - {x: -1, y: -20.5}
+        - {x: 17, y: -25.5}
+        - {x: 47, y: -25.5}
+        - {x: 52, y: -14.5}
+        - {x: 81, y: -5.5}
+        - {x: 85, y: -2.5}
+      physicsShape: []
+      tessellationDetail: 0.27
+      bones: []
+      spriteID: 0f51a5bdd6387a84c9adbb82bc08127d
+      internalID: 548942634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_74
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 688
+        width: 168
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5bda1178646a5e4f84eb16478bf8370
+      internalID: 795563703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_75
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 688
+        width: 177
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 14, y: 6, z: 82, w: 7}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a22c3c9501ccf140af30b7d78106c79
+      internalID: -1446291854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_76
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 531
+        width: 36
+        height: 151
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53fa27663bd2b2847b593c422181d0c9
+      internalID: 1260212699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_77
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 531
+        width: 40
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 7, y: 36, z: 10, w: 21}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c81c632564dabf4e99e536a21d91ed9
+      internalID: -1433906085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_78
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 531
+        width: 30
+        height: 145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 9, y: 22, z: 9, w: 11}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d503757f359a7304d9bb034e8929602f
+      internalID: 1456289771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_79
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 531
+        width: 34
+        height: 149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a60efd9fa23f704ea10eb5a6e301699
+      internalID: 1166360580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_80
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 530
+        width: 55
+        height: 148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 15, y: 33, z: 22, w: 19}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90d63d9285f85e3429231cc9e4159c4f
+      internalID: 1928956881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_81
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 580
+        width: 36
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 167e915b48d0bf843a1813186e9809ab
+      internalID: 1075513496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_82
+      rect:
+        serializedVersion: 2
+        x: 762
+        y: 640
+        width: 132
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 60, y: 1}
+        - {x: 66, y: 4}
+        - {x: 66, y: 17}
+        - {x: 65, y: 18}
+        - {x: 44, y: 18}
+        - {x: 22, y: 11}
+        - {x: 6, y: 16}
+        - {x: -46, y: 11}
+        - {x: -66, y: -2}
+        - {x: -66, y: -18}
+        - {x: -42, y: -18}
+        - {x: -4, y: -7}
+        - {x: 24, y: -12}
+        - {x: 32, y: -11}
+      - - {x: 6, y: -18}
+        - {x: 5, y: -15}
+        - {x: -3, y: -15}
+        - {x: -4, y: -18}
+      physicsShape: []
+      tessellationDetail: 0.2
+      bones: []
+      spriteID: 5a4a766b9c5f4d744958e52d0c99edbc
+      internalID: 975904556
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_83
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 599
+        width: 208
+        height: 79
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 68, y: -6.5}
+        - {x: 78, y: 5.5}
+        - {x: 95, y: 19.5}
+        - {x: 104, y: 28.5}
+        - {x: 104, y: 39.5}
+        - {x: 92, y: 39.5}
+        - {x: 77, y: 29.5}
+        - {x: 68, y: 29.5}
+        - {x: 62, y: 19.5}
+        - {x: 60, y: 16.5}
+        - {x: 49, y: 20.5}
+        - {x: 24, y: 2.5}
+        - {x: 14, y: -2.5}
+        - {x: -2, y: -1.5}
+        - {x: -10, y: 3.5}
+        - {x: -19, y: 3.5}
+        - {x: -24, y: 1.5}
+        - {x: -24, y: -7.5}
+        - {x: -12, y: -15.5}
+        - {x: -22, y: -10.5}
+        - {x: -38, y: -16.5}
+        - {x: -50, y: -12.5}
+        - {x: -58, y: -13.5}
+        - {x: -69, y: -4.5}
+        - {x: -82, y: 4.5}
+        - {x: -89, y: 5.5}
+        - {x: -94, y: -3.5}
+        - {x: -92, y: -6.5}
+        - {x: -95, y: -15.5}
+        - {x: -99, y: -16.5}
+        - {x: -104, y: -19.5}
+        - {x: -104, y: -31.5}
+        - {x: -103, y: -33.5}
+        - {x: -89, y: -32.5}
+        - {x: -66, y: -29.5}
+        - {x: -64, y: -34.5}
+        - {x: -54, y: -35.5}
+        - {x: -48, y: -33.5}
+        - {x: -36, y: -39.5}
+        - {x: 7, y: -39.5}
+        - {x: 31, y: -24.5}
+        - {x: 43, y: -20.5}
+      physicsShape: []
+      tessellationDetail: 0.35
+      bones: []
+      spriteID: 6974cdea754e2984687f68b0ac0cd0c9
+      internalID: 1475170525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_84
+      rect:
+        serializedVersion: 2
+        x: 910
+        y: 654
+        width: 64
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea0d5fe31fcaab649a70f90a540f7140
+      internalID: 1649253359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_85
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 456
+        width: 70
+        height: 114
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 35, y: -7}
+        - {x: 30, y: -3}
+        - {x: 21, y: -3}
+        - {x: 24, y: -1}
+        - {x: 31, y: 6}
+        - {x: 35, y: 11}
+        - {x: 35, y: 26}
+        - {x: 34, y: 28}
+        - {x: 21, y: 44}
+        - {x: 9, y: 57}
+        - {x: -9, y: 57}
+        - {x: -35, y: 2}
+        - {x: -35, y: -15}
+        - {x: -21, y: -26}
+        - {x: -16, y: -57}
+        - {x: 6, y: -57}
+        - {x: 10, y: -36}
+        - {x: 21, y: -30}
+        - {x: 35, y: -19}
+      physicsShape: []
+      tessellationDetail: 0.2
+      bones: []
+      spriteID: 64af2e15cd6be5f48878732d62cccd83
+      internalID: 1315813148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_86
+      rect:
+        serializedVersion: 2
+        x: 612
+        y: 554
+        width: 56
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5336342f85ed144468916168276d533d
+      internalID: -1885060411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_87
+      rect:
+        serializedVersion: 2
+        x: 678
+        y: 556
+        width: 34
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bded269bfea06843ac6e0fa5a200191
+      internalID: -946464138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_88
+      rect:
+        serializedVersion: 2
+        x: 725
+        y: 551
+        width: 49
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac182ee325e40e246b1083e97b1703af
+      internalID: -1744315751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_89
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 568
+        width: 23
+        height: 58
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2142f52fd8cd600428669bc0c91e74bd
+      internalID: -676656647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_90
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 548
+        width: 218
+        height: 93
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -63, y: -33.5}
+        - {x: -57, y: -32.5}
+        - {x: -52, y: -31.5}
+        - {x: -39, y: -30.5}
+        - {x: -37, y: -32.5}
+        - {x: -32, y: -35.5}
+        - {x: -21, y: -35.5}
+        - {x: -9, y: -39.5}
+        - {x: -4, y: -39.5}
+        - {x: 5, y: -33.5}
+        - {x: 7, y: -38.5}
+        - {x: 11, y: -41.5}
+        - {x: 17, y: -46.5}
+        - {x: 20, y: -45.5}
+        - {x: 29, y: -38.5}
+        - {x: 38, y: -30.5}
+        - {x: 43, y: -28.5}
+        - {x: 49, y: -25.5}
+        - {x: 55, y: -21.5}
+        - {x: 63, y: -13.5}
+        - {x: 69, y: -3.5}
+        - {x: 69, y: -2.5}
+        - {x: 99, y: 27.5}
+        - {x: 100, y: 27.5}
+        - {x: 106, y: 31.5}
+        - {x: 109, y: 35.5}
+        - {x: 109, y: 45.5}
+        - {x: 108, y: 46.5}
+        - {x: 98, y: 46.5}
+        - {x: 87, y: 36.5}
+        - {x: 80, y: 32.5}
+        - {x: 76, y: 35.5}
+        - {x: 71, y: 35.5}
+        - {x: 67, y: 32.5}
+        - {x: 61, y: 21.5}
+        - {x: 59, y: 13.5}
+        - {x: 56, y: 9.5}
+        - {x: 43, y: -4.5}
+        - {x: 37, y: -5.5}
+        - {x: 47, y: 5.5}
+        - {x: 49, y: 13.5}
+        - {x: 44, y: 18.5}
+        - {x: 37, y: 18.5}
+        - {x: 24, y: 6.5}
+        - {x: 22, y: 1.5}
+        - {x: 14, y: -6.5}
+        - {x: 9, y: -7.5}
+        - {x: 2, y: -1.5}
+        - {x: -1, y: -0.5}
+        - {x: -5, y: -0.5}
+        - {x: -10, y: -5.5}
+        - {x: -11, y: -9.5}
+        - {x: -7, y: -16.5}
+        - {x: -9, y: -16.5}
+        - {x: -45, y: -12.5}
+        - {x: -78, y: -12.5}
+        - {x: -82, y: -18.5}
+        - {x: -105, y: -31.5}
+        - {x: -109, y: -36.5}
+        - {x: -109, y: -46.5}
+        - {x: -94, y: -46.5}
+        - {x: -82, y: -38.5}
+        - {x: -80, y: -38.5}
+        - {x: -73, y: -36.5}
+      - - {x: 24, y: -25.5}
+        - {x: 22, y: -25.5}
+        - {x: 13, y: -35.5}
+        - {x: 15, y: -35.5}
+      physicsShape: []
+      tessellationDetail: 0.5
+      bones: []
+      spriteID: 02a73af7058e8354abdd1a978ca4cff1
+      internalID: -223258934
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_91
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 469
+        width: 82
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 33, y: 1.5}
+        - {x: 30, y: 0.5}
+        - {x: 20, y: -4.5}
+        - {x: 15, y: -7.5}
+        - {x: 17, y: -2.5}
+        - {x: 32, y: 1.5}
+        - {x: 39, y: 8.5}
+        - {x: 35, y: 16.5}
+        - {x: 32, y: 18.5}
+        - {x: 41, y: 31.5}
+        - {x: 41, y: 41.5}
+        - {x: 37, y: 44.5}
+        - {x: 31, y: 55.5}
+        - {x: 28, y: 57.5}
+        - {x: 12, y: 57.5}
+        - {x: -10, y: 37.5}
+        - {x: -7, y: 16.5}
+        - {x: -9, y: 20.5}
+        - {x: -15, y: 27.5}
+        - {x: -40, y: 22.5}
+        - {x: -41, y: 18.5}
+        - {x: -41, y: -31.5}
+        - {x: -21, y: -43.5}
+        - {x: -14, y: -57.5}
+        - {x: 15, y: -57.5}
+        - {x: 39, y: -46.5}
+        - {x: 41, y: -37.5}
+        - {x: 41, y: 1.5}
+      physicsShape: []
+      tessellationDetail: 0.2
+      bones: []
+      spriteID: 03fe854c6177a7347bea52650d8c01c2
+      internalID: 364641173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_92
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 470
+        width: 72
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e99ca78690694264097e920a56b04acf
+      internalID: 2143760466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_93
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 470
+        width: 48
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3be8b14992c12b54f905e3ba5470fc67
+      internalID: 548020768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_94
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 466
+        width: 44
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: acf65c04f3509d544bda5353807495f4
+      internalID: 614457089
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_95
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 467
+        width: 66
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98899caa06f62bf42af01d9fc0390b78
+      internalID: 1614595099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_96
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 469
+        width: 29
+        height: 65
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ae4873565621b249a069a6d96098f4e
+      internalID: -287150338
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_97
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 466
+        width: 43
+        height: 75
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 6.5, y: -7.5}
+        - {x: 13.5, y: -7.5}
+        - {x: 18.5, y: -4.5}
+        - {x: 21.5, y: -1.5}
+        - {x: 21.5, y: 13.5}
+        - {x: 18.5, y: 16.5}
+        - {x: 12.5, y: 20.5}
+        - {x: 12.5, y: 25.5}
+        - {x: 9.5, y: 36.5}
+        - {x: 2.5, y: 37.5}
+        - {x: -9.5, y: 36.5}
+        - {x: -16.5, y: 36.5}
+        - {x: -20.5, y: 34.5}
+        - {x: -21.5, y: 31.5}
+        - {x: -21.5, y: 17.5}
+        - {x: -20.5, y: 14.5}
+        - {x: -18.5, y: 12.5}
+        - {x: -19.5, y: 3.5}
+        - {x: -16.5, y: -1.5}
+        - {x: -7.5, y: -8.5}
+        - {x: -7.5, y: -34.5}
+        - {x: -4.5, y: -37.5}
+        - {x: 5.5, y: -37.5}
+        - {x: 8.5, y: -33.5}
+        - {x: 7.5, y: -25.5}
+        - {x: 6.5, y: -11.5}
+      physicsShape: []
+      tessellationDetail: 0.55
+      bones: []
+      spriteID: 745078d95bdd62b4689f82020d34db86
+      internalID: 1796608448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_98
+      rect:
+        serializedVersion: 2
+        x: 650
+        y: 527
+        width: 14
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d5cfd14230546b40abfa2122d7743e2
+      internalID: 226138419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_99
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 470
+        width: 55
+        height: 74
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d12a4937560714f48b0495f370abcd52
+      internalID: -1885880509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_100
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 470
+        width: 48
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d02d8fb35ed7d343ab98a9d4028bad4
+      internalID: -881219359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_101
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 466
+        width: 28
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3666a735a19dd624d8d95ec109861813
+      internalID: -1322424588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_102
+      rect:
+        serializedVersion: 2
+        x: 849
+        y: 466
+        width: 87
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0145962ac0c054e48bf748b44003f0f1
+      internalID: -952170624
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_103
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 370
+        width: 82
+        height: 129
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 108c7c6d27662c44da7636ce084c2968
+      internalID: -177804858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_104
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 370
+        width: 99
+        height: 138
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18.5, y: -45}
+        - {x: 23.5, y: -40}
+        - {x: 20.5, y: -33}
+        - {x: 25.5, y: -29}
+        - {x: 18.5, y: -16}
+        - {x: 6.5, y: -19}
+        - {x: 10.5, y: -11}
+        - {x: 17.5, y: -6}
+        - {x: 17.5, y: 0}
+        - {x: 21.5, y: 8}
+        - {x: 34.5, y: 9}
+        - {x: 44.5, y: 13}
+        - {x: 49.5, y: 20}
+        - {x: 49.5, y: 37}
+        - {x: 46.5, y: 43}
+        - {x: 39.5, y: 50}
+        - {x: 21.5, y: 65}
+        - {x: 13.5, y: 69}
+        - {x: -9.5, y: 69}
+        - {x: -14.5, y: 67}
+        - {x: -33.5, y: 56}
+        - {x: -44.5, y: 46}
+        - {x: -47.5, y: 42}
+        - {x: -49.5, y: 37}
+        - {x: -49.5, y: 16}
+        - {x: -46.5, y: 11}
+        - {x: -38.5, y: 6}
+        - {x: -22.5, y: 5}
+        - {x: -13.5, y: 0}
+        - {x: -22.5, y: -3}
+        - {x: -27.5, y: -6}
+        - {x: -27.5, y: -20}
+        - {x: -30.5, y: -27}
+        - {x: -28.5, y: -39}
+        - {x: -40.5, y: -40}
+        - {x: -44.5, y: -46}
+        - {x: -44.5, y: -48}
+        - {x: -48.5, y: -55}
+        - {x: -46.5, y: -66}
+        - {x: -27.5, y: -66}
+        - {x: -23.5, y: -69}
+        - {x: 12.5, y: -69}
+        - {x: 16.5, y: -65}
+        - {x: 16.5, y: -58}
+        - {x: 7.5, y: -52}
+      physicsShape: []
+      tessellationDetail: 0.37
+      bones: []
+      spriteID: b44af8c713a828f46974ace27ff260a0
+      internalID: 1111960007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_105
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 368
+        width: 69
+        height: 116
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 34.5, y: -15}
+        - {x: 17.5, y: -7}
+        - {x: 26.5, y: -5}
+        - {x: 34.5, y: 4}
+        - {x: 34.5, y: 28}
+        - {x: 20.5, y: 58}
+        - {x: 7.5, y: 58}
+        - {x: 1.5, y: 51}
+        - {x: -18.5, y: 42}
+        - {x: -16.5, y: 30}
+        - {x: -12.5, y: 19}
+        - {x: -15.5, y: 10}
+        - {x: -15.5, y: 5}
+        - {x: -15.5, y: 7}
+        - {x: -19.5, y: 12}
+        - {x: -33.5, y: 14}
+        - {x: -34.5, y: 14}
+        - {x: -34.5, y: -19}
+        - {x: -33.5, y: -25}
+        - {x: -23.5, y: -32}
+        - {x: -14.5, y: -36}
+        - {x: -17.5, y: -55}
+        - {x: -15.5, y: -58}
+        - {x: 1.5, y: -58}
+        - {x: 4.5, y: -57}
+        - {x: 7.5, y: -39}
+        - {x: 24.5, y: -39}
+        - {x: 34.5, y: -19}
+      - - {x: -6.5, y: -12}
+        - {x: -7.5, y: -8}
+        - {x: -9.5, y: -4}
+        - {x: -14.5, y: 5}
+        - {x: -15.5, y: 3}
+        - {x: -9.5, y: -4}
+        - {x: -3.5, y: -5}
+        - {x: -4.5, y: -9}
+        - {x: -6.5, y: -12}
+        - {x: -6.5, y: -13}
+        - {x: -5.5, y: -13}
+      physicsShape: []
+      tessellationDetail: 0.31
+      bones: []
+      spriteID: 66655ec54a1219a47b984265228446ed
+      internalID: -2101596525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_106
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 364
+        width: 54
+        height: 79
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73aba8949885f2947a533669be15348b
+      internalID: 1358860850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_107
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 366
+        width: 94
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4073f74f21ae85428215931ac107827
+      internalID: 2122783574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_108
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 368
+        width: 90
+        height: 79
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 541b5bebc2605f44ba0323454b3cc8a9
+      internalID: 1997751630
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_109
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 366
+        width: 62
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1def63231be58a458b08a4cd8205246
+      internalID: -42754295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_110
+      rect:
+        serializedVersion: 2
+        x: 588
+        y: 368
+        width: 89
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9797345cf4fad36469800f76ec5c2780
+      internalID: 1267175722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_111
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 364
+        width: 64
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d16d7a4b029b9d449be208813387ebf6
+      internalID: 983198271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_112
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 367
+        width: 99
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6961f802c7b2a0844b6fb4967ffc90fd
+      internalID: 1420071809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_113
+      rect:
+        serializedVersion: 2
+        x: 850
+        y: 375
+        width: 87
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 773cda59233d2534da9934966398ada0
+      internalID: 471269278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_114
+      rect:
+        serializedVersion: 2
+        x: 939
+        y: 369
+        width: 81
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f1669fa2340eec46b9e51f9fa55c486
+      internalID: 700690809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_115
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 263
+        width: 77
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7a155def88f0f045b8d9ef090843166
+      internalID: 1949556838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_116
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 265
+        width: 70
+        height: 81
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d09e0a419cab20a4d990287d35243f34
+      internalID: 724673802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_117
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 264
+        width: 66
+        height: 85
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 550f2b925722ba44cbb45d366de1c28e
+      internalID: 1765255454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_118
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 261
+        width: 69
+        height: 87
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2da6890cd2ba4747b0575eae36a0003
+      internalID: -47729323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_119
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 263
+        width: 71
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 700a63573d1e9004fad6472d6a31cd62
+      internalID: 1497129277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_120
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 263
+        width: 43
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec584251abcb15d46b3bf5da55da3496
+      internalID: 668075191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_121
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 259
+        width: 68
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -10, y: 44}
+        - {x: -14, y: 34}
+        - {x: -34, y: 17}
+        - {x: -34, y: -4}
+        - {x: -24, y: -19}
+        - {x: -12, y: -43}
+        - {x: -10, y: -44}
+        - {x: 12, y: -44}
+        - {x: 20, y: -29}
+        - {x: 34, y: 21}
+        - {x: 34, y: 44}
+      - - {x: -2, y: -1}
+        - {x: -5, y: 5}
+        - {x: -6, y: 8}
+        - {x: -5, y: 6}
+        - {x: -2, y: 6}
+        - {x: -3, y: 4}
+        - {x: -3, y: 1}
+        - {x: -4, y: 0}
+        - {x: -3, y: -6}
+        - {x: -2, y: -5}
+      physicsShape: []
+      tessellationDetail: 0.16
+      bones: []
+      spriteID: 7d191f9af302aa34390abf81f03fe11b
+      internalID: -1435544988
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_122
+      rect:
+        serializedVersion: 2
+        x: 517
+        y: 261
+        width: 58
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca51ec1a2ff87284c951ff4cb57fa1a5
+      internalID: 2076806713
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_123
+      rect:
+        serializedVersion: 2
+        x: 593
+        y: 262
+        width: 87
+        height: 86
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8bfae9aa8c65804ab8724912d574199
+      internalID: -1014104467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_124
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 259
+        width: 52
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 786b0d902eb7e344e84fefc251f73a4b
+      internalID: -537568006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_125
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 263
+        width: 64
+        height: 95
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 56fb2b2ec309bb442bb828a60e4af238
+      internalID: -840857809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_126
+      rect:
+        serializedVersion: 2
+        x: 823
+        y: 260
+        width: 59
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9ae017278d87964ca2335bacfc45ea9
+      internalID: -446427823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_127
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 266
+        width: 31
+        height: 76
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5947b419e5b24bc4381ddf699c09e561
+      internalID: -1829855287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_128
+      rect:
+        serializedVersion: 2
+        x: 915
+        y: 265
+        width: 36
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 18, y: -2.5}
+        - {x: 18, y: 37.5}
+        - {x: 8, y: 48.5}
+        - {x: -14, y: 48.5}
+        - {x: -18, y: 38.5}
+        - {x: -18, y: -47.5}
+        - {x: -16, y: -48.5}
+        - {x: -1, y: -48.5}
+        - {x: 9, y: -42.5}
+        - {x: 10, y: -32.5}
+        - {x: 7, y: -31.5}
+      physicsShape: []
+      tessellationDetail: 0.13
+      bones: []
+      spriteID: 8365820b91184e64fb19c7be26c67fe8
+      internalID: 225709096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_129
+      rect:
+        serializedVersion: 2
+        x: 947
+        y: 262
+        width: 74
+        height: 99
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 33, y: -12.5}
+        - {x: 37, y: -5.5}
+        - {x: 37, y: 32.5}
+        - {x: 30, y: 36.5}
+        - {x: 26, y: 49.5}
+        - {x: -26, y: 49.5}
+        - {x: -25, y: 39.5}
+        - {x: -23, y: 20.5}
+        - {x: -33, y: 8.5}
+        - {x: -32, y: -3.5}
+        - {x: -37, y: -14.5}
+        - {x: -37, y: -41.5}
+        - {x: -29, y: -49.5}
+        - {x: 14, y: -49.5}
+        - {x: 18, y: -48.5}
+        - {x: 37, y: -42.5}
+        - {x: 37, y: -15.5}
+      - - {x: 21, y: 14.5}
+        - {x: 20, y: 6.5}
+        - {x: 21, y: 6.5}
+      physicsShape: []
+      tessellationDetail: 0.2
+      bones: []
+      spriteID: e8494d2f2bda0614194a8cf9d0fff3d1
+      internalID: 872245612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_130
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 146
+        width: 69
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 372216b886a86004fae73ad7b53cdc2f
+      internalID: 281848631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_131
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 148
+        width: 116
+        height: 101
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f7d5ba350fe09f44b87eb114c92e24e
+      internalID: 130019550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_132
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 148
+        width: 94
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eee614aa8075ecb49910b201cbdd7f7b
+      internalID: -668320081
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_133
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 140
+        width: 150
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e43b7ce92963ccb45a17fc970d6ec3e8
+      internalID: 372615597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_134
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 148
+        width: 96
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: abecbd8e769c9e940a1973cb53217fd9
+      internalID: 2038159304
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_135
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 139
+        width: 163
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4c65cc85a112c142bf34b6de45a094f
+      internalID: -728407714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_136
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 149
+        width: 52
+        height: 104
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c6cf3c407651eb438586eb1f71e923f
+      internalID: 1801174317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_137
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 149
+        width: 46
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c7ce2b278e096242ac167618f98cd8e
+      internalID: 1803730328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_138
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 164
+        width: 44
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b8f9d7d1faf996468a9261f5b3e12bf
+      internalID: -1587929008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_139
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 150
+        width: 46
+        height: 92
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bde5178595749a441810a82bc47a337d
+      internalID: 883544719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_140
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 34
+        width: 94
+        height: 219
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 25, y: -101.5}
+        - {x: 32, y: -101.5}
+        - {x: 33, y: -102.5}
+        - {x: 37, y: -102.5}
+        - {x: 38, y: -103.5}
+        - {x: 47, y: -103.5}
+        - {x: 47, y: -89.5}
+        - {x: 46, y: -89.5}
+        - {x: 44, y: -87.5}
+        - {x: 40, y: -86.5}
+        - {x: 39, y: -85.5}
+        - {x: 40, y: -84.5}
+        - {x: 42, y: -84.5}
+        - {x: 46, y: -80.5}
+        - {x: 47, y: -76.5}
+        - {x: 44, y: -72.5}
+        - {x: 42, y: -72.5}
+        - {x: 41, y: -71.5}
+        - {x: 37, y: -71.5}
+        - {x: 40, y: -67.5}
+        - {x: 41, y: -65.5}
+        - {x: 43, y: -62.5}
+        - {x: 44, y: -56.5}
+        - {x: 45, y: -55.5}
+        - {x: 45, y: -51.5}
+        - {x: 44, y: -50.5}
+        - {x: 44, y: -48.5}
+        - {x: 41, y: -44.5}
+        - {x: 38, y: -43.5}
+        - {x: 35, y: -43.5}
+        - {x: 30, y: -48.5}
+        - {x: 30, y: -50.5}
+        - {x: 29, y: -51.5}
+        - {x: 29, y: -57.5}
+        - {x: 27, y: -60.5}
+        - {x: 24, y: -64.5}
+        - {x: 23, y: -62.5}
+        - {x: 23, y: -51.5}
+        - {x: 24, y: -50.5}
+        - {x: 24, y: -44.5}
+        - {x: 26, y: -43.5}
+        - {x: 28, y: -39.5}
+        - {x: 31, y: -36.5}
+        - {x: 33, y: -32.5}
+        - {x: 37, y: -27.5}
+        - {x: 37, y: -26.5}
+        - {x: 41, y: -22.5}
+        - {x: 44, y: -15.5}
+        - {x: 44, y: -13.5}
+        - {x: 47, y: -8.5}
+        - {x: 47, y: 4.5}
+        - {x: 46, y: 4.5}
+        - {x: 42, y: 7.5}
+        - {x: 36, y: 7.5}
+        - {x: 31, y: 3.5}
+        - {x: 30, y: 0.5}
+        - {x: 30, y: -2.5}
+        - {x: 28, y: -5.5}
+        - {x: 28, y: -8.5}
+        - {x: 27, y: -9.5}
+        - {x: 26, y: -14.5}
+        - {x: 25, y: -15.5}
+        - {x: 25, y: -10.5}
+        - {x: 26, y: -9.5}
+        - {x: 26, y: -2.5}
+        - {x: 27, y: -1.5}
+        - {x: 27, y: 3.5}
+        - {x: 28, y: 4.5}
+        - {x: 29, y: 12.5}
+        - {x: 30, y: 13.5}
+        - {x: 30, y: 19.5}
+        - {x: 27, y: 22.5}
+        - {x: 23, y: 23.5}
+        - {x: 22, y: 22.5}
+        - {x: 13, y: 26.5}
+        - {x: 12, y: 29.5}
+        - {x: -5, y: 26.5}
+        - {x: -10, y: 21.5}
+        - {x: -11, y: -11.5}
+        - {x: -14, y: -8.5}
+        - {x: -20, y: -8.5}
+        - {x: -27, y: -15.5}
+        - {x: -27, y: -20.5}
+        - {x: -28, y: -21.5}
+        - {x: -28, y: -31.5}
+        - {x: -29, y: -32.5}
+        - {x: -29, y: -42.5}
+        - {x: -28, y: -43.5}
+        - {x: -28, y: -48.5}
+        - {x: -27, y: -49.5}
+        - {x: -26, y: -61.5}
+        - {x: -25, y: -62.5}
+        - {x: -25, y: -65.5}
+        - {x: -24, y: -66.5}
+        - {x: -24, y: -69.5}
+        - {x: -23, y: -71.5}
+        - {x: -28, y: -65.5}
+        - {x: -39, y: -60.5}
+        - {x: -44, y: -60.5}
+        - {x: -47, y: -63.5}
+        - {x: -47, y: -71.5}
+        - {x: -46, y: -72.5}
+        - {x: -46, y: -73.5}
+        - {x: -38, y: -81.5}
+        - {x: -37, y: -81.5}
+        - {x: -33, y: -85.5}
+        - {x: -36, y: -87.5}
+        - {x: -38, y: -87.5}
+        - {x: -40, y: -89.5}
+        - {x: -41, y: -89.5}
+        - {x: -47, y: -95.5}
+        - {x: -47, y: -104.5}
+        - {x: -45, y: -105.5}
+        - {x: -33, y: -105.5}
+        - {x: -30, y: -103.5}
+        - {x: -22, y: -102.5}
+        - {x: -17, y: -107.5}
+        - {x: -11, y: -107.5}
+        - {x: -8, y: -104.5}
+        - {x: -6, y: -104.5}
+        - {x: -2, y: -109.5}
+        - {x: 11, y: -109.5}
+        - {x: 15, y: -105.5}
+        - {x: 20, y: -105.5}
+        - {x: 24, y: -103.5}
+      physicsShape: []
+      tessellationDetail: 1
+      bones: []
+      spriteID: 8fae442dedc7af54591d042c9fc02869
+      internalID: -1837859802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_141
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 33
+        width: 102
+        height: 105
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aed0f88964864144482c5e4e79f5fc97
+      internalID: -878122489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_142
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 33
+        width: 173
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9df9bd50b8479e4987c8b7e008ec275
+      internalID: 1506624343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_143
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 34
+        width: 167
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25dab9def4ac118499d55cb96c8cbe06
+      internalID: -1049162466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_144
+      rect:
+        serializedVersion: 2
+        x: 479
+        y: 35
+        width: 91
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4072be116f3cba84db681d2b6966cd98
+      internalID: -991758035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_145
+      rect:
+        serializedVersion: 2
+        x: 582
+        y: 40
+        width: 162
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4d5489cdaa09ef468caf67226897102
+      internalID: 1931538350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_146
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 46
+        width: 57
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7dd2400f9dbb0be419a30e9f10493015
+      internalID: -1364246690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: wooden sticks p1-Photoroom.png-Photoroom_147
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 35
+        width: 109
+        height: 125
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 24.5, y: -60.5}
+        - {x: 29.5, y: -55.5}
+        - {x: 45.5, y: -58.5}
+        - {x: 53.5, y: -58.5}
+        - {x: 54.5, y: -57.5}
+        - {x: 54.5, y: -47.5}
+        - {x: 43.5, y: -36.5}
+        - {x: 27.5, y: -30.5}
+        - {x: 38.5, y: -29.5}
+        - {x: 47.5, y: -28.5}
+        - {x: 50.5, y: -23.5}
+        - {x: 50.5, y: -18.5}
+        - {x: 46.5, y: -14.5}
+        - {x: 34.5, y: -7.5}
+        - {x: 41.5, y: -5.5}
+        - {x: 45.5, y: 2.5}
+        - {x: 43.5, y: 6.5}
+        - {x: 43.5, y: 26.5}
+        - {x: 34.5, y: 31.5}
+        - {x: 28.5, y: 25.5}
+        - {x: 27.5, y: 22.5}
+        - {x: 23.5, y: 6.5}
+        - {x: 23.5, y: 17.5}
+        - {x: 29.5, y: 26.5}
+        - {x: 43.5, y: 46.5}
+        - {x: 47.5, y: 54.5}
+        - {x: 47.5, y: 58.5}
+        - {x: 45.5, y: 62.5}
+        - {x: 21.5, y: 62.5}
+        - {x: 19.5, y: 61.5}
+        - {x: 10.5, y: 56.5}
+        - {x: -6.5, y: 56.5}
+        - {x: -11.5, y: 48.5}
+        - {x: -15.5, y: 24.5}
+        - {x: -23.5, y: 25.5}
+        - {x: -27.5, y: 21.5}
+        - {x: -29.5, y: 18.5}
+        - {x: -29.5, y: 10.5}
+        - {x: -33.5, y: 14.5}
+        - {x: -39.5, y: 14.5}
+        - {x: -46.5, y: 10.5}
+        - {x: -44.5, y: -7.5}
+        - {x: -47.5, y: -12.5}
+        - {x: -46.5, y: -17.5}
+        - {x: -39.5, y: -24.5}
+        - {x: -39.5, y: -35.5}
+        - {x: -51.5, y: -46.5}
+        - {x: -54.5, y: -50.5}
+        - {x: -54.5, y: -58.5}
+        - {x: -46.5, y: -59.5}
+        - {x: -14.5, y: -54.5}
+        - {x: -14.5, y: -60.5}
+        - {x: -12.5, y: -62.5}
+        - {x: -3.5, y: -62.5}
+        - {x: 1.5, y: -58.5}
+        - {x: 9.5, y: -56.5}
+        - {x: 18.5, y: -61.5}
+      physicsShape: []
+      tessellationDetail: 0.39
+      bones: []
+      spriteID: 481d309bb3693a0488a6f82556d1e786
+      internalID: -135988438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      wooden sticks p1-Photoroom.png-Photoroom_0: -1239722108
+      wooden sticks p1-Photoroom.png-Photoroom_1: 865885546
+      wooden sticks p1-Photoroom.png-Photoroom_10: -835139955
+      wooden sticks p1-Photoroom.png-Photoroom_100: -881219359
+      wooden sticks p1-Photoroom.png-Photoroom_101: -1322424588
+      wooden sticks p1-Photoroom.png-Photoroom_102: -952170624
+      wooden sticks p1-Photoroom.png-Photoroom_103: -177804858
+      wooden sticks p1-Photoroom.png-Photoroom_104: 1111960007
+      wooden sticks p1-Photoroom.png-Photoroom_105: -2101596525
+      wooden sticks p1-Photoroom.png-Photoroom_106: 1358860850
+      wooden sticks p1-Photoroom.png-Photoroom_107: 2122783574
+      wooden sticks p1-Photoroom.png-Photoroom_108: 1997751630
+      wooden sticks p1-Photoroom.png-Photoroom_109: -42754295
+      wooden sticks p1-Photoroom.png-Photoroom_11: -309646363
+      wooden sticks p1-Photoroom.png-Photoroom_110: 1267175722
+      wooden sticks p1-Photoroom.png-Photoroom_111: 983198271
+      wooden sticks p1-Photoroom.png-Photoroom_112: 1420071809
+      wooden sticks p1-Photoroom.png-Photoroom_113: 471269278
+      wooden sticks p1-Photoroom.png-Photoroom_114: 700690809
+      wooden sticks p1-Photoroom.png-Photoroom_115: 1949556838
+      wooden sticks p1-Photoroom.png-Photoroom_116: 724673802
+      wooden sticks p1-Photoroom.png-Photoroom_117: 1765255454
+      wooden sticks p1-Photoroom.png-Photoroom_118: -47729323
+      wooden sticks p1-Photoroom.png-Photoroom_119: 1497129277
+      wooden sticks p1-Photoroom.png-Photoroom_12: 923209063
+      wooden sticks p1-Photoroom.png-Photoroom_120: 668075191
+      wooden sticks p1-Photoroom.png-Photoroom_121: -1435544988
+      wooden sticks p1-Photoroom.png-Photoroom_122: 2076806713
+      wooden sticks p1-Photoroom.png-Photoroom_123: -1014104467
+      wooden sticks p1-Photoroom.png-Photoroom_124: -537568006
+      wooden sticks p1-Photoroom.png-Photoroom_125: -840857809
+      wooden sticks p1-Photoroom.png-Photoroom_126: -446427823
+      wooden sticks p1-Photoroom.png-Photoroom_127: -1829855287
+      wooden sticks p1-Photoroom.png-Photoroom_128: 225709096
+      wooden sticks p1-Photoroom.png-Photoroom_129: 872245612
+      wooden sticks p1-Photoroom.png-Photoroom_13: -1043164407
+      wooden sticks p1-Photoroom.png-Photoroom_130: 281848631
+      wooden sticks p1-Photoroom.png-Photoroom_131: 130019550
+      wooden sticks p1-Photoroom.png-Photoroom_132: -668320081
+      wooden sticks p1-Photoroom.png-Photoroom_133: 372615597
+      wooden sticks p1-Photoroom.png-Photoroom_134: 2038159304
+      wooden sticks p1-Photoroom.png-Photoroom_135: -728407714
+      wooden sticks p1-Photoroom.png-Photoroom_136: 1801174317
+      wooden sticks p1-Photoroom.png-Photoroom_137: 1803730328
+      wooden sticks p1-Photoroom.png-Photoroom_138: -1587929008
+      wooden sticks p1-Photoroom.png-Photoroom_139: 883544719
+      wooden sticks p1-Photoroom.png-Photoroom_14: -737720638
+      wooden sticks p1-Photoroom.png-Photoroom_140: -1837859802
+      wooden sticks p1-Photoroom.png-Photoroom_141: -878122489
+      wooden sticks p1-Photoroom.png-Photoroom_142: 1506624343
+      wooden sticks p1-Photoroom.png-Photoroom_143: -1049162466
+      wooden sticks p1-Photoroom.png-Photoroom_144: -991758035
+      wooden sticks p1-Photoroom.png-Photoroom_145: 1931538350
+      wooden sticks p1-Photoroom.png-Photoroom_146: -1364246690
+      wooden sticks p1-Photoroom.png-Photoroom_147: -135988438
+      wooden sticks p1-Photoroom.png-Photoroom_15: -500727667
+      wooden sticks p1-Photoroom.png-Photoroom_16: 742761314
+      wooden sticks p1-Photoroom.png-Photoroom_17: -1214730628
+      wooden sticks p1-Photoroom.png-Photoroom_18: -1479818309
+      wooden sticks p1-Photoroom.png-Photoroom_19: 373628271
+      wooden sticks p1-Photoroom.png-Photoroom_2: 2021850559
+      wooden sticks p1-Photoroom.png-Photoroom_20: -104519564
+      wooden sticks p1-Photoroom.png-Photoroom_21: -486672532
+      wooden sticks p1-Photoroom.png-Photoroom_22: -861305170
+      wooden sticks p1-Photoroom.png-Photoroom_23: 1615710911
+      wooden sticks p1-Photoroom.png-Photoroom_24: 1839619783
+      wooden sticks p1-Photoroom.png-Photoroom_25: -785359423
+      wooden sticks p1-Photoroom.png-Photoroom_26: 342160762
+      wooden sticks p1-Photoroom.png-Photoroom_27: -434953633
+      wooden sticks p1-Photoroom.png-Photoroom_28: 1461857036
+      wooden sticks p1-Photoroom.png-Photoroom_29: -781309371
+      wooden sticks p1-Photoroom.png-Photoroom_3: 1476798966
+      wooden sticks p1-Photoroom.png-Photoroom_30: -1759028790
+      wooden sticks p1-Photoroom.png-Photoroom_31: 1155623076
+      wooden sticks p1-Photoroom.png-Photoroom_32: 416807804
+      wooden sticks p1-Photoroom.png-Photoroom_33: -514836345
+      wooden sticks p1-Photoroom.png-Photoroom_34: -843096219
+      wooden sticks p1-Photoroom.png-Photoroom_35: 1379989333
+      wooden sticks p1-Photoroom.png-Photoroom_36: 744605377
+      wooden sticks p1-Photoroom.png-Photoroom_37: 571605330
+      wooden sticks p1-Photoroom.png-Photoroom_38: 1827371038
+      wooden sticks p1-Photoroom.png-Photoroom_39: 1490225006
+      wooden sticks p1-Photoroom.png-Photoroom_4: -285497599
+      wooden sticks p1-Photoroom.png-Photoroom_40: -1240651899
+      wooden sticks p1-Photoroom.png-Photoroom_41: -1200187861
+      wooden sticks p1-Photoroom.png-Photoroom_42: 1279353347
+      wooden sticks p1-Photoroom.png-Photoroom_43: 2046734421
+      wooden sticks p1-Photoroom.png-Photoroom_44: -928099761
+      wooden sticks p1-Photoroom.png-Photoroom_45: -1580024601
+      wooden sticks p1-Photoroom.png-Photoroom_46: -170700119
+      wooden sticks p1-Photoroom.png-Photoroom_47: -957243552
+      wooden sticks p1-Photoroom.png-Photoroom_48: -1945560321
+      wooden sticks p1-Photoroom.png-Photoroom_49: -409532257
+      wooden sticks p1-Photoroom.png-Photoroom_5: 1947357463
+      wooden sticks p1-Photoroom.png-Photoroom_50: -907966718
+      wooden sticks p1-Photoroom.png-Photoroom_51: -42271946
+      wooden sticks p1-Photoroom.png-Photoroom_52: 1772232539
+      wooden sticks p1-Photoroom.png-Photoroom_53: 780292730
+      wooden sticks p1-Photoroom.png-Photoroom_54: -1756825711
+      wooden sticks p1-Photoroom.png-Photoroom_55: -232361070
+      wooden sticks p1-Photoroom.png-Photoroom_56: 1772526307
+      wooden sticks p1-Photoroom.png-Photoroom_57: -1592746091
+      wooden sticks p1-Photoroom.png-Photoroom_58: -1009928172
+      wooden sticks p1-Photoroom.png-Photoroom_59: -201638807
+      wooden sticks p1-Photoroom.png-Photoroom_6: 860841108
+      wooden sticks p1-Photoroom.png-Photoroom_60: 474820745
+      wooden sticks p1-Photoroom.png-Photoroom_61: 246689380
+      wooden sticks p1-Photoroom.png-Photoroom_62: -1449009993
+      wooden sticks p1-Photoroom.png-Photoroom_63: -1071864751
+      wooden sticks p1-Photoroom.png-Photoroom_64: 1802332712
+      wooden sticks p1-Photoroom.png-Photoroom_65: -1643560551
+      wooden sticks p1-Photoroom.png-Photoroom_66: 1613459645
+      wooden sticks p1-Photoroom.png-Photoroom_67: 2082835142
+      wooden sticks p1-Photoroom.png-Photoroom_68: 817313317
+      wooden sticks p1-Photoroom.png-Photoroom_69: -107844166
+      wooden sticks p1-Photoroom.png-Photoroom_7: 264545331
+      wooden sticks p1-Photoroom.png-Photoroom_70: 918808356
+      wooden sticks p1-Photoroom.png-Photoroom_71: 1920960991
+      wooden sticks p1-Photoroom.png-Photoroom_72: 35411396
+      wooden sticks p1-Photoroom.png-Photoroom_73: 548942634
+      wooden sticks p1-Photoroom.png-Photoroom_74: 795563703
+      wooden sticks p1-Photoroom.png-Photoroom_75: -1446291854
+      wooden sticks p1-Photoroom.png-Photoroom_76: 1260212699
+      wooden sticks p1-Photoroom.png-Photoroom_77: -1433906085
+      wooden sticks p1-Photoroom.png-Photoroom_78: 1456289771
+      wooden sticks p1-Photoroom.png-Photoroom_79: 1166360580
+      wooden sticks p1-Photoroom.png-Photoroom_8: -1132733342
+      wooden sticks p1-Photoroom.png-Photoroom_80: 1928956881
+      wooden sticks p1-Photoroom.png-Photoroom_81: 1075513496
+      wooden sticks p1-Photoroom.png-Photoroom_82: 975904556
+      wooden sticks p1-Photoroom.png-Photoroom_83: 1475170525
+      wooden sticks p1-Photoroom.png-Photoroom_84: 1649253359
+      wooden sticks p1-Photoroom.png-Photoroom_85: 1315813148
+      wooden sticks p1-Photoroom.png-Photoroom_86: -1885060411
+      wooden sticks p1-Photoroom.png-Photoroom_87: -946464138
+      wooden sticks p1-Photoroom.png-Photoroom_88: -1744315751
+      wooden sticks p1-Photoroom.png-Photoroom_89: -676656647
+      wooden sticks p1-Photoroom.png-Photoroom_9: 191261284
+      wooden sticks p1-Photoroom.png-Photoroom_90: -223258934
+      wooden sticks p1-Photoroom.png-Photoroom_91: 364641173
+      wooden sticks p1-Photoroom.png-Photoroom_92: 2143760466
+      wooden sticks p1-Photoroom.png-Photoroom_93: 548020768
+      wooden sticks p1-Photoroom.png-Photoroom_94: 614457089
+      wooden sticks p1-Photoroom.png-Photoroom_95: 1614595099
+      wooden sticks p1-Photoroom.png-Photoroom_96: -287150338
+      wooden sticks p1-Photoroom.png-Photoroom_97: 1796608448
+      wooden sticks p1-Photoroom.png-Photoroom_98: 226138419
+      wooden sticks p1-Photoroom.png-Photoroom_99: -1885880509
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
