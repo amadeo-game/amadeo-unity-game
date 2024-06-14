@@ -13,6 +13,7 @@ public class UDPServer {
 
     public  void OpenConnection() {
         // Start the server on a new thread
+        //assigning it a method (ServerThreadMethod) that will be executed when the thread starts running.
         _serverThread = new Thread(ServerThreadMethod);
         _serverThread.Start();
     }
