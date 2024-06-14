@@ -72,8 +72,7 @@ public class UDPClient : MonoBehaviour
         string[] forces = data.Split('\t');
         double[] forcesNum = new double[10]; // Array to store parsed forces. We expect 10 force values.
         
-        PlayerPrefs.SetString("forces", data);
-        
+        // PlayerPrefs.SetString("forces", data);
         
         
         if (forces.Length == 11) // Ensuring we have exactly 11 values (1 time + 10 forces)
@@ -93,7 +92,7 @@ public class UDPClient : MonoBehaviour
             Debug.Log("force right 10 : " + forces[10]);
         
             for (int i = 0; i < forcesNum.Length; i++)
-            {
+            {   
                 if (double.TryParse(forces[i + 1], out double force)) // Parse force values (skipping the time)
                 {
                     forcesNum[i] = force;

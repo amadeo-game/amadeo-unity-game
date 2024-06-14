@@ -19,11 +19,15 @@ public class GameManager : MonoBehaviour {
     [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
 
     private int[] playerUnitsHeights = {0,0,0,0,0}; // Set this in the Inspector
-    private UDP_server s = new UDP_server();
+ 
+    private UDPServer _udpServer;
+
     private void Awake() {
         if (instance == null) {
             instance = this;
         }
+        _udpServer = new UDPServer();
+
     }
     
     public void OnValueChanged0(float value) {
@@ -63,7 +67,7 @@ public class GameManager : MonoBehaviour {
     public void StartGame() {
         // Enable the play button
         _startGame.Invoke();
-        UDP_server.OpenConnection();
+        _udpServer.OpenConnection(); // Start the UDP server on a separate thread
     }
 
 
@@ -74,9 +78,14 @@ public class GameManager : MonoBehaviour {
 
     public void EndGameInvoke() {
         _endGame.Invoke();
+        _udpServer.StopServer(); // Stop the UDP server and clean up resources
+
     }
 
     public void WinGame() {
         _winGame.Invoke();
+    }
+    private void OnApplicationQuit() {
+        _udpServer.StopServer(); // Ensure server is stopped on application quit
     }
 }
