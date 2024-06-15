@@ -149,7 +149,7 @@ namespace BridgePackage {
             rb.MovePosition(newPosition);
         }
 
-        float MoveSpeed { get; set; } = 0.1f;
+        private float MoveSpeed { get; set; } = 5f;//0.5f;
 
         // Method to apply forces received from UDPClient
         public void ApplyForces(double[] forces)

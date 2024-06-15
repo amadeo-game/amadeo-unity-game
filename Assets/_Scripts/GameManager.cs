@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
     private int[] playerUnitsHeights = {0,0,0,0,0}; // Set this in the Inspector
  
     private UDPServer _udpServer;
+    [SerializeField] private UDPClient _udpClient;
 
     private void Awake() {
         if (instance == null) {
@@ -81,7 +82,15 @@ public class GameManager : MonoBehaviour {
         _udpServer.StopServer(); // Stop the UDP server and clean up resources
 
     }
-
+    
+    public void ZeroForces() {
+        
+        _udpServer.ZeroForces();  // Tell the server to start zeroing
+        
+        //later we can add Invoke for this event
+        _udpClient.ZeroForces();  // Reset the zeroing on the client side
+    }
+    
     public void WinGame() {
         _winGame.Invoke();
     }

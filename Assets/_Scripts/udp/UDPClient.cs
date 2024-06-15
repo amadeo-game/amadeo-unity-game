@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -14,7 +15,8 @@ public class UDPClient : MonoBehaviour
     private CancellationTokenSource _cancellationTokenSource;
     private bool isReceiving = true;
     [SerializeField] private BridgeAPI bridgeApi;
-
+    private double[] zeroForces = new double[10]; // Store zeroing forces
+    private bool isZeroed = false;
     private void Start()
     {
         // Initialize the UdpClient
@@ -92,10 +94,15 @@ public class UDPClient : MonoBehaviour
             Debug.Log("force right 10 : " + forces[10]);
         
             for (int i = 0; i < forcesNum.Length; i++)
-            {   
-                if (double.TryParse(forces[i + 1], out double force)) // Parse force values (skipping the time)
+            {    
+                //Debug.Log("forces[i + 1]" + forces[i + 1]); // before with (double.TryParse(forces[i + 1], out double force)) 
+                // Parse force values (skipping the time)
+                // if (double.TryParse(forces[i + 1], out double force)) --> 
+                if (double.TryParse(forces[i + 1].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
+                            out double force))
                 {
                     forcesNum[i] = force;
+                    //Debug.Log("forcesNum[i]" + forcesNum[i]); //after with  (double.TryParse(forces[i + 1], out double force)) 
                 }
                 else
                 {
@@ -103,6 +110,29 @@ public class UDPClient : MonoBehaviour
                     forcesNum[i] = 0; // or any other default/fallback value
                 }
             }
+
+            if (!isZeroed)
+            {
+                // If zeroing hasn't been performed yet, store the current forces as the zeroing offset.
+                zeroForces = forcesNum;
+                isZeroed = true;
+                Debug.Log("Zeroing forces stored.");
+            }
+            else
+            {
+                // Apply zeroing offset
+                for (int i = 0; i < forcesNum.Length; i++) {
+                  //The goal of zeroing is to remove the baseline effect from the measurements
+                    forcesNum[i] -= zeroForces[i];
+                }
+
+                // Now `forcesNum` contains the zeroed forces
+                Debug.Log("Zeroed forces: " + string.Join(", ", forcesNum));
+            }
+            
+            
+            
+            
             // Send the parsed forces to the bridgeApi script
             if (bridgeApi != null)
             {
@@ -117,7 +147,9 @@ public class UDPClient : MonoBehaviour
        
     }
 
-
+    public void ZeroForces() {
+        isZeroed = false;
+    }
     private void OnApplicationQuit()
     {
         isReceiving = false; // Signal the receiving loop to stop
