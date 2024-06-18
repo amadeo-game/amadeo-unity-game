@@ -11,6 +11,7 @@ public class UDPServer {
     private IPEndPoint _remoteEndPoint;
     private Thread _serverThread; // Thread for running the UDP server
     private bool _isZeroing = false;
+    private bool canRunServer = false;
     
     public  void OpenConnection() {
         // Start the server on a new thread
@@ -22,6 +23,7 @@ public class UDPServer {
     private void ServerThreadMethod() {
         try {
             StartServer();
+            canRunServer = true;
             HandleIncomingData();
         } catch (Exception ex) {
             Debug.LogError($"UDP server error: {ex.Message}");
@@ -29,6 +31,7 @@ public class UDPServer {
     }
 
     private void StartServer() {
+        
         // Receive data from Amadeo device on port 4444 
         //Change the port number if necessary
         _udpServer = new UdpClient(4444); 
@@ -53,7 +56,7 @@ public class UDPServer {
         // return;
         var index = 0;
         
-        while (true) {
+        while (canRunServer) {
 
             //uncomment this block to receive data from Amadeo device
             //var data = _udpServer.Receive(ref _remoteEndPoint); // Receive data from Amadeo device
@@ -142,6 +145,7 @@ public class UDPServer {
     }
 
     public void StopServer() {
+        canRunServer = false;
         // Stop the server and clean up resources
         _serverThread?.Abort(); // Abort the server thread
         _udpServer?.Close();   // Close the UDP client

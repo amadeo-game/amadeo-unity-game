@@ -134,19 +134,22 @@ namespace BridgePackage {
         // Modified MoveUnit to use both input and forces
         private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY, float forceY) {
             if (rb == null) return;
+            float MVC_Value = 1f;
                         
             // Calculate the new target position
             // Vector2 targetPosition = new Vector2(unitTransform.position.x,
             //     unitTransform.position.y + inputY * MoveSpeed + forceY * MoveSpeed);// Apply both input and force
             Vector2 targetPosition = new Vector2(unitTransform.position.x,
-                forceY * MoveSpeed);// Apply both input and force    
+                forceY * MVC_Value);// Apply both input and force    
             Vector2 currentPosition = rb.position;
 
             // Lerp the position for smooth movement
             Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime);
 
             // Apply the new position
-            rb.MovePosition(newPosition);
+            // rb.MovePosition(newPosition);
+            rb.MovePosition(targetPosition);
+
         }
 
         private float MoveSpeed { get; set; } = 5f;//0.5f;
