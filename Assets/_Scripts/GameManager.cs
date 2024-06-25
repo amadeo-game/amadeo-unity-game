@@ -27,7 +27,10 @@ public class GameManager : MonoBehaviour {
         if (instance == null) {
             instance = this;
         }
-        _udpServer = new UDPServer();
+
+        PlayerPrefs.GetInt("portNumber");
+        Debug.Log("Port Number: " + PlayerPrefs.GetInt("portNumber"));
+        _udpServer = new UDPServer(PlayerPrefs.GetInt("portNumber"));
 
     }
     
