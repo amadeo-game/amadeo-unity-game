@@ -81,7 +81,12 @@ public class ZeroFClient : MonoBehaviour
     {
         isReceiving = false; // Signal the receiving loop to stop
         Debug.Log("stop connection from zeroFClient");
-        _cancellationTokenSource.Cancel(); // Cancel the receive task
+        // Cancel the receive task if the CancellationTokenSource is not null and not disposed
+        if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
+        {
+            _cancellationTokenSource.Cancel(); // Cancel the receive task
+        }
+        
 
         // Properly dispose of the UdpClient 
         if (_zeroFClient != null)
@@ -90,8 +95,12 @@ public class ZeroFClient : MonoBehaviour
             _zeroFClient = null;
         }
 
-        //cancellation token source
-        _cancellationTokenSource.Dispose();
+        // Dispose the CancellationTokenSource if it has not been disposed yet
+        if (_cancellationTokenSource != null)
+        {
+            _cancellationTokenSource.Dispose();
+            _cancellationTokenSource = null;
+        }
     }
 
     private void OnApplicationQuit()

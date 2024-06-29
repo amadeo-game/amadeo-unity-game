@@ -109,7 +109,7 @@ public class UDPServer
             }
             else if (isPlay)
             {
-                Debug.Log("send from else ");
+               
                 SendDataToClient(parsedData);
             }
         }

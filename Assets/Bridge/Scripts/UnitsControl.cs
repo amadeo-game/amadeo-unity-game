@@ -1,8 +1,10 @@
 using System;
 using UnityEngine;
 
-namespace BridgePackage {
-    internal class UnitsControl : MonoBehaviour {
+namespace BridgePackage
+{
+    internal class UnitsControl : MonoBehaviour
+    {
         [SerializeField] private InputReader inputReader;
         private bool isUnitsSet = false;
 
@@ -27,8 +29,10 @@ namespace BridgePackage {
         // Store the forces for each unit
         private float[] unitForces = new float[5];
 
-        internal void SetPlayerUnits(GameObject[] gameUnits) {
-            if (gameUnits.Length != 5) {
+        internal void SetPlayerUnits(GameObject[] gameUnits)
+        {
+            if (gameUnits.Length != 5)
+            {
                 throw new ArgumentException("gameUnits must be length 5.");
             }
 
@@ -47,27 +51,33 @@ namespace BridgePackage {
             isUnitsSet = true;
         }
 
-        internal void DisableControl() {
+        internal void DisableControl()
+        {
             Debug.Log("Stop moving units.");
             isUnitsSet = false;
         }
 
-        private void OnEnable() {
-            try {
+        private void OnEnable()
+        {
+            try
+            {
                 isLeftHand = PlayerPrefs.GetInt("IsLeftHand") == 1;
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Debug.Log(e);
             }
 
-            if (isLeftHand) {
+            if (isLeftHand)
+            {
                 inputReader.OnLF1Event += HandleMoveUnit1;
                 inputReader.OnLF2Event += HandleMoveUnit2;
                 inputReader.OnLF3Event += HandleMoveUnit3;
                 inputReader.OnLF4Event += HandleMoveUnit4;
                 inputReader.OnLF5Event += HandleMoveUnit5;
             }
-            else {
+            else
+            {
                 inputReader.OnRF1Event += HandleMoveUnit1;
                 inputReader.OnRF2Event += HandleMoveUnit2;
                 inputReader.OnRF3Event += HandleMoveUnit3;
@@ -76,15 +86,18 @@ namespace BridgePackage {
             }
         }
 
-        private void OnDisable() {
-            if (isLeftHand) {
+        private void OnDisable()
+        {
+            if (isLeftHand)
+            {
                 inputReader.OnLF1Event -= HandleMoveUnit1;
                 inputReader.OnLF2Event -= HandleMoveUnit2;
                 inputReader.OnLF3Event -= HandleMoveUnit3;
                 inputReader.OnLF4Event -= HandleMoveUnit4;
                 inputReader.OnLF5Event -= HandleMoveUnit5;
             }
-            else {
+            else
+            {
                 inputReader.OnRF1Event -= HandleMoveUnit1;
                 inputReader.OnRF2Event -= HandleMoveUnit2;
                 inputReader.OnRF3Event -= HandleMoveUnit3;
@@ -99,60 +112,79 @@ namespace BridgePackage {
         private float maxHeight = 4f;
 
         // Method to handle the move event for each unit
-        private void HandleMoveUnit1(Vector2 value) {
+        private void HandleMoveUnit1(Vector2 value)
+        {
             previous1MovementInput = value;
         }
 
-        private void HandleMoveUnit2(Vector2 value) {
+        private void HandleMoveUnit2(Vector2 value)
+        {
             previous2MovementInput = value;
         }
 
-        private void HandleMoveUnit3(Vector2 value) {
+        private void HandleMoveUnit3(Vector2 value)
+        {
             previous3MovementInput = value;
         }
 
-        private void HandleMoveUnit4(Vector2 value) {
+        private void HandleMoveUnit4(Vector2 value)
+        {
             previous4MovementInput = value;
         }
 
-        private void HandleMoveUnit5(Vector2 value) {
+        private void HandleMoveUnit5(Vector2 value)
+        {
             previous5MovementInput = value;
         }
 
         // FixedUpdate is called once per physics frame
-        void FixedUpdate() {
+        void FixedUpdate()
+        {
             if (!isUnitsSet) return;
 
             // Use the forces to move the units
-            MoveUnit(rb1, unit1Transform, previous1MovementInput.y, unitForces[0]);
-            MoveUnit(rb2, unit2Transform, previous2MovementInput.y, unitForces[1]);
-            MoveUnit(rb3, unit3Transform, previous3MovementInput.y, unitForces[2]);
-            MoveUnit(rb4, unit4Transform, previous4MovementInput.y, unitForces[3]);
-            MoveUnit(rb5, unit5Transform, previous5MovementInput.y, unitForces[4]);
+            MoveUnit(rb1, unit1Transform, unitForces[0]);
+            MoveUnit(rb2, unit2Transform, unitForces[1]);
+            MoveUnit(rb3, unit3Transform, unitForces[2]);
+            MoveUnit(rb4, unit4Transform, unitForces[3]);
+            MoveUnit(rb5, unit5Transform, unitForces[4]);
         }
 
         // Modified MoveUnit to use both input and forces
-        private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY, float forceY) {
+        private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float forceY)
+        {
             if (rb == null) return;
             float MVC_Value = 1f;
-                        
+            // Validate forceY to ensure it is a valid number
+            if (float.IsNaN(forceY) || float.IsInfinity(forceY))
+            {
+                Debug.LogError($"Invalid force value: {forceY}");
+                return;
+            }
             // Calculate the new target position
             // Vector2 targetPosition = new Vector2(unitTransform.position.x,
             //     unitTransform.position.y + inputY * MoveSpeed + forceY * MoveSpeed);// Apply both input and force
+            // Vector2 targetPosition = new Vector2(unitTransform.position.x,
+            //     forceY * MVC_Value);// Apply both input and force    
             Vector2 targetPosition = new Vector2(unitTransform.position.x,
-                forceY * MVC_Value);// Apply both input and force    
+                forceY );// Apply both input and force    
+
+
+            // Calculate the new target position
+            // float targetY = Mathf.Clamp(forceY * maxHeight, -maxHeight, maxHeight);
+            // Vector2 targetPosition = new Vector2(unitTransform.position.x, targetY);
+
             Vector2 currentPosition = rb.position;
 
             // Lerp the position for smooth movement
             Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime);
 
             // Apply the new position
-            // rb.MovePosition(newPosition);
-            rb.MovePosition(targetPosition);
-
+            //rb.MovePosition(newPosition);
+             rb.MovePosition(targetPosition);
         }
 
-        private float MoveSpeed { get; set; } = 5f;//0.5f;
+        private float MoveSpeed { get; set; } = 5f; //0.5f;
 
         // Method to apply forces received from UDPClient
         public void ApplyForces(double[] forces)
@@ -166,20 +198,28 @@ namespace BridgePackage {
             // Map forces to the units. The first 5 are for left units.
             if (isLeftHand)
             {
-                for (int i = 0; i <5  ;i++)
+                for (int i = 0; i < 5; i++)
                 {
                     unitForces[i] = (float)forces[i];
                 }
             }
             else
             {
-                for (int i = 0, j = 5; i <5 && j< forces.Length  ;i++, j++)
+                for (int i = 0, j = 5; i < 5 && j < forces.Length; i++, j++)
                 {
                     unitForces[i] = (float)forces[j];
                 }
             }
+
+            // Validate the forces to ensure none are NaN
+            for (int i = 0; i < unitForces.Length; i++)
+            {
+                if (float.IsNaN(unitForces[i]) || float.IsInfinity(unitForces[i]))
+                {
+                    Debug.LogError($"Invalid force value at index {i}: {unitForces[i]}");
+                    unitForces[i] = 0; // Reset to zero or another default value
+                }
             }
-        
-        
+        }
     }
 }

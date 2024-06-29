@@ -7,6 +7,8 @@ using System.Threading;
 using UnityEngine;
 using BridgePackage;
 using PlasticGui.WorkspaceWindow.Merge; // Ensure this matches the namespace in the Move script
+//todo: 1.Flexion or extension for mvc forces  
+//todo: 2. left or right hand
 
 public class UDPClient : MonoBehaviour
 {
@@ -15,9 +17,11 @@ public class UDPClient : MonoBehaviour
     private CancellationTokenSource _cancellationTokenSource;
     private bool isReceiving = true;
     [SerializeField] private BridgeAPI bridgeApi;
-    private double[] zeroForces = new double[10]; // Store zeroing forces
-
-
+    private double[] _zeroForces = new double[10]; // Store zeroing forces
+    private double[] mvcForceExtension = new double[5]; // Store MVC forces
+    private double[] mvcForceFlexion = new double[5]; // Store MVC forces
+    bool isLeftHand = false;
+    bool isFlexion = false;
     private void Start()
     {
         // Initialize the UdpClient
@@ -35,6 +39,7 @@ public class UDPClient : MonoBehaviour
         _cancellationTokenSource = new CancellationTokenSource();
 
         SetZeroForces(); // Load zeroing forces from PlayerPrefs
+        SetMvcForces(); // Load MVC forces from PlayerPrefs
         // Start receiving data asynchronously
         ReceiveData(_cancellationTokenSource.Token);
     }
@@ -58,22 +63,41 @@ public class UDPClient : MonoBehaviour
         }
 
 
-        for (int i = 0; i < zeroForces.Length; i++)
+        for (int i = 0; i < _zeroForces.Length; i++)
         {
             if (double.TryParse(forces[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var force))
             {
-                zeroForces[i] = force;
+                _zeroForces[i] = force;
             }
             else
             {
                 Debug.LogError($"Error parsing zero force at position {i + 1}: {forces[i + 1]}");
-                zeroForces[i] = 0; // or any other default/fallback value
+                _zeroForces[i] = 0; // or any other default/fallback value
             }
         }
 
         // Debug.Log("Parsed zeroing forces: " + string.Join(", ", zeroForces));
     }
 
+    private void SetMvcForces()
+    {
+        for (var i = 1; i <= mvcForceExtension.Length; i++)
+        {   
+            var key = "E"+i;
+            double forceFinger = PlayerPrefs.GetFloat(key);
+            mvcForceExtension[i-1] = forceFinger;
+        }
+
+        for (var i = 1; i <= mvcForceFlexion.Length; i++)
+        {   
+            var key = "F"+i;
+            double forceFinger = PlayerPrefs.GetFloat(key);
+            mvcForceFlexion[i-1] = forceFinger;
+        }
+        
+        Debug.Log(string.Join(", ", mvcForceExtension));
+        Debug.Log(string.Join(", ", mvcForceFlexion));
+    }
     private async void ReceiveData(CancellationToken cancellationToken)
     {
         while (isReceiving && !cancellationToken.IsCancellationRequested)
@@ -110,24 +134,10 @@ public class UDPClient : MonoBehaviour
     {
         string[] forces = data.Split('\t');
         double[] forcesNum = new double[10]; // Array to store parsed forces. We expect 10 force values.
-
-
+        
         if (forces.Length != 11) return; // Ensuring we have exactly 11 values (1 time + 10 forces)
-        // Debug.Log("HandleReceivedData ");
-        // Debug.Log(data);
-        // Debug.Log("time: " + forces[0]);
-        // Debug.Log("force left 1 : " + forces[1]);
-        // Debug.Log("force left 2 : " + forces[2]);
-        // Debug.Log("force left 3 : " + forces[3]);
-        // Debug.Log("force left 4 : " + forces[4]);
-        // Debug.Log("force left 5 : " + forces[5]);
-        // Debug.Log("force right 6 : " + forces[6]);
-        // Debug.Log("force right 7 : " + forces[7]);
-        // Debug.Log("force right 8 : " + forces[8]);
-        // Debug.Log("force right 9 : " + forces[9]);
-        // Debug.Log("force right 10 : " + forces[10]);
-
-        for (int i = 0; i < forcesNum.Length; i++)
+        
+        for (var i = 0; i < forcesNum.Length; i++)
         {
             if (double.TryParse(forces[i + 1].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
                     out var force))
@@ -140,25 +150,24 @@ public class UDPClient : MonoBehaviour
                 forcesNum[i] = 0; // or any other default/fallback value
             }
         }
-
-
-        Debug.Log("forces before zeroing " + string.Join(", ", forcesNum));
+        // Debug.Log("forces before zeroing " + string.Join(", ", forcesNum));
 
         // Apply zeroing offset
         for (var i = 0; i < forcesNum.Length; i++)
         {
             //The goal of zeroing is to remove the baseline effect from the measurements
-            forcesNum[i] -= zeroForces[i];
+            forcesNum[i] -= _zeroForces[i];
         }
-
         // Now `forcesNum` contains the zeroed forces
-        Debug.Log("forces after zeroing: " + string.Join(", ", forcesNum));
-
-
+        // Debug.Log("forces after zeroing: " + string.Join(", ", forcesNum));
+        
+        // Normalize forces using MVC values
+       // var normalizedForces = ApplyMvcForces(forcesNum);
         // Send the parsed forces to the bridgeApi script
         if (bridgeApi != null)
         {
             bridgeApi.ApplyForces(forcesNum);
+            // bridgeApi.ApplyForces(normalizedForces);
         }
         else
         {
@@ -166,6 +175,32 @@ public class UDPClient : MonoBehaviour
         }
     }
 
+
+    
+    
+    //todo maybe need to change 
+    private double[] ApplyMvcForces(double[] forcesNum) 
+    {
+        // Normalize forces using MVC values
+        var normalizedForces = new double[10];
+    
+        for (var i = 0; i < 5; i++)
+        {
+            if (isFlexion)
+            {
+                normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
+                normalizedForces[i + 5] = mvcForceFlexion[i] != 0 ? forcesNum[i + 5] / mvcForceFlexion[i] : 0;
+            }
+            else
+            {
+                normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] * mvcForceExtension[i] : 0;
+                normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] * mvcForceExtension[i] : 0;
+            }
+        }
+    
+        Debug.Log("Normalized forces: " + string.Join(", ", normalizedForces));
+        return normalizedForces;
+    }
 
     private void OnApplicationQuit()
     {
