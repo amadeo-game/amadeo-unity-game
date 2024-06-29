@@ -8,35 +8,78 @@ using UnityEngine;
 using BridgePackage;
 using PlasticGui.WorkspaceWindow.Merge; // Ensure this matches the namespace in the Move script
 
-public class UDPClient : MonoBehaviour {
+public class UDPClient : MonoBehaviour
+{
     private UdpClient _udpClient;
     private IPEndPoint _remoteEndPoint;
     private CancellationTokenSource _cancellationTokenSource;
     private bool isReceiving = true;
     [SerializeField] private BridgeAPI bridgeApi;
     private double[] zeroForces = new double[10]; // Store zeroing forces
-    private bool isZeroed = false;
 
-    private void Start() {
+
+    private void Start()
+    {
         // Initialize the UdpClient
-        try {
+        try
+        {
             _udpClient = new UdpClient(8888); // Listen for data on port 8888
             _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0); // Placeholder for any remote endpoint
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
             return; // Exit if UdpClient initialization fails
         }
 
         _cancellationTokenSource = new CancellationTokenSource();
 
+        SetZeroForces(); // Load zeroing forces from PlayerPrefs
         // Start receiving data asynchronously
         ReceiveData(_cancellationTokenSource.Token);
     }
 
-    private async void ReceiveData(CancellationToken cancellationToken) {
-        while (isReceiving && !cancellationToken.IsCancellationRequested) {
-            try {
+    private void SetZeroForces()
+    {
+        var data = PlayerPrefs.GetString("zeroForces", ""); // Default to empty string if not set
+        // Debug.Log("Retrieved zeroForces from PlayerPrefs: " + data);
+        if (string.IsNullOrEmpty(data))
+        {
+            Debug.LogError("ZeroForces data is empty or not set in PlayerPrefs");
+            return;
+        }
+
+        string[] forces = data.Split('\t');
+        if (forces.Length != 10)
+        {
+            Debug.LogError("ZeroForces data does not contain exactly 10 values");
+            // Debug.Log(string.Join(", ", forces));
+            return;
+        }
+
+
+        for (int i = 0; i < zeroForces.Length; i++)
+        {
+            if (double.TryParse(forces[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var force))
+            {
+                zeroForces[i] = force;
+            }
+            else
+            {
+                Debug.LogError($"Error parsing zero force at position {i + 1}: {forces[i + 1]}");
+                zeroForces[i] = 0; // or any other default/fallback value
+            }
+        }
+
+        // Debug.Log("Parsed zeroing forces: " + string.Join(", ", zeroForces));
+    }
+
+    private async void ReceiveData(CancellationToken cancellationToken)
+    {
+        while (isReceiving && !cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
                 // Receive data from the server
                 UdpReceiveResult result = await _udpClient.ReceiveAsync();
                 byte[] data = result.Buffer;
@@ -47,97 +90,92 @@ public class UDPClient : MonoBehaviour {
                 // Pass the received data to the Move script
                 HandleReceivedData(receivedData);
             }
-            catch (SocketException ex) {
+            catch (SocketException ex)
+            {
                 Debug.LogError($"SocketException: {ex.Message}");
             }
-            catch (ObjectDisposedException) {
+            catch (ObjectDisposedException)
+            {
                 // This exception is expected when _udpClient is closed during ReceiveAsync
                 Debug.Log("UDPClient has been disposed.");
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.LogError($"Exception: {ex.Message}");
             }
         }
     }
 
-    private void HandleReceivedData(string data) {
+    private void HandleReceivedData(string data)
+    {
         string[] forces = data.Split('\t');
         double[] forcesNum = new double[10]; // Array to store parsed forces. We expect 10 force values.
 
-        // PlayerPrefs.SetString("forces", data);
 
+        if (forces.Length != 11) return; // Ensuring we have exactly 11 values (1 time + 10 forces)
+        // Debug.Log("HandleReceivedData ");
+        // Debug.Log(data);
+        // Debug.Log("time: " + forces[0]);
+        // Debug.Log("force left 1 : " + forces[1]);
+        // Debug.Log("force left 2 : " + forces[2]);
+        // Debug.Log("force left 3 : " + forces[3]);
+        // Debug.Log("force left 4 : " + forces[4]);
+        // Debug.Log("force left 5 : " + forces[5]);
+        // Debug.Log("force right 6 : " + forces[6]);
+        // Debug.Log("force right 7 : " + forces[7]);
+        // Debug.Log("force right 8 : " + forces[8]);
+        // Debug.Log("force right 9 : " + forces[9]);
+        // Debug.Log("force right 10 : " + forces[10]);
 
-        if (forces.Length == 11) // Ensuring we have exactly 11 values (1 time + 10 forces)
+        for (int i = 0; i < forcesNum.Length; i++)
         {
-            Debug.Log("HandleReceivedData ");
-            Debug.Log(data);
-            Debug.Log("time: " + forces[0]);
-            Debug.Log("force left 1 : " + forces[1]);
-            Debug.Log("force left 2 : " + forces[2]);
-            Debug.Log("force left 3 : " + forces[3]);
-            Debug.Log("force left 4 : " + forces[4]);
-            Debug.Log("force left 5 : " + forces[5]);
-            Debug.Log("force right 6 : " + forces[6]);
-            Debug.Log("force right 7 : " + forces[7]);
-            Debug.Log("force right 8 : " + forces[8]);
-            Debug.Log("force right 9 : " + forces[9]);
-            Debug.Log("force right 10 : " + forces[10]);
-
-            for (int i = 0; i < forcesNum.Length; i++) {
-                //Debug.Log("forces[i + 1]" + forces[i + 1]); // before with (double.TryParse(forces[i + 1], out double force)) 
-                // Parse force values (skipping the time)
-                // if (double.TryParse(forces[i + 1], out double force)) --> 
-                if (double.TryParse(forces[i + 1].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
-                        out double force)) {
-                    forcesNum[i] = force;
-                    //Debug.Log("forcesNum[i]" + forcesNum[i]); //after with  (double.TryParse(forces[i + 1], out double force)) 
-                }
-                else {
-                    Debug.LogError($"Error parsing force at position {i + 1}: {forces[i + 1]}");
-                    forcesNum[i] = 0; // or any other default/fallback value
-                }
+            if (double.TryParse(forces[i + 1].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
+                    out var force))
+            {
+                forcesNum[i] = force;
             }
-
-            if (!isZeroed) {
-                // If zeroing hasn't been performed yet, store the current forces as the zeroing offset.
-                zeroForces = forcesNum;
-                Debug.Log("Initial Zero forces: " + string.Join(", ", zeroForces));
-                isZeroed = true;
-                Debug.Log("Zeroing forces stored.");
+            else
+            {
+                Debug.LogError($"Error parsing force at position {i + 1}: {forces[i + 1]}");
+                forcesNum[i] = 0; // or any other default/fallback value
             }
-            else {
-                // Apply zeroing offset
-                for (int i = 0; i < forcesNum.Length; i++) {
-                    //The goal of zeroing is to remove the baseline effect from the measurements
-                    forcesNum[i] -= zeroForces[i];
-                }
-            
-                // Now `forcesNum` contains the zeroed forces
-                Debug.Log("Final Unit Values: " + string.Join(", ", forcesNum));
-            }
+        }
 
 
-            // Send the parsed forces to the bridgeApi script
-            if (bridgeApi != null) {
-                bridgeApi.ApplyForces(forcesNum);
-            }
-            else {
-                Debug.LogError("UnitsControl reference is missing in UDPClient.");
-            }
+        Debug.Log("forces before zeroing " + string.Join(", ", forcesNum));
+
+        // Apply zeroing offset
+        for (var i = 0; i < forcesNum.Length; i++)
+        {
+            //The goal of zeroing is to remove the baseline effect from the measurements
+            forcesNum[i] -= zeroForces[i];
+        }
+
+        // Now `forcesNum` contains the zeroed forces
+        Debug.Log("forces after zeroing: " + string.Join(", ", forcesNum));
+
+
+        // Send the parsed forces to the bridgeApi script
+        if (bridgeApi != null)
+        {
+            bridgeApi.ApplyForces(forcesNum);
+        }
+        else
+        {
+            Debug.LogError("UnitsControl reference is missing in UDPClient.");
         }
     }
 
-    public void ZeroForces() {
-        isZeroed = false;
-    }
 
-    private void OnApplicationQuit() {
+    private void OnApplicationQuit()
+    {
         isReceiving = false; // Signal the receiving loop to stop
 
         _cancellationTokenSource.Cancel(); // Cancel the receive task
 
         // Properly dispose of the UdpClient 
-        if (_udpClient != null) {
+        if (_udpClient != null)
+        {
             _udpClient.Close();
             _udpClient = null;
         }
