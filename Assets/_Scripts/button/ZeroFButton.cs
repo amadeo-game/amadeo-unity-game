@@ -12,21 +12,33 @@ public class ZeroFButton : MonoBehaviour
     
     private UDPServer _udpServer; // Reference to the UDP server
    
-    private int portNUmber;
+    private int portNumber;
+    bool isServerConnected = false;
     [SerializeField]
     private ZeroFClient _zeroFClient;
     private void Awake()
     {
-        portNUmber = PlayerPrefs.GetInt("portNumber");
-        _udpServer = new UDPServer(portNUmber);
-        StartServer();
+        portNumber = PlayerPrefs.GetInt("portNumber", 4444);
     }
 
-    private void StartServer() {
-        Debug.Log("start server");
-        _udpServer.OpenConnection(); // Start the UDP server
+    private void OnEnable() {
+        _udpServer = new UDPServer(portNumber);
+        isServerConnected = _udpServer.OpenConnection(); // Start the UDP server
+
     }
-    public void ZeroForces() {
+
+    public void StartZeroF() {
+        if (isServerConnected) {
+            Debug.Log("ZeroF server Connection established");
+            _zeroFClient.StartReceiveData();
+            ZeroForces();
+        }
+        else {
+            Debug.LogError("ZeroF server Connection failed");
+        
+        }
+    }
+    private void ZeroForces() {
         _udpServer.ZeroForces(); // Trigger zeroing
     }
     
@@ -43,8 +55,8 @@ public class ZeroFButton : MonoBehaviour
     
 
     private void StopServer() {
-        Debug.Log("'disable'");
-        _udpServer.StopZeroForces();
+        // Debug.Log("disable");
+        // _udpServer.StopZeroForces();
         _udpServer.StopServer(); // Stop the UDP server
     }
 }

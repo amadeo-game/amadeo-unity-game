@@ -7,55 +7,78 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public class UDPServer
-{
+public enum InputType {
+    EmulationMode,
+    Amadeo,
+}
+// public enum ServerState {
+//     IsEmulationMode,
+//     IsZeroing,
+//     IsPlay,
+// }
+
+public class UDPServer {
     private UdpClient _udpServer;
     private IPEndPoint _remoteEndPoint;
     private Thread _serverThread; // Thread for running the UDP server
     private bool canRunServer = false;
     private int portNumber;
-    private bool isZeroing;
-    private bool isEmulationMode = true;
+    private InputType inputType = InputType.Amadeo;
     private string emulationDataFile = "Assets/AmadeoRecords/force_data.txt";
     private bool isPlay = false;
 
-    public UDPServer(int portNumber)
-    {
+    public UDPServer(int portNumber) {
         this.portNumber = portNumber;
     }
 
 
-    public void OpenConnection()
-    {
-        // Start the server on a new thread
-        //assigning it a method (ServerThreadMethod) that will be executed when the thread starts running.
-        if (_serverThread == null || !_serverThread.IsAlive)
-        {
-            _serverThread = new Thread(ServerThreadMethod);
-            _serverThread.Start();
-        }
-        // _serverThread = new Thread(ServerThreadMethod);
-        // _serverThread.Start();
-    }
 
-    private void ServerThreadMethod()
-    {
-        try
-        {
+
+    public bool OpenConnection() {
+        try {
             StartServer();
             canRunServer = true;
-
-
-            HandleIncomingData();
+            Debug.Log("canRunServer: " + canRunServer);
+            
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Debug.LogError($"UDP server error: {ex.Message}");
+        }
+
+
+        // Start the server on a new thread
+        //assigning it a method (ServerThreadMethod) that will be executed when the thread starts running.
+
+
+        return true;
+    }
+    
+    
+
+    public void StartListeningForGame() {
+        if (_serverThread == null || !_serverThread.IsAlive) {
+            _serverThread = new Thread(StartListeningBasedOnInut);
+            _serverThread.Start();
         }
     }
 
-    private void StartServer()
-    {
+
+    public void StopListeningForGame() {
+        canRunServer = false;
+        // _serverThread?.Abort();
+    }
+
+    private void StartListeningBasedOnInut() {
+        if (inputType is InputType.EmulationMode) {
+            HandleIncomingDataEmu();
+        }
+        else {
+            HandleIncomingDataAmadeo();
+        }
+        Debug.Log("Stopped listening for game data.");
+    }
+
+    private void StartServer() {
         Debug.Log("port number is: " + this.portNumber);
         // Receive data from Amadeo device on given port 
         _udpServer = new UdpClient(portNumber);
@@ -63,82 +86,110 @@ public class UDPServer
         Debug.Log("UDP server started. Listening for data from Amadeo device...");
     }
 
-  
-
-    private void HandleIncomingData()
-    {
+    private void HandleIncomingDataEmu() {
         var index = 0;
         string[] lines = null;
 
-        if (isEmulationMode)
-        {
-            lines = File.ReadAllLines(emulationDataFile);
 
-            if (lines == null || lines.Length == 0)
-            {
-                Debug.LogError("No data found in the emulation file.");
-                return;
-            }
+        lines = File.ReadAllLines(emulationDataFile);
+
+        if (lines == null || lines.Length == 0) {
+            Debug.LogError("No data found in the emulation file.");
+            return;
         }
 
-        while (canRunServer)
-        {
+
+        while (canRunServer) {
             string line;
-
-            if (isEmulationMode)
-            {
-                line = lines[index];
-                index = (index + 1) % lines.Length;
-            }
-            else
-            {
-                var data = _udpServer.Receive(ref _remoteEndPoint);
-                line = Encoding.ASCII.GetString(data);
-                Debug.Log($"Received data: {line} from {_remoteEndPoint}");
-            }
-
+            line = lines[index];
+            index = (index + 1) % lines.Length;
             var parsedData = ParseDataFromAmadeo(line);
-
-            if (isZeroing)
-            {
-                var zeroingData = CalculateZeroingForces(lines);
-                Debug.Log("zeroingData:  " + zeroingData);
-                SendDataToClient(zeroingData);
-                isZeroing = false;
-                Debug.Log("Zeroing completed and data sent to client.");
-            }
-            else if (isPlay)
-            {
-               
-                SendDataToClient(parsedData);
-            }
+            // Send Data to client
+            SendDataToClient(parsedData);
         }
     }
 
-    private static string ParseDataFromAmadeo(string data)
-    {
+    private void HandleIncomingDataAmadeo() {
+        var index = 0;
+        string[] lines = null;
+
+        while (canRunServer) {
+            string line;
+            var data = _udpServer.Receive(ref _remoteEndPoint);
+            line = Encoding.ASCII.GetString(data);
+            Debug.Log($"Received data: {line} from {_remoteEndPoint}");
+
+
+            var parsedData = ParseDataFromAmadeo(line);
+
+
+            SendDataToClient(parsedData);
+        }
+    }
+    
+
+    private static string ParseDataFromAmadeo(string data) {
         var cleanedData = data.Replace("<Amadeo>", "").Replace("</Amadeo>", "");
         return cleanedData;
     }
 
-    private string CalculateZeroingForces(string[] lines)
-    {
+    public void StartZeroF() {
+        // Create a new thread and call HandleZeroF
+        if (_serverThread == null || !_serverThread.IsAlive) {
+            _serverThread = new Thread(HandleZeroF);
+            _serverThread.Start();
+        }
+    }
+
+    private void HandleZeroF() {
+        var index = 0;
+        int numOfLinesToRead = 100;
+        string[] lines = new string[numOfLinesToRead];
+
+        if (inputType is InputType.EmulationMode) {
+            lines = File.ReadAllLines(emulationDataFile);
+
+            if (lines == null || lines.Length == 0) {
+                Debug.LogError("No data found in the emulation file.");
+                return;
+            }
+        }
+        else {
+            int i = 0;
+            while (canRunServer && i < numOfLinesToRead) {
+                string line = "";
+
+                var data = _udpServer.Receive(ref _remoteEndPoint);
+                line = Encoding.ASCII.GetString(data);
+                Debug.Log($"Received data: {line} from {_remoteEndPoint}");
+
+                lines[i] = line;
+                i++;
+            }
+
+            if (i < numOfLinesToRead) {
+                Debug.LogError("Not enough data received from Amadeo device.");
+            }
+        }
+
+        var zeroingData = CalculateZeroingForces(lines);
+        Debug.Log("zeroingData sending to client:  " + zeroingData);
+        SendDataToClient(zeroingData);
+        Debug.Log("Zeroing completed and data sent to client.");
+    }
+
+    private string CalculateZeroingForces(string[] lines) {
         double[] sums = new double[10];
         int count = 0;
         Debug.Log("lines" + lines.Length);
 
-        if (isEmulationMode)
-        {
-            for (int i = 0; i < lines.Length && i < 100; i++)
-            {
-                if (lines[i].Length != 0)
-                {
+        if (inputType is InputType.EmulationMode) {
+            for (int i = 0; i < lines.Length && i < 100; i++) {
+                if (lines[i].Length != 0) {
                     var data = ParseDataFromAmadeo(lines[i]).Split('\t');
-                    for (int j = 1; j <= 10; j++)
-                    {
+                    for (int j = 1; j <= 10; j++) {
                         if (double.TryParse(data[j].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
-                                out double value))
-                        {
+                                out double value)) {
                             // Debug.Log(value);
                             sums[j - 1] += value;
                         }
@@ -148,18 +199,13 @@ public class UDPServer
                 }
             }
         }
-        else
-        {
-            foreach (var line in lines)
-            {
-                if (line.Length != 0)
-                {
+        else {
+            foreach (var line in lines) {
+                if (line.Length != 0) {
                     var data = ParseDataFromAmadeo(line).Split('\t');
-                    for (int i = 1; i <= 10; i++)
-                    {
+                    for (int i = 1; i <= 10; i++) {
                         if (double.TryParse(data[i].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
-                                out double value))
-                        {
+                                out double value)) {
                             sums[i - 1] += value;
                         }
                     }
@@ -170,45 +216,41 @@ public class UDPServer
         }
 
         double[] means = new double[10];
-        for (int i = 0; i < sums.Length; i++)
-        {
+        for (int i = 0; i < sums.Length; i++) {
             means[i] = sums[i] / count;
         }
 
-        Debug.Log("finished zeroing forces...");
+        Debug.Log("finished zeroing forces");
 
         return string.Join("\t", means);
     }
 
-    public void ZeroForces()
-    {
-        isZeroing = true;
-        Debug.Log("Zeroing forces initiated...");
-    }
-    
-    public void StopZeroForces()
-    {
-        isZeroing = false;
-        Debug.Log("Zeroing forces stopped...");
-    }
-    
-    public void setIsPlay(bool value)
-    {
-        isPlay = value;
+    public void ZeroForces() {
+        Debug.Log("UDP_Server: Zeroing forces started...");
+        StartZeroF();
+        Debug.Log("UDP_Server: Zeroing forces Completed");
     }
 
-    private void SendDataToClient(string data)
-    {
+    // public void StopZeroForces() {
+    //     isZeroing = false;
+    //     Debug.Log("Zeroing forces stopped...");
+    // }
+
+    // public void setIsPlay(bool value) {
+    //     isPlay = value;
+    // }
+
+    private void SendDataToClient(string data) {
         //send data to udp client at port 8888
         var sendData = Encoding.ASCII.GetBytes(data);
         _udpServer.Send(sendData, sendData.Length, new IPEndPoint(IPAddress.Loopback, 8888));
     }
 
-    public void StopServer()
-    {
+    public void StopServer() {
         canRunServer = false;
         // Stop the server and clean up resources
         _serverThread?.Abort(); // Abort the server thread
         _udpServer?.Close(); // Close the UDP client
+        Debug.Log("UDP server stopped.");
     }
 }

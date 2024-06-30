@@ -40,8 +40,7 @@ public class UDPClient : MonoBehaviour
 
         SetZeroForces(); // Load zeroing forces from PlayerPrefs
         SetMvcForces(); // Load MVC forces from PlayerPrefs
-        // Start receiving data asynchronously
-        ReceiveData(_cancellationTokenSource.Token);
+
     }
 
     private void SetZeroForces()
@@ -97,6 +96,16 @@ public class UDPClient : MonoBehaviour
         
         Debug.Log(string.Join(", ", mvcForceExtension));
         Debug.Log(string.Join(", ", mvcForceFlexion));
+    }
+    
+    public void StartReceiveData() {
+        ReceiveData(_cancellationTokenSource.Token);
+        Debug.Log("UDPClient: Start listening for ZeroF data from server");
+    }
+    
+    public void StopReceiveData() {
+        isReceiving = false;
+        Debug.Log("UDPClient: Stop listening for ZeroF data from server");
     }
     private async void ReceiveData(CancellationToken cancellationToken)
     {
@@ -188,13 +197,17 @@ public class UDPClient : MonoBehaviour
         {
             if (isFlexion)
             {
+                // Left hand mvc forces
                 normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
+                // Right hand mvc forces
                 normalizedForces[i + 5] = mvcForceFlexion[i] != 0 ? forcesNum[i + 5] / mvcForceFlexion[i] : 0;
             }
             else
             {
-                normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] * mvcForceExtension[i] : 0;
-                normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] * mvcForceExtension[i] : 0;
+                // Left hand mvc forces
+                normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] / mvcForceExtension[i] : 0;
+                // Right hand mvc forces
+                normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] / mvcForceExtension[i] : 0;
             }
         }
     
@@ -202,15 +215,17 @@ public class UDPClient : MonoBehaviour
         return normalizedForces;
     }
 
-    private void OnApplicationQuit()
-    {
+    private void OnApplicationQuit() {
+        StopClientConnection();
+    }
+
+    private void StopClientConnection() {
         isReceiving = false; // Signal the receiving loop to stop
 
         _cancellationTokenSource.Cancel(); // Cancel the receive task
 
         // Properly dispose of the UdpClient 
-        if (_udpClient != null)
-        {
+        if (_udpClient != null) {
             _udpClient.Close();
             _udpClient = null;
         }

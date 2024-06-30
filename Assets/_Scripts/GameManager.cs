@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private int[] playerUnitsHeights = { 0, 0, 0, 0, 0 }; // Set this in the Inspector
 
     private UDPServer _udpServer;
+    bool isServerConnected = false;
     [SerializeField] private UDPClient _udpClient;
 
     private void Awake()
@@ -33,7 +34,13 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.GetInt("portNumber");
         Debug.Log("Port Number: " + PlayerPrefs.GetInt("portNumber"));
         _udpServer = new UDPServer(PlayerPrefs.GetInt("portNumber"));
+        isServerConnected = _udpServer.OpenConnection(); // Start the UDP server on a separate thread
+
     }
+    
+    // MVC = 3
+    // Amadeo value = 2
+    // real location on unity units = (2/3) * MaxHeight == (MVC/Value) * MaxHeight
     
     
     
@@ -84,8 +91,17 @@ public class GameManager : MonoBehaviour
     {
         // Enable the play button
         _startGame.Invoke();
-        _udpServer.setIsPlay(true);
-        _udpServer.OpenConnection(); // Start the UDP server on a separate thread
+        // _udpServer.setIsPlay(true);
+        
+        if (isServerConnected)
+        {
+            _udpServer.StartListeningForGame();
+            Debug.Log("Start listening for game data from client");
+            _udpClient.StartReceiveData(); // Start receiving data from the client
+        }
+        else {
+            Debug.LogError("Failed to connect to the server.");
+        }
     }
 
 
@@ -98,8 +114,9 @@ public class GameManager : MonoBehaviour
     public void EndGameInvoke()
     {
         _endGame.Invoke();
-        _udpServer.setIsPlay(false);
-        _udpServer.StopServer(); // Stop the UDP server and clean up resources
+        // _udpServer.setIsPlay(false);
+        _udpClient.StopReceiveData(); // Stop receiving data from the client
+        _udpServer.StopListeningForGame(); // Stop the UDP server and clean up resources
     }
 
     public void WinGame()
