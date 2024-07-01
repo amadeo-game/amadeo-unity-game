@@ -4931,6 +4931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22de0617ed379fa4fb029a73f5eec780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultPortNumber: 4444
   _zeroFClient: {fileID: 759417953}
 --- !u!114 &759417953
 MonoBehaviour:
@@ -8749,6 +8750,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260724897}
   m_CullTransparentMesh: 1
+--- !u!1 &1267335684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1267335686}
+  - component: {fileID: 1267335685}
+  m_Layer: 0
+  m_Name: Network
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1267335685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267335684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b29d1a31bbbcb24b9dd1f5dccd92719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputType: 1
+--- !u!4 &1267335686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267335684}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 881.83875, y: 555.7183, z: -1.8963547}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1295146070
 GameObject:
   m_ObjectHideFlags: 0
@@ -11290,7 +11336,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1719480098
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14968,3 +15014,4 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 248687754}
   - {fileID: 2106867132}
+  - {fileID: 1267335686}

@@ -7,11 +7,10 @@ using UnityEngine;
 public class PortNumber : MonoBehaviour {
     private int portNumber;
 
-    private void Awake() {
+    private void OnEnable() {
         int portSavedValue = PlayerPrefs.GetInt("portNumber", 4444);
         gameObject.GetComponent<TMP_InputField>().text = portSavedValue.ToString();
-        PlayerPrefs.SetInt("portNumber", portSavedValue);
-        PlayerPrefs.Save();
+        ServerAPI.Instance.SetPortNumber(portSavedValue);
     }
 
 

@@ -158,7 +158,6 @@ public class UDPClient : MonoBehaviour
                 forcesNum[i] = 0; // or any other default/fallback value
             }
         }
-        // Debug.Log("forces before zeroing " + string.Join(", ", forcesNum));
 
         // Apply zeroing offset
         for (var i = 0; i < forcesNum.Length; i++)
@@ -166,16 +165,10 @@ public class UDPClient : MonoBehaviour
             //The goal of zeroing is to remove the baseline effect from the measurements
             forcesNum[i] -= _zeroForces[i];
         }
-        // Now `forcesNum` contains the zeroed forces
-        // Debug.Log("forces after zeroing: " + string.Join(", ", forcesNum));
-        
-        // Normalize forces using MVC values
-       // var normalizedForces = ApplyMvcForces(forcesNum);
         // Send the parsed forces to the bridgeApi script
         if (bridgeApi != null)
         {
             bridgeApi.ApplyForces(forcesNum);
-            // bridgeApi.ApplyForces(normalizedForces);
         }
         else
         {
