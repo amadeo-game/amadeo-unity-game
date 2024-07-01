@@ -24,14 +24,33 @@ public class UDPServer {
 
     public UDPServer(int portNumber, InputType inputType = InputType.EmulationMode) {
         // check the port number is valid
-        if (portNumber < 1024 || portNumber > 49151) {
-            Debug.LogError("Invalid port number. Port number must be between 1024 and 49151");
+        
+        if (!IsPortValid(portNumber)) {
             portNumber = defaultPortNumber;
         }
         else {
             this.portNumber = portNumber;
         }
         this.inputType = inputType;
+    }
+
+    private bool IsPortValid(int portNumber) {
+        if (portNumber < 1024 || portNumber > 49151) {
+            Debug.Log("Invalid port number. Port number must be between 1024 and 49151, using default port number " + defaultPortNumber);
+            return false;
+        }
+
+        return true;
+    }
+
+    public void CheckUpdatedPort(int portNumber) {
+        Debug.Log("Checking updated port number: " + portNumber);
+        if (IsPortValid(this.portNumber)) {
+            StopServer();
+            this.portNumber = portNumber;
+            OpenConnection();
+        }
+
     }
 
 
