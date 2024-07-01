@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -13,9 +10,6 @@ public class ZeroFClient : MonoBehaviour {
     private IPEndPoint _remoteEndPoint;
     private CancellationTokenSource _cancellationTokenSource;
     private bool isReceiving = true;
-    
-
-    private double[] zeroForces = new double[10]; // Store zeroing forces
 
 
     private void Start() {
@@ -30,9 +24,6 @@ public class ZeroFClient : MonoBehaviour {
         }
 
         _cancellationTokenSource = new CancellationTokenSource();
-
-        // Start receiving data asynchronously
-        // ReceiveData(_cancellationTokenSource.Token);
     }
 
     // create start receive data method that checks validity and then calls ReceiveData
@@ -54,7 +45,7 @@ public class ZeroFClient : MonoBehaviour {
                 if (data.Length > 0) {
                     // Pass the received data to the Move script
                     HandleReceivedData(receivedData);
-                    Debug.Log( "Received data from ZeroF server: " + receivedData);
+                    Debug.Log("Received data from ZeroF server: " + receivedData);
                     break;
                 }
             }
@@ -76,14 +67,14 @@ public class ZeroFClient : MonoBehaviour {
     }
 
     //stop the connection 
-    public void stopConnection() {
+    public void StopConnection() {
         isReceiving = false; // Signal the receiving loop to stop
         Debug.Log("ZeroFClient: stop connection from zeroFClient");
         // Cancel the receive task if the CancellationTokenSource is not null and not disposed
         if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested) {
             _cancellationTokenSource.Cancel(); // Cancel the receive task
         }
-        
+
         // Properly dispose of the UdpClient 
         if (_zeroFClient != null) {
             _zeroFClient.Close();
@@ -98,6 +89,6 @@ public class ZeroFClient : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-        stopConnection();
+        StopConnection();
     }
 }

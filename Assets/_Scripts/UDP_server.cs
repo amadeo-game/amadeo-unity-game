@@ -11,27 +11,28 @@ public enum InputType {
     EmulationMode,
     Amadeo,
 }
-// public enum ServerState {
-//     IsEmulationMode,
-//     IsZeroing,
-//     IsPlay,
-// }
 
 public class UDPServer {
+    readonly int defaultPortNumber = 4444;
     private UdpClient _udpServer;
     private IPEndPoint _remoteEndPoint;
     private Thread _serverThread; // Thread for running the UDP server
     private bool canRunServer = false;
     private int portNumber;
-    private InputType inputType = InputType.Amadeo;
+    private InputType inputType;
     private string emulationDataFile = "Assets/AmadeoRecords/force_data.txt";
-    private bool isPlay = false;
 
-    public UDPServer(int portNumber) {
-        this.portNumber = portNumber;
+    public UDPServer(int portNumber, InputType inputType = InputType.EmulationMode) {
+        // check the port number is valid
+        if (portNumber < 1024 || portNumber > 49151) {
+            Debug.LogError("Invalid port number. Port number must be between 1024 and 49151");
+            portNumber = defaultPortNumber;
+        }
+        else {
+            this.portNumber = portNumber;
+        }
+        this.inputType = inputType;
     }
-
-
 
 
     public bool OpenConnection() {
@@ -39,25 +40,19 @@ public class UDPServer {
             StartServer();
             canRunServer = true;
             Debug.Log("canRunServer: " + canRunServer);
-            
         }
         catch (Exception ex) {
             Debug.LogError($"UDP server error: {ex.Message}");
         }
 
 
-        // Start the server on a new thread
-        //assigning it a method (ServerThreadMethod) that will be executed when the thread starts running.
-
-
         return true;
     }
-    
-    
+
 
     public void StartListeningForGame() {
         if (_serverThread == null || !_serverThread.IsAlive) {
-            _serverThread = new Thread(StartListeningBasedOnInut);
+            _serverThread = new Thread(StartListeningBasedOnInput);
             _serverThread.Start();
         }
     }
@@ -68,13 +63,14 @@ public class UDPServer {
         // _serverThread?.Abort();
     }
 
-    private void StartListeningBasedOnInut() {
+    private void StartListeningBasedOnInput() {
         if (inputType is InputType.EmulationMode) {
             HandleIncomingDataEmu();
         }
         else {
             HandleIncomingDataAmadeo();
         }
+
         Debug.Log("Stopped listening for game data.");
     }
 
@@ -126,7 +122,7 @@ public class UDPServer {
             SendDataToClient(parsedData);
         }
     }
-    
+
 
     private static string ParseDataFromAmadeo(string data) {
         var cleanedData = data.Replace("<Amadeo>", "").Replace("</Amadeo>", "");
@@ -231,15 +227,6 @@ public class UDPServer {
         Debug.Log("UDP_Server: Zeroing forces Completed");
     }
 
-    // public void StopZeroForces() {
-    //     isZeroing = false;
-    //     Debug.Log("Zeroing forces stopped...");
-    // }
-
-    // public void setIsPlay(bool value) {
-    //     isPlay = value;
-    // }
-
     private void SendDataToClient(string data) {
         //send data to udp client at port 8888
         var sendData = Encoding.ASCII.GetBytes(data);
@@ -249,6 +236,7 @@ public class UDPServer {
     public void StopServer() {
         canRunServer = false;
         // Stop the server and clean up resources
+        _serverThread?.Join( 1000); // Wait for the server thread to finish (max 1 second)
         _serverThread?.Abort(); // Abort the server thread
         _udpServer?.Close(); // Close the UDP client
         Debug.Log("UDP server stopped.");
