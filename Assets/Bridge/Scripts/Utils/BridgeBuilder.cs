@@ -32,7 +32,7 @@ public class BridgeBuilder {
         Array.Fill(heightsWithEdges, 0);
         
         Array.Copy( playableUnitsHeights, 0, heightsWithEdges, 1, length);
-        Debug.Log(string.Join(", ", heightsWithEdges));
+        // Debug.Log(string.Join(", ", heightsWithEdges));
         
         
         for (int i = 0; i < heightsWithEdges.Length-1; i++) {

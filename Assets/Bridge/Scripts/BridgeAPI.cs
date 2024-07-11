@@ -10,7 +10,7 @@ namespace BridgePackage {
         public static event Action BridgeIsComplete;
 
         private BridgeStateMachine bridgeStateMachine;
-
+        private  UnitsControl unitsControl;
 
         internal static void NotifyBridgeReady() => BridgeReady?.Invoke();
 
@@ -26,6 +26,7 @@ namespace BridgePackage {
 
         private void Awake() {
             bridgeStateMachine = GetComponent<BridgeStateMachine>();
+            unitsControl = GetComponent<UnitsControl>();
         }
 
         public void BuildBridge() {
@@ -71,6 +72,14 @@ namespace BridgePackage {
 
         public void PauseBridge() {
             throw new NotImplementedException();
+        }
+
+        public void ApplyForces(double[] forces)
+        {
+            if(bridgeStateMachine.currentState == BridgeState.InGame)
+            {
+                unitsControl.ApplyForces(forces);
+            }
         }
     }
 }

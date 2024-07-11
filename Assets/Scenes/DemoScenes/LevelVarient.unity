@@ -880,11 +880,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1625399444970251764, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
   m_PrefabInstance: {fileID: 705867718}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &308954789 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9053538703292718950, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
-  m_PrefabInstance: {fileID: 519663678}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &373827693
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,7 +1101,7 @@ PrefabInstance:
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1439435744}
+      objectReference: {fileID: 1439435747}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 1
@@ -1117,7 +1112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Project
+      value: DemoBridgeHeights, Project
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1506,10 +1501,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9053538703292718950, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1604210440}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
 --- !u!1 &546654588
 GameObject:
@@ -1726,14 +1718,14 @@ PrefabInstance:
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1439435744}
+      objectReference: {fileID: 1439435747}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnValueChanged1
       objectReference: {fileID: 0}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Project
+      value: DemoBridgeHeights, Project
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2190,14 +2182,14 @@ PrefabInstance:
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1439435744}
+      objectReference: {fileID: 1439435747}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnValueChanged3
       objectReference: {fileID: 0}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Project
+      value: DemoBridgeHeights, Project
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3350,6 +3342,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101202092}
   m_CullTransparentMesh: 1
+--- !u!1 &1119002019
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1119002021}
+  - component: {fileID: 1119002020}
+  m_Layer: 0
+  m_Name: Network
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1119002020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119002019}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b29d1a31bbbcb24b9dd1f5dccd92719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputType: 0
+--- !u!4 &1119002021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1119002019}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 881.83875, y: 555.7183, z: -1.8963547}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1145670416
 GameObject:
   m_ObjectHideFlags: 0
@@ -3649,14 +3686,14 @@ PrefabInstance:
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1439435744}
+      objectReference: {fileID: 1439435747}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnValueChanged2
       objectReference: {fileID: 0}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Project
+      value: DemoBridgeHeights, Project
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4213,6 +4250,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1439435745}
   - component: {fileID: 1439435744}
+  - component: {fileID: 1439435747}
+  - component: {fileID: 1439435746}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4310,7 +4349,7 @@ MonoBehaviour:
         m_CallState: 1
   bridgeCollectionSO: {fileID: 0}
   startEndButtons: {fileID: 0}
-  playerUnitsHeights: 0000000000000000000000000000000000000000
+  _udpClient: {fileID: 1439435746}
 --- !u!4 &1439435745
 Transform:
   m_ObjectHideFlags: 0
@@ -4326,6 +4365,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1439435746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439435743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ab73b9de101344ab78baf939284853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bridgeApi: {fileID: 1604210433}
+--- !u!114 &1439435747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439435743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e32107c1404d8274d936aabd55cfe1a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerUnitsHeights: 0000000000000000000000000000000000000000
 --- !u!1 &1477186644
 GameObject:
   m_ObjectHideFlags: 0
@@ -4541,14 +4606,14 @@ PrefabInstance:
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1439435744}
+      objectReference: {fileID: 1439435747}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnValueChanged4
       objectReference: {fileID: 0}
     - target: {fileID: 1625399444970251765, guid: ac3e432dbbc921f4f8a12e70291e5358, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Project
+      value: DemoBridgeHeights, Project
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4560,36 +4625,12 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2260458259387714533, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
   m_PrefabInstance: {fileID: 519663678}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308954789}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0b44db0e96519240a03f09b208c7f81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1604210436 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1110752615264533323, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
-  m_PrefabInstance: {fileID: 519663678}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308954789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d712f23ac6649e4459b63a3d309e9f48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1604210440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 308954789}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ab73b9de101344ab78baf939284853, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitsControl: {fileID: 1604210436}
 --- !u!1 &1607134772
 GameObject:
   m_ObjectHideFlags: 0
@@ -5422,10 +5463,11 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2112876719}
+  - {fileID: 1439435745}
   - {fileID: 519663678}
   - {fileID: 2592104}
   - {fileID: 1204521820}
   - {fileID: 757673530}
   - {fileID: 1851966347}
-  - {fileID: 1439435745}
   - {fileID: 824438752}
+  - {fileID: 1119002021}

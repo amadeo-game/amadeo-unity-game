@@ -2,8 +2,10 @@ using System;
 using UnityEngine;
 
 namespace BridgePackage {
-    public class UnitsControl : MonoBehaviour {
+    internal class UnitsControl : MonoBehaviour {
         [SerializeField] private InputReader inputReader;
+        private float MaxHeight { get; set; } = 5f;
+
         private bool isUnitsSet = false;
 
         private Transform unit1Transform;
@@ -124,59 +126,75 @@ namespace BridgePackage {
             if (!isUnitsSet) return;
 
             // Use the forces to move the units
-            MoveUnit(rb1, unit1Transform, previous1MovementInput.y, unitForces[0]);
-            MoveUnit(rb2, unit2Transform, previous2MovementInput.y, unitForces[1]);
-            MoveUnit(rb3, unit3Transform, previous3MovementInput.y, unitForces[2]);
-            MoveUnit(rb4, unit4Transform, previous4MovementInput.y, unitForces[3]);
-            MoveUnit(rb5, unit5Transform, previous5MovementInput.y, unitForces[4]);
+            MoveUnit(rb1, unit1Transform, unitForces[0]);
+            MoveUnit(rb2, unit2Transform, unitForces[1]);
+            MoveUnit(rb3, unit3Transform, unitForces[2]);
+            MoveUnit(rb4, unit4Transform, unitForces[3]);
+            MoveUnit(rb5, unit5Transform, unitForces[4]);
         }
 
         // Modified MoveUnit to use both input and forces
-        private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float inputY, float forceY) {
+        private void MoveUnit(Rigidbody2D rb, Transform unitTransform, float forceY) {
             if (rb == null) return;
-                        
+            float MVC_Value = 1f;
+            // Validate forceY to ensure it is a valid number
+            if (float.IsNaN(forceY) || float.IsInfinity(forceY)) {
+                Debug.LogError($"Invalid force value: {forceY}");
+                return;
+            }
+
             // Calculate the new target position
             // Vector2 targetPosition = new Vector2(unitTransform.position.x,
             //     unitTransform.position.y + inputY * MoveSpeed + forceY * MoveSpeed);// Apply both input and force
+            // Vector2 targetPosition = new Vector2(unitTransform.position.x,
+            //     forceY * MVC_Value);// Apply both input and force    
+            float targetY = Mathf.Clamp(forceY * maxHeight, -maxHeight, maxHeight);
+
+
             Vector2 targetPosition = new Vector2(unitTransform.position.x,
-                forceY * MoveSpeed);// Apply both input and force    
+                targetY); // Apply both input and force    
+
+
+            // Calculate the new target position
+            // Vector2 targetPosition = new Vector2(unitTransform.position.x, targetY);
+
             Vector2 currentPosition = rb.position;
 
             // Lerp the position for smooth movement
-            Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime);
+            // Vector2 newPosition = Vector2.Lerp(currentPosition, targetPosition, Time.fixedDeltaTime);
 
             // Apply the new position
-            rb.MovePosition(newPosition);
+            // rb.MovePosition(newPosition);
+            rb.MovePosition(targetPosition);
         }
 
-        float MoveSpeed { get; set; } = 0.5f;
 
         // Method to apply forces received from UDPClient
-        public void ApplyForces(double[] forces)
-        {
-            if (forces.Length != 10)
-            {
+        public void ApplyForces(double[] forces) {
+            if (forces.Length != 10) {
                 Debug.LogError("Invalid forces array length. Expected 10 forces.");
                 return;
             }
 
             // Map forces to the units. The first 5 are for left units.
-            if (isLeftHand)
-            {
-                for (int i = 0; i <5  ;i++)
-                {
+            if (isLeftHand) {
+                for (int i = 0; i < 5; i++) {
                     unitForces[i] = (float)forces[i];
                 }
             }
-            else
-            {
-                for (int i = 0, j = 5; i <5 && j< forces.Length  ;i++, j++)
-                {
+            else {
+                for (int i = 0, j = 5; i < 5 && j < forces.Length; i++, j++) {
                     unitForces[i] = (float)forces[j];
                 }
             }
+
+            // Validate the forces to ensure none are NaN
+            for (int i = 0; i < unitForces.Length; i++) {
+                if (float.IsNaN(unitForces[i]) || float.IsInfinity(unitForces[i])) {
+                    Debug.LogError($"Invalid force value at index {i}: {unitForces[i]}");
+                    unitForces[i] = 0; // Reset to zero or another default value
+                }
             }
-        
-        
+        }
     }
 }
