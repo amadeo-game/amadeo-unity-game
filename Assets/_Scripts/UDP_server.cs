@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public enum InputType {
@@ -19,6 +20,8 @@ public class UDPServer {
     private Thread _serverThread; // Thread for running the UDP server
     private bool canRunServer = false;
     private int portNumber;
+    IPAddress ipAddress = IPAddress.Parse("10.100.4.30");
+
     private InputType inputType;
     private string emulationDataFile = "Assets/AmadeoRecords/force_data.txt";
 
@@ -96,8 +99,12 @@ public class UDPServer {
     private void StartServer() {
         Debug.Log("port number is: " + this.portNumber);
         // Receive data from Amadeo device on given port 
-        _udpServer = new UdpClient(portNumber);
-        _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        _udpServer = new UdpClient();
+        //_udpServer.MulticastLoopback = true;
+        _udpServer.Client.Bind(new IPEndPoint(ipAddress, portNumber));
+        _remoteEndPoint = new IPEndPoint(IPAddress.Any, portNumber);
+
+        //_remoteEndPoint = new IPEndPoint(IPAddress.Any, 0);
         Debug.Log("UDP server started. Listening for data from Amadeo device...");
     }
 
@@ -130,6 +137,9 @@ public class UDPServer {
 
         while (canRunServer) {
             string line;
+            //IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, portNumber);
+            Debug.Log($"HandleIncomingDataAmadeo:: Receiving data... from {_remoteEndPoint}");
+
             var data = _udpServer.Receive(ref _remoteEndPoint);
             line = Encoding.ASCII.GetString(data);
             Debug.Log($"Received data: {line} from {_remoteEndPoint}");
@@ -173,6 +183,7 @@ public class UDPServer {
             int i = 0;
             while (canRunServer && i < numOfLinesToRead) {
                 string line = "";
+                Debug.Log($"HandleZeroF() :: Getting data for ZeroF: {line} from {_remoteEndPoint}");
 
                 var data = _udpServer.Receive(ref _remoteEndPoint);
                 line = Encoding.ASCII.GetString(data);
@@ -249,7 +260,8 @@ public class UDPServer {
     private void SendDataToClient(string data) {
         //send data to udp client at port 8888
         var sendData = Encoding.ASCII.GetBytes(data);
-        _udpServer.Send(sendData, sendData.Length, new IPEndPoint(IPAddress.Loopback, 8888));
+        
+        _udpServer.Send(sendData, sendData.Length, new IPEndPoint(IPAddress.Parse("10.100.4.30"), 8888));
     }
 
     public void StopServer() {
