@@ -64,7 +64,6 @@ MonoBehaviour:
   playerUnitsHeights: 0400000003000000010000000000000001000000
   bridgePlayerUnitPrefab: {fileID: 8013087683977091220, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
   playerUnitPlaceHolder: {fileID: 2623655007605706028, guid: a68ff5b2b4b06244da461d03cca05df6, type: 3}
-  bridgeCollectionSO: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
   bridgeRiseDownOffset: 12
 --- !u!114 &1110752615264533323
 MonoBehaviour:
@@ -79,7 +78,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: b8fff6997de5bb94582f51aba308478b, type: 2}
-  maxHeight: 4
 --- !u!114 &7585684475137183281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,7 +92,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   riseAndFallCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

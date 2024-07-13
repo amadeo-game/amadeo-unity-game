@@ -18,10 +18,11 @@ namespace BridgePackage {
 
         [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
         private int[] playerUnitsHeights = new int[NumBridgeUnits];
-
-        [SerializeField] private GameObject bridgePlayerUnitPrefab;
+        
         [SerializeField] private GameObject playerUnitPlaceHolder;
-        [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
+
+        // [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
+        [SerializeField] private BridgeTypeSO bridgeTypeSO;
 
 
         [SerializeField, Tooltip("x-axis value from where the bridge will rise"), Min(0)]
@@ -51,11 +52,10 @@ namespace BridgePackage {
             }
         }
 
-        private void OnForceResetWithHeights(int[] unitHeights, BridgeCollectionSO collectionSO = null,
-            int bridgeTypeIndex = 0) {
+        private void OnForceResetWithHeights(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
             DisableUnitsControl();
             OnDestroyBridge();
-            BuildBridgeWithHeights(unitHeights, collectionSO, bridgeTypeIndex);
+            BuildBridgeWithHeights(unitHeights, bridgeTypeSO);
         }
 
         private void OnDisable() {
@@ -77,7 +77,6 @@ namespace BridgePackage {
             unitsControl.SetPlayerUnits(playerUnits);
         }
 
-        private int chosenSpriteCollection = 0;
         private UnitsControl unitsControl;
 
 
@@ -94,21 +93,13 @@ namespace BridgePackage {
             stateMachine.Initialize(bridgeMediator);
         }
 
-        private void BuildBridgeWithHeights(int[] unitsHeights, BridgeCollectionSO collectionSO = null,
-            int bridgeTypeIndex = 0) {
-            if (collectionSO != null) {
-                bridgeCollectionSO = collectionSO;
+        private void BuildBridgeWithHeights(int[] unitsHeights, BridgeTypeSO BridgeTypeSO = null) {
+            if (BridgeTypeSO != null) {
+                bridgeTypeSO = BridgeTypeSO;
             }
 
-            if (bridgeTypeIndex >= bridgeCollectionSO.BridgeTypes.Length) {
-                Debug.LogError("Bridge Type Index is out of range.");
-                return;
-            }
 
             SetPlayerHeights(unitsHeights);
-
-            chosenSpriteCollection = bridgeTypeIndex;
-
             BuildBridge();
         }
 
@@ -152,12 +143,12 @@ namespace BridgePackage {
 
             // Get the positions of the player units on the bridge
             Vector2[] playerUnitsPositions = GetBridgePlayerPositions(playerUnitsHeights);
-
+            PlayableUnit playerUnit = bridgeTypeSO.GetPlayableUnitPrefab;
             // Generate the player units as GameObjects
             playerUnits = BuildPlayerUnits(
                 bridge: bridgeHolder,
                 playableUnitsPositions: playerUnitsPositions,
-                playerUnitPrefab: bridgePlayerUnitPrefab,
+                playerUnitPrefab: playerUnit.PlayerUnit,
                 bridgeRiseYOffset: bridgeRiseDownOffset);
 
             foreach (var unit in playerUnits) {
@@ -174,15 +165,8 @@ namespace BridgePackage {
             playerGuideUnits = BuildGuideUnits(
                 bridge: bridgeHolder,
                 playableUnitsPositions: playerUnitsPositions,
-                playerUnitPlaceHolder: playerUnitPlaceHolder);
-
-
-            SpriteUnit playerUnitSprite = bridgeCollectionSO.BridgeTypes[chosenSpriteCollection]
-                .BridgeSpritesCollections
-                .PlayerUnitSprite;
-
-            ReplacePUnitSprite(playerUnitSprite, playerUnits, playerGuideUnits);
-
+                playerUnitPlaceHolder: playerUnit.GuideUnit);
+            
             SetPlayerUnitsFingers(FingerUnits, playerUnits);
 
 
@@ -190,14 +174,9 @@ namespace BridgePackage {
 
             GameObject[] bridgeEnvUnits = GenerateBridgeEnvironment(
                 unitPropertiesArray: bridgeEnvMeasures,
-                bridgeCollectionSO.BridgeTypes[chosenSpriteCollection],
+                bridgeTypeSO,
                 bridgeHolder,
                 bridgeRiseDownOffset);
-
-            ReplaceEnvSprites(
-                bridgeEnvUnits: bridgeEnvUnits,
-                spriteUnit: bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections
-                    .EnvironmentSprites[0]);
 
             // Sequenced bridge units is comfortable for sequence animation
             totalBridgeUnits = GetSequencedBridgeUnits(playerUnits, bridgeEnvUnits);

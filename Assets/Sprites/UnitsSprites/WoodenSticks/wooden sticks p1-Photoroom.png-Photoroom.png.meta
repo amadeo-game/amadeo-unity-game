@@ -642,13 +642,13 @@ TextureImporter:
       name: wooden sticks p1-Photoroom.png-Photoroom_23
       rect:
         serializedVersion: 2
-        x: 6
+        x: 7
         y: 770
-        width: 34
-        height: 108
+        width: 31
+        height: 107
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 27, z: 8, w: 27}
       outline: []
       physicsShape: []
       tessellationDetail: 0

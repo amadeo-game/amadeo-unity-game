@@ -16,9 +16,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] BridgeCollectionSO bridgeCollectionSO;
 
     [SerializeField] private StartEndButtons startEndButtons; // temp for demoUI handling.
-    
-    [SerializeField] private UDPClient _udpClient;
-    
+
     // For Demo Purpose
     DemoBridgeHeights demoBridgeHeights;
 
@@ -29,8 +27,6 @@ public class GameManager : MonoBehaviour {
 
         demoBridgeHeights = GetComponent<DemoBridgeHeights>();
     }
-
-
 
 
     private void OnEnable() {
@@ -59,29 +55,21 @@ public class GameManager : MonoBehaviour {
         }
 
         Debug.Log("Start listening for game data from client");
-        _udpClient.StartReceiveData(); // Start receiving data from the client
     }
 
 
     public void BuildBridgeWithHeights(int bridgeTypeIndex) {
         startEndButtons?.DisableButtons();
+        GetComponent<LevelManager>().bridgeTypeIndex = bridgeTypeIndex;
+        Debug.Log("Level Manager Type Index is :: " + GetComponent<LevelManager>().bridgeTypeIndex);
         _buildBridgeWithHeights.Invoke(demoBridgeHeights.GetPlayerUnitsHeights(), bridgeCollectionSO, bridgeTypeIndex);
     }
 
     public void EndGameInvoke() {
         _endGame.Invoke();
-
-        StopListeningToData();
     }
 
     private void StopListeningToData() {
-        try {
-            _udpClient.StopReceiveData(); // Stop receiving data from the client
-        }
-        catch (Exception ex) {
-            Debug.LogError($"Error stopping UDP client: {ex.Message}");
-        }
-
         try {
             ServerAPI.Instance.StopListeningForGame();
         }
@@ -95,6 +83,4 @@ public class GameManager : MonoBehaviour {
 
         StopListeningToData();
     }
-    
-
 }

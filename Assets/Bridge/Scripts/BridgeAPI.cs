@@ -38,7 +38,7 @@ namespace BridgePackage {
             The first element is the height of the first unit, the second element is the height of the second unit, and so on.
             The height of each unit must be between 0 and 5.
         */
-        public void BuildBridge(int[] unitHeights, BridgeCollectionSO collectionSO = null, int bridgeTypeIndex = 0) {
+        public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
             if (unitHeights.Length != 5) {
                 throw new ArgumentException("unitHeights must have 5 elements.");
             }
@@ -47,7 +47,7 @@ namespace BridgePackage {
                 throw new ArgumentException("The height of each unit must be between 0 and 5.");
             }
             Debug.Log("Building");
-            bridgeStateMachine.StartBuilding(unitHeights, collectionSO, bridgeTypeIndex);
+            bridgeStateMachine.StartBuilding(unitHeights, bridgeTypeSO);
         }
 
         public void EnableGameUnits() {

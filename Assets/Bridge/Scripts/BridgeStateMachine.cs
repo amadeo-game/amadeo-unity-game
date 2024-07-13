@@ -66,14 +66,13 @@ namespace BridgePackage {
             }
         }
 
-        internal void StartBuilding(int[] unitHeights, BridgeCollectionSO collectionSO = null,
-            int bridgeTypeIndex = 0) {
+        internal void StartBuilding(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
             if (currentState == BridgeState.Idle) {
                 currentState = BridgeState.Building;
-                bridgeMediator?.BuildStart(unitHeights, collectionSO, bridgeTypeIndex);
+                bridgeMediator?.BuildStart(unitHeights, bridgeTypeSO);
             }
             else if (CanForceReset) {
-                bridgeMediator?.ForceResetBridge(unitHeights, collectionSO, bridgeTypeIndex);
+                bridgeMediator?.ForceResetBridge(unitHeights, bridgeTypeSO);
                 currentState = BridgeState.Building;
             }
         }

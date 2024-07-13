@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnvUnit1v0_woodenVar Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 1906983918303313059, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1615710911, guid: 264393095fc71d345b4e122d20543600, type: 3}
     - target: {fileID: 1909668385163808689, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -51,6 +55,26 @@ PrefabInstance:
     - target: {fileID: 1909668385163808689, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516908129404275360, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516908129404275360, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516908129404275360, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.53729963
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516908129404275360, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.8433915
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516908129404275360, guid: 9bc634d14c72502489cad695dd8e5807, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 115
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
