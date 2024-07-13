@@ -20,16 +20,16 @@ public class ZeroFButton : MonoBehaviour {
         
         
         
-        // bool isServerListening = ServerAPI.Instance.StartZeroF();
-        //
-        // if (!isServerListening) {
-        //     Debug.LogError("ZeroF server Connection failed");
-        //     return;
-        // }
-        //
-        // Debug.Log("ZeroF server Connection established");
-        // _zeroFClient.StartReceiveData();
-        // ServerAPI.Instance.StartZeroF();
+       bool isServerListening = ServerAPI.Instance.StartZeroF();
+        
+        if (!isServerListening) {
+             Debug.LogError("ZeroF server Connection failed");
+             return;
+         }
+        
+         Debug.Log("ZeroF server Connection established");
+         _zeroFClient.StartReceiveData();
+         ServerAPI.Instance.StartZeroF();
     }
 
 

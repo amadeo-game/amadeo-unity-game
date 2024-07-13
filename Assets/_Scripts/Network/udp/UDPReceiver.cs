@@ -1,48 +1,81 @@
-using System;
+using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+using System.Threading;
+using System;
 
 public class UDPReceiver : MonoBehaviour
 {
     private UdpClient udpClient;
-    private Task receiveTask;
-    private bool canReceive = true;
-    private int localPort = 4444; // The port your robot sends data to
+    private Thread receiveThread;
+    private bool running;
+    private IPAddress ipAddress = IPAddress.Parse("10.100.4.30");
+    private int port = 4444;
 
     void Start()
     {
-        udpClient = new UdpClient(localPort); // Bind to the local port to listen for incoming data
-        receiveTask = Task.Run(() => ReceiveData());
+        running = true;
+        receiveThread = new Thread(ReceiveData);
+        receiveThread.Start();
+        Debug.Log("Receiver thread started.");
     }
 
-    void OnDestroy()
+    void OnApplicationQuit()
     {
-        canReceive = false; // Stop the receive loop
-        receiveTask.Wait(); // Wait for the receive task to finish
-        udpClient.Close();
-        
+        running = false;
+        udpClient?.Close();
+        receiveThread?.Abort();
+        Debug.Log("Application quitting. UDP client closed and receive thread aborted.");
     }
 
-    private async void ReceiveData()
+    private void ReceiveData()
     {
-        // IPEndPoint remoteEP = new IPEndPoint(IPAddress.Any, localPort); // Listen on all network interfaces
-        Debug.Log("Listening for data on port " + localPort + "...");
-
-        while (canReceive)
+        try
         {
-            try
+            Debug.Log("Initializing UdpClient...");
+            udpClient = new UdpClient();
+            //udpClient.MulticastLoopback = true;
+
+            // Bind to the specified port
+            udpClient.Client.Bind(new IPEndPoint(ipAddress, port));
+            Debug.Log($"Bound to {ipAddress}:{port}");
+
+            IPEndPoint remoteEndPoint = new IPEndPoint(IPAddress.Any, port);
+            Debug.Log("Starting receive loop...");
+
+            while (running)
             {
-                UdpReceiveResult result = await udpClient.ReceiveAsync();
-                string receivedText = Encoding.ASCII.GetString(result.Buffer);
-                Debug.Log("Received data from " + result.RemoteEndPoint.ToString() + ": " + receivedText);
+                try
+                {
+                    byte[] receivedData = udpClient.Receive(ref remoteEndPoint);
+                    string receivedString = Encoding.ASCII.GetString(receivedData);
+                    Debug.Log($"Received raw data (hex): {BitConverter.ToString(receivedData)}");
+                    Debug.Log($"Received from {remoteEndPoint}: {receivedString}");
+                }
+                catch (SocketException ex)
+                {
+                    if (ex.SocketErrorCode == SocketError.Interrupted)
+                    {
+                        Debug.Log("Receive operation was interrupted.");
+                        break;
+                    }
+                    Debug.LogError($"SocketException: {ex.Message}");
+                }
+                catch (ObjectDisposedException)
+                {
+                    Debug.Log("UdpClient has been closed, stopping receive loop.");
+                    break;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"ReceiveData Exception: {e.Message}");
+                }
             }
-            catch (Exception e)
-            {
-                Debug.LogError(e.ToString());
-            }
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"Initialization Exception: {e.Message}");
         }
     }
 }

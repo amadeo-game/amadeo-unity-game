@@ -14,13 +14,15 @@ public class ServerAPI : MonoBehaviour {
 
 
     private void Awake() {
+
+        
         if (Instance == null) {
             Instance = this;
             DontDestroyOnLoad(Instance.gameObject);
             // create new game object UDPReceiver
         
-            GameObject udpReceiver = new GameObject("UDPReceiver");
-            udpReceiver.AddComponent<UDPReceiver>();
+            //GameObject udpReceiver = new GameObject("UDPReceiver");
+            //udpReceiver.AddComponent<UDPReceiver>();
             InitServer();
         }
         else {
@@ -32,11 +34,11 @@ public class ServerAPI : MonoBehaviour {
     private void InitServer() {
 
         
-        // Debug.Log("Initializing Server");
-        // portNumber = PlayerPrefs.GetInt("portNumber", 4444);
-        // Debug.Log("ServerAPI: Port Number: " + portNumber);
-        // udpServer = new UDPServer(portNumber, inputType);
-        // isServerConnected = udpServer.OpenConnection(); // Start the UDP server
+         Debug.Log("Initializing Server");
+         portNumber = PlayerPrefs.GetInt("portNumber", 4444);
+         Debug.Log("ServerAPI: Port Number: " + portNumber);
+         udpServer = new UDPServer(portNumber, inputType);
+         isServerConnected = udpServer.OpenConnection(); // Start the UDP server
     }
 
     private void OnEnable() {
@@ -51,6 +53,7 @@ public class ServerAPI : MonoBehaviour {
     }
 
     public bool StartZeroF() {
+        Debug.Log("zero");
         if (!isServerConnected) {
             Debug.LogError("ZeroF server Connection failed");
             return false;
