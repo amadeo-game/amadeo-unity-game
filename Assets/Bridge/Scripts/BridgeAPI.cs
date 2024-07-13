@@ -46,13 +46,6 @@ namespace BridgePackage {
             if (Array.Exists(unitHeights, height => height < 0 || height > 5)) {
                 throw new ArgumentException("The height of each unit must be between 0 and 5.");
             }
-
-            // if (!bridgeStateMachine.CanBuild) {
-            //     return;
-            // }
-            // if (bridgeStateMachine.CanForceReset) {
-            //     ResetBridge();
-            // }
             Debug.Log("Building");
             bridgeStateMachine.StartBuilding(unitHeights, collectionSO, bridgeTypeIndex);
         }

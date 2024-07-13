@@ -17,8 +17,7 @@ namespace BridgePackage {
         private const int NumBridgeUnits = 5;
 
         [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
-        private int[] playerUnitsHeights = new int[NumBridgeUnits]; // Set this in the Inspector
-
+        private int[] playerUnitsHeights = new int[NumBridgeUnits];
 
         [SerializeField] private GameObject bridgePlayerUnitPrefab;
         [SerializeField] private GameObject playerUnitPlaceHolder;
