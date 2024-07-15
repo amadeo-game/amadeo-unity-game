@@ -22,7 +22,6 @@ namespace BridgePackage {
         public event Action OnSuccessStart;
         public event Action<int[], BridgeTypeSO> OnForceResetBridge;
 
-        // public IBridgeState currentState { get; private set; }
         public BridgeStates currentState { get; private set; }
 
         private Dictionary<FingerUnit, bool> unitPlacementStatus;
@@ -31,14 +30,6 @@ namespace BridgePackage {
             currentState = BridgeStates.Idle;
             unitPlacementStatus = new Dictionary<FingerUnit, bool>();
         }
-
-
-        // public void ChangeState(IBridgeState newState)
-        // {
-        //     currentState?.Exit(this);
-        //     currentState = newState;
-        //     currentState?.Enter(this);
-        // }
 
         public void ChangeState(BridgeStates state) {
             currentState = state;
@@ -61,7 +52,7 @@ namespace BridgePackage {
                     StartCollapsingBridge();
                     break;
                 case BridgeStates.GameFailed:
-                    BridgeAPI.NotifyBridgeCollapsed();
+                    BridgeAPI.NotifyBridgeCollapsing();
 
                     break;
                 case BridgeStates.BridgeComplete:

@@ -7,7 +7,10 @@ namespace BridgePackage {
         public static event Action BridgeReady;
         public static event Action OnGameStart;
         public static event Action BridgeCollapsed;
+
+        public static event Action FailedSession;
         public static event Action BridgeIsComplete;
+        public static event Action WonSession;
 
         private BridgeStateMachine bridgeStateMachine;
         private UnitsControl unitsControl;
@@ -28,8 +31,14 @@ namespace BridgePackage {
 
         internal static void NotifyBridgeReady() => BridgeReady?.Invoke();
         internal static void NotifyGameStart() => OnGameStart?.Invoke();
-        internal static void NotifyBridgeCollapsed() => BridgeCollapsed?.Invoke();
+        internal static void NotifyBridgeCollapsing() => BridgeCollapsed?.Invoke();
+        
+        internal static void NotifyBridgeFailure() => FailedSession?.Invoke();
+        
         internal static void NotifyBridgeIsComplete() => BridgeIsComplete?.Invoke();
+        
+        internal static void NotifyBridgeIsWin() => WonSession?.Invoke();
+
 
         public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
             if (unitHeights.Length != 5) {
