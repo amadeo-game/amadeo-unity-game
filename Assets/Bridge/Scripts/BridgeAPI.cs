@@ -7,7 +7,6 @@ namespace BridgePackage {
         public static event Action BridgeReady;
         public static event Action OnGameStart;
         public static event Action BridgeCollapsed;
-
         public static event Action FailedSession;
         public static event Action BridgeIsComplete;
         public static event Action WonSession;
@@ -21,10 +20,12 @@ namespace BridgePackage {
             if (instance == null) {
                 instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else {
+            }
+            else {
                 Destroy(gameObject);
                 return;
             }
+
             bridgeStateMachine = GetComponent<BridgeStateMachine>();
             unitsControl = GetComponent<UnitsControl>();
         }
@@ -32,15 +33,12 @@ namespace BridgePackage {
         internal static void NotifyBridgeReady() => BridgeReady?.Invoke();
         internal static void NotifyGameStart() => OnGameStart?.Invoke();
         internal static void NotifyBridgeCollapsing() => BridgeCollapsed?.Invoke();
-        
         internal static void NotifyBridgeFailure() => FailedSession?.Invoke();
-        
         internal static void NotifyBridgeIsComplete() => BridgeIsComplete?.Invoke();
-        
         internal static void NotifyBridgeIsWin() => WonSession?.Invoke();
 
-
-        public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
+        public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion,
+            float[] mvcValues, bool[] playableUnits, float timeDuration) {
             if (unitHeights.Length != 5) {
                 throw new ArgumentException("unitHeights must have 5 elements.");
             }
@@ -48,11 +46,15 @@ namespace BridgePackage {
             if (Array.Exists(unitHeights, height => height < 0 || height > 5)) {
                 throw new ArgumentException("The height of each unit must be between 0 and 5.");
             }
-            bridgeStateMachine.StartBuilding(unitHeights, bridgeTypeSO);
+
+            bridgeStateMachine.SetGameParameters(unitHeights, bridgeTypeSO, isLeftHand, isFlexion, mvcValues,
+                playableUnits, timeDuration);
+            bridgeStateMachine.StartBuilding();
+            Debug.Log("BridgeAPI: BuildBridge called");
         }
 
-        public void EnableGameUnits() {
-            bridgeStateMachine.ChangeState(BridgeStates.InGame);
+        public void EnableGameUnits(bool doZeroF) {
+            bridgeStateMachine.ChangeState(doZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
         }
 
         public void CollapseBridge() {
@@ -68,12 +70,21 @@ namespace BridgePackage {
             throw new NotImplementedException();
         }
 
-        public void ApplyForces(double[] forces)
-        {
-            if (bridgeStateMachine.currentState is BridgeStates.InGame)
-            {
+        public void ApplyForces(double[] forces) {
+            if (bridgeStateMachine.currentState is BridgeStates.InGame) {
                 unitsControl.ApplyForces(forces);
             }
         }
+
+        public SessionData GetSessionData() {
+            throw new NotImplementedException();
+        }
+    }
+    
+    public struct SessionData
+    {
+        public int[] heights;
+        public float[] highestYPositions;
+        public bool success;
     }
 }

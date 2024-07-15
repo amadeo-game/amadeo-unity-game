@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 1110752615264533323}
   - component: {fileID: 7585684475137183281}
   - component: {fileID: 4068891930178062337}
+  - component: {fileID: 1501635421118347312}
+  - component: {fileID: 8619089270259660289}
   - component: {fileID: 2260458259387714533}
   m_Layer: 0
   m_Name: BridgeGenerator
@@ -62,8 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerUnitsHeights: 0400000003000000010000000000000001000000
-  bridgePlayerUnitPrefab: {fileID: 8013087683977091220, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
-  playerUnitPlaceHolder: {fileID: 2623655007605706028, guid: a68ff5b2b4b06244da461d03cca05df6, type: 3}
+  bridgeTypeSO: {fileID: 0}
   bridgeRiseDownOffset: 12
 --- !u!114 &1110752615264533323
 MonoBehaviour:
@@ -77,7 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d712f23ac6649e4459b63a3d309e9f48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputReader: {fileID: 11400000, guid: b8fff6997de5bb94582f51aba308478b, type: 2}
 --- !u!114 &7585684475137183281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,33 +114,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  shakeIntensityCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  shakeDuration: 2
   riseAnimDuration: 0.1
-  collapseAnimDuration: 0.1
+  fallAnimDuration: 2
   successAnimDuration: 0.1
 --- !u!114 &4068891930178062337
 MonoBehaviour:
@@ -154,6 +129,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75fed3074ccae3846bf81393abbd7182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1501635421118347312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053538703292718950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64ae8d804fdb1da45b49ba50d8cf32da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8619089270259660289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053538703292718950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b325508af740ce04d9151a59fdf207d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameTime: 60
 --- !u!114 &2260458259387714533
 MonoBehaviour:
   m_ObjectHideFlags: 0

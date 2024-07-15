@@ -6,7 +6,7 @@ public interface IBridgeAPI {
     static event Action BridgeCollapsed;
     static event Action BridgeIsComplete;
 
-    void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null);
+    void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion, float[] mvcValues, bool[] playableUnits, float timeDuration);
     void CollapseBridge();
 
     void CompleteBridge();

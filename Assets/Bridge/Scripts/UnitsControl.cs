@@ -8,6 +8,10 @@ namespace BridgePackage
     public class UnitsControl : MonoBehaviour
     {
         private GameObject[] playerUnits;
+        private SessionData sessionData;
+        private float[] leftHandHighestY = new float[5];
+        private float[] rightHandHighestY = new float[5];
+        private bool hasPlayed;
         private bool isLeft;
 
         /// <summary>
@@ -46,9 +50,11 @@ namespace BridgePackage
                 for (int i = 5; i < len; i++) {
                     if (isLeft) {
                         forcesByHand[len - i] = forces[i];
+                        leftHandHighestY[len - i] = Mathf.Max((float)forces[i], leftHandHighestY[len - i]);
                     }
                     else {
                         forcesByHand[i - 5] = forces[i];
+                        rightHandHighestY[i - 5] = Mathf.Max((float)forces[i], rightHandHighestY[i - 5]);
                     }
                 }
 

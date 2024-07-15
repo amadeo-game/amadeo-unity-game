@@ -38,7 +38,6 @@ namespace BridgePackage
             stateMachine.OnBuildStartWithHeights += BuildBridgeWithHeights;
             stateMachine.OnEnablePlayerUnits += EnableUnitsControl;
             stateMachine.OnCollapseStart += OnBridgeFailed;
-            // stateMachine.OnCollapseComplete += OnDestroyBridge;
             stateMachine.OnSuccessStart += AnimateSuccess;
             stateMachine.OnForceResetBridge += OnForceResetWithHeights;
         }
@@ -48,7 +47,6 @@ namespace BridgePackage
             stateMachine.OnBuildStartWithHeights -= BuildBridgeWithHeights;
             stateMachine.OnEnablePlayerUnits -= EnableUnitsControl;
             stateMachine.OnCollapseStart -= OnBridgeFailed;
-            // stateMachine.OnCollapseComplete -= OnDestroyBridge;
             stateMachine.OnSuccessStart -= AnimateSuccess;
             stateMachine.OnForceResetBridge -= OnForceResetWithHeights;
         }

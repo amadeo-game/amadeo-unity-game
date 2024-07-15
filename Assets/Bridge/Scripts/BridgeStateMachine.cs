@@ -8,6 +8,7 @@ namespace BridgePackage {
         Idle,
         Building,
         BridgeReady,
+        InZeroF,
         InGame,
         Collapse,
         GameFailed,
@@ -23,56 +24,73 @@ namespace BridgePackage {
         public event Action<int[], BridgeTypeSO> OnForceResetBridge;
 
         public BridgeStates currentState { get; private set; }
-
+        
         private Dictionary<FingerUnit, bool> unitPlacementStatus;
+        private BridgeTimer timer;
+        private int[] unitHeights;
+        private BridgeTypeSO bridgeTypeSO;
+        private bool isLeftHand;
+        private bool isFlexion;
+        private float[] mvcValues;
+        private bool[] playableUnits;
+        private float timeDuration;
 
         private void Awake() {
             currentState = BridgeStates.Idle;
             unitPlacementStatus = new Dictionary<FingerUnit, bool>();
+            timer = GetComponent<BridgeTimer>();
+            timer.OnTimerComplete += HandleTimerComplete;
+        }
+
+        private void HandleTimerComplete()
+        {
+            if (currentState == BridgeStates.InGame)
+            {
+                ChangeState(BridgeStates.Collapse);
+            }
         }
 
         public void ChangeState(BridgeStates state) {
             currentState = state;
             switch (state) {
                 case BridgeStates.Idle:
-
                     break;
                 case BridgeStates.Building:
-
                     break;
                 case BridgeStates.BridgeReady:
                     BridgeAPI.NotifyBridgeReady();
                     break;
+                case BridgeStates.InZeroF:
+                    
+                    break;
                 case BridgeStates.InGame:
-                    Debug.Log("InGameState::Enter");
                     StartGame();
                     BridgeAPI.NotifyGameStart();
+                    timer.StartTimer(timeDuration); // Start the timer with the configured duration
                     break;
                 case BridgeStates.Collapse:
                     StartCollapsingBridge();
                     break;
                 case BridgeStates.GameFailed:
                     BridgeAPI.NotifyBridgeCollapsing();
-
                     break;
                 case BridgeStates.BridgeComplete:
                     StartCompleteBridge();
                     break;
                 case BridgeStates.GameWon:
                     BridgeAPI.NotifyBridgeIsComplete();
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
 
-        public void StartBuilding(int[] heights, BridgeTypeSO bridgeTypeSO) {
+        public void StartBuilding() {
             if (currentState is not (BridgeStates.Idle or BridgeStates.BridgeReady or BridgeStates.GameFailed or BridgeStates.GameWon)) {
                 return;
             }
 
-            OnBuildStartWithHeights?.Invoke(heights, bridgeTypeSO);
+            OnBuildStartWithHeights?.Invoke(unitHeights, this.bridgeTypeSO);
             ChangeState(BridgeStates.Building);
         }
 
@@ -87,7 +105,7 @@ namespace BridgePackage {
             var unitsControl = GetComponent<UnitsControl>();
             unitsControl.DisableControl();
 
-
+            timer.ResetTimer(); // Stop and reset the timer
 
             OnSuccessStart?.Invoke();
         }
@@ -98,6 +116,8 @@ namespace BridgePackage {
 
             var bridgeClient = GetComponent<BridgeClient>();
             bridgeClient.StopReceiveData();
+
+            timer.ResetTimer(); // Stop and reset the timer
 
             OnCollapseStart?.Invoke();
         }
@@ -116,6 +136,17 @@ namespace BridgePackage {
                 StartCompleteBridge();
                 ChangeState(BridgeStates.BridgeComplete);
             }
+        }
+
+        public void SetGameParameters(int[] heights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion, float[] mvcValues, bool[] playableUnits, float timeDuration)
+        {
+            this.unitHeights = heights;
+            this.bridgeTypeSO = bridgeTypeSO;
+            this.isLeftHand = isLeftHand;
+            this.isFlexion = isFlexion;
+            this.mvcValues = mvcValues;
+            this.playableUnits = playableUnits;
+            this.timeDuration = timeDuration;
         }
     }
 }
