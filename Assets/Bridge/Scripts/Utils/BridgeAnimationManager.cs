@@ -77,7 +77,8 @@ namespace BridgePackage
                 var unit = playerUnits[i];
                 if (unit == null) continue;
                 var positionY = unit.transform.position.y;
-                StartCoroutine(AnimateUnitToDestination(unit, positionY + unitHeights[i], duration));
+                
+                StartCoroutine(AnimateUnitToDestination(unit, unitHeights[i], duration));
                 yield return new WaitForSeconds(duration / unitsLength);
             }
 

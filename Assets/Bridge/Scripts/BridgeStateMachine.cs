@@ -90,11 +90,13 @@ namespace BridgePackage {
         }
 
         public void StartCompleteBridge() {
+            var bridgeClient = GetComponent<BridgeClient>();
+            bridgeClient.StopReceiveData();
+            
             var unitsControl = GetComponent<UnitsControl>();
             unitsControl.DisableControl();
 
-            var bridgeClient = GetComponent<BridgeClient>();
-            bridgeClient.StopReceiveData();
+
 
             OnSuccessStart?.Invoke();
         }
