@@ -140,6 +140,7 @@ public class UDPServer {
             var parsedData = ParseDataFromAmadeo(line);
             // Send Data to client
             SendDataToClient(parsedData);
+            // Debug.Log("UDP_Server: Sent data to client. : " + parsedData);
         }
     }
 
@@ -151,7 +152,7 @@ public class UDPServer {
             string line;
             //IPEndPoint endpoint = new IPEndPoint(IPAddress.Any, portNumber);
             Debug.Log($"HandleIncomingDataAmadeo:: Receiving data... from {_remoteEndPoint}");
-
+            
             var data = _udpServer.Receive(ref _remoteEndPoint);
             line = Encoding.ASCII.GetString(data);
             Debug.Log($"Received data: {line} from {_remoteEndPoint}");
@@ -161,6 +162,7 @@ public class UDPServer {
 
 
             SendDataToClient(parsedData);
+            
         }
     }
 

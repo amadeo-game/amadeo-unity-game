@@ -1,7 +1,7 @@
-using System;
 using BridgePackage;
 using UnityEngine;
 
+// Attached to the GameObject GameManager 
 public class LevelManager : MonoBehaviour
 {
     private DemoBridgeHeights demoBridgeHeights;

@@ -6,12 +6,9 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 using BridgePackage;
-//todo: 1.Flexion or extension for mvc forces  
-//todo: 2. left or right hand
 
-[RequireComponent(typeof(BridgeMediator))]
-public class BridgeClient : MonoBehaviour
-{
+[RequireComponent(typeof(BridgeStateMachine))]
+public class BridgeClient : MonoBehaviour {
     private UdpClient _udpClient;
     private IPEndPoint _remoteEndPoint;
     private CancellationTokenSource _cancellationTokenSource;
@@ -32,23 +29,20 @@ public class BridgeClient : MonoBehaviour
         BridgeAPI.BridgeCollapsed += StopListeningToData;
         BridgeAPI.BridgeIsComplete += StopListeningToData;
     }
-    
+
     private void OnDisable() {
         BridgeAPI.BridgeReady -= StartReceiveData;
         BridgeAPI.BridgeCollapsed -= StopListeningToData;
         BridgeAPI.BridgeIsComplete -= StopListeningToData;
     }
 
-    private void Start()
-    {
+    private void Start() {
         // Initialize the UdpClient
-        try
-        {
+        try {
             _udpClient = new UdpClient(8888); // Listen for data on port 8888
             _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0); // Placeholder for any remote endpoint
         }
-        catch (Exception ex)
-        {
+        catch (Exception ex) {
             Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
             return; // Exit if UdpClient initialization fails
         }
@@ -57,69 +51,56 @@ public class BridgeClient : MonoBehaviour
 
         SetZeroForces(); // Load zeroing forces from PlayerPrefs
         SetMvcForces(); // Load MVC forces from PlayerPrefs
-
     }
 
-    private void SetZeroForces()
-    {
+    private void SetZeroForces() {
         var data = PlayerPrefs.GetString("zeroForces", ""); // Default to empty string if not set
-        // Debug.Log("Retrieved zeroForces from PlayerPrefs: " + data);
-        if (string.IsNullOrEmpty(data))
-        {
+        if (string.IsNullOrEmpty(data)) {
             Debug.LogError("ZeroForces data is empty or not set in PlayerPrefs");
             return;
         }
 
         string[] forces = data.Split('\t');
-        if (forces.Length != 10)
-        {
+        if (forces.Length != 10) {
             Debug.LogError("ZeroForces data does not contain exactly 10 values");
-            // Debug.Log(string.Join(", ", forces));
             return;
         }
 
-
-        for (int i = 0; i < _zeroForces.Length; i++)
-        {
-            if (double.TryParse(forces[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var force))
-            {
+        for (int i = 0; i < _zeroForces.Length; i++) {
+            if (double.TryParse(forces[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var force)) {
                 _zeroForces[i] = force;
             }
-            else
-            {
+            else {
                 Debug.LogError($"Error parsing zero force at position {i + 1}: {forces[i + 1]}");
                 _zeroForces[i] = 0; // or any other default/fallback value
             }
         }
-
-        // Debug.Log("Parsed zeroing forces: " + string.Join(", ", zeroForces));
     }
 
-    private void SetMvcForces()
-    {
-        for (var i = 1; i <= mvcForceExtension.Length; i++)
-        {   
-            var key = "E"+i;
+    private void SetMvcForces() {
+        for (var i = 1; i <= mvcForceExtension.Length; i++) {
+            var key = "E" + i;
             double forceFinger = PlayerPrefs.GetFloat(key);
-            mvcForceExtension[i-1] = forceFinger;
+            mvcForceExtension[i - 1] = forceFinger;
         }
 
-        for (var i = 1; i <= mvcForceFlexion.Length; i++)
-        {   
-            var key = "F"+i;
+        for (var i = 1; i <= mvcForceFlexion.Length; i++) {
+            var key = "F" + i;
             double forceFinger = PlayerPrefs.GetFloat(key);
-            mvcForceFlexion[i-1] = forceFinger;
+            mvcForceFlexion[i - 1] = forceFinger;
         }
-        
+
         Debug.Log(string.Join(", ", mvcForceExtension));
         Debug.Log(string.Join(", ", mvcForceFlexion));
     }
-    
+
     public void StartReceiveData() {
+        isReceiving = true;
+
         ReceiveData(_cancellationTokenSource.Token);
         Debug.Log("UDPClient: Start listening for ZeroF data from server");
     }
-    
+
     private void StopListeningToData() {
         try {
             StopReceiveData(); // Stop receiving data from the client
@@ -128,16 +109,16 @@ public class BridgeClient : MonoBehaviour
             Debug.LogError($"Error stopping UDP client: {ex.Message}");
         }
     }
+
     public void StopReceiveData() {
         isReceiving = false;
         Debug.Log("UDPClient: Stop listening for ZeroF data from server");
     }
-    private async void ReceiveData(CancellationToken cancellationToken)
-    {
-        while (isReceiving && !cancellationToken.IsCancellationRequested)
-        {
-            try
-            {
+
+    private async void ReceiveData(CancellationToken cancellationToken) {
+        Debug.Log("UDPClient: Start receiving data from server");
+        while (isReceiving && !cancellationToken.IsCancellationRequested) {
+            try {
                 // Receive data from the server
                 UdpReceiveResult result = await _udpClient.ReceiveAsync();
                 byte[] data = result.Buffer;
@@ -148,87 +129,73 @@ public class BridgeClient : MonoBehaviour
                 // Pass the received data to the Move script
                 HandleReceivedData(receivedData);
             }
-            catch (SocketException ex)
-            {
+            catch (SocketException ex) {
                 Debug.LogError($"SocketException: {ex.Message}");
             }
-            catch (ObjectDisposedException)
-            {
+            catch (ObjectDisposedException) {
                 // This exception is expected when _udpClient is closed during ReceiveAsync
                 Debug.Log("UDPClient has been disposed.");
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex) {
                 Debug.LogError($"Exception: {ex.Message}");
             }
         }
+
+        Debug.Log("UDPClient: Stop receiving data from server");
     }
 
-    private void HandleReceivedData(string data)
-    {
+    private void HandleReceivedData(string data) {
         string[] forces = data.Split('\t');
         double[] forcesNum = new double[10]; // Array to store parsed forces. We expect 10 force values.
-        
+
         if (forces.Length != 11) return; // Ensuring we have exactly 11 values (1 time + 10 forces)
-        
-        for (var i = 0; i < forcesNum.Length; i++)
-        {
+
+        for (var i = 0; i < forcesNum.Length; i++) {
             if (double.TryParse(forces[i + 1].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
-                    out var force))
-            {
+                    out var force)) {
                 forcesNum[i] = force;
             }
-            else
-            {
+            else {
                 Debug.LogError($"Error parsing force at position {i + 1}: {forces[i + 1]}");
+                Debug.Log("forces is " + string.Join(", ", forces));
                 forcesNum[i] = 0; // or any other default/fallback value
             }
         }
 
         // Apply zeroing offset
-        for (var i = 0; i < forcesNum.Length; i++)
-        {
+        for (var i = 0; i < forcesNum.Length; i++) {
             //The goal of zeroing is to remove the baseline effect from the measurements
             forcesNum[i] -= _zeroForces[i];
         }
+
         // Send the parsed forces to the bridgeApi script
-        if (bridgeApi != null)
-        {
+        if (bridgeApi != null) {
             bridgeApi.ApplyForces(forcesNum);
         }
-        else
-        {
+        else {
             Debug.LogError("UnitsControl reference is missing in UDPClient.");
         }
     }
 
-
-    
-    
-    //todo maybe need to change 
-    private double[] ApplyMvcForces(double[] forcesNum) 
-    {
+    private double[] ApplyMvcForces(double[] forcesNum) {
         // Normalize forces using MVC values
         var normalizedForces = new double[10];
-    
-        for (var i = 0; i < 5; i++)
-        {
-            if (isFlexion)
-            {
+
+        for (var i = 0; i < 5; i++) {
+            if (isFlexion) {
                 // Left hand mvc forces
                 normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
                 // Right hand mvc forces
                 normalizedForces[i + 5] = mvcForceFlexion[i] != 0 ? forcesNum[i + 5] / mvcForceFlexion[i] : 0;
             }
-            else
-            {
+            else {
                 // Left hand mvc forces
                 normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] / mvcForceExtension[i] : 0;
                 // Right hand mvc forces
                 normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] / mvcForceExtension[i] : 0;
             }
         }
-    
+
         Debug.Log("Normalized forces: " + string.Join(", ", normalizedForces));
         return normalizedForces;
     }
@@ -248,7 +215,6 @@ public class BridgeClient : MonoBehaviour
             _udpClient = null;
         }
 
-        //cancellation token source
         _cancellationTokenSource.Dispose();
     }
 }

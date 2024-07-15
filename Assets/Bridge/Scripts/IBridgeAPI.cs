@@ -8,7 +8,6 @@ public interface IBridgeAPI
     static event Action BridgeCollapsed;
     static event Action BridgeIsComplete;
 
-    void BuildBridge();
     void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null);
     void CollapseBridge();
     

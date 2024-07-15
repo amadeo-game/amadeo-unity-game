@@ -3,6 +3,7 @@ using BridgePackage;
 using UnityEngine;
 using UnityEngine.Events;
 
+// Attached to the GameObject GameManager 
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
@@ -40,7 +41,7 @@ public class GameManager : MonoBehaviour {
         }
 
         // Enable the play button
-        _startGame.Invoke();
+        // _startGame.Invoke();
     }
 
     public void StartGame() {

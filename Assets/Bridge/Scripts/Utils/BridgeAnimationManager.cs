@@ -1,144 +1,87 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
-namespace BridgePackage {
-    internal  class BridgeAnimationManager : MonoBehaviour {
+namespace BridgePackage
+{
+    public class BridgeAnimationManager : MonoBehaviour
+    {
         [SerializeField] private AnimationCurve riseAndFallCurve;
-        [SerializeField] private AnimationCurve shakeIntensityCurve; // Curve for controlling shake intensity
-
-        [SerializeField] private float shakeDuration = 0.1f; // Duration of shaking animation
-        [SerializeField] private float riseAnimDuration = 0.1f; // Duration of collapse animation
-        [SerializeField] private float collapseAnimDuration = 0.1f; // Duration of collapse animation
-        [SerializeField] private float successAnimDuration = 0.1f; // Duration of success animation
-
-
+        [SerializeField] private float riseAnimDuration = 2f;
+        [SerializeField] private float fallAnimDuration = 2f;
+        [SerializeField] private float successAnimDuration = 2f;
         private BridgeStateMachine stateMachine;
 
-        private void Awake() {
+        private void Awake()
+        {
             stateMachine = GetComponent<BridgeStateMachine>();
         }
 
-        // Called by BridgeGenerator
-        internal  void AnimateBridgeFallDown(GameObject[] bridgeUnits, int height) {
-            StartCoroutine(AnimateShakeAndCollapse(bridgeUnits, -height));
+        public void AnimateBuildUpBridge(GameObject[] bridgeUnits, int heightOffset)
+        {
+            StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, heightOffset, riseAnimDuration, () => stateMachine.ChangeState(BridgeStates.BridgeReady)));
         }
 
-        internal  void AnimateBuildUpBridge(GameObject[] bridgeUnits, int height) {
-            StartCoroutine(AnimateBuildUpUnits(bridgeUnits, height));
+        public void AnimateBridgeFallDown(GameObject[] bridgeUnits, int heightOffset)
+        {
+            StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, -heightOffset, fallAnimDuration, () => stateMachine.ChangeState(BridgeStates.GameFailed)));
         }
 
-        internal  void AnimateSuccess(GameObject[] playerUnits, int[] heights) {
-            StartCoroutine(AnimateSuccessOnUnits(playerUnits, heights));
+        public void AnimateSuccess(GameObject[] playerUnits, int[] unitHeights)
+        {
+            StartCoroutine(AnimatePlayerUnitsSuccess(playerUnits, unitHeights, successAnimDuration, () => stateMachine.ChangeState(BridgeStates.GameWon)));
         }
 
-        // methods for handling bridge start animations and notifying the state machine when they are done
-        private IEnumerator AnimateBuildUpUnits(GameObject[] bridgeUnits, int height) {
-            yield return StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, height, riseAnimDuration));
-            stateMachine.FinishBuilding();
-        }
-
-        private IEnumerator AnimateShakeAndCollapse(GameObject[] bridgeUnits, int height) {
-            yield return StartCoroutine(ShakeUnit(bridgeUnits));
-            yield return StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, height, collapseAnimDuration));
-            stateMachine.CompleteCollapse();
-        }
-
-        private IEnumerator AnimateSuccessOnUnits(GameObject[] playerUnits, int[] heights) {
-            yield return StartCoroutine(AnimateUnitsToPosition(playerUnits, heights, successAnimDuration));
-            stateMachine.FinishSuccess();
-            StopAllCoroutines();
-        }
-
-        // methods for animating the bridge units
-        private IEnumerator AnimateUnitsWithOffset(GameObject[] bridgeUnits, int height, float delay) {
+        private IEnumerator AnimateUnitsWithOffset(GameObject[] bridgeUnits, int heightOffset, float duration, System.Action onComplete)
+        {
             var unitsLength = bridgeUnits.Length;
-            for (var i = 0; i < unitsLength - 1; i++) {
+            for (var i = 0; i < unitsLength - 1; i++)
+            {
                 var unit = bridgeUnits[i];
-                //TODO: Make the function wait for the last unit before changing state
+                if (unit == null) continue;
                 var positionY = unit.transform.position.y;
-                StartCoroutine(AnimateUnitToDestination(unit, positionY + height));
-                yield return new WaitForSeconds(delay);
+                StartCoroutine(AnimateUnitToDestination(unit, positionY + heightOffset, duration));
+                yield return new WaitForSeconds(duration / unitsLength);
             }
 
-            // to handle the last unit before other operations
             var lastUnit = bridgeUnits[unitsLength - 1];
-            var lPositionY = lastUnit.transform.position.y;
-            yield return StartCoroutine(AnimateUnitToDestination(lastUnit, lPositionY + height));
-            yield return new WaitForSeconds(delay * 2);
+            if (lastUnit != null)
+            {
+                var lPositionY = lastUnit.transform.position.y;
+                yield return StartCoroutine(AnimateUnitToDestination(lastUnit, lPositionY + heightOffset, duration));
+                yield return new WaitForSeconds(duration);
+            }
+
+            onComplete?.Invoke();
         }
 
-        private IEnumerator AnimateUnitsToPosition(GameObject[] bridgeUnits, int[] heights, float delay) {
-            if (bridgeUnits.Length != heights.Length) {
-                throw new ArgumentException("bridgeUnits and heights must be of the same length.");
-            }
+        private IEnumerator AnimateUnitToDestination(GameObject unit, float destinationY, float duration)
+        {
+            if (unit == null) yield break;
 
-            var unitsLength = bridgeUnits.Length;
-            for (var i = 0; i < unitsLength - 1; i++) {
-                var unit = bridgeUnits[i];
-                //TODO: Make the function wait for the last unit before changing state
-                StartCoroutine(AnimateUnitToDestination(unit, heights[i]));
-                yield return new WaitForSeconds(delay);
-            }
-
-            // to handle the last unit before other operations
-            yield return StartCoroutine(
-                AnimateUnitToDestination(bridgeUnits[unitsLength - 1], heights[unitsLength - 1]));
-            yield return new WaitForSeconds(delay * 2);
-        }
-
-        // Coroutine for animating a single unit to a destination
-        private IEnumerator AnimateUnitToDestination(GameObject bridgeUnit, float yHeight) {
-            Vector2 startPosition = bridgeUnit.transform.position;
-            Vector2 endPosition = new Vector3(startPosition.x, yHeight);
-
-            float duration = 1.0f; // Duration of the rise animation in seconds
-            float elapsed = 0.0f;
-            // tolarance for elapsed and duration floats
-            const float tolerance = 0.01f;
-            while (elapsed < Mathf.Abs(duration + tolerance)) {
-                elapsed += Time.deltaTime;
-                float normalizedTime = elapsed / duration; // Goes from 0 to 1
-
-                // Calculate the current position based on the animation curve
-                float curveValue = riseAndFallCurve.Evaluate(normalizedTime); // Goes from 0 to 1
-                Vector3 currentPosition = Vector3.Lerp(startPosition, endPosition, curveValue);
-
-                bridgeUnit.transform.position = currentPosition;
-                if (elapsed > Mathf.Abs(duration + tolerance)) {
-                    yield break;
-                }
-                // Debug.Log("Animating unit to destination - " + elapsed);
-                yield return new WaitForSecondsRealtime(0.001f);
-
-            }
-        }
-
-        // Coroutine for shaking a group of units
-        private IEnumerator ShakeUnit(GameObject[] bridgeUnits) {
-            float elapsedTime = 0;
-            Vector3[] originalPositions = new Vector3[bridgeUnits.Length];
-
-            for (int i = 0; i < bridgeUnits.Length; i++) {
-                originalPositions[i] = bridgeUnits[i].transform.localPosition;
-            }
-
-            while (elapsedTime < shakeDuration) {
-                float shakeIntensity = shakeIntensityCurve.Evaluate(elapsedTime / shakeDuration);
-
-                for (int i = 0; i < bridgeUnits.Length; i++) {
-                    Vector3 randomOffset = new Vector3(Mathf.PerlinNoise(Time.time * shakeIntensity, 0) - 0.5f, 0, 0);
-                    bridgeUnits[i].transform.localPosition = originalPositions[i] + randomOffset;
-                }
-
-                elapsedTime += Time.deltaTime;
+            Vector3 startPos = unit.transform.position;
+            Vector3 endPos = new Vector3(startPos.x, destinationY, startPos.z);
+            for (float t = 0; t < 1; t += Time.deltaTime / duration)
+            {
+                if (unit == null) yield break;
+                unit.transform.position = Vector3.Lerp(startPos, endPos, riseAndFallCurve.Evaluate(t));
                 yield return null;
             }
+            unit.transform.position = endPos;
+        }
 
-            // Reset positions after shaking
-            for (int i = 0; i < bridgeUnits.Length; i++) {
-                bridgeUnits[i].transform.localPosition = originalPositions[i];
+        private IEnumerator AnimatePlayerUnitsSuccess(GameObject[] playerUnits, int[] unitHeights, float duration, System.Action onComplete)
+        {
+            var unitsLength = playerUnits.Length;
+            for (var i = 0; i < unitsLength; i++)
+            {
+                var unit = playerUnits[i];
+                if (unit == null) continue;
+                var positionY = unit.transform.position.y;
+                StartCoroutine(AnimateUnitToDestination(unit, positionY + unitHeights[i], duration));
+                yield return new WaitForSeconds(duration / unitsLength);
             }
+
+            onComplete?.Invoke();
         }
     }
 }

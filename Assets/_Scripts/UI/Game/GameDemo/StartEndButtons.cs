@@ -14,6 +14,7 @@ public class StartEndButtons : MonoBehaviour {
     private void OnEnable() {
         BridgePackage.BridgeAPI.BridgeReady += EnableButtons;
         BridgePackage.BridgeAPI.OnGameStart += () => {
+            Debug.Log("UI Buttons got notified that the game has started.");
             start.interactable = false;
             success.interactable = true;
             if (guideKeys != null) {

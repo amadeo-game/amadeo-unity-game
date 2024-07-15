@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
+ // Attached to the guide game unit prefab, serialized in BridgeTypeSO.
+
 public class Pulsate : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;

@@ -10,34 +10,27 @@ namespace BridgePackage {
         public static event Action BridgeIsComplete;
 
         private BridgeStateMachine bridgeStateMachine;
-        private  UnitsControl unitsControl;
+        private UnitsControl unitsControl;
 
-        internal static void NotifyBridgeReady() => BridgeReady?.Invoke();
-
-
-        internal static void NotifyGameStart() => OnGameStart?.Invoke();
-
-
-        internal static void NotifyBridgeCollapsed() => BridgeCollapsed?.Invoke();
-
-
-        internal static void NotifyBridgeIsComplete() => BridgeIsComplete?.Invoke();
-
+        private static BridgeAPI instance;
 
         private void Awake() {
+            if (instance == null) {
+                instance = this;
+                DontDestroyOnLoad(gameObject);
+            } else {
+                Destroy(gameObject);
+                return;
+            }
             bridgeStateMachine = GetComponent<BridgeStateMachine>();
             unitsControl = GetComponent<UnitsControl>();
         }
 
-        public void BuildBridge() {
-            bridgeStateMachine.StartBuilding();
-        }
+        internal static void NotifyBridgeReady() => BridgeReady?.Invoke();
+        internal static void NotifyGameStart() => OnGameStart?.Invoke();
+        internal static void NotifyBridgeCollapsed() => BridgeCollapsed?.Invoke();
+        internal static void NotifyBridgeIsComplete() => BridgeIsComplete?.Invoke();
 
-        /* This method is for generating a bridge with different unit heights from out source.
-          The unitHeights array must have 5 elements.
-            The first element is the height of the first unit, the second element is the height of the second unit, and so on.
-            The height of each unit must be between 0 and 5.
-        */
         public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
             if (unitHeights.Length != 5) {
                 throw new ArgumentException("unitHeights must have 5 elements.");
@@ -46,21 +39,20 @@ namespace BridgePackage {
             if (Array.Exists(unitHeights, height => height < 0 || height > 5)) {
                 throw new ArgumentException("The height of each unit must be between 0 and 5.");
             }
-            Debug.Log("Building");
             bridgeStateMachine.StartBuilding(unitHeights, bridgeTypeSO);
         }
 
         public void EnableGameUnits() {
-            bridgeStateMachine.StartGame();
+            bridgeStateMachine.ChangeState(BridgeStates.InGame);
         }
 
         public void CollapseBridge() {
-            bridgeStateMachine.StartCollapsing();
+            bridgeStateMachine.ChangeState(BridgeStates.Collapse);
         }
 
         public void CompleteBridge() {
             Debug.Log("Called CompleteBridge");
-            bridgeStateMachine.StartSuccess();
+            bridgeStateMachine.ChangeState(BridgeStates.BridgeComplete);
         }
 
         public void PauseBridge() {
@@ -69,7 +61,7 @@ namespace BridgePackage {
 
         public void ApplyForces(double[] forces)
         {
-            if(bridgeStateMachine.currentState == BridgeState.InGame)
+            if (bridgeStateMachine.currentState is BridgeStates.InGame)
             {
                 unitsControl.ApplyForces(forces);
             }

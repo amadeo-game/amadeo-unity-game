@@ -1,6 +1,4 @@
 using UnityEngine;
-using BridgePackage;
-using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "BridgeType", menuName = "Bridge/BridgeType")]
 public class BridgeTypeSO : ScriptableObject {

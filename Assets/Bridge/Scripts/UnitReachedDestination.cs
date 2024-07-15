@@ -1,23 +1,31 @@
 using System;
 using UnityEngine;
-using BridgePackage;
-public class UnitReachedDestination : MonoBehaviour
+
+namespace BridgePackage
 {
-    private BridgeMediator bridgeMediator;
-    internal  FingerUnit fingerUnit;
-
-    internal void Initialize(BridgeMediator mediator)
+    // Attached to each playable game unit prefab, serialized in BridgeTypeSO.
+    public class UnitReachedDestination : MonoBehaviour
     {
-        bridgeMediator = mediator ? mediator : throw new ArgumentNullException(nameof(mediator), "BridgeMediator cannot be null.");
-    }
+        private BridgeStateMachine bridgeStateMachine;
+        internal FingerUnit fingerUnit;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        bridgeMediator?.UnitPlaced(fingerUnit, true);
-    }
+        /// <summary>
+        /// Initializes the UnitReachedDestination with the specified state machine.
+        /// </summary>
+        /// <param name="stateMachine">The state machine to interact with.</param>
+        internal void Initialize(BridgeStateMachine stateMachine)
+        {
+            bridgeStateMachine = stateMachine ? stateMachine : throw new ArgumentNullException(nameof(stateMachine), "BridgeStateMachine cannot be null.");
+        }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        bridgeMediator?.UnitPlaced(fingerUnit, false);
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            bridgeStateMachine?.UnitPlaced(fingerUnit, true);
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            bridgeStateMachine?.UnitPlaced(fingerUnit, false);
+        }
     }
 }
