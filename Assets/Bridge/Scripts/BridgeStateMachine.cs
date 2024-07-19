@@ -33,6 +33,7 @@ namespace BridgePackage {
         private bool isFlexion;
         private float[] mvcValues;
         private bool[] playableUnits;
+        private float[] unitsGrace;
         private float timeDuration;
 
         private void Awake() {
@@ -138,7 +139,7 @@ namespace BridgePackage {
             }
         }
 
-        public void SetGameParameters(int[] heights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion, float[] mvcValues, bool[] playableUnits, float timeDuration)
+        public void SetGameParameters(int[] heights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion, float[] mvcValues, bool[] playableUnits, float[] unitsGrace, float timeDuration)
         {
             this.unitHeights = heights;
             this.bridgeTypeSO = bridgeTypeSO;
@@ -146,6 +147,7 @@ namespace BridgePackage {
             this.isFlexion = isFlexion;
             this.mvcValues = mvcValues;
             this.playableUnits = playableUnits;
+            this.unitsGrace = unitsGrace;
             this.timeDuration = timeDuration;
         }
     }

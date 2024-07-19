@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private LevelManager levelManager;
+    private bool gameInitialized = false;
     private void Awake() {
         levelManager = GetComponent<LevelManager>();
     }
@@ -28,8 +29,17 @@ public class GameManager : MonoBehaviour
     public void InitializeNewGame()
     {
         Debug.Log("GameManager :: InitializeNewGame() called.");
-        levelManager.SetupNewLevel();
+        gameInitialized = levelManager.SetupNewLevel();
     }
+
+    public void StartGame() {
+        if (gameInitialized) {
+            levelManager.StartSession();
+        }
+        Debug.Log("GameManager :: StartGame() called.");
+        
+    }
+    
 
     private void HandleGameStart()
     {

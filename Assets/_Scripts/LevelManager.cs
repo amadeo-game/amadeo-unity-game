@@ -11,26 +11,33 @@ public class LevelManager : MonoBehaviour
     private int levelIndex { get; set; } = 0;
     private int sessionCount { get; set; } = 0;
 
-    public void SetupNewLevel()
+    public bool SetupNewLevel()
     {
+        Debug.Log("LevelManager :: SetupNewLevel() called.");
+        // Initialize the new game session
+        // Retrieve or generate new parameters for the game
+
         if (sessionCount > 0) {
             // Adjust the difficulty based on the previous session data
             var sessionData = bridgeAPI.GetSessionData();
             AdjustDifficultyBasedOnSessionData(sessionData);
-            
         }
-        // Retrieve or generate new parameters for the game
-        var heights = GenerateRandomHeights();
-        sessionManager.SetHeights(heights);
-        sessionManager.SetBridgeType(GetBridgeTypeSO(levelIndex));
-        sessionManager.SetIsLeftHand(GetIsLeftHand());
-        sessionManager.SetIsFlexion(GetIsFlexion());
-        sessionManager.SetMvcValues(GetMVCValues());
-        sessionManager.SetPlayableUnits(GetPlayableUnits());
+        else {
+            var heights = GenerateRandomHeights();
+            sessionManager.SetHeights(heights);
+            sessionManager.SetBridgeType(GetBridgeTypeSO(levelIndex));
+            sessionManager.SetIsLeftHand(GetIsLeftHand());
+            sessionManager.SetIsFlexion(GetIsFlexion());
+            sessionManager.SetMvcValues(GetMVCValues());
+            sessionManager.SetPlayableUnits(GetPlayableUnits());
+        }
+        sessionCount++;
 
-        // Initialize the new game session
-        
-        Debug.Log("LevelManager :: SetupNewLevel() called.");
+        return true;
+    }
+
+    public void StartSession() {
+        Debug.Log("LevelManager :: StartSession() called.");
         bridgeAPI.BuildBridge(
             sessionManager.Heights,
             sessionManager.BridgeType,
@@ -38,6 +45,7 @@ public class LevelManager : MonoBehaviour
             sessionManager.IsFlexion,
             sessionManager.MvcValues,
             sessionManager.PlayableUnits,
+            sessionManager.UnitsGrace,
             sessionManager.TimeDuration
         );
     }

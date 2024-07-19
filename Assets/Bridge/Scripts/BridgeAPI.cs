@@ -38,7 +38,7 @@ namespace BridgePackage {
         internal static void NotifyBridgeIsWin() => WonSession?.Invoke();
 
         public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion,
-            float[] mvcValues, bool[] playableUnits, float timeDuration) {
+            float[] mvcValues, bool[] playableUnits, float[] unitsGrace, float timeDuration) {
             if (unitHeights.Length != 5) {
                 throw new ArgumentException("unitHeights must have 5 elements.");
             }
@@ -48,7 +48,7 @@ namespace BridgePackage {
             }
 
             bridgeStateMachine.SetGameParameters(unitHeights, bridgeTypeSO, isLeftHand, isFlexion, mvcValues,
-                playableUnits, timeDuration);
+                playableUnits, unitsGrace, timeDuration);
             bridgeStateMachine.StartBuilding();
             Debug.Log("BridgeAPI: BuildBridge called");
         }
