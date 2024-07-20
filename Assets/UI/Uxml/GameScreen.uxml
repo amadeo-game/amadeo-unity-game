@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="PauseScreen" src="project://database/Assets/UI/Uxml/PauseScreen.uxml?fileID=9197481963319205126&amp;guid=f440e8037e5e75a42936a29083f1670b&amp;type=3#PauseScreen" />
+    <ui:Template name="GameWinScreen" src="project://database/Assets/UI/Uxml/GameWinScreen.uxml?fileID=9197481963319205126&amp;guid=bd00c8ea5fef79d46932f73fa5b8e655&amp;type=3#GameWinScreen" />
+    <ui:Template name="GameLoseScreen" src="project://database/Assets/UI/Uxml/GameLoseScreen.uxml?fileID=9197481963319205126&amp;guid=ffbc64ae1f6d57e4d9c1177b1b5afad4&amp;type=3#GameLoseScreen" />
+    <Style src="project://database/Assets/UI/Uss/GameScreen.uss?fileID=7433441132597879392&amp;guid=d24d179c6f224df43bca320c7913e981&amp;type=3#GameScreen" />
+    <ui:VisualElement name="pause__button-container" picking-mode="Ignore" class="pause__button-container">
+        <ui:Button display-tooltip-when-elided="true" name="pause__button" class="pause__button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); transition-duration: 0.25s;">
+            <ui:VisualElement name="pause__button-graphic" picking-mode="Ignore" class="pause__button-graphic" style="background-color: rgba(52, 73, 94, 0);" />
+        </ui:Button>
+    </ui:VisualElement>
+    <ui:VisualElement name="timer__container" picking-mode="Ignore" class="timer__container">
+        <ui:VisualElement name="game-timer__background" picking-mode="Ignore" class="timer__background" />
+        <ui:Label text="99:59" display-tooltip-when-elided="true" name="game-timer__label" picking-mode="Ignore" class="timer__label" />
+    </ui:VisualElement>
+    <ui:Instance template="PauseScreen" name="PauseScreen" picking-mode="Ignore" class="pause__template-container" />
+    <ui:Instance template="GameWinScreen" name="GameWinScreen" picking-mode="Ignore" class="screen__anchor--top-left game-win__template-container" style="height: 1192px;" />
+    <ui:Instance template="GameLoseScreen" name="GameLoseScreen" picking-mode="Ignore" class="screen__anchor--top-left game-lose__template-container" style="height: 648px; align-items: center; flex-direction: row-reverse;" />
+</ui:UXML>

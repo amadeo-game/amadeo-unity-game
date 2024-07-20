@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static event Action GameWon;
+    public static event Action GameLost;
+    
     private LevelManager levelManager;
     private bool gameInitialized = false;
     private void Awake() {
