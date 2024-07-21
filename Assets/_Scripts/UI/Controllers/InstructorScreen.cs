@@ -8,6 +8,9 @@ public class InstructorScreen : MonoBehaviour
     
     public LevelManager levelManager;
 
+    private VisualElement preGameConfigs;
+
+    
     private Button initializeSessionButton;
     private Button startSessionButton;
 
@@ -22,6 +25,8 @@ public class InstructorScreen : MonoBehaviour
         // Set up button callbacks
         SetupButtonCallbacks(rootVisualElement);
         
+
+        
         SubscribeToGameStateEvents();
 
 
@@ -29,6 +34,13 @@ public class InstructorScreen : MonoBehaviour
     
     private void SetupButtonCallbacks(VisualElement root)
     {
+        preGameConfigs = root.Q<VisualElement>("pre_game_configs");
+        if (preGameConfigs == null)
+        {
+            Debug.LogError("Failed to find 'Pre-Game Configs' container.");
+            return;
+        }
+        
         initializeSessionButton = root.Q<Button>("initialize_session_button");
         if (initializeSessionButton == null)
         {
@@ -56,12 +68,14 @@ public class InstructorScreen : MonoBehaviour
         {
             initializeSessionButton.SetEnabled(false);
             startSessionButton.SetEnabled(true);
+            SetInteractability(preGameConfigs, true);
         };
 
         GameStatesEvents.GameSessionStarted += () =>
         {
             initializeSessionButton.SetEnabled(false);
             startSessionButton.SetEnabled(false);
+            SetInteractability(preGameConfigs, false);
         };
 
         GameStatesEvents.GameSessionEnded += () =>
@@ -69,6 +83,7 @@ public class InstructorScreen : MonoBehaviour
             // Both buttons are made interactable again when the game session ends
             initializeSessionButton.SetEnabled(true);
             startSessionButton.SetEnabled(true);
+            SetInteractability(preGameConfigs, true);
         };
     }
 
@@ -83,6 +98,24 @@ public class InstructorScreen : MonoBehaviour
             startSessionButton.SetEnabled(true);
         };
     }
+
+    /// <summary>
+    /// Sets the interactability of all UI elements within a given visual element.
+    /// </summary>
+    /// <param name="container">The container whose children's interactability will be set.</param>
+    /// <param name="enabled">Whether the elements should be enabled (true) or disabled (false).</param>
+    private void SetInteractability(VisualElement container, bool enabled)
+    {
+        if (container == null) return;
+
+        container.SetEnabled(enabled);  // Directly set the enabled state of the container
+        foreach (var child in container.Children())
+        {
+            SetInteractability(child, enabled);  // Recursively disable/enable child elements
+        }
+    }
+
+
 
     /// <summary>
     /// Initializes all UI elements with values from SessionManager and sets up listeners to handle changes.

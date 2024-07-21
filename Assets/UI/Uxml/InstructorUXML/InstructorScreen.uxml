@@ -17,16 +17,16 @@
                         <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_5" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
                     </ui:GroupBox>
                     <ui:VisualElement name="ingame_configs" class="toggles-row" style="flex-direction: row; align-items: center;">
-                        <ui:VisualElement name="time_picker" class="ingame_configs" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; justify-content: center;">
+                        <ui:VisualElement name="time_picker" class="ingame_configs" style="flex-grow: initial; flex-direction: column; flex-shrink: initial; justify-content: center; width: 299px; bottom: 15px;">
                             <ui:Label text="Time" name="time_label" class="input_fields__label ingame_configs__label" style="width: 217px;" />
-                            <ui:IntegerField value="0" name="time_int_field" />
+                            <ui:IntegerField value="0" name="time_int_field" style="width: 112px;" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="left_hand" class="ingame_configs" style="flex-grow: 1;">
-                            <ui:Label text="isLeftHand" name="left_hand_label" parse-escape-sequences="true" class="input_fields__label ingame_configs__label" />
+                        <ui:VisualElement name="left_hand" class="ingame_configs" style="flex-grow: 1; bottom: 26px;">
+                            <ui:Label text="LeftHand" name="left_hand_label" parse-escape-sequences="true" class="input_fields__label ingame_configs__label" />
                             <ui:Toggle name="left_hand_toggle" class="instrucot_toggle" />
                         </ui:VisualElement>
-                        <ui:VisualElement name="is_flexion" class="ingame_configs" style="flex-grow: 1;">
-                            <ui:Label text="isFlexion" name="is_flexion_label" class="input_fields__label ingame_configs__label" />
+                        <ui:VisualElement name="is_flexion" class="ingame_configs" style="flex-grow: 1; bottom: 25px;">
+                            <ui:Label text="Flexion" name="is_flexion_label" class="input_fields__label ingame_configs__label" />
                             <ui:Toggle name="is_flexion_toggle" class="instrucot_toggle" />
                         </ui:VisualElement>
                     </ui:VisualElement>
