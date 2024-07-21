@@ -1,10 +1,8 @@
 using System;
 using UnityEngine.UIElements;
 
-namespace UIToolkitDemo
-{
-    public static class GameplayEvents 
-    {
+namespace UIToolkitDemo {
+    public static class GameplayEvents {
         // Triggered after the bridge is complete
         public static Action WinScreenShown;
 
@@ -33,12 +31,5 @@ namespace UIToolkitDemo
 
         // Adjust the sound effects volume during gameplay
         public static Action<float> SfxVolumeChanged;
-
-        // Drop a healing potion onto a specific healing slot VisualElement
-        public static Action<VisualElement> SlotHealed;
-
-        // Update the number of healing potions
-        public static Action<int> HealingPotionUpdated;
-
     }
 }

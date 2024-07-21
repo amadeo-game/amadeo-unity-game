@@ -10,11 +10,11 @@
                 <ui:VisualElement name="pre_game_configs" focusable="false" tabindex="0" style="flex-grow: 1; flex-shrink: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; padding-top: 32px; visibility: visible; display: flex; overflow: visible; opacity: 1;">
                     <ui:GroupBox focusable="false" name="height_picker" tabindex="0" class="height_picker" style="flex-direction: row; margin-top: 25px; flex-shrink: 0; flex-wrap: nowrap; -unity-text-align: upper-left; justify-content: flex-start; align-self: center; width: 1647px; margin-bottom: 2%; margin-right: 4%; align-items: flex-end; transform-origin: center;">
                         <ui:Label tabindex="-1" text="Heights" parse-escape-sequences="true" display-tooltip-when-elided="true" class="heights__label" style="position: absolute; width: 275px; left: -15px; top: -17px;" />
-                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
-                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
-                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
-                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
-                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_1" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_2" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_3" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_4" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_5" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
                     </ui:GroupBox>
                     <ui:VisualElement name="ingame_configs" class="toggles-row" style="flex-direction: row; align-items: center;">
                         <ui:VisualElement name="time_picker" class="ingame_configs" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; justify-content: center;">
@@ -35,28 +35,28 @@
                 <ui:VisualElement name="input_fields" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; align-items: flex-start; margin-top: 30px;">
                     <ui:VisualElement name="grace-picker" class="floats-row" style="flex-direction: row; align-items: center; justify-content: flex-start; width: 611px; flex-shrink: 0; align-self: flex-start;">
                         <ui:Label text="Grace" class="input_fields__label" style="width: 192px;" />
-                        <ui:FloatField value="0.0" />
-                        <ui:FloatField value="0.0" />
-                        <ui:FloatField value="0.0" />
-                        <ui:FloatField value="0.0" />
-                        <ui:FloatField value="0.0" />
+                        <ui:FloatField value="0.0" name="grace_1" />
+                        <ui:FloatField value="0.0" name="grace_2" />
+                        <ui:FloatField value="0.0" name="grace_3" />
+                        <ui:FloatField value="0.0" name="grace_4" />
+                        <ui:FloatField value="0.0" name="grace_5" />
                     </ui:VisualElement>
                     <ui:VisualElement name="mvc_picker" class="integers-row" style="flex-direction: row; align-self: flex-start; align-items: center;">
-                        <ui:Label text="Label 7" name="MVC" class="input_fields__label" style="width: 194px;" />
-                        <ui:IntegerField value="0" />
-                        <ui:IntegerField value="0" />
-                        <ui:IntegerField value="0" />
-                        <ui:IntegerField value="0" />
-                        <ui:IntegerField value="0" />
+                        <ui:Label text="MVC" name="MVC" class="input_fields__label" style="width: 194px;" />
+                        <ui:IntegerField value="0" name="mvc_1" />
+                        <ui:IntegerField value="0" name="mvc_2" />
+                        <ui:IntegerField value="0" name="mvc_3" />
+                        <ui:IntegerField value="0" name="mvc_4" />
+                        <ui:IntegerField value="0" name="mvc_5" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="active_units" class="multi-toggle-row" style="flex-direction: row; flex-shrink: initial; align-self: flex-start; width: 699px; justify-content: space-between; align-items: center; left: 25px; margin-top: 30px;">
                     <ui:Label text="Active Units" name="active_units_label" class="input_fields__label" style="width: 317px;" />
-                    <ui:Toggle class="instrucot_toggle" />
-                    <ui:Toggle class="instrucot_toggle" />
-                    <ui:Toggle class="instrucot_toggle" />
-                    <ui:Toggle class="instrucot_toggle" />
-                    <ui:Toggle class="instrucot_toggle" />
+                    <ui:Toggle name="active_unit_1" class="instrucot_toggle" />
+                    <ui:Toggle name="active_unit_2" class="instrucot_toggle" />
+                    <ui:Toggle name="active_unit_3" class="instrucot_toggle" />
+                    <ui:Toggle name="active_unit_4" class="instrucot_toggle" />
+                    <ui:Toggle name="active_unit_5" class="instrucot_toggle" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1508px; align-self: center; top: 45px; justify-content: space-between; align-items: stretch;">

@@ -2822,6 +2822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 783445681}
   - component: {fileID: 783445682}
+  - component: {fileID: 783445683}
   m_Layer: 0
   m_Name: InstructorPanel
   m_TagString: Untagged
@@ -2860,6 +2861,20 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: f83558fffafbcf144ad378e26d4aa621, type: 3}
   m_SortingOrder: 0
+--- !u!114 &783445683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783445680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87acfd3d3fc72d346b5b54f992424f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sessionManager: {fileID: 1439435749}
+  levelManager: {fileID: 1439435748}
 --- !u!1 &808790527
 GameObject:
   m_ObjectHideFlags: 0

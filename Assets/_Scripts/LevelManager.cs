@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour {
     private int levelIndex { get; set; } = 0;
     private int sessionCount { get; set; } = 0;
 
-    public bool SetupNewLevel() {
+    public void InitializeSession() {
         Debug.Log("LevelManager :: SetupNewLevel() called.");
         // Initialize the new game session
         // Retrieve or generate new parameters for the game
@@ -33,8 +33,8 @@ public class LevelManager : MonoBehaviour {
         }
 
         sessionCount++;
+        GameStatesEvents.GameSessionInitialized?.Invoke();
 
-        return true;
     }
 
     public void StartSession() {
@@ -49,6 +49,8 @@ public class LevelManager : MonoBehaviour {
             sessionManager.UnitsGrace,
             sessionManager.TimeDuration
         );
+        GameStatesEvents.GameSessionStarted?.Invoke();
+
     }
 
     public void AdjustDifficultyBasedOnSessionData(SessionData sessionData) {

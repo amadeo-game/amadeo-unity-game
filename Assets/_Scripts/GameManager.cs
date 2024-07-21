@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public void InitializeNewGame()
     {
         Debug.Log("GameManager :: InitializeNewGame() called.");
-        gameInitialized = levelManager.SetupNewLevel();
+        levelManager.InitializeSession();
         StartGame();
     }
 
