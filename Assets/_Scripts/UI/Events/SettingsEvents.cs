@@ -10,14 +10,6 @@ namespace UIToolkitDemo
     /// </summary>
     public static class SettingsEvents 
     {
-        public static Action PlayerFundsReset;
-        public static Action PlayerLevelReset;
-
-        public static Action SettingsShown;
-
-
-
-        public static Action<string> ThemeSelected;
 
         // Sync previously saved data from SettingsScreenController to SettingsScreen UI
         public static Action<GameData> GameDataLoaded;
@@ -28,8 +20,5 @@ namespace UIToolkitDemo
         // Send updated data from the controller to listeners (e.g. GameDataManager, AudioManager, etc.)
         public static Action<GameData> SettingsUpdated;
 
-        public static Action<bool> FpsCounterToggled;
-
-        public static Action<int> TargetFrameRateSet;
     }
 }

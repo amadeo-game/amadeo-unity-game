@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Uss/GameWinLoseScreen.uss?fileID=7433441132597879392&amp;guid=6c4f45b42ef6b42449b41fbd641b5ae5&amp;type=3#GameWinLoseScreen" />
-    <ui:VisualElement name="game-win__screen" class="game-win-lose__screen" style="opacity: 1; display: flex;">
-        <ui:VisualElement name="game-win__container" class="game-win-lose__container" style="flex-direction: column;">
+    <ui:VisualElement name="game-win__screen" focusable="false" class="game-win-lose__screen" style="opacity: 1; display: flex; visibility: visible;">
+        <ui:VisualElement name="game-win__container" class="game-win-lose__container" style="flex-direction: column; position: absolute; top: -40px;">
             <ui:VisualElement name="game-win__background" class="game-win-lose__background">
                 <ui:VisualElement name="game-win__background-left" class="game-win-lose__background-left" />
                 <ui:VisualElement name="game-win__background-right" class="game-win-lose__background-right" />

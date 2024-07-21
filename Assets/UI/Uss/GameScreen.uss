@@ -54,6 +54,8 @@
     -unity-font-style: normal;
     position: absolute;
     top: 0;
+    transform-origin: center;
+    translate: 41px -8px;
 }
 
 .timer__background {
@@ -68,4 +70,8 @@
 .info__label {
     font-size: 30px;
     color: rgba(185, 185, 185, 0.5);
+}
+
+.timer__container {
+    translate: 100px -82px;
 }

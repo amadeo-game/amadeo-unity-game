@@ -18,6 +18,8 @@
     width: 100%;
     height: 100%;
     opacity: 1;
+    display: flex;
+    visibility: visible;
 }
 
 .pause__background {
@@ -38,13 +40,15 @@
 }
 
 .pause__container {
-    background-color: rgba(41, 128, 185, 0);
+    background-color: rgb(41, 128, 185);
     width: 720px;
     height: 620px;
     align-items: center;
     justify-content: center;
     opacity: 1;
     background-image: url('project://database/Assets/UI/Textures/UI_atlas.psd?fileID=4607225936081355050&guid=68de98d899585b7469e0fb40a0fcbc56&type=3#Window_bg_02');
+    position: absolute;
+    top: 55px;
 }
 
 .pause__header {

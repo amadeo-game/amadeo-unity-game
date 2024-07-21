@@ -6,7 +6,7 @@ using System;
 namespace UIToolkitDemo
 {
     // stores consumable data (resources)
-    [System.Serializable]
+    [Serializable]
     public class GameData
     {
         public float musicVolume;

@@ -30,7 +30,7 @@ namespace UIToolkitDemo
             GameplayEvents.MusicVolumeChanged += OnMusicVolumeChanged;
             GameplayEvents.SfxVolumeChanged += OnSfxVolumeChanged;
             
-            // SaveManager.GameDataLoaded += OnGameDataLoaded; 
+            SaveManager.GameDataLoaded += OnGameDataLoaded; 
         }
 
         void OnDisable()
@@ -45,7 +45,7 @@ namespace UIToolkitDemo
             GameplayEvents.MusicVolumeChanged -= OnMusicVolumeChanged;
             GameplayEvents.SfxVolumeChanged -= OnSfxVolumeChanged;
             
-            // SaveManager.GameDataLoaded -= OnGameDataLoaded;
+            SaveManager.GameDataLoaded -= OnGameDataLoaded;
         }
 
         IEnumerator PauseGameTime(float delay = 2f)
