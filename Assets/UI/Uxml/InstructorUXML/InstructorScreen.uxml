@@ -1,0 +1,73 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Uss/InstructorScreen.uss?fileID=7433441132597879392&amp;guid=73e08d42aff3f2e40ba404f36c373163&amp;type=3#InstructorScreen" />
+    <ui:VisualElement name="intructor__screen" picking-mode="Ignore" class="pause__screen instructor__screen" style="display: flex; visibility: visible;">
+        <ui:VisualElement name="Instructor__background" class="pause__background instructor__background" />
+        <ui:VisualElement name="instructor__container" class="pause__container instructor__container main-container" style="flex-shrink: initial;">
+            <ui:VisualElement name="instructor__header" picking-mode="Ignore" class="pause__header instructor__header">
+                <ui:Label text="Instuctor Panel" display-tooltip-when-elided="true" name="instructor__label" picking-mode="Ignore" class="pause__label instructor__label" />
+            </ui:VisualElement>
+            <ui:VisualElement name="instructor__body" picking-mode="Ignore" class="pause__body instructor__body" style="flex-direction: column; position: relative; height: 739px; width: 1267px; top: 0; align-items: stretch; justify-content: space-around;">
+                <ui:VisualElement name="pre_game_configs" focusable="false" tabindex="0" style="flex-grow: 1; flex-shrink: 0; border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; padding-top: 32px; visibility: visible; display: flex; overflow: visible; opacity: 1;">
+                    <ui:GroupBox focusable="false" name="height_picker" tabindex="0" class="height_picker" style="flex-direction: row; margin-top: 25px; flex-shrink: 0; flex-wrap: nowrap; -unity-text-align: upper-left; justify-content: flex-start; align-self: center; width: 1647px; margin-bottom: 2%; margin-right: 4%; align-items: flex-end; transform-origin: center;">
+                        <ui:Label tabindex="-1" text="Heights" parse-escape-sequences="true" display-tooltip-when-elided="true" class="heights__label" style="position: absolute; width: 275px; left: -15px; top: -17px;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                        <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="SliderInt" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
+                    </ui:GroupBox>
+                    <ui:VisualElement name="ingame_configs" class="toggles-row" style="flex-direction: row; align-items: center;">
+                        <ui:VisualElement name="time_picker" class="ingame_configs" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; justify-content: center;">
+                            <ui:Label text="Time" name="time_label" class="input_fields__label ingame_configs__label" style="width: 217px;" />
+                            <ui:IntegerField value="0" name="time_int_field" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="left_hand" class="ingame_configs" style="flex-grow: 1;">
+                            <ui:Label text="isLeftHand" name="left_hand_label" parse-escape-sequences="true" class="input_fields__label ingame_configs__label" />
+                            <ui:Toggle name="left_hand_toggle" class="instrucot_toggle" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="is_flexion" class="ingame_configs" style="flex-grow: 1;">
+                            <ui:Label text="isFlexion" name="is_flexion_label" class="input_fields__label ingame_configs__label" />
+                            <ui:Toggle name="is_flexion_toggle" class="instrucot_toggle" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="divider" class="divider" style="margin-top: 30px;" />
+                <ui:VisualElement name="input_fields" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; align-items: flex-start; margin-top: 30px;">
+                    <ui:VisualElement name="grace-picker" class="floats-row" style="flex-direction: row; align-items: center; justify-content: flex-start; width: 611px; flex-shrink: 0; align-self: flex-start;">
+                        <ui:Label text="Grace" class="input_fields__label" style="width: 192px;" />
+                        <ui:FloatField value="0.0" />
+                        <ui:FloatField value="0.0" />
+                        <ui:FloatField value="0.0" />
+                        <ui:FloatField value="0.0" />
+                        <ui:FloatField value="0.0" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="mvc_picker" class="integers-row" style="flex-direction: row; align-self: flex-start; align-items: center;">
+                        <ui:Label text="Label 7" name="MVC" class="input_fields__label" style="width: 194px;" />
+                        <ui:IntegerField value="0" />
+                        <ui:IntegerField value="0" />
+                        <ui:IntegerField value="0" />
+                        <ui:IntegerField value="0" />
+                        <ui:IntegerField value="0" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="active_units" class="multi-toggle-row" style="flex-direction: row; flex-shrink: initial; align-self: flex-start; width: 699px; justify-content: space-between; align-items: center; left: 25px; margin-top: 30px;">
+                    <ui:Label text="Active Units" name="active_units_label" class="input_fields__label" style="width: 317px;" />
+                    <ui:Toggle class="instrucot_toggle" />
+                    <ui:Toggle class="instrucot_toggle" />
+                    <ui:Toggle class="instrucot_toggle" />
+                    <ui:Toggle class="instrucot_toggle" />
+                    <ui:Toggle class="instrucot_toggle" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1508px; align-self: center; top: 45px; justify-content: space-between; align-items: stretch;">
+                <ui:Button text="Initialize Session" display-tooltip-when-elided="true" name="initialize_session_button" class="pause-screen-button pause__resume-button instructor__resume-button" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+                <ui:Button text="Start Game" display-tooltip-when-elided="true" name="start_session_button" class="pause__resume-button instructor__resume-button" style="margin-bottom: 21px;" />
+                <ui:VisualElement name="auto_start" style="flex-grow: initial; flex-direction: row; width: 256px; flex-shrink: initial;">
+                    <ui:Label text="Auto Start" name="auto_start_label" class="input_fields__label ingame_configs__label" style="width: 231px; font-size: 40px;" />
+                    <ui:Toggle name="auto_start_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Button display-tooltip-when-elided="true" name="pause__back-button" class="pause__back-button instructor__back-button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); display: none;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
