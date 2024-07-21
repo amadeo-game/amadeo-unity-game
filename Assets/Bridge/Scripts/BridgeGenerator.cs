@@ -70,6 +70,7 @@ namespace BridgePackage
 
         private void EnableUnitsControl()
         {
+            Debug.Log("EnableUnitsControl: Enabling units control");
             var unitsControl = GetComponent<UnitsControl>();
             unitsControl.SetPlayerUnits(playerUnits);
         }

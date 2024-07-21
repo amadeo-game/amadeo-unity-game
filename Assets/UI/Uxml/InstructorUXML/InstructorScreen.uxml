@@ -59,12 +59,16 @@
                     <ui:Toggle name="active_unit_5" class="instrucot_toggle" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1508px; align-self: center; top: 45px; justify-content: space-between; align-items: stretch;">
+            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1668px; align-self: center; top: 45px; justify-content: space-between; align-items: stretch;">
                 <ui:Button text="Initialize Session" display-tooltip-when-elided="true" name="initialize_session_button" class="pause-screen-button pause__resume-button instructor__resume-button" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
                 <ui:Button text="Start Game" display-tooltip-when-elided="true" name="start_session_button" class="pause__resume-button instructor__resume-button" style="margin-bottom: 21px;" />
-                <ui:VisualElement name="auto_start" style="flex-grow: initial; flex-direction: row; width: 256px; flex-shrink: initial;">
+                <ui:VisualElement name="auto_start" style="flex-grow: initial; flex-direction: row; width: 256px; flex-shrink: initial; align-items: center;">
                     <ui:Label text="Auto Start" name="auto_start_label" class="input_fields__label ingame_configs__label" style="width: 231px; font-size: 40px;" />
                     <ui:Toggle name="auto_start_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="zero_f" style="flex-grow: initial; flex-direction: row; width: 214px; flex-shrink: initial; align-items: center; margin-left: 40px;">
+                    <ui:Label text="ZeroF" name="zero_f_label" class="input_fields__label ingame_configs__label" style="width: 155px; font-size: 40px;" />
+                    <ui:Toggle name="zero_f_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button display-tooltip-when-elided="true" name="pause__back-button" class="pause__back-button instructor__back-button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); display: none;" />

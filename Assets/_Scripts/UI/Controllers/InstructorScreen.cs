@@ -153,6 +153,9 @@ public class InstructorScreen : MonoBehaviour
         // Initialize and listen for changes in left-hand and flexion toggles.
         InitializeAndListenToggle(root, "left_hand_toggle", sessionManager.IsLeftHand, sessionManager.SetIsLeftHand);
         InitializeAndListenToggle(root, "is_flexion_toggle", sessionManager.IsFlexion, sessionManager.SetIsFlexion);
+        
+        InitializeAndListenToggle(root, "zero_f_toggle", sessionManager.ZeroF, val => sessionManager.SetZeroF(val));
+        InitializeAndListenToggle(root, "auto_start_toggle", sessionManager.AutoPlay, val => sessionManager.SetAutoPlay(val));
     }
 
     /// <summary>

@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     public static event Action GameLost;
     
     private LevelManager levelManager;
-    private bool gameInitialized = false;
     private void Awake() {
         levelManager = GetComponent<LevelManager>();
     }
@@ -33,16 +32,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager :: InitializeNewGame() called.");
         levelManager.InitializeSession();
-        StartGame();
+        // StartGame();
     }
 
-    public void StartGame() {
-        if (gameInitialized) {
-            levelManager.StartSession();
-        }
-        Debug.Log("GameManager :: StartGame() called.");
-        
-    }
+    // public void StartGame() {
+    //     if (gameInitialized) {
+    //         levelManager.StartSession();
+    //     }
+    //     Debug.Log("GameManager :: StartGame() called.");
+    //     
+    // }
     
 
     private void HandleGameStart()

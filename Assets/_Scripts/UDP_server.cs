@@ -120,6 +120,7 @@ public class UDPServer {
     }
 
     private void HandleIncomingDataEmu() {
+        Debug.Log("HandleIncomingDataEmu:: Receiving data... from Emulation file.");
         var index = 0;
         string[] lines = null;
 
@@ -139,7 +140,7 @@ public class UDPServer {
             var parsedData = ParseDataFromAmadeo(line);
             // Send Data to client
             SendDataToClient(parsedData);
-            // Debug.Log("UDP_Server: Sent data to client. : " + parsedData);
+            Debug.Log("UDP_Server: Sent data to client. : " + parsedData);
         }
     }
 

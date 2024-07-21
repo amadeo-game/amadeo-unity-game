@@ -9,8 +9,18 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private SessionManager sessionManager;
 
     [SerializeReference] bool useDynamicDifficulty = false;
-    private int levelIndex { get; set; } = 0;
+    private int levelIndex { get; set; } = 1;
     private int sessionCount { get; set; } = 0;
+
+    private void OnEnable() {
+        // GameStatesEvents.GameSessionInitialized += StartSession;
+        GameStatesEvents.GameSessionStarted += EnableUnits;
+    }
+    
+    private void OnDestroy() {
+        // GameStatesEvents.GameSessionInitialized -= StartSession;
+        GameStatesEvents.GameSessionStarted -= EnableUnits;
+    }
 
     public void InitializeSession() {
         Debug.Log("LevelManager :: SetupNewLevel() called.");
@@ -51,6 +61,10 @@ public class LevelManager : MonoBehaviour {
         );
         GameStatesEvents.GameSessionStarted?.Invoke();
 
+    }
+    
+    private void EnableUnits() {
+        bridgeAPI.EnableGameUnits(sessionManager.ZeroF);
     }
 
     public void AdjustDifficultyBasedOnSessionData(SessionData sessionData) {

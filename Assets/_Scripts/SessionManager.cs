@@ -10,6 +10,9 @@ public class SessionManager : MonoBehaviour {
     private float[] mvcValues = new float[5] { 1, 1, 1, 1, 1 };
     private bool[] playableUnits = new bool[5] { false, false, false, true, true };
     private float[] unitsGrace = new float[5] { 0, 0, 0, 0, 0 };
+    
+    private bool zeroF = false;
+    private bool autoPlay = false;
 
     public int[] Heights => heights;
     public BridgeTypeSO BridgeType => bridgeTypeSO;
@@ -19,6 +22,10 @@ public class SessionManager : MonoBehaviour {
     public bool[] PlayableUnits => playableUnits;
     public float[] UnitsGrace => unitsGrace;
     public float TimeDuration => initialTimeDuration;
+    
+    public bool ZeroF => zeroF;
+    
+    public bool AutoPlay => autoPlay;
 
     public void SetHeights(int[] newHeights) {
         if (newHeights.Length == 5) {
@@ -58,5 +65,13 @@ public class SessionManager : MonoBehaviour {
         if (floats.Length == 5) {
             unitsGrace = floats;
         }
+    }
+    
+    public void SetZeroF(bool newZeroF) {
+        zeroF = newZeroF;
+    }
+    
+    public void SetAutoPlay(bool newAutoPlay) {
+        autoPlay = newAutoPlay;
     }
 }

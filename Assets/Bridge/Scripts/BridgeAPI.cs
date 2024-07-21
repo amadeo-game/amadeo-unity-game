@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-
 namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine))]
     public class BridgeAPI : MonoBehaviour, IBridgeAPI {
+
         public static event Action BridgeReady;
         public static event Action OnGameStart;
         public static event Action BridgeCollapsed;
@@ -54,6 +54,7 @@ namespace BridgePackage {
         }
 
         public void EnableGameUnits(bool doZeroF) {
+            Debug.Log("BridgeAPI: EnableGameUnits called, ZeroF: " + doZeroF);
             bridgeStateMachine.ChangeState(doZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
         }
 

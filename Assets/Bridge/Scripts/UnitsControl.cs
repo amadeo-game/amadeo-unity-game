@@ -21,7 +21,7 @@ namespace BridgePackage
         public void SetPlayerUnits(GameObject[] units)
         {
             playerUnits = units;
-            // AssignUnitControlScripts();
+            AssignUnitControlScripts();
         }
 
         /// <summary>
