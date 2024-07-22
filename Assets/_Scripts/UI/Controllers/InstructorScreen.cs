@@ -1,60 +1,54 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class InstructorScreen : MonoBehaviour
-{
+public class InstructorScreen : MonoBehaviour {
     // Reference to the SessionManager to access and update session data.
     public SessionManager sessionManager;
-    
+
     public LevelManager levelManager;
 
     private VisualElement preGameConfigs;
 
-    
+
     private Button initializeSessionButton;
     private Button startSessionButton;
+    private List<SliderInt> sliders = new List<SliderInt>(); // List to hold slider references
 
-    private void Start()
-    {
+
+    private void Start() {
         // Obtain the root visual element of the UXML.
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
 
         // Initialize UI elements and set up change listeners.
         InitializeAndListenUI(rootVisualElement);
-        
+
         // Set up button callbacks
         SetupButtonCallbacks(rootVisualElement);
-        
 
-        
+
         SubscribeToGameStateEvents();
-
-
     }
-    
-    private void SetupButtonCallbacks(VisualElement root)
-    {
+
+    private void SetupButtonCallbacks(VisualElement root) {
         preGameConfigs = root.Q<VisualElement>("pre_game_configs");
-        if (preGameConfigs == null)
-        {
+        if (preGameConfigs == null) {
             Debug.LogError("Failed to find 'Pre-Game Configs' container.");
             return;
         }
-        
+
         initializeSessionButton = root.Q<Button>("initialize_session_button");
-        if (initializeSessionButton == null)
-        {
+        if (initializeSessionButton == null) {
             Debug.LogError("Failed to find 'Initialize Session' button.");
             return;
         }
 
         startSessionButton = root.Q<Button>("start_session_button");
-        if (startSessionButton == null)
-        {
+        if (startSessionButton == null) {
             Debug.LogError("Failed to find 'Start Game' button.");
             return;
         }
-        
+
         initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.InitializeSession());
         startSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.StartSession());
 
@@ -62,24 +56,20 @@ public class InstructorScreen : MonoBehaviour
         startSessionButton.SetEnabled(false);
     }
 
-    private void SubscribeToGameStateEvents()
-    {
-        GameStatesEvents.GameSessionInitialized += () => 
-        {
+    private void SubscribeToGameStateEvents() {
+        GameStatesEvents.GameSessionInitialized += () => {
             initializeSessionButton.SetEnabled(false);
             startSessionButton.SetEnabled(true);
             SetInteractability(preGameConfigs, true);
         };
 
-        GameStatesEvents.GameSessionStarted += () =>
-        {
+        GameStatesEvents.GameSessionStarted += () => {
             initializeSessionButton.SetEnabled(false);
             startSessionButton.SetEnabled(false);
             SetInteractability(preGameConfigs, false);
         };
 
-        GameStatesEvents.GameSessionEnded += () =>
-        {
+        GameStatesEvents.GameSessionEnded += () => {
             // Both buttons are made interactable again when the game session ends
             initializeSessionButton.SetEnabled(true);
             startSessionButton.SetEnabled(true);
@@ -87,13 +77,11 @@ public class InstructorScreen : MonoBehaviour
         };
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         // Unsubscribe from events to prevent memory leaks
         GameStatesEvents.GameSessionInitialized -= () => initializeSessionButton.SetEnabled(false);
         GameStatesEvents.GameSessionStarted -= () => startSessionButton.SetEnabled(false);
-        GameStatesEvents.GameSessionEnded -= () => 
-        {
+        GameStatesEvents.GameSessionEnded -= () => {
             initializeSessionButton.SetEnabled(true);
             startSessionButton.SetEnabled(true);
         };
@@ -104,29 +92,24 @@ public class InstructorScreen : MonoBehaviour
     /// </summary>
     /// <param name="container">The container whose children's interactability will be set.</param>
     /// <param name="enabled">Whether the elements should be enabled (true) or disabled (false).</param>
-    private void SetInteractability(VisualElement container, bool enabled)
-    {
+    private void SetInteractability(VisualElement container, bool enabled) {
         if (container == null) return;
 
-        container.SetEnabled(enabled);  // Directly set the enabled state of the container
-        foreach (var child in container.Children())
-        {
-            SetInteractability(child, enabled);  // Recursively disable/enable child elements
+        container.SetEnabled(enabled); // Directly set the enabled state of the container
+        foreach (var child in container.Children()) {
+            SetInteractability(child, enabled); // Recursively disable/enable child elements
         }
     }
-
 
 
     /// <summary>
     /// Initializes all UI elements with values from SessionManager and sets up listeners to handle changes.
     /// </summary>
     /// <param name="root">The root visual element of the UI document.</param>
-    private void InitializeAndListenUI(VisualElement root)
-    {
+    private void InitializeAndListenUI(VisualElement root) {
         // Initialize sliders for height and register change listeners.
-        for (int i = 0; i < 5; i++)
-        {
-            int localIndex = i;  // Local copy of the loop variable
+        for (int i = 0; i < 5; i++) {
+            int localIndex = i; // Local copy of the loop variable
 
             var slider = root.Q<SliderInt>("height_" + (localIndex + 1));
             slider.value = sessionManager.Heights[localIndex];
@@ -150,21 +133,53 @@ public class InstructorScreen : MonoBehaviour
         timeField.value = (int)sessionManager.TimeDuration;
         timeField.RegisterValueChangedCallback(evt => sessionManager.SetTimeDuration(evt.newValue));
 
-        // Initialize and listen for changes in left-hand and flexion toggles.
+        // Initialize and listen for changes in toggle listeners
+
         InitializeAndListenToggle(root, "left_hand_toggle", sessionManager.IsLeftHand, sessionManager.SetIsLeftHand);
-        InitializeAndListenToggle(root, "is_flexion_toggle", sessionManager.IsFlexion, sessionManager.SetIsFlexion);
-        
+        InitializeAndListenToggle(root, "is_flexion_toggle", sessionManager.IsFlexion, SetFlexion);
+
         InitializeAndListenToggle(root, "zero_f_toggle", sessionManager.ZeroF, val => sessionManager.SetZeroF(val));
-        InitializeAndListenToggle(root, "auto_start_toggle", sessionManager.AutoPlay, val => sessionManager.SetAutoPlay(val));
+        InitializeAndListenToggle(root, "auto_start_toggle", sessionManager.AutoPlay,
+            val => sessionManager.SetAutoPlay(val));
+
+        // Query and store references to all sliders
+        for (int i = 1; i <= 5; i++) {
+            SliderInt slider = root.Q<SliderInt>("height_" + i);
+            if (slider != null) {
+                sliders.Add(slider);
+                SetSliderRotation(slider, sessionManager.IsFlexion); // Set initial rotation based on the flexion state
+            }
+        }
     }
+
+    /// <summary>
+    /// Sets or unsets the flexion state and adjusts slider rotations accordingly.
+    /// </summary>
+    private void SetFlexion(bool isFlexion) {
+        sessionManager.SetIsFlexion(isFlexion);
+        foreach (SliderInt slider in sliders) {
+            SetSliderRotation(slider, isFlexion);
+        }
+    }
+
+    /// <summary>
+    /// Sets the rotation of a slider based on the flexion state.
+    /// </summary>
+    private void SetSliderRotation(SliderInt slider, bool isFlexion)
+    {
+        // Set rotation to 90 degrees if flexion is true, otherwise set to 270 degrees for inverted vertical
+        var rotationAngle = isFlexion ? 90f : 270f;
+        slider.style.rotate = new Rotate(rotationAngle);
+    }
+
+
 
     /// <summary>
     /// Updates the specified height in the SessionManager.
     /// </summary>
     /// <param name="index">Index of the height to update.</param>
     /// <param name="newValue">New value for the height.</param>
-    private void UpdateHeight(int index, int newValue)
-    {
+    private void UpdateHeight(int index, int newValue) {
         int[] heights = sessionManager.Heights;
         heights[index] = newValue;
         sessionManager.SetHeights(heights);
@@ -175,8 +190,7 @@ public class InstructorScreen : MonoBehaviour
     /// </summary>
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newValue">New grace value.</param>
-    private void UpdateGrace(int index, float newValue)
-    {
+    private void UpdateGrace(int index, float newValue) {
         float[] graces = sessionManager.UnitsGrace;
         graces[index] = newValue;
         sessionManager.SetUnitsGrace(graces);
@@ -187,8 +201,7 @@ public class InstructorScreen : MonoBehaviour
     /// </summary>
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newValue">New MVC value.</param>
-    private void UpdateMvc(int index, int newValue)
-    {
+    private void UpdateMvc(int index, int newValue) {
         float[] mvcValues = sessionManager.MvcValues;
         mvcValues[index] = newValue;
         sessionManager.SetMvcValues(mvcValues);
@@ -199,8 +212,7 @@ public class InstructorScreen : MonoBehaviour
     /// </summary>
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newState">New active state.</param>
-    private void UpdateActiveUnit(int index, bool newState)
-    {
+    private void UpdateActiveUnit(int index, bool newState) {
         bool[] units = sessionManager.PlayableUnits;
         units[index] = newState;
         sessionManager.SetPlayableUnits(units);
@@ -213,8 +225,8 @@ public class InstructorScreen : MonoBehaviour
     /// <param name="toggleName">The name of the toggle element.</param>
     /// <param name="initialValue">Initial value of the toggle.</param>
     /// <param name="updateAction">Action to perform on value change.</param>
-    private void InitializeAndListenToggle(VisualElement root, string toggleName, bool initialValue, System.Action<bool> updateAction)
-    {
+    private void InitializeAndListenToggle(VisualElement root, string toggleName, bool initialValue,
+        System.Action<bool> updateAction) {
         var toggle = root.Q<Toggle>(toggleName);
         toggle.value = initialValue;
         toggle.RegisterValueChangedCallback(evt => updateAction(evt.newValue));

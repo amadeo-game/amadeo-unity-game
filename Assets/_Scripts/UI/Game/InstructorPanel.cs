@@ -74,7 +74,6 @@ public class InstructorPanel : MonoBehaviour
     private void StartSession()
     {
         UpdateSessionManagerValues();
-        gameManager.StartGame();
     }
 
     private void UpdateSessionManagerValues()
@@ -109,7 +108,7 @@ public class InstructorPanel : MonoBehaviour
 
         sessionManager.SetIsLeftHand(root.Q<Toggle>("IsLeftHandToggle").value);
         sessionManager.SetIsFlexion(root.Q<Toggle>("IsFlexionToggle").value);
-        // sessionManager.SetAutoPlay(root.Q<Toggle>("AutoPlayToggle").value);
+        sessionManager.SetAutoPlay(root.Q<Toggle>("AutoPlayToggle").value);
     }
 
     public void TogglePanelVisibility()

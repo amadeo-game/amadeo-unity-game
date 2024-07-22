@@ -14,7 +14,7 @@ public class LevelManager : MonoBehaviour {
 
     private void OnEnable() {
         // GameStatesEvents.GameSessionInitialized += StartSession;
-        GameStatesEvents.GameSessionStarted += EnableUnits;
+        BridgeAPI.BridgeReady += EnableUnits;
     }
     
     private void OnDestroy() {
@@ -33,8 +33,8 @@ public class LevelManager : MonoBehaviour {
             AdjustDifficultyBasedOnSessionData(sessionData);
         }
         else {
-            var heights = GenerateRandomHeights();
-            sessionManager.SetHeights(heights);
+            // var heights = GenerateRandomHeights();
+            // sessionManager.SetHeights(heights);
             sessionManager.SetBridgeType(GetBridgeTypeSO(levelIndex));
             sessionManager.SetIsLeftHand(GetIsLeftHand());
             sessionManager.SetIsFlexion(GetIsFlexion());
