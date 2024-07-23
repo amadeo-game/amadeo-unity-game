@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,6 +10,7 @@ namespace BridgePackage {
         Building,
         BridgeReady,
         InZeroF,
+        StartingGame,
         InGame,
         BridgeCollapsing,
         GameFailed,
@@ -64,7 +66,10 @@ namespace BridgePackage {
                 case BridgeStates.InZeroF:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InZeroF);
                     break;
-                
+                case BridgeStates.StartingGame:
+                    StartCoroutine(StartingGame());
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.StartingGame);
+                    break;
                 case BridgeStates.InGame:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InGame);
                     BridgeEvents.OnGameStart?.Invoke();
@@ -92,6 +97,13 @@ namespace BridgePackage {
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
+        }
+
+        internal IEnumerator StartingGame() {
+            // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start)
+            yield return new WaitForSecondsRealtime(3f); 
+            // Play Animation (countdown on Screen)
+            ChangeState(BridgeStates.InGame);
         }
 
         public void StartBuilding() {

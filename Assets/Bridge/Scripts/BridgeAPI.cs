@@ -39,7 +39,7 @@ namespace BridgePackage {
 
         public void EnableGameUnits(bool doZeroF) {
             Debug.Log("BridgeAPI: EnableGameUnits called, ZeroF: " + doZeroF);
-            bridgeStateMachine.ChangeState(doZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
+            bridgeStateMachine.ChangeState(doZeroF ? BridgeStates.InZeroF : BridgeStates.StartingGame);
         }
 
         public void CollapseBridge() {
