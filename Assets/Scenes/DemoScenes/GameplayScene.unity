@@ -2873,7 +2873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87acfd3d3fc72d346b5b54f992424f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sessionManager: {fileID: 1439435749}
+  BridgeDataManager: {fileID: 1439435749}
   levelManager: {fileID: 1439435748}
 --- !u!1 &808790527
 GameObject:
@@ -4734,7 +4734,6 @@ GameObject:
   - component: {fileID: 1439435745}
   - component: {fileID: 1439435744}
   - component: {fileID: 1439435747}
-  - component: {fileID: 1439435746}
   - component: {fileID: 1439435748}
   - component: {fileID: 1439435749}
   m_Layer: 0
@@ -4771,19 +4770,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1439435746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1439435743}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35ab73b9de101344ab78baf939284853, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bridgeApi: {fileID: 1604210433}
 --- !u!114 &1439435747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4811,7 +4797,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bridgeAPI: {fileID: 1604210433}
   bridgeCollectionSO: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
-  sessionManager: {fileID: 1439435749}
+  _bridgeDataManager: {fileID: 1439435749}
   useDynamicDifficulty: 0
 --- !u!114 &1439435749
 MonoBehaviour:
@@ -4825,7 +4811,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4235614ef33640e40806ead2af0af51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialTimeDuration: 60
+  bridgeData:
+    TimeDuration: 60
+    heights: 0000000000000000000000000000000000000000
+    bridgeTypeSO: {fileID: 0}
+    isLeftHand: 1
+    isFlexion: 1
+    mvcValues:
+    - 1
+    - 1
+    - 1
+    - 1
+    - 1
+    playableUnits: 0000000101
+    unitsGrace:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    zeroF: 0
+    autoPlay: 0
 --- !u!1 &1477186644
 GameObject:
   m_ObjectHideFlags: 0
@@ -6271,6 +6277,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3866708149298042128, guid: 9a97547d2ff4d2945ab54c58bd3f4dac, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6038791688850225783, guid: 9a97547d2ff4d2945ab54c58bd3f4dac, type: 3}
+      propertyPath: m_Debug
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

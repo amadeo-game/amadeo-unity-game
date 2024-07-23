@@ -23,14 +23,16 @@ namespace BridgePackage {
         public event Action OnSuccessStart;
         public event Action<int[], BridgeTypeSO> OnForceResetBridge;
 
-        public BridgeStates currentState { get; private set; }
+        internal static BridgeStates currentState { get; private set; }
         
         private Dictionary<FingerUnit, bool> unitPlacementStatus;
         private BridgeTimer timer;
         private int[] unitHeights;
         private BridgeTypeSO bridgeTypeSO;
-        private bool isLeftHand;
-        private bool isFlexion;
+        internal bool isLeftHand;
+        internal bool isFlexion;
+        internal static bool isZeroF;
+        
         private float[] mvcValues;
         private bool[] playableUnits;
         private float[] unitsGrace;
@@ -55,31 +57,40 @@ namespace BridgePackage {
             currentState = state;
             switch (state) {
                 case BridgeStates.Idle:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Idle);
                     break;
                 case BridgeStates.Building:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Building);
                     break;
                 case BridgeStates.BridgeReady:
-                    BridgeAPI.NotifyBridgeReady();
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeReady);
+                    BridgeEvents.BridgeReady?.Invoke();
                     break;
                 case BridgeStates.InZeroF:
-                    
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InZeroF);
                     break;
                 case BridgeStates.InGame:
-                    StartGame();
-                    BridgeAPI.NotifyGameStart();
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InGame);
+                    OnEnablePlayerUnits?.Invoke();
+                    
+                    BridgeEvents.OnGameStart?.Invoke();
                     timer.StartTimer(timeDuration); // Start the timer with the configured duration
                     break;
                 case BridgeStates.Collapse:
+                    
                     StartCollapsingBridge();
                     break;
                 case BridgeStates.GameFailed:
-                    BridgeAPI.NotifyBridgeCollapsing();
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.GameFailed);
+                    BridgeEvents.BridgeCollapsed?.Invoke();
                     break;
                 case BridgeStates.BridgeComplete:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeComplete);
                     StartCompleteBridge();
                     break;
                 case BridgeStates.GameWon:
-                    BridgeAPI.NotifyBridgeIsComplete();
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.GameWon);
+                    BridgeEvents.BridgeIsComplete?.Invoke();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -93,10 +104,6 @@ namespace BridgePackage {
 
             OnBuildStartWithHeights?.Invoke(unitHeights, this.bridgeTypeSO);
             ChangeState(BridgeStates.Building);
-        }
-
-        public void StartGame() {
-            OnEnablePlayerUnits?.Invoke();
         }
 
         public void StartCompleteBridge() {
@@ -141,7 +148,7 @@ namespace BridgePackage {
 
         public void SetGameParameters(int[] heights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion, float[] mvcValues, bool[] playableUnits, float[] unitsGrace, float timeDuration)
         {
-            this.unitHeights = heights;
+            unitHeights = heights;
             this.bridgeTypeSO = bridgeTypeSO;
             this.isLeftHand = isLeftHand;
             this.isFlexion = isFlexion;

@@ -7,10 +7,7 @@ using System.Text;
 using System.Threading;
 using UnityEngine;
 
-public enum InputType {
-    EmulationMode,
-    Amadeo,
-}
+
 
 public class UDPServer {
     readonly int defaultPortNumber = 4444;

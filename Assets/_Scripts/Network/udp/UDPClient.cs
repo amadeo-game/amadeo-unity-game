@@ -170,7 +170,7 @@ public class UDPClient : MonoBehaviour
         // Send the parsed forces to the bridgeApi script
         if (bridgeApi != null)
         {
-            bridgeApi.ApplyForces(forcesNum);
+            // bridgeApi.ApplyForces(forcesNum);
         }
         else
         {

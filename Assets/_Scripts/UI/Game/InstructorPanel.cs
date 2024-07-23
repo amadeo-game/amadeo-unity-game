@@ -1,3 +1,4 @@
+using BridgePackage;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,7 +9,7 @@ public class InstructorPanel : MonoBehaviour
     private VisualElement root;
     private VisualElement floatingPanel;
 
-    private SessionManager sessionManager;
+    private BridgeDataManager _bridgeDataManager;
     private GameManager gameManager;
 
     private void OnEnable()
@@ -23,10 +24,10 @@ public class InstructorPanel : MonoBehaviour
         visualTree.CloneTree(root);
         root.styleSheets.Add(styleSheet);
 
-        sessionManager = FindObjectOfType<SessionManager>();
+        _bridgeDataManager = FindObjectOfType<BridgeDataManager>();
         gameManager = FindObjectOfType<GameManager>();
 
-        if (sessionManager == null || gameManager == null)
+        if (_bridgeDataManager == null || gameManager == null)
         {
             Debug.LogError("SessionManager or GameManager not found in the scene");
             return;
@@ -83,32 +84,32 @@ public class InstructorPanel : MonoBehaviour
         {
             heights[i] = root.Q<SliderInt>($"HeightSlider{i}").value;
         }
-        sessionManager.SetHeights(heights);
+        BridgeDataManager.SetHeights(heights);
 
         float[] mvcValues = new float[5];
         for (int i = 0; i < 5; i++)
         {
             mvcValues[i] = float.Parse(root.Q<TextField>($"MvcValueInput{i}").value);
         }
-        sessionManager.SetMvcValues(mvcValues);
+        BridgeDataManager.SetMvcValues(mvcValues);
 
         bool[] playableUnits = new bool[5];
         for (int i = 0; i < 5; i++)
         {
             playableUnits[i] = root.Q<Toggle>($"PlayableUnitToggle{i}").value;
         }
-        sessionManager.SetPlayableUnits(playableUnits);
+        BridgeDataManager.SetPlayableUnits(playableUnits);
 
         float[] unitsGrace = new float[5];
         for (int i = 0; i < 5; i++)
         {
             unitsGrace[i] = float.Parse(root.Q<TextField>($"UnitsGraceInput{i}").value);
         }
-        sessionManager.SetUnitsGrace(unitsGrace);
+        BridgeDataManager.SetUnitsGrace(unitsGrace);
 
-        sessionManager.SetIsLeftHand(root.Q<Toggle>("IsLeftHandToggle").value);
-        sessionManager.SetIsFlexion(root.Q<Toggle>("IsFlexionToggle").value);
-        sessionManager.SetAutoPlay(root.Q<Toggle>("AutoPlayToggle").value);
+        BridgeDataManager.SetIsLeftHand(root.Q<Toggle>("IsLeftHandToggle").value);
+        BridgeDataManager.SetIsFlexion(root.Q<Toggle>("IsFlexionToggle").value);
+        BridgeDataManager.SetAutoPlay(root.Q<Toggle>("AutoPlayToggle").value);
     }
 
     public void TogglePanelVisibility()

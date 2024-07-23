@@ -18,6 +18,13 @@ namespace BridgePackage
             bridgeStateMachine = stateMachine ? stateMachine : throw new ArgumentNullException(nameof(stateMachine), "BridgeStateMachine cannot be null.");
         }
 
+        internal void SetFingerUnit(FingerUnit unit)
+        {
+            fingerUnit = unit;
+            GetComponent<MoveUnit>().fingerIndex = (int)unit;
+
+        }
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             bridgeStateMachine?.UnitPlaced(fingerUnit, true);

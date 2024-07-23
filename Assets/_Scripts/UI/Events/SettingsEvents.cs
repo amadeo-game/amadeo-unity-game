@@ -1,8 +1,5 @@
 using System;
 
-
-namespace UIToolkitDemo
-{
     /// <summary>
     /// Public static delegates associated with the SettingsScreen/SettingsScreenController.
     ///
@@ -10,7 +7,6 @@ namespace UIToolkitDemo
     /// </summary>
     public static class SettingsEvents 
     {
-
         // Sync previously saved data from SettingsScreenController to SettingsScreen UI
         public static Action<GameData> GameDataLoaded;
 
@@ -21,4 +17,4 @@ namespace UIToolkitDemo
         public static Action<GameData> SettingsUpdated;
 
     }
-}
+

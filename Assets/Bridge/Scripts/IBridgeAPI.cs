@@ -14,9 +14,7 @@ public interface IBridgeAPI {
     void CompleteBridge();
 
     void EnableGameUnits(bool doZeroF);
-
-    void ApplyForces(double[] forces);
-
+    
     SessionData GetSessionData();
     void PauseBridge();
 }

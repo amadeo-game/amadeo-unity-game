@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8013087683977091220, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_Name
-      value: PUnitPlaceHolder Variant
+      value: GuideUnit
       objectReference: {fileID: 0}
     - target: {fileID: 8013087683977091220, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_Layer
@@ -60,6 +60,7 @@ PrefabInstance:
     - {fileID: 6678188067204950420, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
     - {fileID: 3202664396421978809, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
     - {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
+    - {fileID: 2473480612002235584, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

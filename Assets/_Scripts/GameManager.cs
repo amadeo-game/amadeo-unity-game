@@ -15,17 +15,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         // Listen for game state events
-        BridgeAPI.OnGameStart += HandleGameStart;
-        BridgeAPI.BridgeCollapsed += HandleGameFailed;
-        BridgeAPI.BridgeIsComplete += HandleGameSuccess;
+        BridgeEvents.OnGameStart += HandleGameStart;
+        BridgeEvents.BridgeCollapsed += HandleGameFailed;
+        BridgeEvents.BridgeIsComplete += HandleGameSuccess;
     }
 
     private void OnDestroy()
     {
         // Unsubscribe from game state events
-        BridgeAPI.OnGameStart -= HandleGameStart;
-        BridgeAPI.BridgeCollapsed -= HandleGameFailed;
-        BridgeAPI.BridgeIsComplete -= HandleGameSuccess;
+        BridgeEvents.OnGameStart -= HandleGameStart;
+        BridgeEvents.BridgeCollapsed -= HandleGameFailed;
+        BridgeEvents.BridgeIsComplete -= HandleGameSuccess;
     }
 
     public void InitializeNewGame()

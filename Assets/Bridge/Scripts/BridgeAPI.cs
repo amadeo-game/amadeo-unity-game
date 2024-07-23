@@ -4,12 +4,7 @@ namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine))]
     public class BridgeAPI : MonoBehaviour, IBridgeAPI {
 
-        public static event Action BridgeReady;
-        public static event Action OnGameStart;
-        public static event Action BridgeCollapsed;
-        public static event Action FailedSession;
-        public static event Action BridgeIsComplete;
-        public static event Action WonSession;
+
 
         private BridgeStateMachine bridgeStateMachine;
         private UnitsControl unitsControl;
@@ -29,13 +24,6 @@ namespace BridgePackage {
             bridgeStateMachine = GetComponent<BridgeStateMachine>();
             unitsControl = GetComponent<UnitsControl>();
         }
-
-        internal static void NotifyBridgeReady() => BridgeReady?.Invoke();
-        internal static void NotifyGameStart() => OnGameStart?.Invoke();
-        internal static void NotifyBridgeCollapsing() => BridgeCollapsed?.Invoke();
-        internal static void NotifyBridgeFailure() => FailedSession?.Invoke();
-        internal static void NotifyBridgeIsComplete() => BridgeIsComplete?.Invoke();
-        internal static void NotifyBridgeIsWin() => WonSession?.Invoke();
 
         public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion,
             float[] mvcValues, bool[] playableUnits, float[] unitsGrace, float timeDuration) {
@@ -71,11 +59,11 @@ namespace BridgePackage {
             throw new NotImplementedException();
         }
 
-        public void ApplyForces(double[] forces) {
-            if (bridgeStateMachine.currentState is BridgeStates.InGame) {
-                unitsControl.ApplyForces(forces);
-            }
-        }
+        // public void ApplyForces(double[] forces) {
+        //     if (BridgeStateMachine.currentState is BridgeStates.InGame) {
+        //         unitsControl.ApplyForces();
+        //     }
+        // }
 
         public SessionData GetSessionData() {
             throw new NotImplementedException();

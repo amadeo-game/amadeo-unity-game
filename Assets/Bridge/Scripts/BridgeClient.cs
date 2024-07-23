@@ -1,220 +1,266 @@
 using System;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
-using BridgePackage;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(BridgeStateMachine))]
-public class BridgeClient : MonoBehaviour {
-    private UdpClient _udpClient;
-    private IPEndPoint _remoteEndPoint;
-    private CancellationTokenSource _cancellationTokenSource;
-    private bool isReceiving = true;
-    private BridgeAPI bridgeApi;
-    private double[] _zeroForces = new double[10]; // Store zeroing forces
-    private double[] mvcForceExtension = new double[5]; // Store MVC forces
-    private double[] mvcForceFlexion = new double[5]; // Store MVC forces
-    bool isLeftHand = false;
-    bool isFlexion = false;
+public enum InputType {
+    EmulationMode,
+    Amadeo,
+}
 
-    private void Awake() {
-        bridgeApi = GetComponent<BridgeAPI>();
-    }
+namespace BridgePackage {
+    
+    [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
+    
+    public class BridgeClient : MonoBehaviour {
+        [SerializeField] InputType inputType = InputType.EmulationMode;
 
-    private void OnEnable() {
-        BridgeAPI.BridgeReady += StartReceiveData;
-        BridgeAPI.BridgeCollapsed += StopListeningToData;
-        BridgeAPI.BridgeIsComplete += StopListeningToData;
-    }
+        [SerializeField, Tooltip("Port should be 4444 for Amadeo connection")]
+        private int _port = 4444;
 
-    private void OnDisable() {
-        BridgeAPI.BridgeReady -= StartReceiveData;
-        BridgeAPI.BridgeCollapsed -= StopListeningToData;
-        BridgeAPI.BridgeIsComplete -= StopListeningToData;
-    }
+        private CancellationTokenSource _cancellationTokenSource;
+        private bool _isReceiving = true;
+        private UdpClient _udpClient;
+        private const string EmulationDataFile = "Assets/AmadeoRecords/force_data.txt";
 
-    private void Start() {
-        // Initialize the UdpClient
-        try {
-            _udpClient = new UdpClient(8888); // Listen for data on port 8888
-            _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0); // Placeholder for any remote endpoint
-        }
-        catch (Exception ex) {
-            Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
-            return; // Exit if UdpClient initialization fails
+        private const int DefaultPortNumber = 4444;
+
+
+        private IPEndPoint _remoteEndPoint;
+
+        private float[] forces = new float[5];
+        private float[] _zeroForces = new float[10]; // Store zeroing forces
+        private double[] mvcForceExtension = new double[5]; // Store MVC forces
+        private double[] mvcForceFlexion = new double[5]; // Store MVC forces
+        bool isLeftHand = false;
+        bool isFlexion = false;
+
+        private void OnEnable() {
+            BridgeEvents.BridgeReady += StartReceiveData;
+            BridgeEvents.BridgeCollapsed += StopReceiveData;
+            BridgeEvents.BridgeIsComplete += StopReceiveData;
         }
 
-        _cancellationTokenSource = new CancellationTokenSource();
-
-        SetZeroForces(); // Load zeroing forces from PlayerPrefs
-        SetMvcForces(); // Load MVC forces from PlayerPrefs
-    }
-
-    private void SetZeroForces() {
-        var data = PlayerPrefs.GetString("zeroForces", ""); // Default to empty string if not set
-        if (string.IsNullOrEmpty(data)) {
-            Debug.LogError("ZeroForces data is empty or not set in PlayerPrefs");
-            return;
+        private void OnDisable() {
+            BridgeEvents.BridgeReady -= StartReceiveData;
+            BridgeEvents.BridgeCollapsed -= StopReceiveData;
+            BridgeEvents.BridgeIsComplete -= StopReceiveData;
         }
 
-        string[] forces = data.Split('\t');
-        if (forces.Length != 10) {
-            Debug.LogError("ZeroForces data does not contain exactly 10 values");
-            return;
-        }
-
-        for (int i = 0; i < _zeroForces.Length; i++) {
-            if (double.TryParse(forces[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var force)) {
-                _zeroForces[i] = force;
-            }
-            else {
-                Debug.LogError($"Error parsing zero force at position {i + 1}: {forces[i + 1]}");
-                _zeroForces[i] = 0; // or any other default/fallback value
-            }
-        }
-    }
-
-    private void SetMvcForces() {
-        for (var i = 1; i <= mvcForceExtension.Length; i++) {
-            var key = "E" + i;
-            double forceFinger = PlayerPrefs.GetFloat(key);
-            mvcForceExtension[i - 1] = forceFinger;
-        }
-
-        for (var i = 1; i <= mvcForceFlexion.Length; i++) {
-            var key = "F" + i;
-            double forceFinger = PlayerPrefs.GetFloat(key);
-            mvcForceFlexion[i - 1] = forceFinger;
-        }
-
-        Debug.Log(string.Join(", ", mvcForceExtension));
-        Debug.Log(string.Join(", ", mvcForceFlexion));
-    }
-
-    public void StartReceiveData() {
-        isReceiving = true;
-
-        ReceiveData(_cancellationTokenSource.Token);
-        Debug.Log("UDPClient: Start listening for ZeroF data from server");
-    }
-
-    private void StopListeningToData() {
-        try {
-            StopReceiveData(); // Stop receiving data from the client
-        }
-        catch (Exception ex) {
-            Debug.LogError($"Error stopping UDP client: {ex.Message}");
-        }
-    }
-
-    public void StopReceiveData() {
-        isReceiving = false;
-        Debug.Log("UDPClient: Stop listening for ZeroF data from server");
-    }
-
-    private async void ReceiveData(CancellationToken cancellationToken) {
-        Debug.Log("UDPClient: Start receiving data from server");
-        while (isReceiving && !cancellationToken.IsCancellationRequested) {
+        private void Start() {
+            // Initialize the UdpClient
             try {
-                // Receive data from the server
-                UdpReceiveResult result = await _udpClient.ReceiveAsync();
-                byte[] data = result.Buffer;
-
-                // Convert the received data to a string
-                string receivedData = Encoding.ASCII.GetString(data);
-
-                // Pass the received data to the Move script
-                HandleReceivedData(receivedData);
-            }
-            catch (SocketException ex) {
-                Debug.LogError($"SocketException: {ex.Message}");
-            }
-            catch (ObjectDisposedException) {
-                // This exception is expected when _udpClient is closed during ReceiveAsync
-                Debug.Log("UDPClient has been disposed.");
+                _udpClient = new UdpClient(PortValidation(_port)); // Listen for data on port (should be 4444)
+                _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0); // Placeholder for any remote endpoint
             }
             catch (Exception ex) {
-                Debug.LogError($"Exception: {ex.Message}");
+                Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
+                return; // Exit if UdpClient initialization fails
             }
+
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        Debug.Log("UDPClient: Stop receiving data from server");
-    }
-
-    private void HandleReceivedData(string data) {
-        string[] forces = data.Split('\t');
-        double[] forcesNum = new double[10]; // Array to store parsed forces. We expect 10 force values.
-
-        if (forces.Length != 11) return; // Ensuring we have exactly 11 values (1 time + 10 forces)
-
-        for (var i = 0; i < forcesNum.Length; i++) {
-            if (double.TryParse(forces[i + 1].Replace(",", "."), NumberStyles.Float, CultureInfo.InvariantCulture,
-                    out var force)) {
-                forcesNum[i] = force;
+        public void StartReceiveData() {
+            if (_cancellationTokenSource.IsCancellationRequested) {
+                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = new CancellationTokenSource();
             }
-            else {
-                Debug.LogError($"Error parsing force at position {i + 1}: {forces[i + 1]}");
-                Debug.Log("forces is " + string.Join(", ", forces));
-                forcesNum[i] = 0; // or any other default/fallback value
-            }
-        }
 
-        // Apply zeroing offset
-        for (var i = 0; i < forcesNum.Length; i++) {
-            //The goal of zeroing is to remove the baseline effect from the measurements
-            forcesNum[i] -= _zeroForces[i];
-        }
-
-        // Send the parsed forces to the bridgeApi script
-        if (bridgeApi != null) {
-            bridgeApi.ApplyForces(forcesNum);
-        }
-        else {
-            Debug.LogError("UnitsControl reference is missing in UDPClient.");
-        }
-    }
-
-    private double[] ApplyMvcForces(double[] forcesNum) {
-        // Normalize forces using MVC values
-        var normalizedForces = new double[10];
-
-        for (var i = 0; i < 5; i++) {
-            if (isFlexion) {
-                // Left hand mvc forces
-                normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
-                // Right hand mvc forces
-                normalizedForces[i + 5] = mvcForceFlexion[i] != 0 ? forcesNum[i + 5] / mvcForceFlexion[i] : 0;
+            _isReceiving = true;
+            isLeftHand = BridgeDataManager.IsLeftHand;
+            if (inputType == InputType.EmulationMode) {
+                Task.Run(() => HandleIncomingDataEmu(_cancellationTokenSource.Token), _cancellationTokenSource.Token);
             }
             else {
-                // Left hand mvc forces
-                normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] / mvcForceExtension[i] : 0;
-                // Right hand mvc forces
-                normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] / mvcForceExtension[i] : 0;
+                Task.Run(() => ReceiveData(_cancellationTokenSource.Token), _cancellationTokenSource.Token);
             }
         }
 
-        Debug.Log("Normalized forces: " + string.Join(", ", normalizedForces));
-        return normalizedForces;
-    }
-
-    private void OnApplicationQuit() {
-        StopClientConnection();
-    }
-
-    private void StopClientConnection() {
-        isReceiving = false; // Signal the receiving loop to stop
-
-        _cancellationTokenSource.Cancel(); // Cancel the receive task
-
-        // Properly dispose of the UdpClient 
-        if (_udpClient != null) {
-            _udpClient.Close();
-            _udpClient = null;
+        public void StopReceiveData() {
+            _isReceiving = false;
+            _cancellationTokenSource.Cancel();
         }
 
-        _cancellationTokenSource.Dispose();
+        private async Task ReceiveData(CancellationToken cancellationToken) {
+            while (_isReceiving && !cancellationToken.IsCancellationRequested) {
+                try {
+                    UdpReceiveResult result = await _udpClient.ReceiveAsync();
+                    string receivedData = Encoding.ASCII.GetString(result.Buffer);
+                    HandleReceivedData(ParseDataFromAmadeo(receivedData));
+                }
+                catch (OperationCanceledException) {
+                    Debug.Log("Data reception was canceled.");
+                    break;
+                }
+                catch (Exception ex) {
+                    Debug.LogError($"Exception in ReceiveData: {ex.Message}");
+                    break;
+                }
+            }
+        }
+
+
+        private async Task HandleIncomingDataEmu(CancellationToken cancellationToken) {
+            string[] lines = await File.ReadAllLinesAsync(EmulationDataFile);
+
+            Debug.Log("Lines length: " + lines.Length);
+
+            int index = 0;
+
+            while (_isReceiving) {
+                Debug.Log("HandleIncomingDataEmu: Receiving data... from Emulation file.");
+                string line = lines[index];
+                index = (index + 1) % lines.Length;
+                // Debug.Log("HandleIncomingDataEmu: Received data: " + line);
+                HandleReceivedData(ParseDataFromAmadeo(line));
+                // _isReceiving = false;
+                await Task.Delay(100, cancellationToken); // Delay to allow UI updates and prevent high CPU usage
+            }
+
+            Debug.Log("HandleIncomingDataEmu: Stopped receiving data.");
+        }
+
+        private void HandleReceivedData(string data) {
+            if (BridgeStateMachine.currentState is not BridgeStates.InGame) {
+                return;
+            }
+            
+            string[] strForces = data.Split('\t');
+            Debug.Log("strForces: " + string.Join(", ", strForces));
+            if (strForces.Length != 11) {
+                Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
+                return; // Ensuring we have exactly 11 values (1 time + 10 forces)
+                
+            }
+            Debug.Log("Forces: " + string.Join(", ", forces));
+            // Parse the forces from the received data, str length is 11
+            strForces.Select(str => 
+                    float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
+                .Skip(strForces.Length - 5) // Skip to the last 5 elements
+                .ToArray()
+                .CopyTo(forces, 0); // Copy to test array starting at index 0
+            
+            // Apply zeroing offset
+            for (var i = 0; i < forces.Length; i++) {
+                //The goal of zeroing is to remove the baseline effect from the measurements
+                forces[i] -= _zeroForces[i];
+            }
+            
+            forces = forces.Select((force, i) => force - _zeroForces[i]).ToArray();
+            
+            if (!isLeftHand) {
+                forces = forces.Reverse().ToArray();
+            }
+
+            // Send the parsed forces to the bridgeApi script
+                BridgeEvents.ForcesUpdated?.Invoke(forces);
+                Debug.Log("Forces applied to UnitsControl");
+        }
+
+        private double[] ApplyMvcForces(double[] forcesNum) {
+            // Normalize forces using MVC values
+            var normalizedForces = new double[10];
+
+            for (var i = 0; i < 5; i++) {
+                if (isFlexion) {
+                    // Left hand mvc forces
+                    normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
+                    // Right hand mvc forces
+                    normalizedForces[i + 5] = mvcForceFlexion[i] != 0 ? forcesNum[i + 5] / mvcForceFlexion[i] : 0;
+                }
+                else {
+                    // Left hand mvc forces
+                    normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] / mvcForceExtension[i] : 0;
+                    // Right hand mvc forces
+                    normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] / mvcForceExtension[i] : 0;
+                }
+            }
+
+            Debug.Log("Normalized forces: " + string.Join(", ", normalizedForces));
+            return normalizedForces;
+        }
+
+        private void SetZeroForces() {
+            var data = PlayerPrefs.GetString("zeroForces", ""); // Default to empty string if not set
+            if (string.IsNullOrEmpty(data)) {
+                Debug.LogError("ZeroForces data is empty or not set in PlayerPrefs");
+                return;
+            }
+
+            string[] forces = data.Split('\t');
+            if (forces.Length != 10) {
+                Debug.LogError("ZeroForces data does not contain exactly 10 values");
+                return;
+            }
+
+            for (int i = 0; i < _zeroForces.Length; i++) {
+                if (float.TryParse(forces[i], NumberStyles.Float, CultureInfo.InvariantCulture, out var force)) {
+                    _zeroForces[i] = force;
+                }
+                else {
+                    Debug.LogError($"Error parsing zero force at position {i + 1}: {forces[i + 1]}");
+                    _zeroForces[i] = 0; // or any other default/fallback value
+                }
+            }
+        }
+
+        private void SetMvcForces() {
+            for (var i = 1; i <= mvcForceExtension.Length; i++) {
+                var key = "E" + i;
+                double forceFinger = PlayerPrefs.GetFloat(key);
+                mvcForceExtension[i - 1] = forceFinger;
+            }
+
+            for (var i = 1; i <= mvcForceFlexion.Length; i++) {
+                var key = "F" + i;
+                double forceFinger = PlayerPrefs.GetFloat(key);
+                mvcForceFlexion[i - 1] = forceFinger;
+            }
+
+            Debug.Log(string.Join(", ", mvcForceExtension));
+            Debug.Log(string.Join(", ", mvcForceFlexion));
+        }
+
+        private static string ParseDataFromAmadeo(string data) {
+            return data.Replace("<Amadeo>", "").Replace("</Amadeo>", "");
+        }
+
+        private int PortValidation(int portNumber) {
+            if (portNumber < 1024 || portNumber > 49151) {
+                Debug.Log(
+                    "Invalid port number. Port number must be between 1024 and 49151, using default port number " +
+                    DefaultPortNumber);
+                return DefaultPortNumber;
+            }
+
+            return portNumber;
+        }
+
+        private void OnApplicationQuit() {
+            StopClientConnection();
+        }
+
+        private void StopClientConnection() {
+            _isReceiving = false;
+            if (_udpClient != null) {
+                _udpClient.Close();
+                _udpClient.Dispose();
+                _udpClient = null;
+            }
+
+            if (_cancellationTokenSource != null) {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = null;
+            }
+        }
     }
 }

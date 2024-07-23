@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using BridgePackage;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 public class InstructorScreen : MonoBehaviour {
     // Reference to the SessionManager to access and update session data.
-    public SessionManager sessionManager;
+    [FormerlySerializedAs("sessionManager")] public BridgeDataManager BridgeDataManager;
 
     public LevelManager levelManager;
 
@@ -49,7 +51,9 @@ public class InstructorScreen : MonoBehaviour {
             return;
         }
 
-        initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.InitializeSession());
+        // initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.InitializeSession());
+        initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.StartSession());
+
         startSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.StartSession());
 
         // Initially, the start button should not be interactable.
@@ -112,42 +116,42 @@ public class InstructorScreen : MonoBehaviour {
             int localIndex = i; // Local copy of the loop variable
 
             var slider = root.Q<SliderInt>("height_" + (localIndex + 1));
-            slider.value = sessionManager.Heights[localIndex];
+            slider.value = BridgeDataManager.Heights[localIndex];
             slider.RegisterValueChangedCallback(evt => UpdateHeight(localIndex, evt.newValue));
 
             var graceField = root.Q<FloatField>("grace_" + (localIndex + 1));
-            graceField.value = sessionManager.UnitsGrace[localIndex];
+            graceField.value = BridgeDataManager.UnitsGrace[localIndex];
             graceField.RegisterValueChangedCallback(evt => UpdateGrace(localIndex, evt.newValue));
 
             var mvcField = root.Q<IntegerField>("mvc_" + (localIndex + 1));
-            mvcField.value = (int)sessionManager.MvcValues[localIndex];
+            mvcField.value = (int)BridgeDataManager.MvcValues[localIndex];
             mvcField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue));
 
             var toggle = root.Q<Toggle>("active_unit_" + (localIndex + 1));
-            toggle.value = sessionManager.PlayableUnits[localIndex];
+            toggle.value = BridgeDataManager.PlayableUnits[localIndex];
             toggle.RegisterValueChangedCallback(evt => UpdateActiveUnit(localIndex, evt.newValue));
         }
 
         // Initialize and listen for changes in time duration.
         var timeField = root.Q<IntegerField>("time_int_field");
-        timeField.value = (int)sessionManager.TimeDuration;
-        timeField.RegisterValueChangedCallback(evt => sessionManager.SetTimeDuration(evt.newValue));
+        timeField.value = (int)BridgeDataManager.TimeDuration;
+        timeField.RegisterValueChangedCallback(evt => BridgeDataManager.SetTimeDuration(evt.newValue));
 
         // Initialize and listen for changes in toggle listeners
 
-        InitializeAndListenToggle(root, "left_hand_toggle", sessionManager.IsLeftHand, sessionManager.SetIsLeftHand);
-        InitializeAndListenToggle(root, "is_flexion_toggle", sessionManager.IsFlexion, SetFlexion);
+        InitializeAndListenToggle(root, "left_hand_toggle", BridgeDataManager.IsLeftHand, BridgeDataManager.SetIsLeftHand);
+        InitializeAndListenToggle(root, "is_flexion_toggle", BridgeDataManager.IsFlexion, SetFlexion);
 
-        InitializeAndListenToggle(root, "zero_f_toggle", sessionManager.ZeroF, val => sessionManager.SetZeroF(val));
-        InitializeAndListenToggle(root, "auto_start_toggle", sessionManager.AutoPlay,
-            val => sessionManager.SetAutoPlay(val));
+        InitializeAndListenToggle(root, "zero_f_toggle", BridgeDataManager.ZeroF, val => BridgeDataManager.SetZeroF(val));
+        InitializeAndListenToggle(root, "auto_start_toggle", BridgeDataManager.AutoPlay,
+            val => BridgeDataManager.SetAutoPlay(val));
 
         // Query and store references to all sliders
         for (int i = 1; i <= 5; i++) {
             SliderInt slider = root.Q<SliderInt>("height_" + i);
             if (slider != null) {
                 sliders.Add(slider);
-                SetSliderRotation(slider, sessionManager.IsFlexion); // Set initial rotation based on the flexion state
+                SetSliderRotation(slider, BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
             }
         }
     }
@@ -156,7 +160,7 @@ public class InstructorScreen : MonoBehaviour {
     /// Sets or unsets the flexion state and adjusts slider rotations accordingly.
     /// </summary>
     private void SetFlexion(bool isFlexion) {
-        sessionManager.SetIsFlexion(isFlexion);
+        BridgeDataManager.SetIsFlexion(isFlexion);
         foreach (SliderInt slider in sliders) {
             SetSliderRotation(slider, isFlexion);
         }
@@ -180,9 +184,9 @@ public class InstructorScreen : MonoBehaviour {
     /// <param name="index">Index of the height to update.</param>
     /// <param name="newValue">New value for the height.</param>
     private void UpdateHeight(int index, int newValue) {
-        int[] heights = sessionManager.Heights;
+        int[] heights = BridgeDataManager.Heights;
         heights[index] = newValue;
-        sessionManager.SetHeights(heights);
+        BridgeDataManager.SetHeights(heights);
     }
 
     /// <summary>
@@ -191,9 +195,9 @@ public class InstructorScreen : MonoBehaviour {
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newValue">New grace value.</param>
     private void UpdateGrace(int index, float newValue) {
-        float[] graces = sessionManager.UnitsGrace;
+        float[] graces = BridgeDataManager.UnitsGrace;
         graces[index] = newValue;
-        sessionManager.SetUnitsGrace(graces);
+        BridgeDataManager.SetUnitsGrace(graces);
     }
 
     /// <summary>
@@ -202,9 +206,9 @@ public class InstructorScreen : MonoBehaviour {
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newValue">New MVC value.</param>
     private void UpdateMvc(int index, int newValue) {
-        float[] mvcValues = sessionManager.MvcValues;
+        float[] mvcValues = BridgeDataManager.MvcValues;
         mvcValues[index] = newValue;
-        sessionManager.SetMvcValues(mvcValues);
+        BridgeDataManager.SetMvcValues(mvcValues);
     }
 
     /// <summary>
@@ -213,9 +217,9 @@ public class InstructorScreen : MonoBehaviour {
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newState">New active state.</param>
     private void UpdateActiveUnit(int index, bool newState) {
-        bool[] units = sessionManager.PlayableUnits;
+        bool[] units = BridgeDataManager.PlayableUnits;
         units[index] = newState;
-        sessionManager.SetPlayableUnits(units);
+        BridgeDataManager.SetPlayableUnits(units);
     }
 
     /// <summary>

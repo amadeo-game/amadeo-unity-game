@@ -34,9 +34,9 @@ public class ServerAPI : MonoBehaviour {
     private void InitServer() {
 
         
-         Debug.Log("Initializing Server");
+         // Debug.Log("Initializing Server");
          portNumber = PlayerPrefs.GetInt("portNumber", 4444);
-         Debug.Log("ServerAPI: Port Number: " + portNumber);
+         // Debug.Log("ServerAPI: Port Number: " + portNumber);
          udpServer = new UDPServer(portNumber, inputType);
          isServerConnected = udpServer.OpenConnection(); // Start the UDP server
     }

@@ -1,12 +1,13 @@
 using System;
 using BridgePackage;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour {
     [SerializeField] private BridgeAPI bridgeAPI;
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
-    [SerializeField] private SessionManager sessionManager;
+    [FormerlySerializedAs("sessionManager")] [SerializeField] private BridgeDataManager _bridgeDataManager;
 
     [SerializeReference] bool useDynamicDifficulty = false;
     private int levelIndex { get; set; } = 1;
@@ -14,7 +15,7 @@ public class LevelManager : MonoBehaviour {
 
     private void OnEnable() {
         // GameStatesEvents.GameSessionInitialized += StartSession;
-        BridgeAPI.BridgeReady += EnableUnits;
+        BridgeEvents.BridgeReady += EnableUnits;
     }
     
     private void OnDestroy() {
@@ -35,11 +36,11 @@ public class LevelManager : MonoBehaviour {
         else {
             // var heights = GenerateRandomHeights();
             // sessionManager.SetHeights(heights);
-            sessionManager.SetBridgeType(GetBridgeTypeSO(levelIndex));
-            sessionManager.SetIsLeftHand(GetIsLeftHand());
-            sessionManager.SetIsFlexion(GetIsFlexion());
-            sessionManager.SetMvcValues(GetMVCValues());
-            sessionManager.SetPlayableUnits(GetPlayableUnits());
+            BridgeDataManager.SetBridgeType(GetBridgeTypeSO(levelIndex));
+            BridgeDataManager.SetIsLeftHand(GetIsLeftHand());
+            BridgeDataManager.SetIsFlexion(GetIsFlexion());
+            BridgeDataManager.SetMvcValues(GetMVCValues());
+            BridgeDataManager.SetPlayableUnits(GetPlayableUnits());
         }
 
         sessionCount++;
@@ -48,23 +49,24 @@ public class LevelManager : MonoBehaviour {
     }
 
     public void StartSession() {
-        Debug.Log("LevelManager :: StartSession() called.");
+        string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
+        Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
         bridgeAPI.BuildBridge(
-            sessionManager.Heights,
-            sessionManager.BridgeType,
-            sessionManager.IsLeftHand,
-            sessionManager.IsFlexion,
-            sessionManager.MvcValues,
-            sessionManager.PlayableUnits,
-            sessionManager.UnitsGrace,
-            sessionManager.TimeDuration
+            BridgeDataManager.Heights,
+            BridgeDataManager.BridgeType,
+            BridgeDataManager.IsLeftHand,
+            BridgeDataManager.IsFlexion,
+            BridgeDataManager.MvcValues,
+            BridgeDataManager.PlayableUnits,
+            BridgeDataManager.UnitsGrace,
+            BridgeDataManager.TimeDuration
         );
         GameStatesEvents.GameSessionStarted?.Invoke();
 
     }
     
     private void EnableUnits() {
-        bridgeAPI.EnableGameUnits(sessionManager.ZeroF);
+        bridgeAPI.EnableGameUnits(BridgeDataManager.ZeroF);
     }
 
     public void AdjustDifficultyBasedOnSessionData(SessionData sessionData) {
@@ -73,19 +75,19 @@ public class LevelManager : MonoBehaviour {
         // This example increases the height range and reduces the time if the player succeeded
         if (sessionData.success) {
             var adjustedHeights = AdjustHeightsForSuccess(sessionData.heights);
-            sessionManager.SetHeights(adjustedHeights);
-            sessionManager.SetTimeDuration(sessionManager.TimeDuration *
-                                           0.9f); // Decrease the time slightly for more challenge
+            BridgeDataManager.SetHeights(adjustedHeights);
+            BridgeDataManager.SetTimeDuration(BridgeDataManager.TimeDuration *
+                                              0.9f); // Decrease the time slightly for more challenge
         }
         else {
             var adjustedHeights = AdjustHeightsForFailure(sessionData.heights);
-            sessionManager.SetHeights(adjustedHeights);
-            sessionManager.SetTimeDuration(sessionManager.TimeDuration *
-                                           1.1f); // Increase the time slightly for less challenge
+            BridgeDataManager.SetHeights(adjustedHeights);
+            BridgeDataManager.SetTimeDuration(BridgeDataManager.TimeDuration *
+                                              1.1f); // Increase the time slightly for less challenge
         }
     }
 
-    private int[] GenerateRandomHeights() {
+    private int[] AssignRandomHeights() {
         int[] heights = new int[5];
         for (int i = 0; i < heights.Length; i++) {
             heights[i] = Random.Range(0, 6); // Random heights between 0 and 5

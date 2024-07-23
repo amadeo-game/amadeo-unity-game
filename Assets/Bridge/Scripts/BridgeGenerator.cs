@@ -7,11 +7,12 @@ namespace BridgePackage
 {
     public enum FingerUnit
     {
-        first,
-        second,
-        third,
-        fourth,
-        fifth,
+        First,
+        Second,
+        Third,
+        Fourth,
+        Fifth,
+        
     }
 
     [RequireComponent(typeof(UnitsControl), typeof(BridgeAnimationManager), typeof(BridgeStateMachine))]
