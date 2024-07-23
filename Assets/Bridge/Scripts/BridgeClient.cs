@@ -16,9 +16,7 @@ public enum InputType {
 }
 
 namespace BridgePackage {
-    
     [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
-    
     public class BridgeClient : MonoBehaviour {
         [SerializeField] InputType inputType = InputType.EmulationMode;
 
@@ -26,7 +24,7 @@ namespace BridgePackage {
         private int _port = 4444;
 
         private CancellationTokenSource _cancellationTokenSource;
-        private bool _isReceiving = true;
+        private bool _isReceiving = false;
         private UdpClient _udpClient;
         private const string EmulationDataFile = "Assets/AmadeoRecords/force_data.txt";
 
@@ -43,12 +41,32 @@ namespace BridgePackage {
         bool isFlexion = false;
 
         private void OnEnable() {
+            BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
             BridgeEvents.BridgeReady += StartReceiveData;
             BridgeEvents.BridgeCollapsed += StopReceiveData;
             BridgeEvents.BridgeIsComplete += StopReceiveData;
         }
 
+        private void OnBridgeStateChanged(BridgeStates state) {
+            if (state == BridgeStates.InZeroF) {
+                SetZeroForces();
+            }
+            else if (state == BridgeStates.InGame) {
+                if (_isReceiving) {
+                    Debug.LogWarning(
+                        "BridgeClient is already receiving data. Ignoring request to start receiving data.");
+                    return;
+                }
+
+                StartReceiveData();
+            }
+            else if (_isReceiving) {
+                StopReceiveData();
+            }
+        }
+
         private void OnDisable() {
+            BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
             BridgeEvents.BridgeReady -= StartReceiveData;
             BridgeEvents.BridgeCollapsed -= StopReceiveData;
             BridgeEvents.BridgeIsComplete -= StopReceiveData;
@@ -132,37 +150,38 @@ namespace BridgePackage {
             if (BridgeStateMachine.currentState is not BridgeStates.InGame) {
                 return;
             }
-            
+
             string[] strForces = data.Split('\t');
-            Debug.Log("strForces: " + string.Join(", ", strForces));
+            // Debug.Log("strForces: " + string.Join(", ", strForces));
             if (strForces.Length != 11) {
                 Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
+                Debug.Log("Received data: " + data);
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
-                
             }
-            Debug.Log("Forces: " + string.Join(", ", forces));
+
+            // Debug.Log("Forces: " + string.Join(", ", forces));
             // Parse the forces from the received data, str length is 11
-            strForces.Select(str => 
+            strForces.Select(str =>
                     float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
                 .Skip(strForces.Length - 5) // Skip to the last 5 elements
                 .ToArray()
                 .CopyTo(forces, 0); // Copy to test array starting at index 0
-            
+
             // Apply zeroing offset
             for (var i = 0; i < forces.Length; i++) {
                 //The goal of zeroing is to remove the baseline effect from the measurements
                 forces[i] -= _zeroForces[i];
             }
-            
+
             forces = forces.Select((force, i) => force - _zeroForces[i]).ToArray();
-            
+
             if (!isLeftHand) {
                 forces = forces.Reverse().ToArray();
             }
 
             // Send the parsed forces to the bridgeApi script
-                BridgeEvents.ForcesUpdated?.Invoke(forces);
-                Debug.Log("Forces applied to UnitsControl");
+            BridgeEvents.ForcesUpdated?.Invoke(forces);
+            Debug.Log("Forces applied to UnitsControl");
         }
 
         private double[] ApplyMvcForces(double[] forcesNum) {

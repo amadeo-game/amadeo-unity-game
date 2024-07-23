@@ -1545,6 +1545,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3799182644623730036, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: bridgeCollection
+      value: 
+      objectReference: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
     - target: {fileID: 6205020137206850874, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: bridgeTypeSO
       value: 
@@ -1603,6 +1607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5236456366724980912, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+    - {fileID: 8619089270259660289, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2873,8 +2878,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87acfd3d3fc72d346b5b54f992424f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BridgeDataManager: {fileID: 1439435749}
-  levelManager: {fileID: 1439435748}
+  BridgeDataManager: {fileID: 0}
+  LevelManager: {fileID: 1439435748}
 --- !u!1 &808790527
 GameObject:
   m_ObjectHideFlags: 0
@@ -4509,7 +4514,6 @@ GameObject:
   - component: {fileID: 1439435744}
   - component: {fileID: 1439435747}
   - component: {fileID: 1439435748}
-  - component: {fileID: 1439435749}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -4571,20 +4575,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bridgeAPI: {fileID: 1604210433}
   bridgeCollectionSO: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
-  _bridgeDataManager: {fileID: 1439435749}
+  _bridgeDataManager: {fileID: 0}
   useDynamicDifficulty: 0
---- !u!114 &1439435749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1439435743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4235614ef33640e40806ead2af0af51e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1477186644
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,11 +17,12 @@ public class LevelManager : MonoBehaviour {
         // GameStatesEvents.GameSessionInitialized += StartSession;
         BridgeEvents.BridgeReady += EnableUnits;
     }
-    
-    private void OnDestroy() {
+
+    private void OnDisable() {
         // GameStatesEvents.GameSessionInitialized -= StartSession;
-        GameStatesEvents.GameSessionStarted -= EnableUnits;
+        BridgeEvents.BridgeReady -= EnableUnits;
     }
+    
 
     public void InitializeSession() {
         Debug.Log("LevelManager :: SetupNewLevel() called.");
@@ -36,7 +37,7 @@ public class LevelManager : MonoBehaviour {
         else {
             // var heights = GenerateRandomHeights();
             // sessionManager.SetHeights(heights);
-            BridgeDataManager.SetBridgeType(GetBridgeTypeSO(levelIndex));
+            BridgeDataManager.SetLevel(levelIndex);
             BridgeDataManager.SetIsLeftHand(GetIsLeftHand());
             BridgeDataManager.SetIsFlexion(GetIsFlexion());
             BridgeDataManager.SetMvcValues(GetMVCValues());
@@ -45,21 +46,13 @@ public class LevelManager : MonoBehaviour {
 
         sessionCount++;
         GameStatesEvents.GameSessionInitialized?.Invoke();
-
     }
 
     public void StartSession() {
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
         Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
         bridgeAPI.BuildBridge(
-            BridgeDataManager.Heights,
-            BridgeDataManager.BridgeType,
-            BridgeDataManager.IsLeftHand,
-            BridgeDataManager.IsFlexion,
-            BridgeDataManager.MvcValues,
-            BridgeDataManager.PlayableUnits,
-            BridgeDataManager.UnitsGrace,
-            BridgeDataManager.TimeDuration
+
         );
         GameStatesEvents.GameSessionStarted?.Invoke();
 

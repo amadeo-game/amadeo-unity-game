@@ -6,7 +6,8 @@ namespace BridgePackage {
     public class BridgeData {
         public float TimeDuration = 60f;
         public int[] heights;
-        public BridgeTypeSO bridgeTypeSO;
+        public BridgeCollectionSO bridgeCollection;
+        public int level;
         public bool isLeftHand;
         public bool isFlexion;
         public float[] mvcValues;
@@ -21,7 +22,8 @@ namespace BridgePackage {
             // constructor, starting values
             this.TimeDuration = 60f;
             this.heights = new int[5] { 0, 0, 0, 0, 0 };
-            this.bridgeTypeSO = null;
+            this.bridgeCollection = null;
+            this.level = 1;
             this.isLeftHand = true;
             this.isFlexion = true;
             this.mvcValues = new float[5] { 1, 1, 1, 1, 1 };
@@ -30,9 +32,8 @@ namespace BridgePackage {
             this.zeroF = false;
             this.autoPlay = false;
         }
-        
-        
-        
+
+
         // setter for isLeftHand
         public void SetIsLeftHand(bool leftHand) {
             this.isLeftHand = leftHand;

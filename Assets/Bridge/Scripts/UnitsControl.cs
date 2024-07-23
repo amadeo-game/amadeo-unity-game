@@ -66,45 +66,35 @@ namespace BridgePackage {
             }
         }
 
-        private void FixedUpdate() {
-            if (!controlEnabled) {
-                return;
-            }
-
-            // ApplyForces();
-        }
-
-        public void ApplyForces() {
-            var isLeft = BridgeDataManager.IsLeftHand;
-            double[] forcesByHand = new double[5];
-            int len = forces.Length;
-            for (int i = 5; i < len; i++) {
-                int index = isLeft ? len - 1 - i : i - 5;
-                forcesByHand[index] = forces[i];
-                float currentForce = (float)forces[i];
-                if (isLeft) {
-                    leftHandHighestY[index] = Mathf.Max(currentForce, leftHandHighestY[index]);
-                }
-                else {
-                    rightHandHighestY[index] = Mathf.Max(currentForce, rightHandHighestY[index]);
-                }
-            }
-            Debug.Log("UnitsControl :: forces: " + string.Join(", ", forces));
-                        Debug.Log("UnitsControl :: forces: " + string.Join(", ", forces));
-
-            if (moveUnits == null || moveUnits.Length == 0) return;
-            Debug.Log("UnitsControl :: forcesByHand: " + string.Join(", ", forcesByHand));
-
-            for (int i = 0; i < moveUnits.Length; i++) {
-                var moveUnit = moveUnits[i];
-                if (moveUnit != null) {
-                    Debug.Log($"UnitsControl :: Applying force to unit: {i}");
-                    moveUnit.ApplyForce((float)forcesByHand[i]);
-                    Debug.Log($"UnitsControl :: Applied force to unit: {i} force: {(float)forcesByHand[i]}");
-                }
-            }
-        }
-
-        public void DisableControl() { }
+        // public void ApplyForces() {
+        //     var isLeft = BridgeDataManager.IsLeftHand;
+        //     double[] forcesByHand = new double[5];
+        //     int len = forces.Length;
+        //     for (int i = 5; i < len; i++) {
+        //         int index = isLeft ? len - 1 - i : i - 5;
+        //         forcesByHand[index] = forces[i];
+        //         float currentForce = (float)forces[i];
+        //         if (isLeft) {
+        //             leftHandHighestY[index] = Mathf.Max(currentForce, leftHandHighestY[index]);
+        //         }
+        //         else {
+        //             rightHandHighestY[index] = Mathf.Max(currentForce, rightHandHighestY[index]);
+        //         }
+        //     }
+        //     Debug.Log("UnitsControl :: forces: " + string.Join(", ", forces));
+        //                 Debug.Log("UnitsControl :: forces: " + string.Join(", ", forces));
+        //
+        //     if (moveUnits == null || moveUnits.Length == 0) return;
+        //     Debug.Log("UnitsControl :: forcesByHand: " + string.Join(", ", forcesByHand));
+        //
+        //     for (int i = 0; i < moveUnits.Length; i++) {
+        //         var moveUnit = moveUnits[i];
+        //         if (moveUnit != null) {
+        //             Debug.Log($"UnitsControl :: Applying force to unit: {i}");
+        //             moveUnit.ApplyForce((float)forcesByHand[i]);
+        //             Debug.Log($"UnitsControl :: Applied force to unit: {i} force: {(float)forcesByHand[i]}");
+        //         }
+        //     }
+        // }
     }
 }

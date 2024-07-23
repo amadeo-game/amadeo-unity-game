@@ -25,18 +25,14 @@ namespace BridgePackage {
             unitsControl = GetComponent<UnitsControl>();
         }
 
-        public void BuildBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO, bool isLeftHand, bool isFlexion,
-            float[] mvcValues, bool[] playableUnits, float[] unitsGrace, float timeDuration) {
-            if (unitHeights.Length != 5) {
+        public void BuildBridge() {
+            if (BridgeDataManager.Heights.Length != 5) {
                 throw new ArgumentException("unitHeights must have 5 elements.");
             }
 
-            if (Array.Exists(unitHeights, height => height < 0 || height > 5)) {
+            if (Array.Exists(BridgeDataManager.Heights, height => height < 0 || height > 5)) {
                 throw new ArgumentException("The height of each unit must be between 0 and 5.");
             }
-
-            bridgeStateMachine.SetGameParameters(unitHeights, bridgeTypeSO, isLeftHand, isFlexion, mvcValues,
-                playableUnits, unitsGrace, timeDuration);
             bridgeStateMachine.StartBuilding();
             Debug.Log("BridgeAPI: BuildBridge called");
         }
@@ -47,23 +43,17 @@ namespace BridgePackage {
         }
 
         public void CollapseBridge() {
-            bridgeStateMachine.ChangeState(BridgeStates.Collapse);
+            bridgeStateMachine.ChangeState(BridgeStates.BridgeCollapsing);
         }
 
         public void CompleteBridge() {
             Debug.Log("Called CompleteBridge");
-            bridgeStateMachine.ChangeState(BridgeStates.BridgeComplete);
+            bridgeStateMachine.ChangeState(BridgeStates.BridgeCompleting);
         }
 
         public void PauseBridge() {
             throw new NotImplementedException();
         }
-
-        // public void ApplyForces(double[] forces) {
-        //     if (BridgeStateMachine.currentState is BridgeStates.InGame) {
-        //         unitsControl.ApplyForces();
-        //     }
-        // }
 
         public SessionData GetSessionData() {
             throw new NotImplementedException();

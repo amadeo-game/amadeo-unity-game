@@ -1,20 +1,23 @@
+using System;
 using System.Collections.Generic;
 using BridgePackage;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class InstructorScreen : MonoBehaviour {
     // Reference to the SessionManager to access and update session data.
-    [FormerlySerializedAs("sessionManager")] public BridgeDataManager BridgeDataManager;
+    [FormerlySerializedAs("sessionManager")]
+    public BridgeDataManager BridgeDataManager;
 
-    public LevelManager levelManager;
+    public LevelManager LevelManager;
 
-    private VisualElement preGameConfigs;
+    private VisualElement _preGameConfigs;
 
 
-    private Button initializeSessionButton;
-    private Button startSessionButton;
+    private Button _initializeSessionButton;
+    private Button _startSessionButton;
     private List<SliderInt> sliders = new List<SliderInt>(); // List to hold slider references
 
 
@@ -33,61 +36,77 @@ public class InstructorScreen : MonoBehaviour {
     }
 
     private void SetupButtonCallbacks(VisualElement root) {
-        preGameConfigs = root.Q<VisualElement>("pre_game_configs");
-        if (preGameConfigs == null) {
+        _preGameConfigs = root.Q<VisualElement>("pre_game_configs");
+        if (_preGameConfigs == null) {
             Debug.LogError("Failed to find 'Pre-Game Configs' container.");
             return;
         }
 
-        initializeSessionButton = root.Q<Button>("initialize_session_button");
-        if (initializeSessionButton == null) {
+        _initializeSessionButton = root.Q<Button>("initialize_session_button");
+        if (_initializeSessionButton == null) {
             Debug.LogError("Failed to find 'Initialize Session' button.");
             return;
         }
 
-        startSessionButton = root.Q<Button>("start_session_button");
-        if (startSessionButton == null) {
+        _startSessionButton = root.Q<Button>("start_session_button");
+        if (_startSessionButton == null) {
             Debug.LogError("Failed to find 'Start Game' button.");
             return;
         }
 
         // initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.InitializeSession());
-        initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.StartSession());
+        _initializeSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
 
-        startSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.StartSession());
+        _startSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
 
         // Initially, the start button should not be interactable.
-        startSessionButton.SetEnabled(false);
+        _startSessionButton.SetEnabled(false);
     }
 
     private void SubscribeToGameStateEvents() {
-        GameStatesEvents.GameSessionInitialized += () => {
-            initializeSessionButton.SetEnabled(false);
-            startSessionButton.SetEnabled(true);
-            SetInteractability(preGameConfigs, true);
-        };
+        // GameStatesEvents.GameSessionInitialized += () => {
+        //     _initializeSessionButton.SetEnabled(false);
+        //     _startSessionButton.SetEnabled(true);
+        //     SetInteractability(_preGameConfigs, true);
+        // };
+        //
+        // GameStatesEvents.GameSessionStarted += () => {
+        //     _initializeSessionButton.SetEnabled(false);
+        //     _startSessionButton.SetEnabled(false);
+        //     SetInteractability(_preGameConfigs, false);
+        // };
+        //
+        // GameStatesEvents.GameSessionEnded += () => {
+        //     // Both buttons are made interactable again when the game session ends
+        //     _initializeSessionButton.SetEnabled(true);
+        //     _startSessionButton.SetEnabled(true);
+        //     SetInteractability(_preGameConfigs, true);
+        // };
 
-        GameStatesEvents.GameSessionStarted += () => {
-            initializeSessionButton.SetEnabled(false);
-            startSessionButton.SetEnabled(false);
-            SetInteractability(preGameConfigs, false);
-        };
+        BridgeEvents.BridgeStateChanged += ChangeButtonsVisibility;
+    }
 
-        GameStatesEvents.GameSessionEnded += () => {
-            // Both buttons are made interactable again when the game session ends
-            initializeSessionButton.SetEnabled(true);
-            startSessionButton.SetEnabled(true);
-            SetInteractability(preGameConfigs, true);
-        };
+    private void ChangeButtonsVisibility(BridgeStates state) {
+        if (state is BridgeStates.Building || state is BridgeStates.BridgeReady ||
+            state is BridgeStates.InZeroF || state is BridgeStates.InGame) {
+            _initializeSessionButton.SetEnabled(false);
+            _startSessionButton.SetEnabled(false);
+            SetInteractability(_preGameConfigs, false);
+        }
+        else {
+            _initializeSessionButton.SetEnabled(true);
+            _startSessionButton.SetEnabled(true);
+            SetInteractability(_preGameConfigs, true);
+        }
     }
 
     private void OnDestroy() {
         // Unsubscribe from events to prevent memory leaks
-        GameStatesEvents.GameSessionInitialized -= () => initializeSessionButton.SetEnabled(false);
-        GameStatesEvents.GameSessionStarted -= () => startSessionButton.SetEnabled(false);
+        GameStatesEvents.GameSessionInitialized -= () => _initializeSessionButton.SetEnabled(false);
+        GameStatesEvents.GameSessionStarted -= () => _startSessionButton.SetEnabled(false);
         GameStatesEvents.GameSessionEnded -= () => {
-            initializeSessionButton.SetEnabled(true);
-            startSessionButton.SetEnabled(true);
+            _initializeSessionButton.SetEnabled(true);
+            _startSessionButton.SetEnabled(true);
         };
     }
 
@@ -139,10 +158,12 @@ public class InstructorScreen : MonoBehaviour {
 
         // Initialize and listen for changes in toggle listeners
 
-        InitializeAndListenToggle(root, "left_hand_toggle", BridgeDataManager.IsLeftHand, BridgeDataManager.SetIsLeftHand);
+        InitializeAndListenToggle(root, "left_hand_toggle", BridgeDataManager.IsLeftHand,
+            BridgeDataManager.SetIsLeftHand);
         InitializeAndListenToggle(root, "is_flexion_toggle", BridgeDataManager.IsFlexion, SetFlexion);
 
-        InitializeAndListenToggle(root, "zero_f_toggle", BridgeDataManager.ZeroF, val => BridgeDataManager.SetZeroF(val));
+        InitializeAndListenToggle(root, "zero_f_toggle", BridgeDataManager.ZeroF,
+            val => BridgeDataManager.SetZeroF(val));
         InitializeAndListenToggle(root, "auto_start_toggle", BridgeDataManager.AutoPlay,
             val => BridgeDataManager.SetAutoPlay(val));
 
@@ -151,7 +172,8 @@ public class InstructorScreen : MonoBehaviour {
             SliderInt slider = root.Q<SliderInt>("height_" + i);
             if (slider != null) {
                 sliders.Add(slider);
-                SetSliderRotation(slider, BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
+                SetSliderRotation(slider,
+                    BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
             }
         }
     }
@@ -169,13 +191,11 @@ public class InstructorScreen : MonoBehaviour {
     /// <summary>
     /// Sets the rotation of a slider based on the flexion state.
     /// </summary>
-    private void SetSliderRotation(SliderInt slider, bool isFlexion)
-    {
+    private void SetSliderRotation(SliderInt slider, bool isFlexion) {
         // Set rotation to 90 degrees if flexion is true, otherwise set to 270 degrees for inverted vertical
         var rotationAngle = isFlexion ? 90f : 270f;
         slider.style.rotate = new Rotate(rotationAngle);
     }
-
 
 
     /// <summary>

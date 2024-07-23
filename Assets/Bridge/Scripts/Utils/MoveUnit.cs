@@ -76,9 +76,9 @@ namespace BridgePackage
         private void FixedUpdate() {
             if (controlEnabled && rb != null)
             {
-                Debug.Log("MoveUnit :: Height: " + Height);
+                // Debug.Log("MoveUnit :: Height: " + Height);
                 Vector2 targetPosition = new Vector2(transform.position.x, Height);
-                Debug.Log($"Attempting to move {gameObject.name} to {targetPosition}");
+                // Debug.Log($"Attempting to move {gameObject.name} to {targetPosition}");
                 rb.MovePosition(targetPosition);
                 // Debug.Log($"Position after MovePosition: {transform.position}");
             }
