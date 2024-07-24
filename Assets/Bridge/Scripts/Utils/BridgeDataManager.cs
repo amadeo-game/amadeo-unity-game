@@ -29,8 +29,14 @@ namespace BridgePackage {
 
         public static int[] Heights {
             get {
+                // Debug.Log("BridgeDataManager :: Before Heights accessed " + string.Join(",", BridgeData.heights));
                 if (BridgeData.isFlexion) {
-                    return BridgeData.heights.Select(height => -height).ToArray();
+                    for (int i = 0; i < BridgeData.heights.Length; i++) {
+                        var height = BridgeData.heights[i];
+                        BridgeData.heights[i] = Mathf.Min(height, -height);
+                    }
+                    // Debug.Log("BridgeDataManager :: AFTER Heights accessed " + string.Join(",", BridgeData.heights));
+                    
                 }
 
                 return BridgeData.heights;
