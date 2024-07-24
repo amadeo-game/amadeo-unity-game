@@ -54,16 +54,17 @@ namespace BridgePackage {
         public void PauseBridge() {
             Debug.LogWarning("PauseBridge not implemented yet.");
         }
+        
+        public void ResumeBridge() {
+            Debug.LogWarning("ResumeBridge not implemented yet.");
+        }
 
         public SessionData GetSessionData() {
             throw new NotImplementedException();
         }
+
+
     }
     
-    public struct SessionData
-    {
-        public int[] heights;
-        public float[] highestYPositions;
-        public bool success;
-    }
+
 }

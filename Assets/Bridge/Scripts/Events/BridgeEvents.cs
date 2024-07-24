@@ -7,6 +7,8 @@ namespace BridgePackage {
         public static Action<float[]> ForcesUpdated;
         
         public static Action<BridgeStates> BridgeStateChanged;
+        internal static Action<FingerUnit, bool> UnitPlacementStatusChanged;
+        internal static Action<int, bool> ActiveUnitChanged;
         public static Action BridgeReady;
         public static Action OnGameStart;
         public static Action BridgeCollapsed;

@@ -38,6 +38,7 @@ namespace BridgePackage {
         public static float TimeDuration => BridgeData.TimeDuration;
         public static bool ZeroF => BridgeData.zeroF;
         public static bool AutoPlay => BridgeData.autoPlay;
+        public static SessionData SessionData => BridgeData.SessionData;
 
         // write all the setters too
 
@@ -74,6 +75,12 @@ namespace BridgePackage {
                 BridgeData.playableUnits = newPlayableUnits;
             }
         }
+        
+        public static void SetPlayableUnit(int index, bool value) {
+            BridgeData.playableUnits[index] = value;
+            BridgeEvents.ActiveUnitChanged?.Invoke(index, value);
+            
+        }
 
         public static void SetTimeDuration(float newTimeDuration) {
             BridgeData.TimeDuration = newTimeDuration;
@@ -91,6 +98,12 @@ namespace BridgePackage {
 
         public static void SetAutoPlay(bool newAutoPlay) {
             BridgeData.autoPlay = newAutoPlay;
+        }
+
+        public static void SetSessionData(float[] bestHeights, bool isSuccessful) {
+            BridgeData.SessionData.heights = BridgeData.heights;
+            BridgeData.SessionData.BestYPositions = bestHeights;
+            BridgeData.SessionData.success = isSuccessful;
         }
     }
 }

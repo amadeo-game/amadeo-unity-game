@@ -42,7 +42,7 @@ namespace BridgePackage {
 
         private void OnEnable() {
             BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
-            BridgeEvents.BridgeReady += StartReceiveData;
+            // BridgeEvents.BridgeReady += StartReceiveData;
             BridgeEvents.BridgeCollapsed += StopReceiveData;
             BridgeEvents.BridgeIsComplete += StopReceiveData;
         }
@@ -67,7 +67,7 @@ namespace BridgePackage {
 
         private void OnDisable() {
             BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
-            BridgeEvents.BridgeReady -= StartReceiveData;
+            // BridgeEvents.BridgeReady -= StartReceiveData;
             BridgeEvents.BridgeCollapsed -= StopReceiveData;
             BridgeEvents.BridgeIsComplete -= StopReceiveData;
         }
@@ -134,10 +134,9 @@ namespace BridgePackage {
             int index = 0;
 
             while (_isReceiving) {
-                Debug.Log("HandleIncomingDataEmu: Receiving data... from Emulation file.");
+                // Debug.Log("HandleIncomingDataEmu: Receiving data... from Emulation file.");
                 string line = lines[index];
                 index = (index + 1) % lines.Length;
-                // Debug.Log("HandleIncomingDataEmu: Received data: " + line);
                 HandleReceivedData(ParseDataFromAmadeo(line));
                 // _isReceiving = false;
                 await Task.Delay(100, cancellationToken); // Delay to allow UI updates and prevent high CPU usage

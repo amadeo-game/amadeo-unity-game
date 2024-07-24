@@ -15,11 +15,13 @@ namespace BridgePackage {
         public float[] unitsGrace;
         public bool zeroF;
         public bool autoPlay;
+        public SessionData SessionData;
 
 
         // constructor, starting values
         public BridgeData() {
             // constructor, starting values
+            this.SessionData = new SessionData();
             this.TimeDuration = 60f;
             this.heights = new int[5] { 0, 0, 0, 0, 0 };
             this.bridgeCollection = null;
@@ -46,5 +48,11 @@ namespace BridgePackage {
         public void LoadJson(string jsonFilepath) {
             JsonUtility.FromJsonOverwrite(jsonFilepath, this);
         }
+    }
+    public struct SessionData
+    {
+        public int[] heights;
+        public float[] BestYPositions;
+        public bool success;
     }
 }

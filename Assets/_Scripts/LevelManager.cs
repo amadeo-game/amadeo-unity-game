@@ -150,4 +150,11 @@ public class LevelManager : MonoBehaviour {
 
         return previousHeights;
     }
+
+    public void ResumeSession() {
+        Debug.Log("LevelManager :: ResumeSession() called.");
+        // Resume the game session
+        // Retrieve the saved data and resume the game
+        bridgeAPI.ResumeBridge();
+    }
 }

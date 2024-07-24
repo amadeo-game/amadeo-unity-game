@@ -10,13 +10,16 @@ using Random = UnityEngine.Random;
 public class InstructorScreen : MonoBehaviour {
     public LevelManager LevelManager;
 
+    // Containers for UI elements
     private VisualElement _preGameConfigs;
     private VisualElement _endPauseButtons;
 
-
+    // UI action buttons
     private Button _endSessionButton;
     private Button _pauseSessionButton;
+    private Button _resumeSessionButton;
     private Button _startSessionButton;
+
     private List<SliderInt> _sliders = new List<SliderInt>(); // List to hold slider references
     private DropdownField _dropdownField;
     private List<string> levels;
@@ -35,6 +38,7 @@ public class InstructorScreen : MonoBehaviour {
         SetupButtonCallbacks(rootVisualElement);
 
         SetVisibility(_endPauseButtons, false);
+        SetVisibility(_resumeSessionButton, false);
         SetVisibility(_startSessionButton, true);
     }
 
@@ -63,6 +67,12 @@ public class InstructorScreen : MonoBehaviour {
             return;
         }
 
+        _resumeSessionButton = root.Q<Button>("resume_session_button");
+        if (_resumeSessionButton == null) {
+            Debug.LogError("Failed to find 'Resume Session' button.");
+            return;
+        }
+
         _startSessionButton = root.Q<Button>("start_session_button");
         if (_startSessionButton == null) {
             Debug.LogError("Failed to find 'Start Game' button.");
@@ -72,6 +82,8 @@ public class InstructorScreen : MonoBehaviour {
         _endSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ForceEndSession());
 
         _pauseSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.PauseSession());
+
+        _resumeSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ResumeSession());
 
         _startSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
     }
@@ -99,15 +111,16 @@ public class InstructorScreen : MonoBehaviour {
             SetInteractability(_preGameConfigs, false);
             SetInteractability(_startSessionButton, false);
         }
+        else if (state is BridgeStates.Paused) {
+            SetVisibility(_resumeSessionButton, true);
+            SetVisibility(_startSessionButton, false);
+        }
         else if (state is BridgeStates.InGame) {
             SetVisibility(_startSessionButton, false);
             SetInteractability(_endPauseButtons, true);
             SetVisibility(_endPauseButtons, true);
         }
-        else if (state is BridgeStates.GameFailed || state is BridgeStates.GameWon) {
-            SetVisibility(_endPauseButtons, false);
-            SetVisibility(_startSessionButton, true);
-        } else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
+        else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
             SetInteractability(_endPauseButtons, false);
         }
     }
@@ -317,8 +330,6 @@ public class InstructorScreen : MonoBehaviour {
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newState">New active state.</param>
     private void UpdateActiveUnit(int index, bool newState) {
-        bool[] units = BridgeDataManager.PlayableUnits;
-        units[index] = newState;
-        BridgeDataManager.SetPlayableUnits(units);
+        BridgeDataManager.SetPlayableUnit(index: index, value: newState);
     }
 }
