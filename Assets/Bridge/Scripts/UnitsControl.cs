@@ -30,9 +30,14 @@ namespace BridgePackage {
             if (!_unitsInitialized) {
                 return;
             }
-            if (state is BridgeStates.Paused || state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
+            if (state is BridgeStates.Paused ) {
                 foreach (MoveUnit unit in _moveUnits) {
                     unit.SetControl(false);
+                }
+            } else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
+                var heights = BridgeDataManager.Heights;
+                for (int i = 0; i < _moveUnits.Length; i++) {
+                        _moveUnits[i].SetControl(false, goToHeight:heights[i]);
                 }
             }
             else if (state is BridgeStates.InGame) {
