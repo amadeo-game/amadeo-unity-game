@@ -11,7 +11,7 @@ public class InstructorScreen : MonoBehaviour {
     public LevelManager LevelManager;
 
     private VisualElement _preGameConfigs;
-    private VisualElement _actionButtons;
+    private VisualElement _endPauseButtons;
 
 
     private Button _endSessionButton;
@@ -25,7 +25,7 @@ public class InstructorScreen : MonoBehaviour {
     private void Start() {
         // Obtain the root visual element of the UXML.
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        
+
         levels = Enumerable.Range(1, BridgeDataManager.Level).Select(i => i.ToString()).ToList();
 
         // Initialize UI elements and set up change listeners.
@@ -33,6 +33,9 @@ public class InstructorScreen : MonoBehaviour {
         SetupUIChangeListeners(rootVisualElement);
         // Set up button callbacks
         SetupButtonCallbacks(rootVisualElement);
+
+        SetVisibility(_endPauseButtons, false);
+        SetVisibility(_startSessionButton, true);
     }
 
     private void SetupButtonCallbacks(VisualElement root) {
@@ -41,19 +44,19 @@ public class InstructorScreen : MonoBehaviour {
             Debug.LogError("Failed to find 'Pre-Game Configs' container.");
             return;
         }
-        
-        _actionButtons = root.Q<VisualElement>("action_buttons");
-        if (_actionButtons == null) {
+
+        _endPauseButtons = root.Q<VisualElement>("end_pause_buttons");
+        if (_endPauseButtons == null) {
             Debug.LogError("Failed to find 'Action Buttons' container.");
             return;
         }
-        
+
         _endSessionButton = root.Q<Button>("end_session_button");
         if (_endSessionButton == null) {
             Debug.LogError("Failed to find 'Initialize Session' button.");
             return;
         }
-        
+
         _pauseSessionButton = root.Q<Button>("pause_session_button");
         if (_pauseSessionButton == null) {
             Debug.LogError("Failed to find 'Pause Session' button.");
@@ -67,13 +70,10 @@ public class InstructorScreen : MonoBehaviour {
         }
 
         _endSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ForceEndSession());
-        
+
         _pauseSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.PauseSession());
 
         _startSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
-
-        // Initially, the start button should not be interactable.
-        _startSessionButton.SetEnabled(false);
     }
 
     private void OnEnable() {
@@ -84,23 +84,31 @@ public class InstructorScreen : MonoBehaviour {
         BridgeEvents.BridgeStateChanged -= OnBridgeStateChange;
     }
 
-    // provide documentation
-
     /// <summary>
     /// Handles changes in the state of the bridge, update the UI accordingly.
     /// </summary>
     ///  <param name="state">The new state of the bridge.</param>
     private void OnBridgeStateChange(BridgeStates state) {
-        if (state is BridgeStates.Building || state is BridgeStates.BridgeReady ||
-            state is BridgeStates.InZeroF || state is BridgeStates.InGame) {
-            _endSessionButton.SetEnabled(false);
-            _startSessionButton.SetEnabled(false);
-            SetInteractability(_preGameConfigs, false);
-        }
-        else {
-            _endSessionButton.SetEnabled(true);
-            _startSessionButton.SetEnabled(true);
+        Debug.Log("InstructorScreen :: OnBridgeStateChange() called. New state: " + state);
+        if (state is BridgeStates.Idle) {
             SetInteractability(_preGameConfigs, true);
+            SetVisibility(_endPauseButtons, false);
+            SetVisibility(_startSessionButton, true);
+        }
+        else if (state is BridgeStates.Building) {
+            SetInteractability(_preGameConfigs, false);
+            SetInteractability(_startSessionButton, false);
+        }
+        else if (state is BridgeStates.InGame) {
+            SetVisibility(_startSessionButton, false);
+            SetInteractability(_endPauseButtons, true);
+            SetVisibility(_endPauseButtons, true);
+        }
+        else if (state is BridgeStates.GameFailed || state is BridgeStates.GameWon) {
+            SetVisibility(_endPauseButtons, false);
+            SetVisibility(_startSessionButton, true);
+        } else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
+            SetInteractability(_endPauseButtons, false);
         }
     }
 
@@ -108,13 +116,21 @@ public class InstructorScreen : MonoBehaviour {
     /// Sets the interactability of all UI elements within a given visual element.
     /// </summary>
     /// <param name="container">The container whose children's interactability will be set.</param>
-    /// <param name="enabled">Whether the elements should be enabled (true) or disabled (false).</param>
-    private void SetInteractability(VisualElement container, bool enabled) {
+    /// <param name="active">Whether the elements should be enabled (true) or disabled (false).</param>
+    private void SetInteractability(VisualElement container, bool active) {
+        if (container == null) return;
+        container.SetEnabled(active); // Directly set the enabled state of the container
+        foreach (var child in container.Children()) {
+            SetInteractability(child, active); // Recursively disable/enable child elements
+        }
+    }
+
+    private void SetVisibility(VisualElement container, bool visible) {
         if (container == null) return;
 
-        container.SetEnabled(enabled); // Directly set the enabled state of the container
+        container.visible = visible; // Directly set the enabled state of the container
         foreach (var child in container.Children()) {
-            SetInteractability(child, enabled); // Recursively disable/enable child elements
+            SetVisibility(child, visible); // Recursively disable/enable child elements
         }
     }
 
@@ -129,9 +145,8 @@ public class InstructorScreen : MonoBehaviour {
             if (slider != null) {
                 slider.value = BridgeDataManager.Heights[i];
                 _sliders.Add(slider); // Update the slider reference in the list
-                    SetSliderRotation(slider,
-                        BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
-                
+                SetSliderRotation(slider,
+                    BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
             }
 
             var graceField = root.Q<FloatField>("grace_" + (i + 1));
@@ -193,7 +208,7 @@ public class InstructorScreen : MonoBehaviour {
     /// <param name="root">The root visual element of the UI document.</param>
     private void SetupUIChangeListeners(VisualElement root) {
         for (int i = 0; i < 5; i++) {
-            int localIndex = i;  // Create a local copy of the loop variable
+            int localIndex = i; // Create a local copy of the loop variable
 
             if (_sliders[i] != null) {
                 _sliders[i].RegisterValueChangedCallback(evt => UpdateHeight(localIndex, evt.newValue));

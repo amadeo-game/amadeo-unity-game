@@ -52,7 +52,7 @@ namespace BridgePackage {
         }
 
         public void PauseBridge() {
-            throw new NotImplementedException();
+            Debug.LogWarning("PauseBridge not implemented yet.");
         }
 
         public SessionData GetSessionData() {

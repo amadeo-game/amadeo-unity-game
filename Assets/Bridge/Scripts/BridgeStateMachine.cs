@@ -10,6 +10,7 @@ namespace BridgePackage {
         Building,
         BridgeReady,
         InZeroF,
+        Paused,
         StartingGame,
         InGame,
         BridgeCollapsing,
@@ -80,7 +81,9 @@ namespace BridgePackage {
                     BridgeEvents.OnGameStart?.Invoke();
                     StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
                     break;
-                
+                case BridgeStates.Paused:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Paused);
+                    break;
                 case BridgeStates.BridgeCollapsing:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeCollapsing);
                     break;
@@ -124,6 +127,7 @@ namespace BridgePackage {
 
         public void UnitPlaced(FingerUnit fingerUnit, bool isPlaced) {
             unitPlacementStatus[fingerUnit] = isPlaced;
+            Debug.Log("Unit placed: " + fingerUnit + " " + isPlaced);
             CheckAllUnitsPlaced();
         }
 
