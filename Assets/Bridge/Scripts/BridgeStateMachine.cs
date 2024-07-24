@@ -31,7 +31,13 @@ namespace BridgePackage {
 
         private void Awake() {
             currentState = BridgeStates.Idle;
-            _unitPlacementStatus = new Dictionary<FingerUnit, bool>();
+            _unitPlacementStatus = new Dictionary<FingerUnit, bool> {
+                { FingerUnit.First, true },
+                { FingerUnit.Second, true },
+                { FingerUnit.Third, true },
+                { FingerUnit.Fourth, true },
+                { FingerUnit.Fifth, true }
+            };
         }
 
         private void OnEnable() {
@@ -89,10 +95,12 @@ namespace BridgePackage {
 
                     StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
                     break;
+
                 case BridgeStates.Paused:
                     _isPaused = true;
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Paused);
                     break;
+
                 case BridgeStates.BridgeCollapsing:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeCollapsing);
                     BridgeEvents.BridgeCollapsed?.Invoke();
@@ -150,7 +158,6 @@ namespace BridgePackage {
 
         public void UnitPlaced(FingerUnit fingerUnit, bool isPlaced) {
             _unitPlacementStatus[fingerUnit] = isPlaced;
-            Debug.Log("Unit placed: " + fingerUnit + " " + isPlaced);
             CheckAllUnitsPlaced();
         }
 

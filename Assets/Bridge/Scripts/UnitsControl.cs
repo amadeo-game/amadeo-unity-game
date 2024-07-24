@@ -30,14 +30,13 @@ namespace BridgePackage {
             if (!_unitsInitialized) {
                 return;
             }
-            if (state is BridgeStates.Paused) {
+            if (state is BridgeStates.Paused || state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
                 foreach (MoveUnit unit in _moveUnits) {
                     unit.SetControl(false);
                 }
             }
             else if (state is BridgeStates.InGame) {
                 var playables = BridgeDataManager.PlayableUnits;
-                Debug.Log("UnitsControl :: Enabling Units Playable Units: " + string.Join(", ", playables));
                 for (int i = 0; i < _moveUnits.Length; i++) {
                     if (playables[i]) {
                         _moveUnits[i].SetControl(true);
@@ -53,15 +52,8 @@ namespace BridgePackage {
         }
 
         public void SetPlayerUnits(GameObject[] units) {
-            // _moveUnits = units.Select(unit => unit.GetComponent<MoveUnit>()).ToArray();
-            
-            for (int i = 0; i < _moveUnits.Length; i++) {
-                _moveUnits[i] = units[i].GetComponent<MoveUnit>();
-            }
-            
-            // print and check if all elements in _moveUnits are the same object
+            _moveUnits = units.Select(unit => unit.GetComponent<MoveUnit>()).ToArray();
 
-            Debug.Log("moveUnits length: " + _moveUnits.Length);
 
             // Set FingerUnit enum for each player Unit
             for (int i = 0; i < _moveUnits.Length; i++) {

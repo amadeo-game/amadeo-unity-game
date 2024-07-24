@@ -128,9 +128,7 @@ namespace BridgePackage {
 
         private async Task HandleIncomingDataEmu(CancellationToken cancellationToken) {
             string[] lines = await File.ReadAllLinesAsync(EmulationDataFile);
-
-            Debug.Log("Lines length: " + lines.Length);
-
+            
             int index = 0;
 
             while (_isReceiving) {
@@ -153,8 +151,7 @@ namespace BridgePackage {
             string[] strForces = data.Split('\t');
             // Debug.Log("strForces: " + string.Join(", ", strForces));
             if (strForces.Length != 11) {
-                Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
-                Debug.Log("Received data: " + data);
+                // Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
 
@@ -180,7 +177,7 @@ namespace BridgePackage {
 
             // Send the parsed forces to the bridgeApi script
             BridgeEvents.ForcesUpdated?.Invoke(forces);
-            Debug.Log("Forces applied to UnitsControl");
+            // Debug.Log("Forces applied to UnitsControl");
         }
 
         private double[] ApplyMvcForces(double[] forcesNum) {

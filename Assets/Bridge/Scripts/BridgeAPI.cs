@@ -30,7 +30,7 @@ namespace BridgePackage {
                 throw new ArgumentException("unitHeights must have 5 elements.");
             }
 
-            if (Array.Exists(BridgeDataManager.Heights, height => height < 0 || height > 5)) {
+            if (Array.Exists(BridgeDataManager.Heights, height => height < -5 || height > 5)) {
                 throw new ArgumentException("The height of each unit must be between 0 and 5.");
             }
             bridgeStateMachine.StartBuilding();

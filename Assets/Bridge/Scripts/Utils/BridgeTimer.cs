@@ -15,11 +15,8 @@ namespace BridgePackage {
             }
             resumePausedTimer = false;
             isRunning = true;
-            Debug.Log("Timer started. Duration: " + timer + " seconds.");
 
             while (isRunning) {
-                
-                Debug.Log("Timer: " + timer + " TimeDelta " + Time.deltaTime);
                 if (timer <= 0) {
                     OnTimerComplete?.Invoke();
                     ResetTimer();

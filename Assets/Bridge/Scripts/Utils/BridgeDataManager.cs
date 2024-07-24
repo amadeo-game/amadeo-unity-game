@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace BridgePackage {
@@ -26,8 +27,15 @@ namespace BridgePackage {
             BridgeEvents.OnBridgeDataUpdated -= OnBridgeDataUpdated;
         }
 
+        public static int[] Heights {
+            get {
+                if (BridgeData.isFlexion) {
+                    return BridgeData.heights.Select(height => -height).ToArray();
+                }
 
-        public static int[] Heights => BridgeData.heights;
+                return BridgeData.heights;
+            }
+        }
         public static BridgeTypeSO BridgeType => BridgeData.bridgeCollection.BridgeTypes[BridgeData.level];
         public static int Level => BridgeData.level;
         public static bool IsLeftHand => BridgeData.isLeftHand;

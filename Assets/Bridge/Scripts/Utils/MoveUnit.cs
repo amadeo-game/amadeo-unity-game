@@ -54,7 +54,6 @@ namespace BridgePackage {
         
 
         private void OnForcesUpdated(float[] forces) {
-            Debug.Log("MoveUnit :: OnForcesUpdated :: Forces: " + forces[_fingerIndex] + "on FingerIndex: " + _fingerIndex);
             _height = forces[_fingerIndex];
             _setBestHeight(_height);
         }
@@ -74,7 +73,6 @@ namespace BridgePackage {
 
         private void FixedUpdate() {
             if (_controlEnabled) {
-                Debug.Log("MoveUnit :: FixedUpdate :: Control Enabled");
                 ApplyForce();
             }
         }
@@ -91,12 +89,14 @@ namespace BridgePackage {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (_controlEnabled) {
+                Debug.Log(" OnTriggerEnter2D :: MoveUnit :: " + _fingerUnit);
                 BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (_controlEnabled) {
+                Debug.Log(" OnTriggerExit2D :: MoveUnit :: " + _fingerUnit);
                 BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
             }
         }

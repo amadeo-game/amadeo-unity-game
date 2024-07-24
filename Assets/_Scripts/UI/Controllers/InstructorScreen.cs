@@ -106,18 +106,22 @@ public class InstructorScreen : MonoBehaviour {
             SetInteractability(_preGameConfigs, true);
             SetVisibility(_endPauseButtons, false);
             SetVisibility(_startSessionButton, true);
+            SetInteractability(_startSessionButton, true);
         }
         else if (state is BridgeStates.Building) {
             SetInteractability(_preGameConfigs, false);
             SetInteractability(_startSessionButton, false);
         }
         else if (state is BridgeStates.Paused) {
+            SetVisibility(_pauseSessionButton, false);
             SetVisibility(_resumeSessionButton, true);
             SetVisibility(_startSessionButton, false);
         }
         else if (state is BridgeStates.InGame) {
             SetVisibility(_startSessionButton, false);
             SetInteractability(_endPauseButtons, true);
+            SetVisibility(_pauseSessionButton, true);
+            SetVisibility(_resumeSessionButton, false);
             SetVisibility(_endPauseButtons, true);
         }
         else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
