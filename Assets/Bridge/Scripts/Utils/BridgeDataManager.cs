@@ -10,7 +10,7 @@ namespace BridgePackage {
             if (this.bridgeCollection == null) {
                 Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
             }
-        
+
             SetBridgeCollection(bridgeCollection);
         }
 
@@ -29,6 +29,7 @@ namespace BridgePackage {
 
         public static int[] Heights => BridgeData.heights;
         public static BridgeTypeSO BridgeType => BridgeData.bridgeCollection.BridgeTypes[BridgeData.level];
+        public static int Level => BridgeData.level;
         public static bool IsLeftHand => BridgeData.isLeftHand;
         public static bool IsFlexion => BridgeData.isFlexion;
         public static float[] MvcValues => BridgeData.mvcValues;

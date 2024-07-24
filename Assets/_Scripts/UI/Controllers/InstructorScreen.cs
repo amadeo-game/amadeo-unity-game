@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using BridgePackage;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,10 +8,6 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class InstructorScreen : MonoBehaviour {
-    // Reference to the SessionManager to access and update session data.
-    [FormerlySerializedAs("sessionManager")]
-    public BridgeDataManager BridgeDataManager;
-
     public LevelManager LevelManager;
 
     private VisualElement _preGameConfigs;
@@ -18,21 +15,29 @@ public class InstructorScreen : MonoBehaviour {
 
     private Button _initializeSessionButton;
     private Button _startSessionButton;
-    private List<SliderInt> sliders = new List<SliderInt>(); // List to hold slider references
+    private List<SliderInt> _sliders = new List<SliderInt>(); // List to hold slider references
+    private DropdownField _dropdownField;
+    private List<string> levels;
 
 
     private void Start() {
         // Obtain the root visual element of the UXML.
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
+        // get the BridgeDataManager.Level and built an int array that have all the level numbers from 1 up to the BridgeDataManager.Level
+        //
+        // levels = new int[BridgeDataManager.Level];
+        // for (int i = 0; i < BridgeDataManager.Level; i++) {
+        //     levels[i] = i + 1;
+        // }
+        // do the same using LinQ
+        levels = Enumerable.Range(1, BridgeDataManager.Level).Select(i => i.ToString()).ToList();
+        // levels = Enumerable.Range(1, BridgeDataManager.Level).ToArray();
 
         // Initialize UI elements and set up change listeners.
-        InitializeAndListenUI(rootVisualElement);
-
+        UpdateUIWithCurrentValues(rootVisualElement);
+        SetupUIChangeListeners(rootVisualElement);
         // Set up button callbacks
         SetupButtonCallbacks(rootVisualElement);
-
-
-        SubscribeToGameStateEvents();
     }
 
     private void SetupButtonCallbacks(VisualElement root) {
@@ -63,30 +68,21 @@ public class InstructorScreen : MonoBehaviour {
         _startSessionButton.SetEnabled(false);
     }
 
-    private void SubscribeToGameStateEvents() {
-        // GameStatesEvents.GameSessionInitialized += () => {
-        //     _initializeSessionButton.SetEnabled(false);
-        //     _startSessionButton.SetEnabled(true);
-        //     SetInteractability(_preGameConfigs, true);
-        // };
-        //
-        // GameStatesEvents.GameSessionStarted += () => {
-        //     _initializeSessionButton.SetEnabled(false);
-        //     _startSessionButton.SetEnabled(false);
-        //     SetInteractability(_preGameConfigs, false);
-        // };
-        //
-        // GameStatesEvents.GameSessionEnded += () => {
-        //     // Both buttons are made interactable again when the game session ends
-        //     _initializeSessionButton.SetEnabled(true);
-        //     _startSessionButton.SetEnabled(true);
-        //     SetInteractability(_preGameConfigs, true);
-        // };
-
-        BridgeEvents.BridgeStateChanged += ChangeButtonsVisibility;
+    private void OnEnable() {
+        BridgeEvents.BridgeStateChanged += OnBridgeStateChange;
     }
 
-    private void ChangeButtonsVisibility(BridgeStates state) {
+    private void OnDisable() {
+        BridgeEvents.BridgeStateChanged -= OnBridgeStateChange;
+    }
+
+    // provide documentation
+
+    /// <summary>
+    /// Handles changes in the state of the bridge, update the UI accordingly.
+    /// </summary>
+    ///  <param name="state">The new state of the bridge.</param>
+    private void OnBridgeStateChange(BridgeStates state) {
         if (state is BridgeStates.Building || state is BridgeStates.BridgeReady ||
             state is BridgeStates.InZeroF || state is BridgeStates.InGame) {
             _initializeSessionButton.SetEnabled(false);
@@ -98,16 +94,6 @@ public class InstructorScreen : MonoBehaviour {
             _startSessionButton.SetEnabled(true);
             SetInteractability(_preGameConfigs, true);
         }
-    }
-
-    private void OnDestroy() {
-        // Unsubscribe from events to prevent memory leaks
-        GameStatesEvents.GameSessionInitialized -= () => _initializeSessionButton.SetEnabled(false);
-        GameStatesEvents.GameSessionStarted -= () => _startSessionButton.SetEnabled(false);
-        GameStatesEvents.GameSessionEnded -= () => {
-            _initializeSessionButton.SetEnabled(true);
-            _startSessionButton.SetEnabled(true);
-        };
     }
 
     /// <summary>
@@ -124,57 +110,128 @@ public class InstructorScreen : MonoBehaviour {
         }
     }
 
-
     /// <summary>
-    /// Initializes all UI elements with values from SessionManager and sets up listeners to handle changes.
+    /// Updates all UI elements with values from BridgeDataManager.
     /// </summary>
     /// <param name="root">The root visual element of the UI document.</param>
-    private void InitializeAndListenUI(VisualElement root) {
-        // Initialize sliders for height and register change listeners.
+    private void UpdateUIWithCurrentValues(VisualElement root) {
+        // Update the height sliders, grace fields, MVC fields, and active unit toggles
         for (int i = 0; i < 5; i++) {
-            int localIndex = i; // Local copy of the loop variable
+            var slider = root.Q<SliderInt>("height_" + (i + 1));
+            if (slider != null) {
+                slider.value = BridgeDataManager.Heights[i];
+                _sliders.Add(slider); // Update the slider reference in the list
+                    SetSliderRotation(slider,
+                        BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
+                
+            }
 
-            var slider = root.Q<SliderInt>("height_" + (localIndex + 1));
-            slider.value = BridgeDataManager.Heights[localIndex];
-            slider.RegisterValueChangedCallback(evt => UpdateHeight(localIndex, evt.newValue));
+            var graceField = root.Q<FloatField>("grace_" + (i + 1));
+            if (graceField != null) {
+                graceField.value = BridgeDataManager.UnitsGrace[i];
+            }
 
-            var graceField = root.Q<FloatField>("grace_" + (localIndex + 1));
-            graceField.value = BridgeDataManager.UnitsGrace[localIndex];
-            graceField.RegisterValueChangedCallback(evt => UpdateGrace(localIndex, evt.newValue));
+            var mvcField = root.Q<IntegerField>("mvc_" + (i + 1));
+            if (mvcField != null) {
+                mvcField.value = (int)BridgeDataManager.MvcValues[i];
+            }
 
-            var mvcField = root.Q<IntegerField>("mvc_" + (localIndex + 1));
-            mvcField.value = (int)BridgeDataManager.MvcValues[localIndex];
-            mvcField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue));
-
-            var toggle = root.Q<Toggle>("active_unit_" + (localIndex + 1));
-            toggle.value = BridgeDataManager.PlayableUnits[localIndex];
-            toggle.RegisterValueChangedCallback(evt => UpdateActiveUnit(localIndex, evt.newValue));
+            var toggle = root.Q<Toggle>("active_unit_" + (i + 1));
+            if (toggle != null) {
+                toggle.value = BridgeDataManager.PlayableUnits[i];
+            }
         }
 
-        // Initialize and listen for changes in time duration.
+        // Update the time field
         var timeField = root.Q<IntegerField>("time_int_field");
-        timeField.value = (int)BridgeDataManager.TimeDuration;
-        timeField.RegisterValueChangedCallback(evt => BridgeDataManager.SetTimeDuration(evt.newValue));
+        if (timeField == null) {
+            Debug.LogWarning("Failed to find integer field element with name: time_int_field");
+        }
+        else {
+            timeField.value = (int)BridgeDataManager.TimeDuration;
+        }
 
-        // Initialize and listen for changes in toggle listeners
+        // Update the left hand toggle
+        var leftHandToggle = root.Q<Toggle>("left_hand_toggle");
+        if (leftHandToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name: left_hand_toggle");
+        }
+        else {
+            leftHandToggle.value = BridgeDataManager.IsLeftHand;
+        }
 
-        InitializeAndListenToggle(root, "left_hand_toggle", BridgeDataManager.IsLeftHand,
-            BridgeDataManager.SetIsLeftHand);
-        InitializeAndListenToggle(root, "is_flexion_toggle", BridgeDataManager.IsFlexion, SetFlexion);
+        // Update the flexion toggle
+        var isFlexionToggle = root.Q<Toggle>("is_flexion_toggle");
+        if (isFlexionToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name: is_flexion_toggle");
+        }
+        else {
+            isFlexionToggle.value = BridgeDataManager.IsFlexion;
+        }
 
-        InitializeAndListenToggle(root, "zero_f_toggle", BridgeDataManager.ZeroF,
-            val => BridgeDataManager.SetZeroF(val));
-        InitializeAndListenToggle(root, "auto_start_toggle", BridgeDataManager.AutoPlay,
-            val => BridgeDataManager.SetAutoPlay(val));
+        // Update the level dropdown
+        var dropdown = root.Q<DropdownField>("level_picker");
+        if (dropdown == null) {
+            Debug.LogWarning("Failed to find dropdown element with name: level_picker");
+        }
+        else {
+            dropdown.value = BridgeDataManager.Level.ToString();
+        }
+    }
 
-        // Query and store references to all sliders
-        for (int i = 1; i <= 5; i++) {
-            SliderInt slider = root.Q<SliderInt>("height_" + i);
-            if (slider != null) {
-                sliders.Add(slider);
-                SetSliderRotation(slider,
-                    BridgeDataManager.IsFlexion); // Set initial rotation based on the flexion state
+    /// <summary>
+    /// Sets up listeners on UI elements to update data manager when UI changes.
+    /// </summary>
+    /// <param name="root">The root visual element of the UI document.</param>
+    private void SetupUIChangeListeners(VisualElement root) {
+        for (int i = 0; i < 5; i++) {
+            int localIndex = i;  // Create a local copy of the loop variable
+
+            if (_sliders[i] != null) {
+                _sliders[i].RegisterValueChangedCallback(evt => UpdateHeight(localIndex, evt.newValue));
             }
+
+            var graceField = root.Q<FloatField>("grace_" + (localIndex + 1));
+            if (graceField != null) {
+                graceField.RegisterValueChangedCallback(evt => UpdateGrace(localIndex, evt.newValue));
+            }
+
+            var mvcField = root.Q<IntegerField>("mvc_" + (localIndex + 1));
+            if (mvcField != null) {
+                mvcField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue));
+            }
+
+            var toggle = root.Q<Toggle>("active_unit_" + (localIndex + 1));
+            if (toggle != null) {
+                toggle.RegisterValueChangedCallback(evt => UpdateActiveUnit(localIndex, evt.newValue));
+            }
+        }
+
+
+        var timeField = root.Q<IntegerField>("time_int_field");
+        if (timeField != null) {
+            timeField.RegisterValueChangedCallback(evt => BridgeDataManager.SetTimeDuration(evt.newValue));
+        }
+
+        var leftHandToggle = root.Q<Toggle>("left_hand_toggle");
+        if (leftHandToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name:  + left_hand_toggle");
+        }
+
+        leftHandToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetIsLeftHand(evt.newValue));
+
+        var isFlexionToggle = root.Q<Toggle>("is_flexion_toggle");
+        if (isFlexionToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name:  + is_flexion_toggle");
+        }
+
+        isFlexionToggle.RegisterValueChangedCallback(evt => SetFlexion(evt.newValue));
+
+        var dropdown = root.Q<DropdownField>("level_picker");
+        if (dropdown != null) {
+            dropdown.bindingPath = "level";
+            dropdown.choices = levels;
+            // dropdown.RegisterValueChangedCallback(evt => BridgeDataManager.SetLevel(int.Parse(evt.newValue)));
         }
     }
 
@@ -183,7 +240,7 @@ public class InstructorScreen : MonoBehaviour {
     /// </summary>
     private void SetFlexion(bool isFlexion) {
         BridgeDataManager.SetIsFlexion(isFlexion);
-        foreach (SliderInt slider in sliders) {
+        foreach (SliderInt slider in _sliders) {
             SetSliderRotation(slider, isFlexion);
         }
     }
@@ -240,19 +297,5 @@ public class InstructorScreen : MonoBehaviour {
         bool[] units = BridgeDataManager.PlayableUnits;
         units[index] = newState;
         BridgeDataManager.SetPlayableUnits(units);
-    }
-
-    /// <summary>
-    /// Initializes a toggle with a value and sets up a listener for changes.
-    /// </summary>
-    /// <param name="root">The root visual element.</param>
-    /// <param name="toggleName">The name of the toggle element.</param>
-    /// <param name="initialValue">Initial value of the toggle.</param>
-    /// <param name="updateAction">Action to perform on value change.</param>
-    private void InitializeAndListenToggle(VisualElement root, string toggleName, bool initialValue,
-        System.Action<bool> updateAction) {
-        var toggle = root.Q<Toggle>(toggleName);
-        toggle.value = initialValue;
-        toggle.RegisterValueChangedCallback(evt => updateAction(evt.newValue));
     }
 }
