@@ -122,7 +122,10 @@ public class InstructorScreen : MonoBehaviour {
             SetInteractability(_endPauseButtons, true);
             SetVisibility(_pauseSessionButton, true);
             SetVisibility(_resumeSessionButton, false);
-            SetVisibility(_endPauseButtons, true);
+            SetVisibility(_endSessionButton, true);
+        }
+        else if (state is BridgeStates.StartingGame) {
+            SetInteractability(_resumeSessionButton, false);
         }
         else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
             SetInteractability(_endPauseButtons, false);

@@ -77,11 +77,11 @@ namespace BridgePackage {
             }
         }
         
-        internal void SetControl(bool controlEnabled, bool resetPos = false, float goToHeight = 0f) {
+        internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
             _controlEnabled = controlEnabled;
             if (!controlEnabled) {
                 _height = goToHeight;
-                if (!resetPos) {
+                if (resetPos) {
                     ApplyForce();
                 }
             }

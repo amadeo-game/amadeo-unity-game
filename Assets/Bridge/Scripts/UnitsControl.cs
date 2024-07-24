@@ -32,7 +32,7 @@ namespace BridgePackage {
             }
             if (state is BridgeStates.Paused ) {
                 foreach (MoveUnit unit in _moveUnits) {
-                    unit.SetControl(false);
+                    unit.SetControl(false, resetPos: false);
                 }
             } else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
                 var heights = BridgeDataManager.Heights;

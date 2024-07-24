@@ -52,11 +52,11 @@ namespace BridgePackage {
         }
 
         public void PauseBridge() {
-            Debug.LogWarning("PauseBridge not implemented yet.");
+            bridgeStateMachine.ChangeState(BridgeStates.Paused);
         }
         
         public void ResumeBridge() {
-            Debug.LogWarning("ResumeBridge not implemented yet.");
+            StartCoroutine(bridgeStateMachine.StartingGame());
         }
 
         public SessionData GetSessionData() {
