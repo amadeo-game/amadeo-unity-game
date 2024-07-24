@@ -16,6 +16,7 @@
                         <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_4" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
                         <ui:SliderInt value="42" high-value="5" page-size="1" show-input-field="false" direction="Horizontal" inverted="false" name="height_5" class="pause__slider instructor_height_slider" style="rotate: 90deg;" />
                     </ui:GroupBox>
+                    <ui:Button text="RANDOM" parse-escape-sequences="true" display-tooltip-when-elided="true" class="end_pause_buttons" style="position: absolute; right: 26px; bottom: 247px; transform-origin: right top; width: 100px; height: 100px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; font-size: 21px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Roboto-Bold.ttf?fileID=12800000&amp;guid=4beb055f07aaff244873dec698d0363e&amp;type=3#Roboto-Bold&apos;); -unity-font-style: bold;" />
                     <ui:VisualElement name="checks_and_level_picker" class="toggles-row" style="flex-direction: row; align-items: center;">
                         <ui:VisualElement name="time_picker" class="ingame_configs" style="flex-grow: initial; flex-direction: column; flex-shrink: initial; justify-content: center; width: 299px; bottom: 15px;">
                             <ui:Label text="Time" name="time_label" class="input_fields__label ingame_configs__label" style="width: 217px;" />
@@ -29,7 +30,10 @@
                             <ui:Label text="Flexion" name="is_flexion_label" class="input_fields__label ingame_configs__label" />
                             <ui:Toggle name="is_flexion_toggle" class="instrucot_toggle" />
                         </ui:VisualElement>
-                        <ui:DropdownField label="Level" index="-1" name="level_picker" class="input_fields__label" style="width: 30%; height: 30%; margin-right: 39px; margin-top: 0; margin-bottom: 35px;" />
+                        <ui:VisualElement name="level_picker_container" style="flex-grow: 0; flex-shrink: 0;">
+                            <ui:Label text="Level" name="level_picker_label" class="input_fields__label ingame_configs__label" />
+                            <ui:DropdownField index="-1" name="level_picker" class="input_fields__label" style="width: 357px; height: 30%; margin-right: 39px; margin-top: 0; margin-bottom: 35px;" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="divider" class="divider" style="margin-top: 30px;" />
@@ -51,7 +55,7 @@
                         <ui:IntegerField value="0" name="mvc_5" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="active_units" class="multi-toggle-row" style="flex-direction: row; flex-shrink: initial; align-self: flex-start; width: 699px; justify-content: space-between; align-items: center; left: 25px; margin-top: 30px;">
+                <ui:VisualElement name="active_units" class="multi-toggle-row" style="flex-direction: row; flex-shrink: initial; align-self: auto; width: 716px; justify-content: space-between; align-items: center; left: 200px; margin-top: 40px; scale: 1.2 1.2;">
                     <ui:Label text="Active Units" name="active_units_label" class="input_fields__label" style="width: 317px;" />
                     <ui:Toggle name="active_unit_1" class="instrucot_toggle" />
                     <ui:Toggle name="active_unit_2" class="instrucot_toggle" />
@@ -60,16 +64,23 @@
                     <ui:Toggle name="active_unit_5" class="instrucot_toggle" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1668px; align-self: center; top: 45px; justify-content: space-between; align-items: stretch; display: flex;">
-                <ui:Button text="Initialize Session" display-tooltip-when-elided="true" name="initialize_session_button" class="pause-screen-button pause__resume-button instructor__resume-button" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
-                <ui:Button text="Start Game" display-tooltip-when-elided="true" name="start_session_button" class="pause__resume-button instructor__resume-button" style="margin-bottom: 21px;" />
-                <ui:VisualElement name="auto_start" style="flex-grow: initial; flex-direction: row; width: 256px; flex-shrink: initial; align-items: center;">
-                    <ui:Label text="Auto Start" name="auto_start_label" class="input_fields__label ingame_configs__label" style="width: 231px; font-size: 40px;" />
-                    <ui:Toggle name="auto_start_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
+            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1263px; align-self: center; top: 45px; justify-content: space-around; align-items: stretch; display: flex;">
+                <ui:VisualElement name="auto_zerof_checkbox" style="flex-grow: 0; flex-shrink: 0; width: 621px; flex-direction: row; align-self: auto; align-items: flex-start; justify-content: space-around;">
+                    <ui:VisualElement name="auto_start" style="flex-grow: initial; flex-direction: row; width: 256px; flex-shrink: initial; align-items: center;">
+                        <ui:Label text="Auto Start" name="auto_start_label" class="input_fields__label ingame_configs__label" style="width: 231px; font-size: 40px;" />
+                        <ui:Toggle name="auto_start_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="zero_f" style="flex-grow: initial; flex-direction: row; width: 214px; flex-shrink: initial; align-items: center; margin-left: 40px;">
+                        <ui:Label text="ZeroF" name="zero_f_label" class="input_fields__label ingame_configs__label" style="width: 155px; font-size: 40px;" />
+                        <ui:Toggle name="zero_f_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="zero_f" style="flex-grow: initial; flex-direction: row; width: 214px; flex-shrink: initial; align-items: center; margin-left: 40px;">
-                    <ui:Label text="ZeroF" name="zero_f_label" class="input_fields__label ingame_configs__label" style="width: 155px; font-size: 40px;" />
-                    <ui:Toggle name="zero_f_toggle" class="instrucot_toggle" style="margin-left: 31px;" />
+                <ui:VisualElement style="flex-grow: 0; flex-shrink: 0; width: 633px;">
+                    <ui:VisualElement name="end_pause_buttons" style="flex-grow: 0; height: 121px; width: 652px; align-items: center; position: absolute; left: 10px; visibility: visible; flex-direction: row; flex-shrink: 0; justify-content: space-between; align-self: center;">
+                        <ui:Button text="END SESSION" display-tooltip-when-elided="true" name="initialize_session_button" class="pause-screen-button pause__resume-button instructor__resume-button end_pause_buttons" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+                        <ui:Button text="PAUSE" display-tooltip-when-elided="true" name="initialize_session_button" class="pause-screen-button pause__resume-button instructor__resume-button end_pause_buttons" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+                    </ui:VisualElement>
+                    <ui:Button text="Start Game" display-tooltip-when-elided="true" name="start_session_button" class="pause__resume-button instructor__resume-button end_pause_buttons" style="margin-bottom: 21px; display: flex; visibility: hidden; align-self: flex-start; align-items: stretch; width: 563px;" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button display-tooltip-when-elided="true" name="pause__back-button" class="pause__back-button instructor__back-button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); display: none;" />

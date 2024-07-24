@@ -48,7 +48,7 @@ namespace BridgePackage {
 
         public void CompleteBridge() {
             Debug.Log("Called CompleteBridge");
-            bridgeStateMachine.ChangeState(BridgeStates.BridgeCompleting);
+            bridgeStateMachine.ForceCollapseBridge();
         }
 
         public void PauseBridge() {

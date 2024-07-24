@@ -46,6 +46,11 @@ namespace BridgePackage {
                 ChangeState(BridgeStates.BridgeCollapsing);
             }
         }
+        
+        internal void ForceCollapseBridge() {
+            BridgeTimer.ResetTimer();
+            ChangeState(BridgeStates.BridgeCollapsing);
+        }
 
         public void ChangeState(BridgeStates state) {
             currentState = state;

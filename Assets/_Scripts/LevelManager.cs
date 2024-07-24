@@ -35,8 +35,6 @@ public class LevelManager : MonoBehaviour {
             AdjustDifficultyBasedOnSessionData(sessionData);
         }
         else {
-            // var heights = GenerateRandomHeights();
-            // sessionManager.SetHeights(heights);
             BridgeDataManager.SetLevel(levelIndex);
             BridgeDataManager.SetIsLeftHand(GetIsLeftHand());
             BridgeDataManager.SetIsFlexion(GetIsFlexion());
@@ -56,6 +54,27 @@ public class LevelManager : MonoBehaviour {
         );
         GameStatesEvents.GameSessionStarted?.Invoke();
 
+    }
+    
+    public void ForceEndSession() {
+        Debug.Log("LevelManager :: StopSession() called.");
+        // Stop the game session
+        // Perform any cleanup or save data
+        bridgeAPI.CollapseBridge();
+    }
+    
+    public void PauseSession() {
+        Debug.Log("LevelManager :: PauseSession() called.");
+        // Pause the game session
+        // Perform any cleanup or save data
+        bridgeAPI.PauseBridge();
+    }
+    
+    public void OnSessionEnd() {
+        Debug.Log("LevelManager :: EndSession() called.");
+        // End the game session
+        // Perform any cleanup or save data
+        GameStatesEvents.GameSessionEnded?.Invoke();
     }
     
     private void EnableUnits() {

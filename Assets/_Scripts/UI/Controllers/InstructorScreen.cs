@@ -11,9 +11,11 @@ public class InstructorScreen : MonoBehaviour {
     public LevelManager LevelManager;
 
     private VisualElement _preGameConfigs;
+    private VisualElement _actionButtons;
 
 
-    private Button _initializeSessionButton;
+    private Button _endSessionButton;
+    private Button _pauseSessionButton;
     private Button _startSessionButton;
     private List<SliderInt> _sliders = new List<SliderInt>(); // List to hold slider references
     private DropdownField _dropdownField;
@@ -23,15 +25,8 @@ public class InstructorScreen : MonoBehaviour {
     private void Start() {
         // Obtain the root visual element of the UXML.
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
-        // get the BridgeDataManager.Level and built an int array that have all the level numbers from 1 up to the BridgeDataManager.Level
-        //
-        // levels = new int[BridgeDataManager.Level];
-        // for (int i = 0; i < BridgeDataManager.Level; i++) {
-        //     levels[i] = i + 1;
-        // }
-        // do the same using LinQ
+        
         levels = Enumerable.Range(1, BridgeDataManager.Level).Select(i => i.ToString()).ToList();
-        // levels = Enumerable.Range(1, BridgeDataManager.Level).ToArray();
 
         // Initialize UI elements and set up change listeners.
         UpdateUIWithCurrentValues(rootVisualElement);
@@ -46,10 +41,22 @@ public class InstructorScreen : MonoBehaviour {
             Debug.LogError("Failed to find 'Pre-Game Configs' container.");
             return;
         }
-
-        _initializeSessionButton = root.Q<Button>("initialize_session_button");
-        if (_initializeSessionButton == null) {
+        
+        _actionButtons = root.Q<VisualElement>("action_buttons");
+        if (_actionButtons == null) {
+            Debug.LogError("Failed to find 'Action Buttons' container.");
+            return;
+        }
+        
+        _endSessionButton = root.Q<Button>("end_session_button");
+        if (_endSessionButton == null) {
             Debug.LogError("Failed to find 'Initialize Session' button.");
+            return;
+        }
+        
+        _pauseSessionButton = root.Q<Button>("pause_session_button");
+        if (_pauseSessionButton == null) {
+            Debug.LogError("Failed to find 'Pause Session' button.");
             return;
         }
 
@@ -59,8 +66,9 @@ public class InstructorScreen : MonoBehaviour {
             return;
         }
 
-        // initializeSessionButton.RegisterCallback<ClickEvent>(evt => levelManager.InitializeSession());
-        _initializeSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
+        _endSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ForceEndSession());
+        
+        _pauseSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.PauseSession());
 
         _startSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
 
@@ -85,12 +93,12 @@ public class InstructorScreen : MonoBehaviour {
     private void OnBridgeStateChange(BridgeStates state) {
         if (state is BridgeStates.Building || state is BridgeStates.BridgeReady ||
             state is BridgeStates.InZeroF || state is BridgeStates.InGame) {
-            _initializeSessionButton.SetEnabled(false);
+            _endSessionButton.SetEnabled(false);
             _startSessionButton.SetEnabled(false);
             SetInteractability(_preGameConfigs, false);
         }
         else {
-            _initializeSessionButton.SetEnabled(true);
+            _endSessionButton.SetEnabled(true);
             _startSessionButton.SetEnabled(true);
             SetInteractability(_preGameConfigs, true);
         }
