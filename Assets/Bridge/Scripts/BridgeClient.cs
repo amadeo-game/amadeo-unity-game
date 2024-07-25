@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public enum InputType {
     EmulationMode,
@@ -20,8 +19,12 @@ namespace BridgePackage {
     public class BridgeClient : MonoBehaviour {
         [SerializeField] InputType inputType = InputType.EmulationMode;
 
-        [SerializeField, Tooltip("Port should be 4444 for Amadeo connection")]
+        [SerializeField, Tooltip("Port should be 4444 for Amadeo connection"), Range(1024, 49151)]
         private int _port = 4444;
+
+        // On emulation file, recommended to be small value because of high changes in data lines
+        // On Amadeo, recommended to be around 100
+        [SerializeField] private int _zeroFBuffer = 100;
 
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isReceiving = false;
@@ -33,10 +36,10 @@ namespace BridgePackage {
 
         private IPEndPoint _remoteEndPoint;
 
-        private float[] forces = new float[5];
-        private float[] _zeroForces = new float[10]; // Store zeroing forces
-        private double[] mvcForceExtension = new double[5]; // Store MVC forces
-        private double[] mvcForceFlexion = new double[5]; // Store MVC forces
+        private float[] _forces = new float[5];
+        private float[] _zeroForces = new float[5]; // Store zeroing forces
+        private readonly double[] mvcForceExtension = new double[5]; // Store MVC forces
+        private readonly double[] mvcForceFlexion = new double[5]; // Store MVC forces
         bool isLeftHand = false;
         bool isFlexion = false;
 
@@ -49,7 +52,8 @@ namespace BridgePackage {
 
         private void OnBridgeStateChanged(BridgeStates state) {
             if (state == BridgeStates.InZeroF) {
-                SetZeroForces();
+                Debug.Log("BridgeClient is in ZeroF state. Starting zeroing forces.");
+                StartReceiveData(zeroF: true);
             }
             else if (state == BridgeStates.InGame) {
                 if (_isReceiving) {
@@ -61,7 +65,7 @@ namespace BridgePackage {
                 StartReceiveData();
             }
             else if (_isReceiving) {
-                StopReceiveData();
+                _isReceiving = false;
             }
         }
 
@@ -86,28 +90,33 @@ namespace BridgePackage {
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public void StartReceiveData() {
+        private void StartReceiveData(bool zeroF = false) {
             if (_cancellationTokenSource.IsCancellationRequested) {
                 _cancellationTokenSource.Dispose();
                 _cancellationTokenSource = new CancellationTokenSource();
             }
 
-            _isReceiving = true;
             isLeftHand = BridgeDataManager.IsLeftHand;
+            if (zeroF) {
+                SetZeroF(_cancellationTokenSource.Token);
+                Debug.Log("BridgeClient :: StartReceiveData :: ZeroF is true. Starting zeroing forces.");
+                return;
+            }
+            _isReceiving = true;
             if (inputType == InputType.EmulationMode) {
-                Task.Run(() => HandleIncomingDataEmu(_cancellationTokenSource.Token), _cancellationTokenSource.Token);
+                Debug.Log("BridgeClient :: StartReceiveData :: Emulation mode is true. Starting emulation data.");
+                HandleIncomingDataEmu(_cancellationTokenSource.Token);
             }
             else {
-                Task.Run(() => ReceiveData(_cancellationTokenSource.Token), _cancellationTokenSource.Token);
+                ReceiveData(_cancellationTokenSource.Token);
             }
         }
 
         public void StopReceiveData() {
             _isReceiving = false;
-            _cancellationTokenSource.Cancel();
         }
 
-        private async Task ReceiveData(CancellationToken cancellationToken) {
+        private async void ReceiveData(CancellationToken cancellationToken) {
             while (_isReceiving && !cancellationToken.IsCancellationRequested) {
                 try {
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();
@@ -126,21 +135,29 @@ namespace BridgePackage {
         }
 
 
-        private async Task HandleIncomingDataEmu(CancellationToken cancellationToken) {
-            string[] lines = await File.ReadAllLinesAsync(EmulationDataFile);
-            
-            int index = 0;
+        private async void HandleIncomingDataEmu(CancellationToken cancellationToken) {
+            try {
+                string[] lines = await File.ReadAllLinesAsync(EmulationDataFile, cancellationToken);
 
-            while (_isReceiving) {
-                // Debug.Log("HandleIncomingDataEmu: Receiving data... from Emulation file.");
-                string line = lines[index];
-                index = (index + 1) % lines.Length;
-                HandleReceivedData(ParseDataFromAmadeo(line));
-                // _isReceiving = false;
-                await Task.Delay(100, cancellationToken); // Delay to allow UI updates and prevent high CPU usage
+                int index = 0;
+
+                while (_isReceiving) {
+                    string line = lines[index];
+                    if (!string.IsNullOrWhiteSpace(line)) {
+                        HandleReceivedData(ParseDataFromAmadeo(line));
+                    }
+
+                    index = (index + 1) % lines.Length;
+                    await Task.Delay(60, cancellationToken); // Delay to allow UI updates and prevent high CPU usage
+                }
+
+                Debug.Log("HandleIncomingDataEmu: Stopped receiving data.");
             }
-
-            Debug.Log("HandleIncomingDataEmu: Stopped receiving data.");
+            catch (TaskCanceledException e) {
+                Debug.Log("TaskCanceledException on state + " + BridgeStateMachine.currentState);
+                Debug.Log($"Task was canceled: {e.Message}");
+                throw;
+            }
         }
 
         private void HandleReceivedData(string data) {
@@ -149,35 +166,34 @@ namespace BridgePackage {
             }
 
             string[] strForces = data.Split('\t');
-            // Debug.Log("strForces: " + string.Join(", ", strForces));
+            Debug.Log("strForces: " + string.Join(", ", strForces));
             if (strForces.Length != 11) {
-                // Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
+                Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
 
-            // Debug.Log("Forces: " + string.Join(", ", forces));
             // Parse the forces from the received data, str length is 11
             strForces.Select(str =>
                     float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
                 .Skip(strForces.Length - 5) // Skip to the last 5 elements
                 .ToArray()
-                .CopyTo(forces, 0); // Copy to test array starting at index 0
+                .CopyTo(_forces, 0); // Copy to test array starting at index 0
 
             // Apply zeroing offset
-            for (var i = 0; i < forces.Length; i++) {
+            for (var i = 0; i < _forces.Length; i++) {
                 //The goal of zeroing is to remove the baseline effect from the measurements
-                forces[i] -= _zeroForces[i];
+                _forces[i] -= _zeroForces[i];
             }
 
-            forces = forces.Select((force, i) => force - _zeroForces[i]).ToArray();
+            _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
 
             if (!isLeftHand) {
-                forces = forces.Reverse().ToArray();
+                _forces = _forces.Reverse().ToArray();
             }
 
+            Debug.Log("Invoking Forces: " + string.Join(", ", _forces));
             // Send the parsed forces to the bridgeApi script
-            BridgeEvents.ForcesUpdated?.Invoke(forces);
-            // Debug.Log("Forces applied to UnitsControl");
+            BridgeEvents.ForcesUpdated?.Invoke(_forces);
         }
 
         private double[] ApplyMvcForces(double[] forcesNum) {
@@ -275,6 +291,109 @@ namespace BridgePackage {
                 _cancellationTokenSource.Cancel();
                 _cancellationTokenSource.Dispose();
                 _cancellationTokenSource = null;
+            }
+        }
+
+        private async void SetZeroF(CancellationToken cancellationToken) {
+            Debug.Log("SetZeroF() :: Starting zeroing forces.");
+
+            var index = 0;
+            int numOfLinesToRead = _zeroFBuffer;
+            string[] lines = new string[numOfLinesToRead];
+            try {
+                if (inputType is InputType.EmulationMode) {
+                    // lines = File.ReadAllLines(EmulationDataFile);
+                    // lines = await File.ReadAllLinesAsync(EmulationDataFile, cancellationToken);
+
+                    // read the only 100 first lines from file, and add them only if it is not an empty line
+                    using (StreamReader reader = new StreamReader(EmulationDataFile)) {
+                        string line;
+                        while ((line = reader.ReadLine()) != null && index < numOfLinesToRead) {
+                            if (!string.IsNullOrWhiteSpace(line)) {
+                                lines[index] = line;
+                                index++;
+                            }
+                        }
+                    }
+
+                    if (lines.Length == 0) {
+                        Debug.LogError("No data found in the emulation file.");
+                        return;
+                    }
+                }
+                else {
+                    int i = 0;
+                    while (i < numOfLinesToRead && !cancellationToken.IsCancellationRequested) {
+                        // Receive data asynchronously
+                        UdpReceiveResult result = await _udpClient.ReceiveAsync();
+                        string receivedData = Encoding.ASCII.GetString(result.Buffer);
+
+                        // Handle the received data
+                        HandleReceivedData(ParseDataFromAmadeo(receivedData));
+
+                        // Store the received data into the lines array
+                        lines[i] = receivedData;
+                        i++;
+                    }
+
+                    if (i < numOfLinesToRead) {
+                        Debug.LogError("Not enough data received from Amadeo device.");
+                    }
+                }
+
+                // apply ParseDataFromAmadeo to lines
+                string[] parsedData = lines.Select(ParseDataFromAmadeo).ToArray();
+                CalculateZeroingForces(parsedData);
+
+                Debug.Log("Zeroing completed and data sent to client.");
+                BridgeEvents.ZeroingCompleted?.Invoke();
+            }
+            catch (OperationCanceledException) {
+                Debug.Log("Data reception was canceled.");
+            }
+            catch (Exception ex) {
+                Debug.LogError($"Exception in ReceiveData: {ex.Message}");
+            }
+        }
+
+        private void CalculateZeroingForces(string[] lines) {
+            float[] sums = new float[5];
+            int count = 0;
+            Debug.Log("lines: " + lines.Length);
+
+            // get the last 5 elements of lines
+
+            // Transform each line correctly into a string array (split by space for example)
+            // Transform each line correctly into a string array (split by space for example)
+            String[][] allLines = lines
+                .Select(line => line.Replace(",", ".").Split('\t')) // Split by space or any delimiter you have
+                .ToArray();
+            string[][] relevantForces = allLines.Select(line => line.Skip(line.Length - 5).ToArray()).ToArray();
+
+            foreach (var line in relevantForces) {
+                if (line.Length == 5) {
+                    // Correct the condition to match the intended check
+                    for (int i = 0; i < 5; i++) {
+                        // Adjust the loop to match zero-based index
+                        if (float.TryParse(line[i], NumberStyles.Float, CultureInfo.InvariantCulture,
+                                out float value)) {
+                            Debug.Log("line[i]: " + line[i] + " parsed value: " + value);
+                            sums[i] += value;
+                        }
+                    }
+
+                    count++;
+                }
+                else {
+                    Debug.Log("line: " + string.Join(", ", line));
+                }
+            }
+
+            Debug.Log(
+                "CalculatingZeroingForces: Calculated sums. Count: " + count + " Sums: " + string.Join(", ", sums));
+            float[] means = new float[5];
+            for (int i = 0; i < sums.Length; i++) {
+                _zeroForces[i] = sums[i] / count;
             }
         }
     }

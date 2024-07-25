@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BridgePackage {
     [Serializable]
@@ -14,7 +15,7 @@ namespace BridgePackage {
         public bool[] playableUnits;
         public float[] unitsGrace;
         public bool zeroF;
-        public bool autoPlay;
+        [FormerlySerializedAs("autoPlay")] public bool autoStart;
         public SessionData SessionData;
 
 
@@ -32,7 +33,7 @@ namespace BridgePackage {
             this.playableUnits = new bool[5] { false, false, false, true, true };
             this.unitsGrace = new float[5] { 0, 0, 0, 0, 0 };
             this.zeroF = false;
-            this.autoPlay = false;
+            this.autoStart = false;
         }
 
 

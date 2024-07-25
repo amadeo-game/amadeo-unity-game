@@ -63,10 +63,13 @@ namespace BridgePackage {
         /// <param name="force">Force to apply.</param>
         public void ApplyForce() {
             if (rb != null) {
-                // Debug.Log("MoveUnit :: Height: " + Height);
+                Debug.Log("MoveUnit :: Height: " + _height);
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
-                // Debug.Log($"Attempting to move {gameObject.name} to {targetPosition}");
                 rb.MovePosition(targetPosition);
+                
+                // Vector2 finalPos = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime);
+                // Debug.Log($"Attempting to move {gameObject.name} to {targetPosition}");
+                // rb.MovePosition(finalPos);
                 // Debug.Log($"Position after MovePosition: {transform.position}");
             }
         }
@@ -89,14 +92,14 @@ namespace BridgePackage {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (_controlEnabled) {
-                Debug.Log(" OnTriggerEnter2D :: MoveUnit :: " + _fingerUnit);
+                // Debug.Log(" OnTriggerEnter2D :: MoveUnit :: " + _fingerUnit);
                 BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
             }
         }
 
         private void OnTriggerExit2D(Collider2D other) {
             if (_controlEnabled) {
-                Debug.Log(" OnTriggerExit2D :: MoveUnit :: " + _fingerUnit);
+                // Debug.Log(" OnTriggerExit2D :: MoveUnit :: " + _fingerUnit);
                 BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
             }
         }

@@ -51,7 +51,7 @@ namespace BridgePackage {
         public static float[] UnitsGrace => BridgeData.unitsGrace;
         public static float TimeDuration => BridgeData.TimeDuration;
         public static bool ZeroF => BridgeData.zeroF;
-        public static bool AutoPlay => BridgeData.autoPlay;
+        public static bool AutoStart => BridgeData.autoStart;
         public static SessionData SessionData => BridgeData.SessionData;
 
         // write all the setters too
@@ -110,8 +110,8 @@ namespace BridgePackage {
             BridgeData.zeroF = newZeroF;
         }
 
-        public static void SetAutoPlay(bool newAutoPlay) {
-            BridgeData.autoPlay = newAutoPlay;
+        public static void SetAutoStart(bool newAutoPlay) {
+            BridgeData.autoStart = newAutoPlay;
         }
 
         public static void SetSessionData(float[] bestHeights, bool isSuccessful) {

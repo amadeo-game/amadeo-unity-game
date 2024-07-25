@@ -42,11 +42,17 @@ namespace BridgePackage {
 
         private void OnEnable() {
             BridgeTimer.OnTimerComplete += HandleTimerComplete;
+            BridgeEvents.ZeroingCompleted += OnZeroingCompleted;
             BridgeEvents.UnitPlacementStatusChanged += UnitPlaced;
+        }
+
+        private void OnZeroingCompleted() {
+            ChangeState(BridgeStates.StartingGame);
         }
 
         private void OnDisable() {
             BridgeTimer.OnTimerComplete -= HandleTimerComplete;
+            BridgeEvents.ZeroingCompleted -= OnZeroingCompleted;
             BridgeEvents.UnitPlacementStatusChanged -= UnitPlaced;
         }
 

@@ -11,12 +11,12 @@ namespace BridgePackage {
         internal static Action<int, bool> ActiveUnitChanged;
         public static Action BridgeReady;
         public static Action OnGameStart;
+        public static Action ZeroingCompleted;
         public static Action BridgeCollapsed;
         public static Action FailedSession;
         public static Action BridgeIsComplete;
         public static Action WonSession;
-        
-        public static Action<BridgeData> OnBridgeDataUpdated;
 
+        public static Action<BridgeData> OnBridgeDataUpdated;
     }
 }

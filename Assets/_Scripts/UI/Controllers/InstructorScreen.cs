@@ -211,6 +211,26 @@ public class InstructorScreen : MonoBehaviour {
         else {
             isFlexionToggle.value = BridgeDataManager.IsFlexion;
         }
+        
+        // Update the zeroF toggle
+        var zeroFToggle = root.Q<Toggle>("zero_f_toggle");
+        if (zeroFToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name: zero_f_toggle");
+        }
+        else {
+            zeroFToggle.value = BridgeDataManager.ZeroF;
+        }
+        
+        // Update the autoPlay toggle
+        var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
+        if (autoPlayToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name: auto_start_toggle");
+        }
+        else {
+            autoPlayToggle.value = BridgeDataManager.AutoStart;
+        }
+        
+        
 
         // Update the level dropdown
         var dropdown = root.Q<DropdownField>("level_picker");
@@ -269,6 +289,20 @@ public class InstructorScreen : MonoBehaviour {
         }
 
         isFlexionToggle.RegisterValueChangedCallback(evt => SetFlexion(evt.newValue));
+        
+        var zeroFToggle = root.Q<Toggle>("zero_f_toggle");
+        if (zeroFToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name:  + zero_f_toggle");
+        }
+        
+        zeroFToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetZeroF(evt.newValue));
+        
+        var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
+        if (autoPlayToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name:  + auto_start_toggle");
+        }
+        
+        autoPlayToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetAutoStart(evt.newValue));
 
         var dropdown = root.Q<DropdownField>("level_picker");
         if (dropdown != null) {
