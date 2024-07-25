@@ -38,7 +38,8 @@ public class LevelManager : MonoBehaviour {
             BridgeDataManager.SetLevel(levelIndex);
             BridgeDataManager.SetIsLeftHand(GetIsLeftHand());
             BridgeDataManager.SetIsFlexion(GetIsFlexion());
-            BridgeDataManager.SetMvcValues(GetMVCValues());
+            BridgeDataManager.SetMvcValuesExtension(GetMvcValuesExtension());
+            BridgeDataManager.SetMvcValuesFlexion(GetMVCValuesFlexion());
             BridgeDataManager.SetPlayableUnits(GetPlayableUnits());
         }
 
@@ -123,7 +124,12 @@ public class LevelManager : MonoBehaviour {
         return true; // Example
     }
 
-    private float[] GetMVCValues() {
+    private float[] GetMvcValuesExtension() {
+        // Retrieve or generate the MVC values
+        return new float[] { 1, 1, 1, 1, 1 }; // Example
+    }
+    
+    private float[] GetMVCValuesFlexion() {
         // Retrieve or generate the MVC values
         return new float[] { 1, 1, 1, 1, 1 }; // Example
     }

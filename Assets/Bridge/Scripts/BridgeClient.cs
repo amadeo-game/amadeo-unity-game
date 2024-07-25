@@ -37,11 +37,11 @@ namespace BridgePackage {
         private IPEndPoint _remoteEndPoint;
 
         private float[] _forces = new float[5];
-        private float[] _zeroForces = new float[5]; // Store zeroing forces
+        private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
         private readonly double[] mvcForceExtension = new double[5]; // Store MVC forces
         private readonly double[] mvcForceFlexion = new double[5]; // Store MVC forces
-        bool isLeftHand = false;
-        bool isFlexion = false;
+        private bool _isLeftHand = false;
+        bool _isFlexion = false;
 
         private void OnEnable() {
             BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
@@ -96,7 +96,7 @@ namespace BridgePackage {
                 _cancellationTokenSource = new CancellationTokenSource();
             }
 
-            isLeftHand = BridgeDataManager.IsLeftHand;
+            _isLeftHand = BridgeDataManager.IsLeftHand;
             if (zeroF) {
                 SetZeroF(_cancellationTokenSource.Token);
                 Debug.Log("BridgeClient :: StartReceiveData :: ZeroF is true. Starting zeroing forces.");
@@ -166,7 +166,7 @@ namespace BridgePackage {
             }
 
             string[] strForces = data.Split('\t');
-            Debug.Log("strForces: " + string.Join(", ", strForces));
+            // Debug.Log("strForces: " + string.Join(", ", strForces));
             if (strForces.Length != 11) {
                 Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
@@ -187,11 +187,11 @@ namespace BridgePackage {
 
             _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
 
-            if (!isLeftHand) {
+            if (!_isLeftHand) {
                 _forces = _forces.Reverse().ToArray();
             }
 
-            Debug.Log("Invoking Forces: " + string.Join(", ", _forces));
+            // Debug.Log("Invoking Forces: " + string.Join(", ", _forces));
             // Send the parsed forces to the bridgeApi script
             BridgeEvents.ForcesUpdated?.Invoke(_forces);
         }
@@ -201,7 +201,7 @@ namespace BridgePackage {
             var normalizedForces = new double[10];
 
             for (var i = 0; i < 5; i++) {
-                if (isFlexion) {
+                if (_isFlexion) {
                     // Left hand mvc forces
                     normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
                     // Right hand mvc forces
@@ -241,23 +241,6 @@ namespace BridgePackage {
                     _zeroForces[i] = 0; // or any other default/fallback value
                 }
             }
-        }
-
-        private void SetMvcForces() {
-            for (var i = 1; i <= mvcForceExtension.Length; i++) {
-                var key = "E" + i;
-                double forceFinger = PlayerPrefs.GetFloat(key);
-                mvcForceExtension[i - 1] = forceFinger;
-            }
-
-            for (var i = 1; i <= mvcForceFlexion.Length; i++) {
-                var key = "F" + i;
-                double forceFinger = PlayerPrefs.GetFloat(key);
-                mvcForceFlexion[i - 1] = forceFinger;
-            }
-
-            Debug.Log(string.Join(", ", mvcForceExtension));
-            Debug.Log(string.Join(", ", mvcForceFlexion));
         }
 
         private static string ParseDataFromAmadeo(string data) {

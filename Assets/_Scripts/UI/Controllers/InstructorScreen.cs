@@ -174,9 +174,14 @@ public class InstructorScreen : MonoBehaviour {
                 graceField.value = BridgeDataManager.UnitsGrace[i];
             }
 
-            var mvcField = root.Q<IntegerField>("mvc_" + (i + 1));
+            var mvcField = root.Q<IntegerField>("mvc_e_" + (i + 1));
             if (mvcField != null) {
-                mvcField.value = (int)BridgeDataManager.MvcValues[i];
+                mvcField.value = (int)BridgeDataManager.MvcValuesExtension[i];
+            }
+            
+            var mvcFlexField = root.Q<IntegerField>("mvc_f_" + (i + 1));
+            if (mvcFlexField != null) {
+                mvcFlexField.value = (int)BridgeDataManager.MvcValuesFlexion[i];
             }
 
             var toggle = root.Q<Toggle>("active_unit_" + (i + 1));
@@ -259,9 +264,14 @@ public class InstructorScreen : MonoBehaviour {
                 graceField.RegisterValueChangedCallback(evt => UpdateGrace(localIndex, evt.newValue));
             }
 
-            var mvcField = root.Q<IntegerField>("mvc_" + (localIndex + 1));
-            if (mvcField != null) {
-                mvcField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue));
+            var mvcExtField = root.Q<IntegerField>("mvc_e_" + (localIndex + 1));
+            if (mvcExtField != null) {
+                mvcExtField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue, flexion: false));
+            }
+            
+            var mvcFlexField = root.Q<IntegerField>("mvc_f_" + (localIndex + 1));
+            if (mvcFlexField != null) {
+                mvcFlexField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue, flexion: true));
             }
 
             var toggle = root.Q<Toggle>("active_unit_" + (localIndex + 1));
@@ -359,10 +369,12 @@ public class InstructorScreen : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newValue">New MVC value.</param>
-    private void UpdateMvc(int index, int newValue) {
-        float[] mvcValues = BridgeDataManager.MvcValues;
-        mvcValues[index] = newValue;
-        BridgeDataManager.SetMvcValues(mvcValues);
+    private void UpdateMvc(int index, int newValue, bool flexion) {
+        if (flexion) {
+            BridgeDataManager.SetMvcValuesFlexion(index, newValue);
+        } else {
+            BridgeDataManager.SetMvcValuesExtension(index, newValue);
+        }
     }
 
     /// <summary>

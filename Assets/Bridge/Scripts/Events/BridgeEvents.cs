@@ -9,6 +9,8 @@ namespace BridgePackage {
         public static Action<BridgeStates> BridgeStateChanged;
         internal static Action<FingerUnit, bool> UnitPlacementStatusChanged;
         internal static Action<int, bool> ActiveUnitChanged;
+        internal static Action<int, float> MvcExtensionUpdated;
+        internal static Action<int, float> MvcFlexionUpdated;
         public static Action BridgeReady;
         public static Action OnGameStart;
         public static Action ZeroingCompleted;

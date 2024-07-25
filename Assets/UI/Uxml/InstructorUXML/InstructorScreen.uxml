@@ -37,34 +37,48 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="divider" class="divider" style="margin-top: 30px;" />
-                <ui:VisualElement name="input_fields" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; align-items: flex-start; margin-top: 30px;">
-                    <ui:VisualElement name="grace-picker" class="floats-row" style="flex-direction: row; align-items: center; justify-content: flex-start; width: 611px; flex-shrink: 0; align-self: flex-start;">
-                        <ui:Label text="Grace" class="input_fields__label" style="width: 192px;" />
-                        <ui:FloatField value="0.0" name="grace_1" />
-                        <ui:FloatField value="0.0" name="grace_2" />
-                        <ui:FloatField value="0.0" name="grace_3" />
-                        <ui:FloatField value="0.0" name="grace_4" />
-                        <ui:FloatField value="0.0" name="grace_5" />
+                <ui:VisualElement name="input_fields" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; align-items: stretch; margin-top: 0; height: 159px; justify-content: space-between; align-self: center; width: 1092px;">
+                    <ui:VisualElement name="grace" style="flex-grow: 0; align-self: flex-end; width: 391px; flex-shrink: 0;">
+                        <ui:Label text="Grace" name="grace_label" class="input_fields__label" style="width: 380px;" />
+                        <ui:VisualElement name="grace-picker" class="floats-row" style="flex-direction: row; align-items: center; justify-content: flex-start; width: 611px; flex-shrink: 0; align-self: flex-start;">
+                            <ui:FloatField value="0.0" name="grace_1" />
+                            <ui:FloatField value="0.0" name="grace_2" />
+                            <ui:FloatField value="0.0" name="grace_3" />
+                            <ui:FloatField value="0.0" name="grace_4" />
+                            <ui:FloatField value="0.0" name="grace_5" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="mvc_picker" class="integers-row" style="flex-direction: row; align-self: flex-start; align-items: center;">
-                        <ui:Label text="MVC" name="MVC" class="input_fields__label" style="width: 194px;" />
-                        <ui:IntegerField value="0" name="mvc_1" />
-                        <ui:IntegerField value="0" name="mvc_2" />
-                        <ui:IntegerField value="0" name="mvc_3" />
-                        <ui:IntegerField value="0" name="mvc_4" />
-                        <ui:IntegerField value="0" name="mvc_5" />
+                    <ui:VisualElement name="active_units_label_values" style="flex-grow: 0; height: 175px; width: 526px;">
+                        <ui:Label text="Active Units" name="active_units_label" class="input_fields__label" style="width: 459px; align-self: center;" />
+                        <ui:VisualElement name="active_units" class="multi-toggle-row" style="flex-direction: row; flex-shrink: 0; align-self: center; width: 387px; justify-content: space-between; align-items: center; left: 0; margin-top: 0; height: 55px;">
+                            <ui:Toggle name="active_unit_1" class="instrucot_toggle" />
+                            <ui:Toggle name="active_unit_2" class="instrucot_toggle" />
+                            <ui:Toggle name="active_unit_3" class="instrucot_toggle" />
+                            <ui:Toggle name="active_unit_4" class="instrucot_toggle" />
+                            <ui:Toggle name="active_unit_5" class="instrucot_toggle" />
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="active_units" class="multi-toggle-row" style="flex-direction: row; flex-shrink: initial; align-self: auto; width: 716px; justify-content: space-between; align-items: center; left: 200px; margin-top: 40px; scale: 1.2 1.2;">
-                    <ui:Label text="Active Units" name="active_units_label" class="input_fields__label" style="width: 317px;" />
-                    <ui:Toggle name="active_unit_1" class="instrucot_toggle" />
-                    <ui:Toggle name="active_unit_2" class="instrucot_toggle" />
-                    <ui:Toggle name="active_unit_3" class="instrucot_toggle" />
-                    <ui:Toggle name="active_unit_4" class="instrucot_toggle" />
-                    <ui:Toggle name="active_unit_5" class="instrucot_toggle" />
+                <ui:VisualElement name="mvc_picker" style="flex-grow: 0; height: 107px; align-self: flex-end; left: 0; bottom: -39px; flex-direction: row; flex-shrink: 0;">
+                    <ui:VisualElement name="mvc_picker_extension" class="integers-row" style="flex-direction: row; align-self: flex-start; align-items: center;">
+                        <ui:Label text="MVC Extension" name="mvc_label_extension" class="input_fields__label mvc_label" style="width: 194px;" />
+                        <ui:IntegerField value="0" name="mvc_e_1" />
+                        <ui:IntegerField value="0" name="mvc_e_2" />
+                        <ui:IntegerField value="0" name="mvc_e_3" />
+                        <ui:IntegerField value="0" name="mvc_e_4" />
+                        <ui:IntegerField value="0" name="mvc_e_5" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="mvc_picker_flexion" class="integers-row" style="flex-direction: row; align-self: flex-start; align-items: center;">
+                        <ui:Label text="MVC Flexion" name="mvc_label_flexion" class="input_fields__label mvc_label" style="width: 194px;" />
+                        <ui:IntegerField value="0" name="mvc_f_1" />
+                        <ui:IntegerField value="0" name="mvc_f_2" />
+                        <ui:IntegerField value="0" name="mvc_f_3" />
+                        <ui:IntegerField value="0" name="mvc_f_4" />
+                        <ui:IntegerField value="0" name="mvc_f_5" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1263px; align-self: center; top: 45px; justify-content: space-around; align-items: stretch; display: flex;">
+            <ui:VisualElement name="instructor_actions" style="flex-grow: 0; flex-direction: row; flex-shrink: 0; width: 1263px; align-self: center; top: 45px; justify-content: space-around; align-items: stretch; display: flex; margin-top: 41px;">
                 <ui:VisualElement name="auto_zerof_checkbox" style="flex-grow: 0; flex-shrink: 0; width: 621px; flex-direction: row; align-self: auto; align-items: flex-start; justify-content: space-around;">
                     <ui:VisualElement name="auto_start_checkbox" style="flex-grow: initial; flex-direction: row; width: 256px; flex-shrink: initial; align-items: center;">
                         <ui:Label text="Auto Start" name="auto_start_label" class="input_fields__label ingame_configs__label" style="width: 231px; font-size: 40px;" />

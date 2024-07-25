@@ -11,7 +11,8 @@ namespace BridgePackage {
         public int level;
         public bool isLeftHand;
         public bool isFlexion;
-        public float[] mvcValues;
+        public float[] mvcValuesExtension;
+        public float[] mvcValuesFlexion;
         public bool[] playableUnits;
         public float[] unitsGrace;
         public bool zeroF;
@@ -29,7 +30,8 @@ namespace BridgePackage {
             this.level = 1;
             this.isLeftHand = true;
             this.isFlexion = true;
-            this.mvcValues = new float[5] { 1, 1, 1, 1, 1 };
+            this.mvcValuesExtension = new float[5] { 1, 1, 1, 1, 1 };
+            this.mvcValuesFlexion = new float[5] { 1, 1, 1, 1, 1 };
             this.playableUnits = new bool[5] { false, false, false, true, true };
             this.unitsGrace = new float[5] { 0, 0, 0, 0, 0 };
             this.zeroF = false;
@@ -50,8 +52,8 @@ namespace BridgePackage {
             JsonUtility.FromJsonOverwrite(jsonFilepath, this);
         }
     }
-    public struct SessionData
-    {
+
+    public struct SessionData {
         public int[] heights;
         public float[] BestYPositions;
         public bool success;

@@ -36,17 +36,18 @@ namespace BridgePackage {
                         BridgeData.heights[i] = Mathf.Min(height, -height);
                     }
                     // Debug.Log("BridgeDataManager :: AFTER Heights accessed " + string.Join(",", BridgeData.heights));
-                    
                 }
 
                 return BridgeData.heights;
             }
         }
+
         public static BridgeTypeSO BridgeType => BridgeData.bridgeCollection.BridgeTypes[BridgeData.level];
         public static int Level => BridgeData.level;
         public static bool IsLeftHand => BridgeData.isLeftHand;
         public static bool IsFlexion => BridgeData.isFlexion;
-        public static float[] MvcValues => BridgeData.mvcValues;
+        public static float[] MvcValuesExtension => BridgeData.mvcValuesExtension;
+        public static float[] MvcValuesFlexion => BridgeData.mvcValuesFlexion;
         public static bool[] PlayableUnits => BridgeData.playableUnits;
         public static float[] UnitsGrace => BridgeData.unitsGrace;
         public static float TimeDuration => BridgeData.TimeDuration;
@@ -78,10 +79,36 @@ namespace BridgePackage {
             BridgeData.isFlexion = flexion;
         }
 
-        public static void SetMvcValues(float[] newMvcValues) {
+        public static void SetMvcValuesExtension(float[] newMvcValues) {
             if (newMvcValues.Length == 5) {
-                BridgeData.mvcValues = newMvcValues;
+                BridgeData.mvcValuesExtension = newMvcValues;
             }
+        }
+
+        public static void SetMvcValuesFlexion(float[] newMvcValues) {
+            if (newMvcValues.Length == 5) {
+                BridgeData.mvcValuesFlexion = newMvcValues;
+            }
+        }
+
+        public static void SetMvcValuesExtension(int index, float value) {
+            if (index < 0 || index > 4) {
+                Debug.LogWarning("Index must be between 0 and 4.");
+                return;
+            }
+
+            BridgeData.mvcValuesExtension[index] = value;
+            BridgeEvents.MvcExtensionUpdated?.Invoke(index, value);
+        }
+
+        public static void SetMvcValuesFlexion(int index, float value) {
+            if (index < 0 || index > 4) {
+                Debug.LogWarning("Index must be between 0 and 4.");
+                return;
+            }
+
+            BridgeData.mvcValuesFlexion[index] = value;
+            BridgeEvents.MvcFlexionUpdated?.Invoke(index, value);
         }
 
         public static void SetPlayableUnits(bool[] newPlayableUnits) {
@@ -89,11 +116,10 @@ namespace BridgePackage {
                 BridgeData.playableUnits = newPlayableUnits;
             }
         }
-        
+
         public static void SetPlayableUnit(int index, bool value) {
             BridgeData.playableUnits[index] = value;
             BridgeEvents.ActiveUnitChanged?.Invoke(index, value);
-            
         }
 
         public static void SetTimeDuration(float newTimeDuration) {
