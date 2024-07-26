@@ -2,12 +2,16 @@ using System;
 using System.Linq;
 using BridgePackage;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BridgePackage {
     [RequireComponent(typeof(BridgeDataManager))]
     public class UnitsControl : MonoBehaviour {
+        [SerializeField] private float _graceGrowthRate = 0.5f;
         private GameObject[] _playerUnits;
         private MoveUnit[] _moveUnits; // Array to store MoveUnit components
+        private BoxCollider2D[] _unitsColliders; // Array to store colliders of player units
+        private readonly bool[] _unitsRotated = new bool[5];
         private bool _unitsInitialized = false;
 
         private void Start() {
@@ -19,13 +23,39 @@ namespace BridgePackage {
             BridgeEvents.ActiveUnitChanged += OnActiveUnitChanged;
             BridgeEvents.MvcExtensionUpdated += OnMvcExtensionUpdated;
             BridgeEvents.MvcFlexionUpdated += OnMvcFlexionUpdated;
+            BridgeEvents.UnitGraceUpdated += OnUnitGraceUpdated;
+        }
+
+        private void OnUnitGraceUpdated(int fingerIndex, float graceValue) {
+            if (!_unitsInitialized) {
+                return;
+            }
+
+
+            Vector2 newSize = _unitsColliders[fingerIndex].size;
+            if (_unitsRotated[fingerIndex]) {
+                newSize.x = _graceGrowthRate * graceValue;
+            }
+            else {
+                newSize.y = _graceGrowthRate * graceValue;
+            }
+
+            _unitsColliders[fingerIndex].size = newSize;
         }
 
         private void OnMvcExtensionUpdated(int fingerIndex, float mvcValue) {
+            if (!_unitsInitialized) {
+                return;
+            }
+
             _moveUnits[fingerIndex].MvcE = mvcValue;
         }
 
         private void OnMvcFlexionUpdated(int fingerIndex, float mvcValue) {
+            if (!_unitsInitialized) {
+                return;
+            }
+
             _moveUnits[fingerIndex].MvcF = mvcValue;
         }
 
@@ -34,6 +64,7 @@ namespace BridgePackage {
             BridgeEvents.ActiveUnitChanged -= OnActiveUnitChanged;
             BridgeEvents.MvcExtensionUpdated -= OnMvcExtensionUpdated;
             BridgeEvents.MvcFlexionUpdated -= OnMvcFlexionUpdated;
+            BridgeEvents.UnitGraceUpdated -= OnUnitGraceUpdated;
         }
 
         private void OnActiveUnitChanged(int unitIndex, bool isEnable) {
@@ -73,11 +104,16 @@ namespace BridgePackage {
 
         public void SetPlayerUnits(GameObject[] units) {
             _moveUnits = units.Select(unit => unit.GetComponent<MoveUnit>()).ToArray();
+            _unitsColliders = _moveUnits.Select(unit => unit.Collider).ToArray();
+            
 
-
+            // check for each unit if it is rotated
+            for (int i = 0; i < _moveUnits.Length; i++) {
+                _unitsRotated[i] = Math.Abs(_moveUnits[i].transform.rotation.eulerAngles.z - 90f) < 10;
+            }
+            
             // Set FingerUnit enum for each player Unit
             for (int i = 0; i < _moveUnits.Length; i++) {
-                Debug.Log("Setting FingerUnit for unit " + i + " with index " + i + " and name " + _moveUnits[i].name);
                 int localIndex = i;
                 _moveUnits[i].SetFingerUnit((FingerUnit)localIndex, localIndex);
             }

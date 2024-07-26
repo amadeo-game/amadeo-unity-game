@@ -364,9 +364,7 @@ public class InstructorPanel : MonoBehaviour {
     /// <param name="index">Index of the unit to update.</param>
     /// <param name="newValue">New grace value.</param>
     private void UpdateGrace(int index, float newValue) {
-        float[] graces = BridgeDataManager.UnitsGrace;
-        graces[index] = newValue;
-        BridgeDataManager.SetUnitsGrace(graces);
+        BridgeDataManager.SetUnitsGrace(index, newValue);
     }
 
     /// <summary>

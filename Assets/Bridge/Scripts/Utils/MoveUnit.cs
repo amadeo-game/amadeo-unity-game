@@ -11,9 +11,10 @@ namespace BridgePackage {
         private bool _controlEnabled = false;
 
         private Rigidbody2D _rb; // Cached reference to the Rigidbody2D component
+        public BoxCollider2D Collider; // Cached reference to the BoxCollider2D component
 
         private bool _heightChanged = false;
-        
+
         private Queue<float> _heightQueue = new Queue<float>();
         private float _sum = 0f;
         [SerializeField] private int _queueSize = 20;
@@ -40,12 +41,17 @@ namespace BridgePackage {
         private void Awake() {
             // Cache the Rigidbody2D component at the start
             _rb = GetComponent<Rigidbody2D>();
+            Collider = GetComponent<BoxCollider2D>();
             if (_rb == null) {
                 Debug.LogError("Rigidbody2D component not found on " + gameObject.name);
             }
 
+            if (Collider == null) {
+                Debug.LogError("BoxCollider2D component not found on " + gameObject.name);
+            }
+
             _isFlexion = BridgeDataManager.IsFlexion;
-            
+
             MvcE = BridgeDataManager.MvcValuesExtension[_fingerIndex];
             MvcF = BridgeDataManager.MvcValuesFlexion[_fingerIndex];
             _setBestHeight = _isFlexion
@@ -85,9 +91,11 @@ namespace BridgePackage {
             // Adjust _height based on MvcF and MvcE
             if (_height < averageHeight) {
                 _height = averageHeight * MvcF;
-            } else if (_height > averageHeight) {
+            }
+            else if (_height > averageHeight) {
                 _height = averageHeight * MvcE;
-            } else {
+            }
+            else {
                 _heightChanged = false;
                 return;
             }

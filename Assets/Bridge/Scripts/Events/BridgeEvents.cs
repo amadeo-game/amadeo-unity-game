@@ -13,6 +13,7 @@ namespace BridgePackage {
         internal static Action<int, bool> ActiveUnitChanged;
         internal static Action<int, float> MvcExtensionUpdated;
         internal static Action<int, float> MvcFlexionUpdated;
+        internal static Action<int, float> UnitGraceUpdated;
         public static Action BridgeReady;
         public static Action OnGameStart;
         public static Action ZeroingCompleted;

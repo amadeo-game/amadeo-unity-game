@@ -129,6 +129,16 @@ namespace BridgePackage {
                 BridgeData.unitsGrace = floats;
             }
         }
+        
+        public static void SetUnitsGrace(int index, float value) {
+            if (index < 0 || index > 4) {
+                Debug.LogWarning("Index must be between 0 and 4.");
+                return;
+            }
+
+            BridgeData.unitsGrace[index] = value;
+            BridgeEvents.UnitGraceUpdated?.Invoke(index, value);
+        }
 
         public static void SetZeroF(bool newZeroF) {
             BridgeData.zeroF = newZeroF;
