@@ -8,6 +8,8 @@ namespace BridgePackage {
         private static float timer;
         private static bool resumePausedTimer;
         private static bool isRunning;
+        
+        
 
         public static IEnumerator StartTimer() {
             if (!resumePausedTimer) {
@@ -22,7 +24,7 @@ namespace BridgePackage {
                     ResetTimer();
                     
                 }
-                timer -= 1;
+                BridgeEvents.OnTimeDurationChanged?.Invoke(--timer);
                 yield return new WaitForSecondsRealtime(1);
 
             }

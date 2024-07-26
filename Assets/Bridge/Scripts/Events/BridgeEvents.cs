@@ -5,6 +5,8 @@ namespace BridgePackage {
     public static class BridgeEvents {
         // Apply the specified forces to the player units
         public static Action<float[]> ForcesUpdated;
+        public static Action<float> OnTimeDurationChanged;
+
         
         public static Action<BridgeStates> BridgeStateChanged;
         internal static Action<FingerUnit, bool> UnitPlacementStatusChanged;

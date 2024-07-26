@@ -1,8 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Uss/InstructorScreen.uss?fileID=7433441132597879392&amp;guid=73e08d42aff3f2e40ba404f36c373163&amp;type=3#InstructorScreen" />
-    <ui:VisualElement name="intructor__panel" picking-mode="Ignore" class="pause__screen instructor__screen" style="display: none; visibility: visible;">
+    <ui:VisualElement name="intructor__panel" picking-mode="Ignore" class="pause__screen instructor__screen" style="display: flex; visibility: visible;">
         <ui:VisualElement name="Instructor__background" class="pause__background instructor__background" />
-        <ui:VisualElement name="instructor__container" class="pause__container instructor__container main-container" style="flex-shrink: initial;">
+        <ui:VisualElement name="instructor__container" class="pause__container instructor__container main-container" style="flex-shrink: initial; visibility: visible; display: flex;">
             <ui:VisualElement name="instructor__header" picking-mode="Ignore" class="pause__header instructor__header">
                 <ui:Label text="Instuctor Panel" display-tooltip-when-elided="true" name="instructor__label" picking-mode="Ignore" class="pause__label instructor__label" />
             </ui:VisualElement>

@@ -105,6 +105,7 @@ namespace BridgePackage {
                 case BridgeStates.Paused:
                     _isPaused = true;
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Paused);
+                    BridgeTimer.PauseTimer();
                     break;
 
                 case BridgeStates.BridgeCollapsing:

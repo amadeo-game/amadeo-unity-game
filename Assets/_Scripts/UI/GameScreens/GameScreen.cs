@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Rendering;
 using System;
 using System.Linq;
+using BridgePackage;
 using UnityEngine.Serialization;
 
 namespace UIToolkitDemo {
@@ -56,16 +57,27 @@ namespace UIToolkitDemo {
 
             // if (m_Volume == null)
             //     m_Volume = FindObjectOfType<Volume>();
-
+    
             GameplayEvents.WinScreenShown += OnGameWon;
             GameplayEvents.LoseScreenShown += OnGameLost;
+            BridgeEvents.OnTimeDurationChanged += UpdateTimeLabel;
+
 
             GameplayEvents.SettingsUpdated += OnSettingsUpdated;
+        }
+        
+        private void UpdateTimeLabel(float newTime) {
+            if (_gameTimer != null) {
+                _gameTimer.text = newTime.ToString("F2"); // Format as needed
+            } if(_instructorTimer != null) {
+                _instructorTimer.text = newTime.ToString("F2");
+            }
         }
 
         void OnDisable() {
             GameplayEvents.WinScreenShown -= OnGameWon;
             GameplayEvents.LoseScreenShown -= OnGameLost;
+            BridgeEvents.OnTimeDurationChanged -= UpdateTimeLabel;
 
             GameplayEvents.SettingsUpdated -= OnSettingsUpdated;
         }
@@ -83,7 +95,7 @@ namespace UIToolkitDemo {
             _settingsButton = _instructorScreenRootElement.Q<Button>("settings__button");
             _instructorButton = _instructorScreenRootElement.Q<Button>("instructor_panel__button");
 
-            _instructorTimer = _instructorPanelRootElement.Q<Label>("game-timer__label");
+            _instructorTimer = _instructorScreenRootElement.Q<Label>("game-timer__label");
             _gameTimer = gameScreenRootElement.Q<Label>("game-timer__label");
             _settingsResumeButton = _settingsScreenRootElement.Q<Button>("settings__resume-button");
             _settingsQuitButton = _settingsScreenRootElement.Q<Button>("settings__quit-button");
@@ -120,6 +132,7 @@ namespace UIToolkitDemo {
 
             _musicSlider.RegisterValueChangedCallback(ChangeMusicVolume);
             _sfxSlider.RegisterValueChangedCallback(ChangeSfxVolume);
+
         }
 
         void ShowInstructorPanel(bool state) {
