@@ -38,14 +38,10 @@ namespace BridgePackage {
 
         private float[] _forces = new float[5];
         private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
-        private readonly double[] mvcForceExtension = new double[5]; // Store MVC forces
-        private readonly double[] mvcForceFlexion = new double[5]; // Store MVC forces
         private bool _isLeftHand = false;
-        bool _isFlexion = false;
 
         private void OnEnable() {
             BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
-            // BridgeEvents.BridgeReady += StartReceiveData;
             BridgeEvents.BridgeCollapsed += StopReceiveData;
             BridgeEvents.BridgeIsComplete += StopReceiveData;
         }
@@ -71,7 +67,6 @@ namespace BridgePackage {
 
         private void OnDisable() {
             BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
-            // BridgeEvents.BridgeReady -= StartReceiveData;
             BridgeEvents.BridgeCollapsed -= StopReceiveData;
             BridgeEvents.BridgeIsComplete -= StopReceiveData;
         }
@@ -148,7 +143,7 @@ namespace BridgePackage {
                     }
 
                     index = (index + 1) % lines.Length;
-                    await Task.Delay(60, cancellationToken); // Delay to allow UI updates and prevent high CPU usage
+                    await Task.Delay(10, cancellationToken); // Delay to allow UI updates and prevent high CPU usage
                 }
 
                 Debug.Log("HandleIncomingDataEmu: Stopped receiving data.");
@@ -194,29 +189,6 @@ namespace BridgePackage {
             // Debug.Log("Invoking Forces: " + string.Join(", ", _forces));
             // Send the parsed forces to the bridgeApi script
             BridgeEvents.ForcesUpdated?.Invoke(_forces);
-        }
-
-        private double[] ApplyMvcForces(double[] forcesNum) {
-            // Normalize forces using MVC values
-            var normalizedForces = new double[10];
-
-            for (var i = 0; i < 5; i++) {
-                if (_isFlexion) {
-                    // Left hand mvc forces
-                    normalizedForces[i] = mvcForceFlexion[i] != 0 ? forcesNum[i] / mvcForceFlexion[i] : 0;
-                    // Right hand mvc forces
-                    normalizedForces[i + 5] = mvcForceFlexion[i] != 0 ? forcesNum[i + 5] / mvcForceFlexion[i] : 0;
-                }
-                else {
-                    // Left hand mvc forces
-                    normalizedForces[i] = mvcForceExtension[i] != 0 ? forcesNum[i] / mvcForceExtension[i] : 0;
-                    // Right hand mvc forces
-                    normalizedForces[i + 5] = mvcForceExtension[i] != 0 ? forcesNum[i + 5] / mvcForceExtension[i] : 0;
-                }
-            }
-
-            Debug.Log("Normalized forces: " + string.Join(", ", normalizedForces));
-            return normalizedForces;
         }
 
         private void SetZeroForces() {
