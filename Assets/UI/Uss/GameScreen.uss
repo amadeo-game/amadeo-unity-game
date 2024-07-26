@@ -73,5 +73,10 @@
 }
 
 .timer__container {
-    translate: 100px -82px;
+    translate: 0 0;
+    position: absolute;
+    align-self: center;
+    width: 280px;
+    height: 70px;
+    margin-top: 18px;
 }

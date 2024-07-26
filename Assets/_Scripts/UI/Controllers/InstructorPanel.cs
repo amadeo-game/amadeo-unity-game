@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
-public class InstructorScreen : MonoBehaviour {
+public class InstructorPanel : MonoBehaviour {
     public LevelManager LevelManager;
 
     // Containers for UI elements
@@ -81,11 +81,16 @@ public class InstructorScreen : MonoBehaviour {
 
         _endSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ForceEndSession());
 
-        _pauseSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.PauseSession());
+        _pauseSessionButton.RegisterCallback<ClickEvent>(evt => OnPausePressed());
 
         _resumeSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ResumeSession());
 
         _startSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
+    }
+
+    private void OnPausePressed() {
+        SetInteractability(_pauseSessionButton, false);
+        LevelManager.PauseSession();
     }
 
     private void OnEnable() {

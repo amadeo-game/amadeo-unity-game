@@ -77,6 +77,7 @@ namespace BridgePackage {
 
             // Set FingerUnit enum for each player Unit
             for (int i = 0; i < _moveUnits.Length; i++) {
+                Debug.Log("Setting FingerUnit for unit " + i + " with index " + i + " and name " + _moveUnits[i].name);
                 int localIndex = i;
                 _moveUnits[i].SetFingerUnit((FingerUnit)localIndex, localIndex);
             }

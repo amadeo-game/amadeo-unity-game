@@ -64,7 +64,7 @@ namespace BridgePackage {
 
         private void OnForcesUpdated(float[] forces) {
             var height = forces[_fingerIndex];
-            Debug.Log("MvcF :: " + MvcF + " MvcE :: " + MvcE + " fingerIndex :: " + _fingerIndex + " Height :: " + height);
+            // Debug.Log("MvcF :: " + MvcF + " MvcE :: " + MvcE + " fingerIndex :: " + _fingerIndex + " Height :: " + height + " name :: " + gameObject.name);
             if (_height < height) {
                 _height = height * MvcF;
             }

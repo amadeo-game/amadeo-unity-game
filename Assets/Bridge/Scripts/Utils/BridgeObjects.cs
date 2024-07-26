@@ -25,6 +25,7 @@ public abstract class BridgeObjects {
             bridgePlayerUnits[i] = Instantiate(playerUnitPrefab,
                 playableUnitsPositions[i],
                 rotation, bridge.transform);
+            bridgePlayerUnits[i].gameObject.name = $"PlayerUnit{i}";
         }
 
         return bridgePlayerUnits;

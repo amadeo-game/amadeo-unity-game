@@ -100,7 +100,6 @@ namespace BridgePackage {
             Debug.Log("BuildBridge: New bridgeHolder instantiated");
 
             var envUnits = GetBridgeEnvironmentHeights(playerUnitsHeights);
-            var envUnitsHeights = envUnits.Select(unit => unit.Position.y).ToArray();
 
             var playerUnitsPositions = GetBridgePlayerPositions(playerUnitsHeights);
             GameObject playerUnitPrefab = BridgeDataManager.BridgeType.GetPlayableUnitPrefab.PlayerUnit;

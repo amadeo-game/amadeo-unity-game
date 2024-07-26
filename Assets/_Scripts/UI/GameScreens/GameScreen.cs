@@ -5,41 +5,46 @@ using UnityEngine.UIElements;
 using UnityEngine.Rendering;
 using System;
 using System.Linq;
+using UnityEngine.Serialization;
 
 namespace UIToolkitDemo {
     [RequireComponent(typeof(UIDocument))]
     public class GameScreen : MonoBehaviour {
-        // [Header("Menu Screen elements")][Tooltip("String IDs to query Visual Elements")]
-        // [SerializeField] string m_PauseScreenName = "PauseScreen";
-        // [SerializeField] string m_WinScreenName = "GameWinScreen";
-        // [SerializeField] string m_LoseScreenName = "GameLoseScreen";
-
-        // [Header("Blur")]
-        // [SerializeField] Volume m_Volume;
-
         const float k_DelayWinScreen = 2f;
+        [SerializeField] bool _openInstructorPanelAtStart = false;
 
         // string IDs
         // references to functional UI elements (buttons and screens)
-        VisualElement pauseScreenRootElement;
-        VisualElement winScreenRootElement;
-        VisualElement loseScreenRootElement;
+        VisualElement _settingsScreenRootElement;
+        VisualElement _instructorScreenRootElement;
+        VisualElement _instructorPanelRootElement;
+        VisualElement _winScreenRootElement;
+        VisualElement _loseScreenRootElement;
 
-        [SerializeField] UIDocument m_PauseScreen;
+        [FormerlySerializedAs("_pauseScreen")] [SerializeField]
+        UIDocument _settingsScreen;
+
+        [SerializeField] UIDocument _instructorScreen;
+        [SerializeField] UIDocument _instructorPanel;
         [SerializeField] UIDocument m_WinScreen;
         [SerializeField] UIDocument m_LoseScreen;
 
-        Slider m_MusicSlider;
-        Slider m_SfxSlider;
+        Slider _musicSlider;
+        Slider _sfxSlider;
 
-        Button m_PauseButton;
-        Button m_PauseResumeButton;
-        Button m_PauseQuitButton;
-        Button m_PauseBackButton;
+        Button _settingsButton;
+        Button _instructorButton;
+        Button _settingsResumeButton;
+        Button _settingsQuitButton;
+        Button _settingsBackButton;
+        Button _instructorBackButton;
 
         Button m_WinNextButton;
         Button m_LoseQuitButton;
         Button m_LoseRetryButton;
+
+        private Label _instructorTimer;
+        private Label _gameTimer;
 
         UIDocument m_GameScreen;
 
@@ -69,43 +74,64 @@ namespace UIToolkitDemo {
             m_GameScreen = GetComponent<UIDocument>();
             VisualElement gameScreenRootElement = m_GameScreen.rootVisualElement;
 
-            pauseScreenRootElement = m_PauseScreen.rootVisualElement;
-            winScreenRootElement = m_WinScreen.rootVisualElement;
-            loseScreenRootElement = m_LoseScreen.rootVisualElement;
+            _settingsScreenRootElement = _settingsScreen.rootVisualElement;
+            _instructorScreenRootElement = _instructorScreen.rootVisualElement;
+            _instructorPanelRootElement = _instructorPanel.rootVisualElement;
+            _winScreenRootElement = m_WinScreen.rootVisualElement;
+            _loseScreenRootElement = m_LoseScreen.rootVisualElement;
 
-            m_PauseButton = gameScreenRootElement.Q<Button>("pause__button");
+            _settingsButton = _instructorScreenRootElement.Q<Button>("settings__button");
+            _instructorButton = _instructorScreenRootElement.Q<Button>("instructor_panel__button");
 
-            m_PauseResumeButton = pauseScreenRootElement.Q<Button>("pause__resume-button");
-            m_PauseQuitButton = pauseScreenRootElement.Q<Button>("pause__quit-button");
-            m_PauseBackButton = pauseScreenRootElement.Q<Button>("pause__back-button");
+            _instructorTimer = _instructorPanelRootElement.Q<Label>("game-timer__label");
+            _gameTimer = gameScreenRootElement.Q<Label>("game-timer__label");
+            _settingsResumeButton = _settingsScreenRootElement.Q<Button>("settings__resume-button");
+            _settingsQuitButton = _settingsScreenRootElement.Q<Button>("settings__quit-button");
+            _settingsBackButton = _settingsScreenRootElement.Q<Button>("settings__back-button");
+            _instructorBackButton = _instructorPanelRootElement.Q<Button>("instructor__back-button");
 
-            m_WinNextButton = winScreenRootElement.Q<Button>("game-win__next-button");
-            m_LoseQuitButton = loseScreenRootElement.Q<Button>("game-lose__quit-button");
-            m_LoseRetryButton = loseScreenRootElement.Q<Button>("game-lose__retry-button");
+            m_WinNextButton = _winScreenRootElement.Q<Button>("game-win__next-button");
+            m_LoseQuitButton = _loseScreenRootElement.Q<Button>("game-lose__quit-button");
+            m_LoseRetryButton = _loseScreenRootElement.Q<Button>("game-lose__retry-button");
 
-            m_MusicSlider = pauseScreenRootElement.Q<Slider>("pause__music-slider");
-            m_SfxSlider = pauseScreenRootElement.Q<Slider>("pause__sfx-slider");
+            _musicSlider = _settingsScreenRootElement.Q<Slider>("settings__music-slider");
+            _sfxSlider = _settingsScreenRootElement.Q<Slider>("settings__sfx-slider");
         }
 
         void RegisterButtonCallbacks() {
             // set up buttons with RegisterCallback
-            m_PauseButton.RegisterCallback<ClickEvent>(ShowPauseScreen);
-            m_PauseResumeButton.RegisterCallback<ClickEvent>(ResumeGame);
-            m_PauseBackButton.RegisterCallback<ClickEvent>(ResumeGame);
-            m_PauseQuitButton.RegisterCallback<ClickEvent>(QuitGame);
+            
+            // HUD buttons
+            _settingsButton.RegisterCallback<ClickEvent>(ShowPauseScreen);
+            _instructorButton.RegisterCallback<ClickEvent>(env => ShowInstructorPanel(true));
+            
+            // PauseScreen buttons
+            _settingsResumeButton.RegisterCallback<ClickEvent>(ResumeGame);
+            _settingsQuitButton.RegisterCallback<ClickEvent>(QuitGame);
+            
+            // Close panels buttons
+            _settingsBackButton.RegisterCallback<ClickEvent>(ResumeGame);
+            _instructorBackButton.RegisterCallback<ClickEvent>(env => ShowInstructorPanel(false));
 
+            // Win/Lose screen buttons
             m_WinNextButton.RegisterCallback<ClickEvent>(QuitGame);
             m_LoseQuitButton.RegisterCallback<ClickEvent>(QuitGame);
             m_LoseRetryButton.RegisterCallback<ClickEvent>(RestartGame);
 
-            m_MusicSlider.RegisterValueChangedCallback(ChangeMusicVolume);
-            m_SfxSlider.RegisterValueChangedCallback(ChangeSfxVolume);
+            _musicSlider.RegisterValueChangedCallback(ChangeMusicVolume);
+            _sfxSlider.RegisterValueChangedCallback(ChangeSfxVolume);
+        }
+
+        void ShowInstructorPanel(bool state) {
+            AudioManager.PlayDefaultButtonSound();
+            ShowVisualElement(_instructorPanelRootElement, state);
         }
 
         void Start() {
-            ShowVisualElement(pauseScreenRootElement, false);
-            ShowVisualElement(winScreenRootElement, false);
-            ShowVisualElement(loseScreenRootElement, false);
+            ShowVisualElement(_settingsScreenRootElement, false);
+            ShowVisualElement(_instructorPanelRootElement, _openInstructorPanelAtStart);
+            ShowVisualElement(_winScreenRootElement, false);
+            ShowVisualElement(_loseScreenRootElement, false);
 
             BlurBackground(false);
         }
@@ -124,7 +150,7 @@ namespace UIToolkitDemo {
 
             GameplayEvents.GamePaused?.Invoke(1f);
 
-            ShowVisualElement(pauseScreenRootElement, true);
+            ShowVisualElement(_settingsScreenRootElement, true);
             // ShowVisualElement(m_PauseButton, false);
 
             BlurBackground(true);
@@ -143,7 +169,7 @@ namespace UIToolkitDemo {
         void ResumeGame(ClickEvent evt) {
             GameplayEvents.GameResumed?.Invoke();
             AudioManager.PlayDefaultButtonSound();
-            ShowVisualElement(pauseScreenRootElement, false);
+            ShowVisualElement(_settingsScreenRootElement, false);
             // ShowVisualElement(m_PauseButton, true);
             BlurBackground(false);
         }
@@ -175,10 +201,10 @@ namespace UIToolkitDemo {
             yield return new WaitForSeconds(k_DelayWinScreen);
 
             // hide UI
-            m_PauseButton.style.display = DisplayStyle.None;
+            _settingsButton.style.display = DisplayStyle.None;
 
             AudioManager.PlayDefeatSound();
-            ShowVisualElement(loseScreenRootElement, true);
+            ShowVisualElement(_loseScreenRootElement, true);
             BlurBackground(true);
         }
 
@@ -187,10 +213,10 @@ namespace UIToolkitDemo {
             yield return new WaitForSeconds(k_DelayWinScreen);
 
             // hide the UI
-            m_PauseButton.style.display = DisplayStyle.None;
+            _settingsButton.style.display = DisplayStyle.None;
 
             AudioManager.PlayVictorySound();
-            ShowVisualElement(winScreenRootElement, true);
+            ShowVisualElement(_winScreenRootElement, true);
         }
 
         // volume settings
@@ -221,8 +247,8 @@ namespace UIToolkitDemo {
 
 
         void OnSettingsUpdated(GameData gameData) {
-            m_MusicSlider.value = gameData.musicVolume;
-            m_SfxSlider.value = gameData.sfxVolume;
+            _musicSlider.value = gameData.musicVolume;
+            _sfxSlider.value = gameData.sfxVolume;
         }
     }
 }
