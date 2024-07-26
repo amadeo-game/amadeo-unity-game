@@ -27,6 +27,10 @@ namespace BridgePackage {
         private Dictionary<FingerUnit, bool> _unitPlacementStatus;
 
         private bool _isPaused = false;
+        
+        private GameObject _background;
+
+        private int _currentLevel = 0;
 
 
         private void Awake() {
@@ -62,6 +66,12 @@ namespace BridgePackage {
             }
         }
 
+        private void Start() {
+            _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
+            _currentLevel = BridgeDataManager.Level;
+            Instantiate(_background);
+        }
+
         internal void ForceCollapseBridge() {
             BridgeTimer.ResetTimer();
             ChangeState(BridgeStates.BridgeCollapsing);
@@ -72,6 +82,7 @@ namespace BridgePackage {
             switch (state) {
                 case BridgeStates.Idle:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Idle);
+                    SetBackground();
                     break;
 
                 case BridgeStates.Building:
@@ -129,6 +140,19 @@ namespace BridgePackage {
 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+        }
+
+        private void SetBackground() {
+            if (_background == null) {
+                return;
+            }
+
+            if (_currentLevel != BridgeDataManager.Level) {
+                _currentLevel = BridgeDataManager.Level;
+                Destroy(_background);
+                _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
+                Instantiate(_background);
             }
         }
 
