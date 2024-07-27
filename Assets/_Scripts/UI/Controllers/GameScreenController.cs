@@ -12,10 +12,6 @@ namespace UIToolkitDemo
     public class GameScreenController : MonoBehaviour
     {
 
-        [Header("Scenes")]
-        [SerializeField] string m_MainMenuSceneName = "MainMenu";
-        [SerializeField] string m_GameSceneName = "Game";
-
         // temp storage to send back to GameDataManager
         GameData m_SettingsData;
 
@@ -27,7 +23,6 @@ namespace UIToolkitDemo
             GameplayEvents.GamePaused += OnGamePaused;
             GameplayEvents.GameResumed += OnGameResumed;
             GameplayEvents.GameQuit += OnGameQuit;
-            GameplayEvents.GameRestarted += OnGameRestarted;
             GameplayEvents.MusicVolumeChanged += OnMusicVolumeChanged;
             GameplayEvents.SfxVolumeChanged += OnSfxVolumeChanged;
             
@@ -36,13 +31,12 @@ namespace UIToolkitDemo
 
         void OnDisable()
         {
-            // GameManager.GameWon -= OnGameWon;
-            // GameManager.GameLost -= OnGameLost;
+            BridgeEvents.WonSession += OnGameWon;
+            BridgeEvents.FailedSession += OnGameLost;
 
             GameplayEvents.GamePaused -= OnGamePaused;
             GameplayEvents.GameResumed -= OnGameResumed;
             GameplayEvents.GameQuit -= OnGameQuit;
-            GameplayEvents.GameRestarted -= OnGameRestarted;
             GameplayEvents.MusicVolumeChanged -= OnMusicVolumeChanged;
             GameplayEvents.SfxVolumeChanged -= OnSfxVolumeChanged;
             
@@ -72,20 +66,12 @@ namespace UIToolkitDemo
 #if UNITY_EDITOR
             if (Application.isPlaying)
 #endif
-                SceneManager.LoadSceneAsync(m_MainMenuSceneName);
+                // quit application
+                Application.Quit();
+            // quit game in executable
+            Application.Quit();
+
         }
-
-        void RestartLevel()
-        {
-
-            Time.timeScale = 1f;
-#if UNITY_EDITOR
-            if (Application.isPlaying)
-
-#endif
-                SceneManager.LoadSceneAsync(m_GameSceneName);
-        }
-
         // event-handling methods
         void OnGameLost()
         {
@@ -109,11 +95,6 @@ namespace UIToolkitDemo
             GameplayEvents.SettingsUpdated?.Invoke(m_SettingsData);
             StopAllCoroutines();
             Time.timeScale = 1f;
-        }
-
-        void OnGameRestarted()
-        {
-            RestartLevel();
         }
 
         void OnGameQuit()

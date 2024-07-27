@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour {
         bridgeAPI.BuildBridge(
 
         );
-        GameStatesEvents.GameSessionStarted?.Invoke();
+        GameplayEvents.GameStarted?.Invoke();
 
     }
     
