@@ -182,20 +182,16 @@ namespace BridgePackage {
                 Debug.Log("ZeroForces: " + string.Join(", ", _zeroForces));
                 
             }
-            // Apply zeroing offset
-            for (var i = 0; i < _forces.Length; i++) {
-                //The goal of zeroing is to remove the baseline effect from the measurements
-                _forces[i] -= _zeroForces[i];
-            }
+            
+            // Fixing the offset of the forces
+            _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
 
             if (!happenOnceTemp) {
                 Debug.Log("After Zeroing Forces: " + string.Join(", ", _forces));
 
                 happenOnceTemp = true;
             }
-
-            _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
-
+            
             if (!_isLeftHand) {
                 _forces = _forces.Reverse().ToArray();
             }
@@ -346,11 +342,10 @@ namespace BridgePackage {
                     // Correct the condition to match the intended check
                     for (int i = 0; i < 5; i++) {
                         // Adjust the loop to match zero-based index
-                        if (float.TryParse(line[i], NumberStyles.Float, CultureInfo.InvariantCulture,
-                                out float value)) {
-                            Debug.Log("line[i]: " + line[i] + " parsed value: " + value);
-                            sums[i] += value;
-                        }
+                        if (!float.TryParse(line[i], NumberStyles.Float, CultureInfo.InvariantCulture,
+                                out float value)) continue;
+                        // Successfully parsed the value, add it to the sum
+                        sums[i] += value;
                     }
 
                     count++;

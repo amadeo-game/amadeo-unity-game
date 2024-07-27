@@ -79,7 +79,8 @@ namespace BridgePackage {
 
         private void OnForcesUpdated(float[] forces) {
             var height = forces[_fingerIndex];
-
+            // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + height);
+            
             // Add new value to the queue and update the running sum
             _sum -= _heightQueue.Dequeue();
             _heightQueue.Enqueue(height);
