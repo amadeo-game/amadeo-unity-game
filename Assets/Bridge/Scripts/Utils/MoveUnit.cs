@@ -126,6 +126,8 @@ namespace BridgePackage {
         internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
             _controlEnabled = controlEnabled;
             if (!controlEnabled) {
+                BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
+
                 _height = goToHeight;
                 if (resetPos) {
                     ApplyForce();

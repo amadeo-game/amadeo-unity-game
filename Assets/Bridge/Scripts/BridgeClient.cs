@@ -40,6 +40,8 @@ namespace BridgePackage {
         private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
         private bool _isLeftHand = false;
 
+        private bool happenOnceTemp = false;
+
         private void OnEnable() {
             BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
             BridgeEvents.BridgeCollapsed += StopReceiveData;
@@ -173,11 +175,23 @@ namespace BridgePackage {
                 .Skip(strForces.Length - 5) // Skip to the last 5 elements
                 .ToArray()
                 .CopyTo(_forces, 0); // Copy to test array starting at index 0
-
+            
+            
+            if (!happenOnceTemp) {
+                Debug.Log("Forces: " + string.Join(", ", _forces));
+                Debug.Log("ZeroForces: " + string.Join(", ", _zeroForces));
+                
+            }
             // Apply zeroing offset
             for (var i = 0; i < _forces.Length; i++) {
                 //The goal of zeroing is to remove the baseline effect from the measurements
                 _forces[i] -= _zeroForces[i];
+            }
+
+            if (!happenOnceTemp) {
+                Debug.Log("After Zeroing Forces: " + string.Join(", ", _forces));
+
+                happenOnceTemp = true;
             }
 
             _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
@@ -186,8 +200,10 @@ namespace BridgePackage {
                 _forces = _forces.Reverse().ToArray();
             }
 
+
             // Debug.Log("Invoking Forces: " + string.Join(", ", _forces));
             // Send the parsed forces to the bridgeApi script
+            
             BridgeEvents.ForcesUpdated?.Invoke(_forces);
         }
 
@@ -350,6 +366,7 @@ namespace BridgePackage {
             for (int i = 0; i < sums.Length; i++) {
                 _zeroForces[i] = sums[i] / count;
             }
+            Debug.Log("ZeroForces: " + string.Join(", ", _zeroForces));
         }
     }
 }
