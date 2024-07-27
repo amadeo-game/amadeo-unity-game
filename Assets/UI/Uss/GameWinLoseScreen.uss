@@ -40,22 +40,24 @@
 .game-win-lose__label {
     -unity-text-align: middle-center;
     -unity-font-style: normal;
-    font-size: 69px;
+    font-size: 147px;
     color: rgb(255, 255, 255);
     background-color: rgba(0, 0, 0, 0);
     border-left-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(0, 0, 0, 0);
     border-top-color: rgba(0, 0, 0, 0);
     border-bottom-color: rgba(0, 0, 0, 0);
-    position: absolute;
-    top: 41%;
-    width: auto;
-    height: auto;
+    position: relative;
+    top: -6%;
+    width: 100%;
+    height: 100%;
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Bangers.ttf?fileID=12800000&guid=5dd49b3eacc540408c98eee0de38e0f1&type=3#Bangers');
 }
 
 .game-win-lose__button {
     -unity-font-style: normal;
-    font-size: 41px;
+    font-size: 50px;
     bottom: auto;
     position: relative;
     background-color: rgba(0, 0, 0, 0);
@@ -74,6 +76,8 @@
     border-bottom-right-radius: 0;
     top: -53px;
     background-image: url('project://database/Assets/UI/Textures/UI_atlas.psd?fileID=8167784104830907340&guid=68de98d899585b7469e0fb40a0fcbc56&type=3#bt_09');
+    -unity-font-definition: initial;
+    -unity-font: url('project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Bangers.ttf?fileID=12800000&guid=5dd49b3eacc540408c98eee0de38e0f1&type=3#Bangers');
 }
 
 .game-win-lose__button:hover {

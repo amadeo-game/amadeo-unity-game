@@ -24,7 +24,7 @@ namespace BridgePackage {
 
         internal static BridgeStates currentState { get; private set; }
 
-        private Dictionary<FingerUnit, bool> _unitPlacementStatus = new Dictionary<FingerUnit, bool>();
+        private Dictionary<FingerUnit, bool> _unitPlacementStatus;
 
         private bool _isPaused = false;
         
@@ -35,6 +35,13 @@ namespace BridgePackage {
 
         private void Awake() {
             currentState = BridgeStates.Idle;
+            _unitPlacementStatus = new Dictionary<FingerUnit, bool> {
+                {FingerUnit.First, true},
+                {FingerUnit.Second, true},
+                {FingerUnit.Third, true},
+                {FingerUnit.Fourth, true},
+                {FingerUnit.Fifth, true}
+            };
         }
 
         private void OnEnable() {
@@ -115,6 +122,7 @@ namespace BridgePackage {
                 case BridgeStates.BridgeCollapsing:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeCollapsing);
                     BridgeEvents.BridgeCollapsed?.Invoke();
+                    BridgeTimer.ResetTimer();
                     break;
 
                 case BridgeStates.GameFailed:
@@ -152,9 +160,11 @@ namespace BridgePackage {
         private void HandleGameWinOrLose(bool won) {
             if (won) {
                 BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.GameWon);
+                BridgeEvents.WonSession?.Invoke();
             }
             else {
                 BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.GameFailed);
+                BridgeEvents.FailedSession?.Invoke();
             }
 
             ChangeState(BridgeStates.Idle);

@@ -1,14 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.Rendering;
-using System;
-using System.Linq;
 using BridgePackage;
 using UnityEngine.Serialization;
 
-namespace UIToolkitDemo {
     [RequireComponent(typeof(UIDocument))]
     public class GameScreen : MonoBehaviour {
         const float k_DelayWinScreen = 2f;
@@ -126,9 +121,9 @@ namespace UIToolkitDemo {
             _instructorBackButton.RegisterCallback<ClickEvent>(env => ShowInstructorPanel(false));
 
             // Win/Lose screen buttons
-            m_WinNextButton.RegisterCallback<ClickEvent>(QuitGame);
-            m_LoseQuitButton.RegisterCallback<ClickEvent>(QuitGame);
-            m_LoseRetryButton.RegisterCallback<ClickEvent>(RestartGame);
+            // m_WinNextButton.RegisterCallback<ClickEvent>(QuitGame);
+            // m_LoseQuitButton.RegisterCallback<ClickEvent>(QuitGame);
+            // m_LoseRetryButton.RegisterCallback<ClickEvent>(RestartGame);
 
             _musicSlider.RegisterValueChangedCallback(ChangeMusicVolume);
             _sfxSlider.RegisterValueChangedCallback(ChangeSfxVolume);
@@ -264,4 +259,3 @@ namespace UIToolkitDemo {
             _sfxSlider.value = gameData.sfxVolume;
         }
     }
-}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using BridgePackage;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,8 +21,8 @@ namespace UIToolkitDemo
 
         void OnEnable()
         {
-            GameManager.GameWon += OnGameWon;
-            GameManager.GameLost += OnGameLost;
+            BridgeEvents.WonSession += OnGameWon;
+            BridgeEvents.FailedSession += OnGameLost;
 
             GameplayEvents.GamePaused += OnGamePaused;
             GameplayEvents.GameResumed += OnGameResumed;
@@ -35,8 +36,8 @@ namespace UIToolkitDemo
 
         void OnDisable()
         {
-            GameManager.GameWon -= OnGameWon;
-            GameManager.GameLost -= OnGameLost;
+            // GameManager.GameWon -= OnGameWon;
+            // GameManager.GameLost -= OnGameLost;
 
             GameplayEvents.GamePaused -= OnGamePaused;
             GameplayEvents.GameResumed -= OnGameResumed;

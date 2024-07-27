@@ -15,7 +15,7 @@ namespace BridgePackage {
 
         private bool _heightChanged = false;
 
-        private Queue<float> _heightQueue = new Queue<float>();
+        private readonly Queue<float> _heightQueue = new Queue<float>();
         private float _sum = 0f;
         [SerializeField] private int _queueSize = 20;
 
@@ -127,8 +127,6 @@ namespace BridgePackage {
         internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
             _controlEnabled = controlEnabled;
             if (!controlEnabled) {
-                BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
-
                 _height = goToHeight;
                 if (resetPos) {
                     ApplyForce();
