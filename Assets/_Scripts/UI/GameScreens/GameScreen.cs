@@ -63,11 +63,11 @@ public class GameScreen : MonoBehaviour {
 
     private void UpdateTimeLabel(float newTime) {
         if (_gameTimer != null) {
-            _gameTimer.text = newTime.ToString("F2"); // Format as needed
+            _gameTimer.text = newTime.ToString("F0"); // Format as needed
         }
 
         if (_instructorTimer != null) {
-            _instructorTimer.text = newTime.ToString("F2");
+            _instructorTimer.text = newTime.ToString("F0");
         }
     }
 
