@@ -1,0 +1,18 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Uss/PauseScreen.uss?fileID=7433441132597879392&amp;guid=e6787023d5698b942ab2af39e08f09e6&amp;type=3#PauseScreen" />
+    <ui:VisualElement name="settings__screen" picking-mode="Ignore" class="pause__screen" style="display: flex; visibility: visible;">
+        <ui:VisualElement name="settings__background" class="pause__background" />
+        <ui:VisualElement name="pause__container" class="pause__container" style="position: absolute; flex-shrink: initial;">
+            <ui:VisualElement name="pause__header" picking-mode="Ignore" class="pause__header">
+                <ui:Label text="Game Paused" display-tooltip-when-elided="true" name="pause__label" picking-mode="Ignore" class="pause__label" />
+            </ui:VisualElement>
+            <ui:VisualElement name="pause__body" picking-mode="Ignore" class="pause__body">
+                <ui:Slider picking-mode="Ignore" label="Music" value="42" high-value="100" name="settings__music-slider" class="pause__slider" style="top: 0;" />
+                <ui:Slider picking-mode="Ignore" label="SFX" value="42" high-value="100" name="settings__sfx-slider" class="pause__slider" />
+                <ui:Button text="Resume Level" display-tooltip-when-elided="true" name="settings__resume-button" class="pause__resume-button" style="margin-bottom: 21px;" />
+                <ui:Button text="Abandon Level" display-tooltip-when-elided="true" name="settings__quit-button" class="pause-screen-button pause__resume-button" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;" />
+            </ui:VisualElement>
+            <ui:Button display-tooltip-when-elided="true" name="settings__back-button" class="pause__back-button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

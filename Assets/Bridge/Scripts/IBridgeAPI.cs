@@ -1,17 +1,14 @@
 using System;
-
-public interface IBridgeAPI
-{
-    static event Action BridgeBuilt;
-    
-    static event Action OnGameStart;
-    static event Action BridgeCollapsed;
-    static event Action BridgeIsComplete;
+using BridgePackage;
+public interface IBridgeAPI {
 
     void BuildBridge();
-    void BuildBridge(int[] unitHeights, BridgeCollectionSO collectionSO = null, int bridgeTypeIndex = 0);
     void CollapseBridge();
-    
+
     void CompleteBridge();
+
+    void EnableGameUnits(bool doZeroF);
+    
+    SessionData GetSessionData();
     void PauseBridge();
 }

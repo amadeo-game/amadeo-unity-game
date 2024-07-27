@@ -1,16 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DemoBridgeHeights : MonoBehaviour
-{
+// Attached to the GameObject GameManager 
+
+public class DemoBridgeHeights : MonoBehaviour {
     [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
     private int[] playerUnitsHeights = { 0, 0, 0, 0, 0 }; // Set this in the Inspector
-    
+
     // getter for playerUnitsHeights
     public int[] GetPlayerUnitsHeights() {
         return playerUnitsHeights;
     }
+
     public void OnValueChanged0(float value) {
         playerUnitsHeights[0] = (int)value;
     }

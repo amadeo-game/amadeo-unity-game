@@ -1,133 +1,200 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace BridgePackage {
-    internal enum BridgeState {
+    public enum BridgeStates {
         Idle,
         Building,
-        Built,
+        BridgeReady,
+        InZeroF,
+        Paused,
+        StartingGame,
         InGame,
-        Collapsing,
-        Collapsed,
-        Winning,
-        Win
+        BridgeCollapsing,
+        GameFailed,
+        BridgeCompleting,
+        GameWon
     }
 
-    internal class BridgeStateMachine : MonoBehaviour {
-        private BridgeMediator bridgeMediator;
-        private Dictionary<FingerUnit, bool> dicUnitPlaced;
-        internal BridgeState currentState = BridgeState.Idle;
+    public class BridgeStateMachine : MonoBehaviour {
+        public event Action<int[], BridgeTypeSO> OnForceResetBridge;
+
+        internal static BridgeStates currentState { get; private set; }
+
+        private Dictionary<FingerUnit, bool> _unitPlacementStatus;
+
+        private bool _isPaused = false;
+        
+        private GameObject _background;
+
+        private int _currentLevel = 0;
+
 
         private void Awake() {
-            dicUnitPlaced = new Dictionary<FingerUnit, bool> {
-                { FingerUnit.first, false },
-                { FingerUnit.second, false },
-                { FingerUnit.third, false },
-                { FingerUnit.fourth, false },
-                { FingerUnit.fifth, false },
+            currentState = BridgeStates.Idle;
+            _unitPlacementStatus = new Dictionary<FingerUnit, bool> {
+                { FingerUnit.First, true },
+                { FingerUnit.Second, true },
+                { FingerUnit.Third, true },
+                { FingerUnit.Fourth, true },
+                { FingerUnit.Fifth, true }
             };
         }
 
-        internal void Initialize(BridgeMediator mediator) {
-            bridgeMediator = mediator
-                ? mediator
-                : throw new ArgumentNullException(nameof(mediator), "BridgeMediator cannot be null.");
-            bridgeMediator.OnUnitPlaced += OnUnitPlaced;
+        private void OnEnable() {
+            BridgeTimer.OnTimerComplete += HandleTimerComplete;
+            BridgeEvents.ZeroingCompleted += OnZeroingCompleted;
+            BridgeEvents.UnitPlacementStatusChanged += UnitPlaced;
         }
 
-        private void OnDestroy() {
-            if (bridgeMediator != null) {
-                bridgeMediator.OnUnitPlaced -= OnUnitPlaced;
-            }
+        private void OnZeroingCompleted() {
+            ChangeState(BridgeStates.StartingGame);
         }
 
-        internal bool CanBuild => currentState == BridgeState.Idle;
+        private void OnDisable() {
+            BridgeTimer.OnTimerComplete -= HandleTimerComplete;
+            BridgeEvents.ZeroingCompleted -= OnZeroingCompleted;
+            BridgeEvents.UnitPlacementStatusChanged -= UnitPlaced;
+        }
 
-        internal bool CanForceReset => currentState != BridgeState.Collapsing &&
-                                       currentState != BridgeState.Building &&
-                                       currentState != BridgeState.Winning;
-
-        private void OnUnitPlaced(FingerUnit fingerUnit, bool isPlaced) {
-            if (dicUnitPlaced.ContainsKey(fingerUnit)) {
-                dicUnitPlaced[fingerUnit] = isPlaced;
-            }
-
-            if (!dicUnitPlaced.Values.Contains(false)) {
-                StartSuccess();
+        private void HandleTimerComplete() {
+            if (currentState == BridgeStates.InGame) {
+                ChangeState(BridgeStates.BridgeCollapsing);
             }
         }
 
-        internal void StartBuilding() {
-            if (currentState == BridgeState.Idle) {
-                currentState = BridgeState.Building;
-                bridgeMediator?.BuildStart();
+        private void Start() {
+            _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
+            _currentLevel = BridgeDataManager.Level;
+            Instantiate(_background);
+        }
+
+        internal void ForceCollapseBridge() {
+            BridgeTimer.ResetTimer();
+            ChangeState(BridgeStates.BridgeCollapsing);
+        }
+
+        public void ChangeState(BridgeStates state) {
+            currentState = state;
+            switch (state) {
+                case BridgeStates.Idle:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Idle);
+                    SetBackground();
+                    break;
+
+                case BridgeStates.Building:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Building);
+                    break;
+
+                case BridgeStates.BridgeReady:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeReady);
+                    BridgeEvents.BridgeReady?.Invoke();
+                    break;
+
+                case BridgeStates.InZeroF:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InZeroF);
+                    break;
+                case BridgeStates.StartingGame:
+                    StartCoroutine(StartingGame());
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.StartingGame);
+                    break;
+                case BridgeStates.InGame:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InGame);
+                    if (!_isPaused) {
+                        BridgeEvents.OnGameStart?.Invoke();
+                    }
+                    else {
+                        _isPaused = false;
+                    }
+
+                    StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
+                    break;
+
+                case BridgeStates.Paused:
+                    _isPaused = true;
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Paused);
+                    BridgeTimer.PauseTimer();
+                    break;
+
+                case BridgeStates.BridgeCollapsing:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeCollapsing);
+                    BridgeEvents.BridgeCollapsed?.Invoke();
+                    break;
+
+                case BridgeStates.GameFailed:
+                    HandleGameWinOrLose(won: false);
+                    break;
+
+                case BridgeStates.BridgeCompleting:
+                    BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.BridgeCompleting);
+                    BridgeEvents.BridgeIsComplete?.Invoke();
+                    BridgeTimer.ResetTimer();
+                    break;
+
+                case BridgeStates.GameWon:
+                    HandleGameWinOrLose(won: true);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
             }
         }
 
-        internal void StartBuilding(int[] unitHeights, BridgeCollectionSO collectionSO = null,
-            int bridgeTypeIndex = 0) {
-            if (currentState == BridgeState.Idle) {
-                currentState = BridgeState.Building;
-                bridgeMediator?.BuildStart(unitHeights, collectionSO, bridgeTypeIndex);
+        private void SetBackground() {
+            if (_background == null) {
+                return;
             }
-            else if (CanForceReset) {
-                bridgeMediator?.ForceResetBridge(unitHeights, collectionSO, bridgeTypeIndex);
-                currentState = BridgeState.Building;
-            }
-        }
 
-
-        internal void FinishBuilding() {
-            if (currentState == BridgeState.Building) {
-                currentState = BridgeState.Built;
-                BridgeAPI.NotifyBridgeReady();
+            if (_currentLevel != BridgeDataManager.Level) {
+                _currentLevel = BridgeDataManager.Level;
+                Destroy(_background);
+                _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
+                Instantiate(_background);
             }
         }
 
-        internal void StartGame() {
-            if (currentState == BridgeState.Built) {
-                currentState = BridgeState.InGame;
-                bridgeMediator?.EnablePlayerUnits();
-                // BridgeAPI.BridgeReady?.Invoke();
-                BridgeAPI.NotifyGameStart();
+        private void HandleGameWinOrLose(bool won) {
+            if (won) {
+                BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.GameWon);
             }
+            else {
+                BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.GameFailed);
+            }
+
+            ChangeState(BridgeStates.Idle);
         }
 
-        internal void StartCollapsing() {
-            if (currentState == BridgeState.Built || currentState == BridgeState.InGame) {
-                currentState = BridgeState.Collapsing;
-                bridgeMediator?.CollapseStart();
-            }
+        internal IEnumerator StartingGame() {
+            // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start)
+            yield return new WaitForSecondsRealtime(3f);
+            // Play Animation (countdown on Screen)
+            ChangeState(BridgeStates.InGame);
         }
 
-        internal void CompleteCollapse() {
-            if (currentState == BridgeState.Collapsing) {
-                currentState = BridgeState.Collapsed;
-                bridgeMediator?.CollapseComplete();
-                BridgeAPI.NotifyBridgeCollapsed();
+        public void StartBuilding() {
+            if (currentState is not (BridgeStates.Idle or BridgeStates.BridgeReady or BridgeStates.GameFailed
+                or BridgeStates.GameWon)) {
+                return;
             }
+
+            ChangeState(BridgeStates.Building);
         }
 
-        internal void StartSuccess() {
-            if (currentState == BridgeState.InGame) {
-                currentState = BridgeState.Winning;
-                bridgeMediator?.SuccessStart();
-            }
+        public void ForceResetBridge(int[] heights, BridgeTypeSO bridgeTypeSO) {
+            OnForceResetBridge?.Invoke(heights, bridgeTypeSO);
         }
 
-        internal void FinishSuccess() {
-            if (currentState == BridgeState.Winning) {
-                currentState = BridgeState.Win;
-                bridgeMediator?.SuccessComplete();
-                BridgeAPI.NotifyBridgeIsComplete();
-            }
+        public void UnitPlaced(FingerUnit fingerUnit, bool isPlaced) {
+            _unitPlacementStatus[fingerUnit] = isPlaced;
+            CheckAllUnitsPlaced();
         }
 
-        internal void ResetState() {
-            if (currentState == BridgeState.Collapsed || currentState == BridgeState.Win) {
-                currentState = BridgeState.Idle;
+        private void CheckAllUnitsPlaced() {
+            if (_unitPlacementStatus.Count == 5 && _unitPlacementStatus.Values.All(placed => placed)) {
+                ChangeState(BridgeStates.BridgeCompleting);
             }
         }
     }

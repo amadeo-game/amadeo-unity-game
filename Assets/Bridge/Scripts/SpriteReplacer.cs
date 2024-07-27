@@ -41,8 +41,6 @@ public class SpriteReplacer : MonoBehaviour {
         else {
             bridgeUnit.transform.localScale = new Vector3(ratioWidth, ratioHeight, 1);
         }
-
-        Debug.Log("Sprite replaced successfully!");
     }
 
 }

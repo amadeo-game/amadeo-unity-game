@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Uss/GameScreen.uss?fileID=7433441132597879392&amp;guid=d24d179c6f224df43bca320c7913e981&amp;type=3#GameScreen" />
+    <ui:VisualElement name="settings__background" class="pause__background" style="position: absolute; width: 100%; height: 100%; background-color: rgb(180, 176, 176); background-image: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Textures/Brushed%20Metal%203.jpg?fileID=2800000&amp;guid=f88677df267a41d6be1e7a6133e7d227&amp;type=3#Brushed Metal 3&apos;); -unity-background-image-tint-color: rgba(143, 143, 143, 0.35); overflow: hidden; opacity: 1; display: flex;" />
+    <ui:VisualElement name="timer__container" picking-mode="Ignore" class="timer__container">
+        <ui:VisualElement name="game-timer__background" picking-mode="Ignore" class="timer__background" style="width: 100%; height: 100%;" />
+        <ui:Label text="99:59" display-tooltip-when-elided="true" name="game-timer__label" picking-mode="Ignore" class="timer__label" style="width: 100%; height: 100%; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; translate: 0 0;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="settings__button-container" picking-mode="Ignore" class="pause__button-container" style="flex-direction: row; visibility: visible;">
+        <ui:Button display-tooltip-when-elided="true" name="settings__button" class="pause__button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); transition-duration: 0.25s;">
+            <ui:VisualElement name="pause__button-graphic" picking-mode="Ignore" class="pause__button-graphic" style="background-color: rgba(52, 73, 94, 0);" />
+        </ui:Button>
+        <ui:Button display-tooltip-when-elided="true" name="instructor_panel__button" class="pause__button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); transition-duration: 0.25s; background-image: url(&apos;project://database/Assets/UI/Textures/UI_atlas.psd?fileID=1438036802985535051&amp;guid=68de98d899585b7469e0fb40a0fcbc56&amp;type=3#bt_02&apos;);">
+            <ui:VisualElement name="pause__button-graphic" picking-mode="Ignore" class="pause__button-graphic" style="background-color: rgba(52, 73, 94, 0);" />
+        </ui:Button>
+    </ui:VisualElement>
+</ui:UXML>

@@ -4,255 +4,147 @@ using static BridgeBuilder;
 using static BridgeObjects;
 
 namespace BridgePackage {
-    internal enum FingerUnit {
-        first,
-        second,
-        third,
-        fourth,
-        fifth,
+    public enum FingerUnit {
+        First,
+        Second,
+        Third,
+        Fourth,
+        Fifth,
     }
 
     [RequireComponent(typeof(UnitsControl), typeof(BridgeAnimationManager), typeof(BridgeStateMachine))]
     internal class BridgeGenerator : MonoBehaviour {
         private const int NumBridgeUnits = 5;
 
-        [SerializeField, Range(0, 5)] // TODO: support flexion mode (negative values)
-        private int[] playerUnitsHeights = new int[NumBridgeUnits]; // Set this in the Inspector
-
-
-        [SerializeField] private GameObject bridgePlayerUnitPrefab;
-        [SerializeField] private GameObject playerUnitPlaceHolder;
-        [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
-
-
         [SerializeField, Tooltip("x-axis value from where the bridge will rise"), Min(0)]
         private int bridgeRiseDownOffset = 12;
 
-
         private BridgeAnimationManager animationManager;
         private BridgeStateMachine stateMachine;
-        private BridgeMediator bridgeMediator;
-
-
-        private GameObject bridgeHolder;
-        private GameObject[] playerUnits;
-        private GameObject[] totalBridgeUnits;
-        private GameObject[] playerGuideUnits;
-
+        private UnitsControl unitsControl;
+        private GameObject _bridgeHolder;
+        private GameObject[] _playerUnits;
+        private GameObject[] _guideUnits;
+        private GameObject[] _totalBridgeUnits;
 
         private void OnEnable() {
-            if (bridgeMediator != null) {
-                bridgeMediator.OnBuildStart += BuildBridge;
-                bridgeMediator.OnBuildStartWithHeights += BuildBridgeWithHeights;
-                bridgeMediator.OnEnablePlayerUnits += EnableUnitsControl;
-                bridgeMediator.OnCollapseStart += OnBridgeFailed;
-                bridgeMediator.OnCollapseComplete += OnDestroyBridge;
-                bridgeMediator.OnSuccessStart += AnimateSuccess;
-                bridgeMediator.OnForceResetBridge += OnForceResetWithHeights;
+            BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
+            stateMachine.OnForceResetBridge += OnForceResetWithHeights;
+        }
+
+        private void OnBridgeStateChanged(BridgeStates state) {
+            if (state is BridgeStates.Building) {
+                BuildBridgeWithHeights();
+            } 
+            else if (state is BridgeStates.StartingGame) {
+                EnableGuideUnits();
+            }
+            else if (state is BridgeStates.BridgeCollapsing) {
+                CollectSessionData(success: false);
+                StartCollapseAnimation();
+            }
+            else if (state is BridgeStates.BridgeCompleting) {
+                CollectSessionData(success: true);
+                AnimateSuccess();
+            }
+            else if (state is BridgeStates.GameFailed) {
+                OnDestroyBridge();
             }
         }
 
-        private void OnForceResetWithHeights(int[] unitHeights, BridgeCollectionSO collectionSO = null,
-            int bridgeTypeIndex = 0) {
-            DisableUnitsControl();
-            OnDestroyBridge();
-            BuildBridgeWithHeights(unitHeights, collectionSO, bridgeTypeIndex);
+        private void CollectSessionData(bool success) {
+            unitsControl.CollectSessionData(success: success);
         }
 
         private void OnDisable() {
-            if (bridgeMediator != null) {
-                bridgeMediator.OnBuildStart -= BuildBridge;
-                bridgeMediator.OnBuildStartWithHeights -= BuildBridgeWithHeights;
-                bridgeMediator.OnEnablePlayerUnits -= EnableUnitsControl;
-                bridgeMediator.OnCollapseStart -= OnBridgeFailed;
-                bridgeMediator.OnCollapseComplete -= OnDestroyBridge;
-                bridgeMediator.OnSuccessStart -= AnimateSuccess;
-            }
+            BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
+            stateMachine.OnForceResetBridge -= OnForceResetWithHeights;
         }
-
-        internal void SetPlayerHeights(int[] unitsHeights) {
-            playerUnitsHeights = unitsHeights;
-        }
-
-        private void EnableUnitsControl() {
-            unitsControl.SetPlayerUnits(playerUnits);
-        }
-
-        private int chosenSpriteCollection = 0;
-        private UnitsControl unitsControl;
-
-
-        private static readonly FingerUnit[] FingerUnits =
-            { FingerUnit.first, FingerUnit.second, FingerUnit.third, FingerUnit.fourth, FingerUnit.fifth };
-
 
         private void Awake() {
-            unitsControl = GetComponent<UnitsControl>();
+            _bridgeHolder = null;
             animationManager = GetComponent<BridgeAnimationManager>();
             stateMachine = GetComponent<BridgeStateMachine>();
-            bridgeMediator = GetComponent<BridgeMediator>();
+            unitsControl = GetComponent<UnitsControl>();
 
-            stateMachine.Initialize(bridgeMediator);
         }
 
-        private void BuildBridgeWithHeights(int[] unitsHeights, BridgeCollectionSO collectionSO = null,
-            int bridgeTypeIndex = 0) {
-            if (collectionSO != null) {
-                bridgeCollectionSO = collectionSO;
+        private void Start() {
+            _bridgeHolder = null;
+        }
+
+        private void EnableGuideUnits() {
+            foreach (var guideUnit in _guideUnits) {
+                guideUnit.SetActive(true);
             }
+        }
 
-            if (bridgeTypeIndex >= bridgeCollectionSO.BridgeTypes.Length) {
-                Debug.LogError("Bridge Type Index is out of range.");
-                return;
-            }
-
-            SetPlayerHeights(unitsHeights);
-
-            chosenSpriteCollection = bridgeTypeIndex;
-
+        private void BuildBridgeWithHeights() {
             BuildBridge();
         }
 
-        // internal bool SetChosenSpriteCollection(int index) {
-        //     if (index < 0 || index >= bridgeCollectionSO.BridgeTypes.Length) {
-        //         return false;
-        //     }
-        //     chosenSpriteCollection = index;
-        //     return true;
-        // }
-
-
         private void BuildBridge() {
-            Build();
-            AnimateBuildUp();
-            SetPlayerGuideUnits(true); // TODO: find better name for this method
-        }
+            var playerUnitsHeights = BridgeDataManager.Heights;
+            Debug.Log($"BuildBridge: bridgeHolder is {_bridgeHolder}");
 
-        private void SetPlayerGuideUnits(bool state) {
-            playerGuideUnits.ToList().ForEach(x => x.gameObject.SetActive(state));
-        }
-
-        private void Build() {
-            Debug.Log("Got to build method");
-
-            if (bridgeHolder != null) {
-                if (bridgeHolder.gameObject != null) {
-                    Debug.Log("Bridge Holder GAMEOBJECT is not null.");
-                    return;
-                }
-
-                Debug.Log("Bridge Holder is not null.");
-                return;
+            // Destroy any existing bridge holder if it exists
+            if (_bridgeHolder != null) {
+                DestroyAllChildren(_bridgeHolder);
+                Destroy(_bridgeHolder);
+                _bridgeHolder = null;
+                Debug.Log("BuildBridge: Existing bridgeHolder destroyed");
             }
 
-            Debug.Log("Building Bridge.");
+            // Instantiate a new bridge holder
+            _bridgeHolder = new GameObject("Bridge Holder");
+            Debug.Log("BuildBridge: New bridgeHolder instantiated");
 
-            bridgeHolder = new GameObject("Bridge Holder");
+            var envUnits = GetBridgeEnvironmentHeights(playerUnitsHeights);
 
-            // Set Positions logic only
+            var playerUnitsPositions = GetBridgePlayerPositions(playerUnitsHeights);
+            GameObject playerUnitPrefab = BridgeDataManager.BridgeType.GetPlayableUnitPrefab.PlayerUnit;
+            _playerUnits = BuildPlayerUnits(_bridgeHolder, playerUnitsPositions, playerUnitPrefab, bridgeRiseDownOffset);
+            
+            unitsControl.SetPlayerUnits(_playerUnits);
 
-            // Get the positions of the player units on the bridge
-            Vector2[] playerUnitsPositions = GetBridgePlayerPositions(playerUnitsHeights);
+            var envUnitsGameObjects =
+                GenerateBridgeEnvironment(envUnits, BridgeDataManager.BridgeType, _bridgeHolder, bridgeRiseDownOffset);
 
-            // Generate the player units as GameObjects
-            playerUnits = BuildPlayerUnits(
-                bridge: bridgeHolder,
-                playableUnitsPositions: playerUnitsPositions,
-                playerUnitPrefab: bridgePlayerUnitPrefab,
-                bridgeRiseYOffset: bridgeRiseDownOffset);
+            GameObject guideUnit = BridgeDataManager.BridgeType.GetPlayableUnitPrefab.GuideUnit;
+            _guideUnits = BuildGuideUnits(_bridgeHolder, playerUnitsPositions, guideUnit);
+            
+            _totalBridgeUnits = GetSequencedBridgeUnits(_playerUnits, envUnitsGameObjects);
 
-            foreach (var unit in playerUnits) {
-                var unitReachedDestination = unit.GetComponent<UnitReachedDestination>();
-                if (unitReachedDestination != null) {
-                    unitReachedDestination.Initialize(bridgeMediator);
-                }
-                else {
-                    Debug.LogError("UnitReachedDestination component is missing on player unit.");
-                }
+            animationManager.AnimateBuildUpBridge(_totalBridgeUnits, bridgeRiseDownOffset);
+        }
+
+        private void DestroyAllChildren(GameObject parent) {
+            foreach (Transform child in parent.transform) {
+                Destroy(child.gameObject);
             }
-
-            // Generate the player unit GuideUnits as GameObjects
-            playerGuideUnits = BuildGuideUnits(
-                bridge: bridgeHolder,
-                playableUnitsPositions: playerUnitsPositions,
-                playerUnitPlaceHolder: playerUnitPlaceHolder);
-
-
-            SpriteUnit playerUnitSprite = bridgeCollectionSO.BridgeTypes[chosenSpriteCollection]
-                .BridgeSpritesCollections
-                .PlayerUnitSprite;
-
-            ReplacePUnitSprite(playerUnitSprite, playerUnits, playerGuideUnits);
-
-            SetPlayerUnitsFingers(FingerUnits, playerUnits);
-
-
-            UnitProperties[] bridgeEnvMeasures = GetBridgeEnvironmentHeights(playerUnitsHeights);
-
-            GameObject[] bridgeEnvUnits = GenerateBridgeEnvironment(
-                unitPropertiesArray: bridgeEnvMeasures,
-                bridgeCollectionSO.BridgeTypes[chosenSpriteCollection],
-                bridgeHolder,
-                bridgeRiseDownOffset);
-
-            ReplaceEnvSprites(
-                bridgeEnvUnits: bridgeEnvUnits,
-                spriteUnit: bridgeCollectionSO.BridgeTypes[chosenSpriteCollection].BridgeSpritesCollections
-                    .EnvironmentSprites[0]);
-
-            // Sequenced bridge units is comfortable for sequence animation
-            totalBridgeUnits = GetSequencedBridgeUnits(playerUnits, bridgeEnvUnits);
         }
 
-        private void OnBridgeFailed() {
-            SetPlayerGuideUnits(false);
-            DisableUnitsControl();
-            AnimateBridgeFallDown();
-        }
-
-        private void DisableUnitsControl() {
-            unitsControl.DisableControl();
+        private void StartCollapseAnimation() {
+            animationManager.AnimateBridgeFallDown(_totalBridgeUnits, bridgeRiseDownOffset);
         }
 
         private void OnDestroyBridge() {
-            if (ReferenceEquals(bridgeHolder, null)) {
-                return;
+            if (_bridgeHolder != null) {
+                DestroyAllChildren(_bridgeHolder);
+                Destroy(_bridgeHolder);
+                _bridgeHolder = null;
+                Debug.Log("OnDestroyBridge: bridgeHolder destroyed");
             }
-
-            // Destroy(bridgeHolder.gameObject);
-            Destroy(bridgeHolder);
-            bridgeHolder = null;
-
-            stateMachine.ResetState();
-        }
-
-        private void AnimateBridgeFallDown() {
-            if (bridgeHolder != null && animationManager != null) {
-                animationManager.AnimateBridgeFallDown(totalBridgeUnits, bridgeRiseDownOffset);
-            }
-        }
-
-        private void AnimateBuildUp() {
-            animationManager.AnimateBuildUpBridge(totalBridgeUnits, bridgeRiseDownOffset);
         }
 
         private void AnimateSuccess() {
-            DisableUnitsControl();
-            Debug.Log("AnimateSuccess");
-            animationManager.AnimateSuccess(playerUnits, playerUnitsHeights);
+            animationManager.AnimateSuccess(_playerUnits, BridgeDataManager.Heights);
         }
 
-
-        private void SetPlayerUnitsFingers(FingerUnit[] fingerUnits, GameObject[] bridgePlayerUnits) {
-            for (int i = 0; i < NumBridgeUnits; i++) {
-                var unitReachedDestination = bridgePlayerUnits[i].GetComponent<UnitReachedDestination>();
-                if (unitReachedDestination != null) {
-                    unitReachedDestination.fingerUnit = fingerUnits[i];
-                }
-                else {
-                    Debug.LogError("UnitReachedDestination component is missing on player unit.");
-                }
-            }
+        private void OnForceResetWithHeights(int[] unitHeights, BridgeTypeSO bridgeTypeSO = null) {
+            
+            OnDestroyBridge();
+            BuildBridge();
         }
     }
 }

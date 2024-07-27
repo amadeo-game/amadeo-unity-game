@@ -6,8 +6,8 @@ namespace BridgePackage {
         internal event Action<FingerUnit, bool> OnUnitPlaced;
         internal event Action OnBuildStart;
 
-        internal event Action<int[], BridgeCollectionSO, int> OnBuildStartWithHeights;
-        internal event Action<int[], BridgeCollectionSO, int> OnForceResetBridge;
+        internal event Action<int[], BridgeTypeSO> OnBuildStartWithHeights;
+        internal event Action<int[], BridgeTypeSO> OnForceResetBridge;
         internal event Action OnEnablePlayerUnits;
         internal event Action OnSuccessStart;
         internal event Action OnSuccessComplete;
@@ -22,8 +22,8 @@ namespace BridgePackage {
             OnBuildStart?.Invoke();
         }
 
-        internal void BuildStart(int[] unitHeights, BridgeCollectionSO bridgeCollectionSO, int bridgeTypeIndex) {
-            OnBuildStartWithHeights?.Invoke(unitHeights, bridgeCollectionSO, bridgeTypeIndex);
+        internal void BuildStart(int[] unitHeights, BridgeTypeSO bridgeTypeSO) {
+            OnBuildStartWithHeights?.Invoke(unitHeights, bridgeTypeSO);
         }
 
         internal void EnablePlayerUnits() {
@@ -46,8 +46,8 @@ namespace BridgePackage {
             OnCollapseComplete?.Invoke();
         }
 
-        internal void ForceResetBridge(int[] unitHeights, BridgeCollectionSO bridgeCollectionSO, int bridgeTypeIndex) {
-            OnForceResetBridge?.Invoke(unitHeights, bridgeCollectionSO, bridgeTypeIndex);
+        internal void ForceResetBridge(int[] unitHeights, BridgeTypeSO bridgeTypeSO) {
+            OnForceResetBridge?.Invoke(unitHeights, bridgeTypeSO);
         }
     }
 }

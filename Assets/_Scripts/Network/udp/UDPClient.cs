@@ -9,6 +9,8 @@ using BridgePackage;
 //todo: 1.Flexion or extension for mvc forces  
 //todo: 2. left or right hand
 
+// Attached to the GameObject BridgeGenerator
+
 public class UDPClient : MonoBehaviour
 {
     private UdpClient _udpClient;
@@ -168,7 +170,7 @@ public class UDPClient : MonoBehaviour
         // Send the parsed forces to the bridgeApi script
         if (bridgeApi != null)
         {
-            bridgeApi.ApplyForces(forcesNum);
+            // bridgeApi.ApplyForces(forcesNum);
         }
         else
         {
