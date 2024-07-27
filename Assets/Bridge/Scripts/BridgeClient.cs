@@ -240,10 +240,6 @@ namespace BridgePackage {
                         // Receive data asynchronously
                         UdpReceiveResult result = await _udpClient.ReceiveAsync();
                         string receivedData = Encoding.ASCII.GetString(result.Buffer);
-
-                        // Handle the received data
-                        HandleReceivedData(ParseDataFromAmadeo(receivedData));
-
                         // Store the received data into the lines array
                         lines[i] = receivedData;
                         i++;
