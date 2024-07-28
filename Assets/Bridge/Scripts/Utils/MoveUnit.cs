@@ -70,15 +70,45 @@ namespace BridgePackage {
         }
 
         private void OnEnable() {
-            BridgeEvents.ForcesUpdated += OnForcesUpdated;
+            // BridgeEvents.ForcesUpdated += OnForcesUpdated;
         }
 
         private void OnDisable() {
-            BridgeEvents.ForcesUpdated -= OnForcesUpdated;
+            // BridgeEvents.ForcesUpdated -= OnForcesUpdated;
         }
 
-        private void OnForcesUpdated(float[] forces) {
-            var height = forces[_fingerIndex];
+        // private void OnForcesUpdated(float[] forces) {
+        //     var height = forces[_fingerIndex];
+        //     // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + height);
+        //
+        //     // Add new value to the queue and update the running sum
+        //     _sum -= _heightQueue.Dequeue();
+        //     _heightQueue.Enqueue(height);
+        //     _sum += height;
+        //
+        //     // Calculate the average height from the queue
+        //     float averageHeight = _sum / _queueSize;
+        //
+        //     // Adjust _height based on MvcF and MvcE
+        //     if (_height < averageHeight) {
+        //         _height = averageHeight * MvcF;
+        //     }
+        //     else if (_height > averageHeight) {
+        //         _height = averageHeight * MvcE;
+        //     }
+        //     else {
+        //         _heightChanged = false;
+        //         return;
+        //     }
+        //
+        //     _heightChanged = true;
+        //     _setBestHeight(_height);
+        //     Vector2 targetPosition = new Vector2(transform.position.x, _height);
+        //     _rb.MovePosition(targetPosition);
+        // }
+        
+        internal void OnForcesUpdated(float force) {
+            var height = force;
             // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + height);
 
             // Add new value to the queue and update the running sum
@@ -103,6 +133,8 @@ namespace BridgePackage {
 
             _heightChanged = true;
             _setBestHeight(_height);
+            Vector2 targetPosition = new Vector2(transform.position.x, _height);
+            _rb.MovePosition(targetPosition);
         }
 
         /// <summary>
@@ -110,18 +142,27 @@ namespace BridgePackage {
         /// </summary>
         /// <param name="force">Force to apply.</param>
         internal void ApplyForce() {
-            if (_rb != null) {
-                Vector2 targetPosition = new Vector2(transform.position.x, _height);
-                _rb.MovePosition(targetPosition);
-            }
+            Vector2 targetPosition = new Vector2(transform.position.x, _height);
+            _rb.MovePosition(targetPosition);
         }
 
-        private void FixedUpdate() {
-            if (_controlEnabled) {
-                if (_heightChanged) {
-                    ApplyForce();
-                }
+        // private void FixedUpdate() {
+        //     if (_controlEnabled) {
+        //         if (_heightChanged) {
+        //             ApplyForce();
+        //         }
+        //     }
+        // }
+
+        internal void SetActiveUnit(bool isActive, float goToPos) {
+            _controlEnabled = isActive;
+            if (!isActive) {
+                
+                
+                    OnForcesUpdated(goToPos);
+                
             }
+            
         }
 
         internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {

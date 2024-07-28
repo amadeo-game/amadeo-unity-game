@@ -18,6 +18,7 @@ namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
     public class BridgeClient : MonoBehaviour {
         [SerializeField] InputType inputType = InputType.EmulationMode;
+        UnitsControl unitsControl;
 
         [SerializeField, Tooltip("Port should be 4444 for Amadeo connection"), Range(1024, 49151)]
         private int _port = 4444;
@@ -39,7 +40,7 @@ namespace BridgePackage {
         private float[] _forces = new float[5];
         private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
         private bool _isLeftHand = false;
-
+        
 
         private void OnEnable() {
             BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
@@ -78,6 +79,8 @@ namespace BridgePackage {
                 _udpClient = new UdpClient(_port); // Listen for data on port (should be 4444)
                 // you can use this to store and use specific endpoint
                 _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0); // Placeholder for any remote endpoint
+                unitsControl = GetComponent<UnitsControl>();
+
             }
             catch (Exception ex) {
                 Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
@@ -184,8 +187,9 @@ namespace BridgePackage {
             if (!_isLeftHand) {
                 _forces = _forces.Reverse().ToArray();
             }
-
-            BridgeEvents.ForcesUpdated?.Invoke(_forces);
+            unitsControl.Applyforces(_forces);
+            // BridgeEvents.ForcesUpdated?.Invoke(_forces);
+            
         }
 
         private static string ParseDataFromAmadeo(string data) {

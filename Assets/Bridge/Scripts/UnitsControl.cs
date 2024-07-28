@@ -125,6 +125,16 @@ namespace BridgePackage {
 
             _unitsInitialized = true;
         }
+        
+        internal void Applyforces(float[] forces) {
+            if (!_unitsInitialized) {
+                return;
+            }
+
+            for (int i = 0; i < _moveUnits.Length; i++) {
+                _moveUnits[i].OnForcesUpdated(forces[i]);
+            }
+        }
 
         public void CollectSessionData(bool success) {
             _unitsInitialized = false;
