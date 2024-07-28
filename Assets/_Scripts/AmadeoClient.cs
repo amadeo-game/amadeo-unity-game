@@ -221,7 +221,6 @@ public class AmadeoClient : MonoBehaviour {
             string[] parsedData = lines.Select(ParseDataFromAmadeo).ToArray();
             CalculateZeroingForces(parsedData);
 
-            Debug.Log("Zeroing completed and data sent to client.");
         }
         catch (OperationCanceledException) {
             Debug.Log("Data reception was canceled.");

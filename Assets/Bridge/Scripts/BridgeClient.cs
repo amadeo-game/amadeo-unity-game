@@ -191,7 +191,7 @@ namespace BridgePackage {
         private static string ParseDataFromAmadeo(string data) {
             return data.Replace("<Amadeo>", "").Replace("</Amadeo>", "");
         }
-        
+
 
         private void OnApplicationQuit() {
             StopClientConnection();
@@ -255,7 +255,6 @@ namespace BridgePackage {
                 CalculateZeroingForces(parsedData);
 
                 Debug.Log("Zeroing completed and data sent to client.");
-                BridgeEvents.ZeroingCompleted?.Invoke();
             }
             catch (OperationCanceledException) {
                 Debug.Log("Data reception was canceled.");
@@ -293,6 +292,8 @@ namespace BridgePackage {
             for (int i = 0; i < sums.Length; i++) {
                 _zeroForces[i] = sums[i] / count;
             }
+
+            BridgeEvents.ZeroingCompleted?.Invoke();
         }
     }
 }

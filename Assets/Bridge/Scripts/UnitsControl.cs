@@ -91,11 +91,16 @@ namespace BridgePackage {
                     _moveUnits[i].SetControl(false, goToHeight: heights[i]);
                 }
             }
+            else if (state is BridgeStates.StartingGame) {
+                foreach (var moveUnit in _moveUnits) {
+                    moveUnit.SetControl(false);
+                }
+            }
             else if (state is BridgeStates.InGame) {
                 var playables = BridgeDataManager.PlayableUnits;
                 for (int i = 0; i < _moveUnits.Length; i++) {
                     if (playables[i]) {
-                        _moveUnits[i].SetControl(true);
+                        _moveUnits[i].SetControl(true, resetPos: false);
                     }
                 }
             }

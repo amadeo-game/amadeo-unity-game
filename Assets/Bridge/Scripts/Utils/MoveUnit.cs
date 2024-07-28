@@ -109,7 +109,7 @@ namespace BridgePackage {
         /// Applies the specified force to the unit.
         /// </summary>
         /// <param name="force">Force to apply.</param>
-        public void ApplyForce() {
+        internal void ApplyForce() {
             if (_rb != null) {
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
                 _rb.MovePosition(targetPosition);
