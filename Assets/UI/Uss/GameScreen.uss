@@ -50,21 +50,22 @@
     -unity-text-align: upper-center;
     color: rgb(253, 240, 219);
     font-size: 59px;
-    height: 66px;
     -unity-font-style: normal;
-    position: absolute;
-    top: 0;
     transform-origin: center;
     translate: 41px -8px;
+    align-self: center;
 }
 
 .timer__background {
-    position: absolute;
-    height: 66px;
-    width: 278px;
+    position: relative;
+    height: 104px;
+    width: 129px;
     background-color: rgba(0, 0, 0, 0);
     -unity-background-image-tint-color: rgba(0, 0, 0, 0.59);
     background-image: url('project://database/Assets/UI/Textures/UI_atlas.psd?fileID=6812084775005041861&guid=68de98d899585b7469e0fb40a0fcbc56&type=3#Hud_bg_01');
+    justify-content: center;
+    align-items: center;
+    align-self: center;
 }
 
 .info__label {

@@ -1,12 +1,8 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Uss/GameScreen.uss?fileID=7433441132597879392&amp;guid=d24d179c6f224df43bca320c7913e981&amp;type=3#GameScreen" />
-    <ui:VisualElement name="pause__button-container" picking-mode="Ignore" class="pause__button-container">
-        <ui:Button display-tooltip-when-elided="true" name="pause__button" class="pause__button" style="cursor: url(&apos;project://database/Assets/UI/Textures/Cursors/Cursor_B.png?fileID=2800000&amp;guid=f3c815d95da3a483385620d7bd8fc545&amp;type=3#Cursor_B&apos;); transition-duration: 0.25s;">
-            <ui:VisualElement name="pause__button-graphic" picking-mode="Ignore" class="pause__button-graphic" style="background-color: rgba(52, 73, 94, 0);" />
-        </ui:Button>
-    </ui:VisualElement>
-    <ui:VisualElement name="timer__container" picking-mode="Ignore" class="timer__container">
-        <ui:VisualElement name="game-timer__background" picking-mode="Ignore" class="timer__background" />
-        <ui:Label text="99:59" display-tooltip-when-elided="true" name="game-timer__label" picking-mode="Ignore" class="timer__label" />
+    <ui:VisualElement name="timer__container" picking-mode="Ignore" class="timer__container" style="align-items: center; justify-content: center; height: 121px; width: 240px;">
+        <ui:VisualElement name="game-timer__background" picking-mode="Ignore" class="timer__background" style="position: relative; justify-content: center; align-items: center; width: 176px;">
+            <ui:Label display-tooltip-when-elided="true" name="game-timer__label" picking-mode="Ignore" text="60" class="timer__label" style="margin-top: 14px; margin-right: 101px; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0; -unity-text-align: upper-left; white-space: nowrap; width: 67px; -unity-font: url(&apos;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Bangers.ttf?fileID=12800000&amp;guid=5dd49b3eacc540408c98eee0de38e0f1&amp;type=3#Bangers&apos;); -unity-font-definition: initial; -unity-font-style: bold; font-size: 80px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

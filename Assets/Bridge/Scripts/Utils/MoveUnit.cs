@@ -15,7 +15,7 @@ namespace BridgePackage {
 
         private bool _heightChanged = false;
 
-        private Queue<float> _heightQueue = new Queue<float>();
+        private readonly Queue<float> _heightQueue = new Queue<float>();
         private float _sum = 0f;
         [SerializeField] private int _queueSize = 20;
 
@@ -79,6 +79,7 @@ namespace BridgePackage {
 
         private void OnForcesUpdated(float[] forces) {
             var height = forces[_fingerIndex];
+            // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + height);
 
             // Add new value to the queue and update the running sum
             _sum -= _heightQueue.Dequeue();
@@ -108,7 +109,7 @@ namespace BridgePackage {
         /// Applies the specified force to the unit.
         /// </summary>
         /// <param name="force">Force to apply.</param>
-        public void ApplyForce() {
+        internal void ApplyForce() {
             if (_rb != null) {
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
                 _rb.MovePosition(targetPosition);
@@ -140,9 +141,7 @@ namespace BridgePackage {
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            if (_controlEnabled) {
-                BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
-            }
+            BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
         }
     }
 }

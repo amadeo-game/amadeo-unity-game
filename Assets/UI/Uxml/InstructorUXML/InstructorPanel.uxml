@@ -38,7 +38,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="divider" class="divider" style="margin-top: 30px;" />
                 <ui:VisualElement name="input_fields" style="flex-grow: initial; flex-direction: row; flex-shrink: initial; align-items: stretch; margin-top: 0; height: 159px; justify-content: space-between; align-self: center; width: 1092px;">
-                    <ui:VisualElement name="grace" style="flex-grow: 0; align-self: flex-end; width: 391px; flex-shrink: 0;">
+                    <ui:VisualElement name="grace" style="flex-grow: 0; align-self: flex-end; width: 391px; flex-shrink: 0; height: 150px;">
                         <ui:Label text="Grace" name="grace_label" class="input_fields__label" style="width: 380px;" />
                         <ui:VisualElement name="grace-picker" class="floats-row" style="flex-direction: row; align-items: center; justify-content: flex-start; width: 611px; flex-shrink: 0; align-self: flex-start;">
                             <ui:FloatField value="0.0" name="grace_1" />

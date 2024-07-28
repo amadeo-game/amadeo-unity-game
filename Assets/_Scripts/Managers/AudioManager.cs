@@ -1,11 +1,5 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using System.Linq;
-using System;
-
-namespace UIToolkitDemo
-{
-    // super basic component for playing sounds; use static methods to play effects from anywhere
 
     public class AudioManager : MonoBehaviour
     {
@@ -212,4 +206,4 @@ namespace UIToolkitDemo
             SetVolume(SfxGroup + k_Parameter, gameData.sfxVolume / 100f);
         }
     }
-}
+

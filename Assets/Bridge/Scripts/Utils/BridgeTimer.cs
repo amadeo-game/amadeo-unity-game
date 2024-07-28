@@ -38,6 +38,7 @@ namespace BridgePackage {
         
         public static void ResetTimer() {
             isRunning = false;
+            timer = BridgeDataManager.TimeDuration;
         }
     }
 }
