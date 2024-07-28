@@ -66,10 +66,14 @@ namespace BridgePackage {
             }
         }
 
+        // private void Start() {
+        //     _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
+        //     _currentLevel = BridgeDataManager.Level;
+        //     Instantiate(_background);
+        // }
         private void Start() {
-            _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
             _currentLevel = BridgeDataManager.Level;
-            Instantiate(_background);
+            _background = Instantiate(BridgeDataManager.BridgeType.BridgeEnvDecoration);
         }
 
         internal void ForceCollapseBridge() {
@@ -82,11 +86,12 @@ namespace BridgePackage {
             switch (state) {
                 case BridgeStates.Idle:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Idle);
-                    SetBackground();
+                    
                     break;
 
                 case BridgeStates.Building:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Building);
+                    SetBackground();
                     break;
 
                 case BridgeStates.BridgeReady:
@@ -144,6 +149,20 @@ namespace BridgePackage {
             }
         }
 
+        // private void SetBackground() {
+        //     if (_background == null) {
+        //         return;
+        //     }
+        //
+        //     if (_currentLevel != BridgeDataManager.Level) {
+        //         _currentLevel = BridgeDataManager.Level;
+        //          _background.gameObject.SetActive(false);
+        //        // DestroyImmediate(_background.gameObject, true);
+        //          Destroy(_background.gameObject);
+        //         _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
+        //         Instantiate(_background);
+        //     }
+        // }
         private void SetBackground() {
             if (_background == null) {
                 return;
@@ -152,8 +171,7 @@ namespace BridgePackage {
             if (_currentLevel != BridgeDataManager.Level) {
                 _currentLevel = BridgeDataManager.Level;
                 Destroy(_background);
-                _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
-                Instantiate(_background);
+                _background = Instantiate(BridgeDataManager.BridgeType.BridgeEnvDecoration);
             }
         }
 

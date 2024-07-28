@@ -323,7 +323,7 @@ public class InstructorPanel : MonoBehaviour {
         if (dropdown != null) {
             dropdown.bindingPath = "level";
             dropdown.choices = levels;
-            // dropdown.RegisterValueChangedCallback(evt => BridgeDataManager.SetLevel(int.Parse(evt.newValue)));
+            dropdown.RegisterValueChangedCallback(evt => BridgeDataManager.SetLevel(int.Parse(evt.newValue)));
         }
     }
 
