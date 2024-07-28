@@ -66,11 +66,6 @@ namespace BridgePackage {
             }
         }
 
-        // private void Start() {
-        //     _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
-        //     _currentLevel = BridgeDataManager.Level;
-        //     Instantiate(_background);
-        // }
         private void Start() {
             _currentLevel = BridgeDataManager.Level;
             _background = Instantiate(BridgeDataManager.BridgeType.BridgeEnvDecoration);
@@ -149,20 +144,7 @@ namespace BridgePackage {
             }
         }
 
-        // private void SetBackground() {
-        //     if (_background == null) {
-        //         return;
-        //     }
-        //
-        //     if (_currentLevel != BridgeDataManager.Level) {
-        //         _currentLevel = BridgeDataManager.Level;
-        //          _background.gameObject.SetActive(false);
-        //        // DestroyImmediate(_background.gameObject, true);
-        //          Destroy(_background.gameObject);
-        //         _background = BridgeDataManager.BridgeType.BridgeEnvDecoration;
-        //         Instantiate(_background);
-        //     }
-        // }
+    
         private void SetBackground() {
             if (_background == null) {
                 return;
