@@ -29,7 +29,7 @@ public class InstructorPanel : MonoBehaviour {
         // Obtain the root visual element of the UXML.
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
 
-        levels = Enumerable.Range(1, BridgeDataManager.Level).Select(i => i.ToString()).ToList();
+        levels = Enumerable.Range(1, BridgeDataManager.NumberOfLevels-1).Select(i => i.ToString()).ToList();
 
         // Initialize UI elements and set up change listeners.
         UpdateUIWithCurrentValues(rootVisualElement);
