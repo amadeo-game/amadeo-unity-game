@@ -197,7 +197,9 @@ namespace BridgePackage {
 
         private void CheckAllUnitsPlaced() {
             if (_unitPlacementStatus.Count == 5 && _unitPlacementStatus.Values.All(placed => placed)) {
-                ChangeState(BridgeStates.BridgeCompleting);
+                if (currentState is BridgeStates.InGame) {
+                    ChangeState(BridgeStates.BridgeCompleting);
+                }
             }
         }
     }
