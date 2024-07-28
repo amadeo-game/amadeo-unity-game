@@ -42,6 +42,8 @@ namespace BridgePackage {
 
         public static BridgeTypeSO BridgeType => BridgeData.bridgeCollection.BridgeTypes[BridgeData.level];
         public static int Level => BridgeData.level;
+        
+        public static int NumberOfLevels => BridgeData.bridgeCollection.BridgeTypes.Length;
         public static bool IsLeftHand => BridgeData.isLeftHand;
         public static bool IsFlexion => BridgeData.isFlexion;
         public static float[] MvcValuesExtension => BridgeData.mvcValuesExtension;
