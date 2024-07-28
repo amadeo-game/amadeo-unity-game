@@ -150,8 +150,6 @@ public class AmadeoClient : MonoBehaviour {
         if (!_isLeftHand) {
             _forces = _forces.Reverse().ToArray();
         }
-        
-        // Debug.Log("Forces :: " + string.Join(", ", _forces));
         // TODO: Forces are updated and ready to be used
     }
 
