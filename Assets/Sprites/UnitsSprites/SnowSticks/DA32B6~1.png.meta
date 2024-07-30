@@ -1,0 +1,2569 @@
+fileFormatVersion: 2
+guid: 63172c24783fda34fb064670d34cfe86
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DA32B6~1_0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 814
+        width: 496
+        height: 210
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 410a6683e03824a4782fdf1cbf79dbe1
+      internalID: -2091300038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_1
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 922
+        width: 36
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11e97329023185144bdcdeb1826c076a
+      internalID: -1611400159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_2
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 1012
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef8d6b6ed4c51224f91e724e0f350310
+      internalID: -1283456000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_3
+      rect:
+        serializedVersion: 2
+        x: 589
+        y: 926
+        width: 136
+        height: 98
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05a9ac389265ac844a1508930d650f90
+      internalID: -1607455075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_4
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 922
+        width: 114
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3724d44265c9a54ab15baf96ac8caa8
+      internalID: 2103444122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_5
+      rect:
+        serializedVersion: 2
+        x: 866
+        y: 927
+        width: 140
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6716899795fd8ad4dad1d78cca99261c
+      internalID: -1994906126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_6
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 869
+        width: 156
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 263cafdc4d9a7874ea8b5ec1554aef5f
+      internalID: -1137957171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_7
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 869
+        width: 249
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ab0bd972ad50a34a83704f09d53fbc2
+      internalID: 1058047952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_8
+      rect:
+        serializedVersion: 2
+        x: 963
+        y: 870
+        width: 33
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 922f4aa6284cf8349992931a27aa871b
+      internalID: 1372751096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_9
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 856
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b0ec749ea2f6334fa7779bb0b5d22fd
+      internalID: -645358747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_10
+      rect:
+        serializedVersion: 2
+        x: 668
+        y: 858
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f580615eb4b8a1a4f9c636860e89b04a
+      internalID: 1754169115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_11
+      rect:
+        serializedVersion: 2
+        x: 518
+        y: 814
+        width: 51
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4dc7f29314a22e947a9b7dbb096f010d
+      internalID: -1071006914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_12
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 814
+        width: 38
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 049e7ba9488538d48803b24658ffc535
+      internalID: 2040007881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_13
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 814
+        width: 45
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd92c66e15e7f05498726a0ebfeffdd3
+      internalID: -1348289140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_14
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 814
+        width: 41
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4435f2086dd7804a97170802a82d891
+      internalID: 1211422287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_15
+      rect:
+        serializedVersion: 2
+        x: 732
+        y: 814
+        width: 43
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d5f9ef55e77ff74b98f4d32481c5aab
+      internalID: -1301263856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_16
+      rect:
+        serializedVersion: 2
+        x: 780
+        y: 703
+        width: 218
+        height: 143
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 970abdfd4d825e84a80c32746dc37f80
+      internalID: -138767075
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_17
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 656
+        width: 148
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 365ae5da73e301e49862a2d8bd3208cd
+      internalID: -193603970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_18
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 658
+        width: 107
+        height: 156
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 292efc2fc17c15f458ade04970d208a0
+      internalID: 1527770296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_19
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 660
+        width: 33
+        height: 148
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 148, z: 33, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 991007f2e84539f4f9c4e711fce8e2b9
+      internalID: 642393823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_20
+      rect:
+        serializedVersion: 2
+        x: 508
+        y: 796
+        width: 6
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41be9a7d74f49404d8ef60ff7d22b5d3
+      internalID: -1759558475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_21
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 805
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4541ad4250a71f7429aa6b4d92e46e15
+      internalID: 55192442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_22
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 759
+        width: 39
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e1bd166a58c9244ad7821ac128d644
+      internalID: -1554206084
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_23
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 759
+        width: 39
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4e6049f94e228549aeef80381591da5
+      internalID: 229042211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_24
+      rect:
+        serializedVersion: 2
+        x: 630
+        y: 759
+        width: 40
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bd42726f9400284dba8e400e8d78c12
+      internalID: 1257377357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_25
+      rect:
+        serializedVersion: 2
+        x: 679
+        y: 746
+        width: 41
+        height: 56
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b0c07b63884bef94788a60ef00132140
+      internalID: -1111799252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_26
+      rect:
+        serializedVersion: 2
+        x: 727
+        y: 750
+        width: 41
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8de72092fae364e4f83a6a05a9f90bbf
+      internalID: -335817330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_27
+      rect:
+        serializedVersion: 2
+        x: 527
+        y: 693
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 120ed223f874e7f4ab7779c0647054bd
+      internalID: -1504187962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_28
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 695
+        width: 42
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31c0fd0d4a1be6f488e6f7a68ebdbd8f
+      internalID: -1125601573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_29
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 746
+        width: 9
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b3977d4cf193074e9b7e6f5a2348184
+      internalID: 15078167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_30
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 745
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c0403c3f82984f4baf908687bd41797
+      internalID: 286779058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_31
+      rect:
+        serializedVersion: 2
+        x: 765
+        y: 747
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0cad79ad279051343945979319ce992a
+      internalID: 2033697748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_32
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 703
+        width: 38
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3ea532518958734c85a396bffa5fd4b
+      internalID: -214343052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_33
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 740
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b245ffd0054445a4fa68f45e303189fe
+      internalID: 1216171823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_34
+      rect:
+        serializedVersion: 2
+        x: 686
+        y: 703
+        width: 32
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6cf2794f5e8816c41af9b689f748d8f3
+      internalID: -1329574903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_35
+      rect:
+        serializedVersion: 2
+        x: 735
+        y: 703
+        width: 33
+        height: 35
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc67c3c0e27af0444942d78e27d5de58
+      internalID: 835982897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_36
+      rect:
+        serializedVersion: 2
+        x: 570
+        y: 692
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be6e495112647c548b5655dc67c793d4
+      internalID: 1085749632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_37
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 690
+        width: 4
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 094c0ac5104bd45489fe6e6cc063e5e9
+      internalID: -1960950579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_38
+      rect:
+        serializedVersion: 2
+        x: 771
+        y: 697
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65bf0c9a796fbeb4284666c4c79cf1bf
+      internalID: -12189897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_39
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 637
+        width: 38
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1379099c6f630024883c1671efd71702
+      internalID: -604617051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_40
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 631
+        width: 42
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4017c57a3c58fc49835b30a8e844543
+      internalID: -1561491015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_41
+      rect:
+        serializedVersion: 2
+        x: 636
+        y: 655
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e465c818451ca94fb7730f1011cf237
+      internalID: 819843491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_42
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 658
+        width: 32
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8f191b7d7a6e2740b0c0a88f1c4bed7
+      internalID: -93431048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_43
+      rect:
+        serializedVersion: 2
+        x: 738
+        y: 664
+        width: 231
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d798ca9055a064f4f8c87239d082e6d6
+      internalID: 925405434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_44
+      rect:
+        serializedVersion: 2
+        x: 974
+        y: 667
+        width: 20
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16bdc85ebabcef347b7f0ca7f1a6feff
+      internalID: 2047893242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_45
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 454
+        width: 150
+        height: 185
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53a2611292a0b7645af5e42d691e69c4
+      internalID: -2007476497
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_46
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 456
+        width: 139
+        height: 193
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f419f7340cfb914418a11035259b91d8
+      internalID: 1299936892
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_47
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 627
+        width: 4
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdc6ee13c0ff66a42974c77325b96a5a
+      internalID: -716313697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_48
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 564
+        width: 359
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 13, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1364edbc36d5ed3479303f77af49e00b
+      internalID: 1081349671
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_49
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 569
+        width: 39
+        height: 53
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c7d518e204073f14f831e1a3e1aee418
+      internalID: 696732521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_50
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 582
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d22844e1fc7a679499c71bae37449fd1
+      internalID: 269533720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_51
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 565
+        width: 16
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ed0d825e5676a243b18766c3c102401
+      internalID: 271161298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_52
+      rect:
+        serializedVersion: 2
+        x: 743
+        y: 527
+        width: 119
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cac2c7d9bab5bf44888887c410b4f10a
+      internalID: -588254906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_53
+      rect:
+        serializedVersion: 2
+        x: 748
+        y: 568
+        width: 34
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbfb33ad6b5e5384fa67202098f7e03c
+      internalID: 435673435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_54
+      rect:
+        serializedVersion: 2
+        x: 860
+        y: 569
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1ab1d77cb973a344837b44ddfc896b3
+      internalID: -1143172154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_55
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 520
+        width: 39
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e5346f1c7b5b554ba6bd08d910576de
+      internalID: -321426530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_56
+      rect:
+        serializedVersion: 2
+        x: 580
+        y: 521
+        width: 47
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 496228bbe77abb04ab18643dccc4f299
+      internalID: -861735260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_57
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 520
+        width: 39
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b941fd2dc6914ea42b8acd0a5332dcb8
+      internalID: -1652126508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_58
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 519
+        width: 39
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c4fc7043cee811468cde8cd5568dd6e
+      internalID: 1374053887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_59
+      rect:
+        serializedVersion: 2
+        x: 875
+        y: 522
+        width: 35
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d19e2e4c177b79438b8eff834e2390b
+      internalID: -1423392698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_60
+      rect:
+        serializedVersion: 2
+        x: 920
+        y: 520
+        width: 42
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d321a3e4e1bf768409a096bf592aa1a2
+      internalID: 1076467290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_61
+      rect:
+        serializedVersion: 2
+        x: 967
+        y: 559
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b630963e1f998824684641285d63ddf0
+      internalID: -1848317483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_62
+      rect:
+        serializedVersion: 2
+        x: 972
+        y: 527
+        width: 24
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5754d25d232766d4da83db3fb4d3f441
+      internalID: -946092919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_63
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 303
+        width: 41
+        height: 209
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b292645a34e0b614ab40837c54a9153c
+      internalID: 344551627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_64
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 418
+        width: 118
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0da846dda7909ca42a81abfa9f26038f
+      internalID: 538136761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_65
+      rect:
+        serializedVersion: 2
+        x: 671
+        y: 506
+        width: 17
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ae577d65c96ffe40b28c86cde08928a
+      internalID: -1719830705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_66
+      rect:
+        serializedVersion: 2
+        x: 880
+        y: 416
+        width: 114
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0390a1e008615ca42b89cb81dc506369
+      internalID: 2010227543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_67
+      rect:
+        serializedVersion: 2
+        x: 529
+        y: 500
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f08185598b1ee1c40bd04dbabcfc9ac2
+      internalID: -1314262008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_68
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 303
+        width: 36
+        height: 202
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db97b131a0faf7e42a2695c3b79e10c9
+      internalID: -1792368854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_69
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 491
+        width: 5
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4be26864290c43438534e1956d33d52
+      internalID: 492073095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_70
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 429
+        width: 7
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b08f590547b32254cb33da7ffc61935f
+      internalID: -1330776728
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_71
+      rect:
+        serializedVersion: 2
+        x: 761
+        y: 426
+        width: 109
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea745733f33c2ae48a0f27d8306bd74f
+      internalID: -1064491430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_72
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 478
+        width: 26
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4788962523066cf42a2fb4907b956b55
+      internalID: 1595113979
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_73
+      rect:
+        serializedVersion: 2
+        x: 882
+        y: 471
+        width: 8
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a4d855b8cbb23f4aadfd6ddb914f01b
+      internalID: 2060671438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_74
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 459
+        width: 4
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73860276e1764c546b86acbb863a38f8
+      internalID: -1672447021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_75
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 461
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d183024bbedb9a479d56dee8512820e
+      internalID: 1394372137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_76
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 447
+        width: 5
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce9045ff3bf6fab48acb99493a2d0589
+      internalID: -1954183412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_77
+      rect:
+        serializedVersion: 2
+        x: 515
+        y: 446
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9dae225c748e649438ef811b9deac626
+      internalID: 1320543452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_78
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 307
+        width: 155
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2448e64d87b2c84db2c5443b206a07d
+      internalID: -814110867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_79
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 315
+        width: 142
+        height: 132
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c7f67d61b777b745877ca6084ebc135
+      internalID: 1260105770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_80
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 314
+        width: 98
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 92c5bfef463de574a967de9b281b9e6e
+      internalID: -1501820167
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_81
+      rect:
+        serializedVersion: 2
+        x: 739
+        y: 352
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95b00f3d297597f4288b79964857a77a
+      internalID: -2023191663
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_82
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 312
+        width: 100
+        height: 90
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2841c0aa89366ad42b8d9fef667a6a75
+      internalID: -2083309842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_83
+      rect:
+        serializedVersion: 2
+        x: 856
+        y: 351
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2993f7e1247435941874bf6e6e2f6543
+      internalID: 282233747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_84
+      rect:
+        serializedVersion: 2
+        x: 884
+        y: 310
+        width: 115
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ba0b3d888e13a54e8b1673fac40be29
+      internalID: 265271071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_85
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 342
+        width: 5
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2850995bb57085347a9bc74f1f32ff93
+      internalID: 1451577363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_86
+      rect:
+        serializedVersion: 2
+        x: 362
+        y: 312
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1822053e1d40b2e45a916e592dd0f065
+      internalID: 57199527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_87
+      rect:
+        serializedVersion: 2
+        x: 753
+        y: 182
+        width: 106
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4f1fdc143fe29143845bbe431b4bdf0
+      internalID: 753228874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_88
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 186
+        width: 48
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: af4e23b7d04e4c54e8b16a3703fb6b08
+      internalID: 1465648681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_89
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 186
+        width: 28
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02807c052ea589043bcb80929bf9f985
+      internalID: -979748372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_90
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 185
+        width: 60
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 256c49fca593e014f8a30f032e3587e3
+      internalID: 24150865
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_91
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 181
+        width: 119
+        height: 126
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74944eed8713eb54c942d66e2e02f24d
+      internalID: -1831828419
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_92
+      rect:
+        serializedVersion: 2
+        x: 286
+        y: 179
+        width: 110
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1d0b79c7b4a88a44a7319635a0948db
+      internalID: 1686094997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_93
+      rect:
+        serializedVersion: 2
+        x: 398
+        y: 186
+        width: 64
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 84e82fffddfbed5469635a8253fc1788
+      internalID: -1995396082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_94
+      rect:
+        serializedVersion: 2
+        x: 472
+        y: 187
+        width: 41
+        height: 99
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5cd3532768e2b84f9cd0d5c8f77799e
+      internalID: -770923544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_95
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 186
+        width: 100
+        height: 107
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2950aed4f223814aab1a4db4f7c2625
+      internalID: -1576432059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_96
+      rect:
+        serializedVersion: 2
+        x: 634
+        y: 168
+        width: 101
+        height: 142
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bad61cca109775049ad46872c5ec80cb
+      internalID: -1811381201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_97
+      rect:
+        serializedVersion: 2
+        x: 858
+        y: 244
+        width: 4
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 953bebacaf306d04c92d55a650364b2a
+      internalID: 1465974438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_98
+      rect:
+        serializedVersion: 2
+        x: 867
+        y: 177
+        width: 135
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47baab05cb05c174fa9f32b8bfa9633e
+      internalID: 479569552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_99
+      rect:
+        serializedVersion: 2
+        x: 865
+        y: 212
+        width: 6
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1f285512d144c24fa68684de439aec8
+      internalID: 1744137645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_100
+      rect:
+        serializedVersion: 2
+        x: 269
+        y: 193
+        width: 9
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e3c47790b0c57441a6ec3d990680602
+      internalID: 144334194
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_101
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 180
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c066ccf88f20e84468346da94c485159
+      internalID: 487761070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_102
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 1023
+        height: 179
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ca3c7480c4978d4d9b09c83c288b261
+      internalID: 1836094293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_103
+      rect:
+        serializedVersion: 2
+        x: 126
+        y: 168
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c405906d3c4bb94b819af726c5aa061
+      internalID: -1724817343
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_104
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 160
+        width: 20
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e659a2b1067c456498fa1dbaf6d9b2c2
+      internalID: -1889193884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_105
+      rect:
+        serializedVersion: 2
+        x: 289
+        y: 173
+        width: 6
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f968f071f96965c4ca93b292a124fb39
+      internalID: 2005420394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_106
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 169
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 29c8fc2ec1a19eb42bdf5bf5e28528f7
+      internalID: 394795250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_107
+      rect:
+        serializedVersion: 2
+        x: 657
+        y: 620
+        width: 338
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26ec23f472c05694da4c1520e354c298
+      internalID: 1489821498
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_108
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 463
+        width: 80
+        height: 184
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecc2dbbdc47da274eb151ecc4c47d5d9
+      internalID: 1547869464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_109
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 448
+        width: 40
+        height: 202
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4943473a1735f27469e05f33f62e2ea6
+      internalID: -1606867756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DA32B6~1_110
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 313
+        width: 49
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23983c2ec444522459150dd146e62d16
+      internalID: -1727369669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      DA32B6~1_0: -2091300038
+      DA32B6~1_1: -1611400159
+      DA32B6~1_10: 1754169115
+      DA32B6~1_100: 144334194
+      DA32B6~1_101: 487761070
+      DA32B6~1_102: 1836094293
+      DA32B6~1_103: -1724817343
+      DA32B6~1_104: -1889193884
+      DA32B6~1_105: 2005420394
+      DA32B6~1_106: 394795250
+      DA32B6~1_107: 1489821498
+      DA32B6~1_108: 1547869464
+      DA32B6~1_109: -1606867756
+      DA32B6~1_11: -1071006914
+      DA32B6~1_110: -1727369669
+      DA32B6~1_12: 2040007881
+      DA32B6~1_13: -1348289140
+      DA32B6~1_14: 1211422287
+      DA32B6~1_15: -1301263856
+      DA32B6~1_16: -138767075
+      DA32B6~1_17: -193603970
+      DA32B6~1_18: 1527770296
+      DA32B6~1_19: 642393823
+      DA32B6~1_2: -1283456000
+      DA32B6~1_20: -1759558475
+      DA32B6~1_21: 55192442
+      DA32B6~1_22: -1554206084
+      DA32B6~1_23: 229042211
+      DA32B6~1_24: 1257377357
+      DA32B6~1_25: -1111799252
+      DA32B6~1_26: -335817330
+      DA32B6~1_27: -1504187962
+      DA32B6~1_28: -1125601573
+      DA32B6~1_29: 15078167
+      DA32B6~1_3: -1607455075
+      DA32B6~1_30: 286779058
+      DA32B6~1_31: 2033697748
+      DA32B6~1_32: -214343052
+      DA32B6~1_33: 1216171823
+      DA32B6~1_34: -1329574903
+      DA32B6~1_35: 835982897
+      DA32B6~1_36: 1085749632
+      DA32B6~1_37: -1960950579
+      DA32B6~1_38: -12189897
+      DA32B6~1_39: -604617051
+      DA32B6~1_4: 2103444122
+      DA32B6~1_40: -1561491015
+      DA32B6~1_41: 819843491
+      DA32B6~1_42: -93431048
+      DA32B6~1_43: 925405434
+      DA32B6~1_44: 2047893242
+      DA32B6~1_45: -2007476497
+      DA32B6~1_46: 1299936892
+      DA32B6~1_47: -716313697
+      DA32B6~1_48: 1081349671
+      DA32B6~1_49: 696732521
+      DA32B6~1_5: -1994906126
+      DA32B6~1_50: 269533720
+      DA32B6~1_51: 271161298
+      DA32B6~1_52: -588254906
+      DA32B6~1_53: 435673435
+      DA32B6~1_54: -1143172154
+      DA32B6~1_55: -321426530
+      DA32B6~1_56: -861735260
+      DA32B6~1_57: -1652126508
+      DA32B6~1_58: 1374053887
+      DA32B6~1_59: -1423392698
+      DA32B6~1_6: -1137957171
+      DA32B6~1_60: 1076467290
+      DA32B6~1_61: -1848317483
+      DA32B6~1_62: -946092919
+      DA32B6~1_63: 344551627
+      DA32B6~1_64: 538136761
+      DA32B6~1_65: -1719830705
+      DA32B6~1_66: 2010227543
+      DA32B6~1_67: -1314262008
+      DA32B6~1_68: -1792368854
+      DA32B6~1_69: 492073095
+      DA32B6~1_7: 1058047952
+      DA32B6~1_70: -1330776728
+      DA32B6~1_71: -1064491430
+      DA32B6~1_72: 1595113979
+      DA32B6~1_73: 2060671438
+      DA32B6~1_74: -1672447021
+      DA32B6~1_75: 1394372137
+      DA32B6~1_76: -1954183412
+      DA32B6~1_77: 1320543452
+      DA32B6~1_78: -814110867
+      DA32B6~1_79: 1260105770
+      DA32B6~1_8: 1372751096
+      DA32B6~1_80: -1501820167
+      DA32B6~1_81: -2023191663
+      DA32B6~1_82: -2083309842
+      DA32B6~1_83: 282233747
+      DA32B6~1_84: 265271071
+      DA32B6~1_85: 1451577363
+      DA32B6~1_86: 57199527
+      DA32B6~1_87: 753228874
+      DA32B6~1_88: 1465648681
+      DA32B6~1_89: -979748372
+      DA32B6~1_9: -645358747
+      DA32B6~1_90: 24150865
+      DA32B6~1_91: -1831828419
+      DA32B6~1_92: 1686094997
+      DA32B6~1_93: -1995396082
+      DA32B6~1_94: -770923544
+      DA32B6~1_95: -1576432059
+      DA32B6~1_96: -1811381201
+      DA32B6~1_97: 1465974438
+      DA32B6~1_98: 479569552
+      DA32B6~1_99: 1744137645
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
