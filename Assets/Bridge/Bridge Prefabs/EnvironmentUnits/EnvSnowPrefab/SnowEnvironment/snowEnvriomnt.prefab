@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 3140407093810325940}
   - component: {fileID: 8577621975784550281}
   - component: {fileID: 2890401137036426235}
+  - component: {fileID: 5097829143011205322}
   m_Layer: 5
   m_Name: snowEnvriomnt
   m_TagString: Untagged
@@ -123,7 +124,7 @@ Canvas:
   m_GameObject: {fileID: 6136007108733699772}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -177,3 +178,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &5097829143011205322
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6136007108733699772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdca33f3438387f40b71131984cfe530, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
