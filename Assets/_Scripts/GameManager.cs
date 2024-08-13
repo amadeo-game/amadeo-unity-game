@@ -54,11 +54,13 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game failed.");
         // Additional logic when the game fails
+        AudioManager.PlayDefeatSound();
     }
 
     private void HandleGameSuccess()
     {
         Debug.Log("Game succeeded.");
         // Additional logic when the game succeeds
+        AudioManager.PlayVictorySound();
     }
 }

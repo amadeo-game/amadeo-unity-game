@@ -3,7 +3,15 @@ guid: 156f4eb718944c344bbad0e8f1d9d88b
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_MainAudioMixer: {instanceID: 0}
+  - m_DefaultButtonSound: {instanceID: 0}
+  - m_AltButtonSound: {instanceID: 0}
+  - m_TransactionSound: {instanceID: 0}
+  - m_DefaultWarningSound: {instanceID: 0}
+  - m_VictorySound: {fileID: 8300000, guid: ab8c6122db1ce5b42878aae68223edd8, type: 3}
+  - m_DefeatSound: {instanceID: 0}
+  - m_PotionSound: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
