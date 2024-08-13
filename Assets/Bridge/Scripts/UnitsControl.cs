@@ -89,6 +89,7 @@ namespace BridgePackage {
                 var heights = BridgeDataManager.Heights;
                 for (int i = 0; i < _moveUnits.Length; i++) {
                     _moveUnits[i].SetControl(false, goToHeight: heights[i]);
+                    _unitsInitialized = false;
                 }
             }
             else if (state is BridgeStates.StartingGame) {

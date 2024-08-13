@@ -7,7 +7,7 @@ public class FindCamera : MonoBehaviour
  
     void Awake()
     {
-        GetComponent<Canvas>().worldCamera = Camera.main;;
+        GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
  

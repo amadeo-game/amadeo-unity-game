@@ -22,6 +22,8 @@ namespace BridgePackage {
         [SerializeField, Tooltip("Port should be 4444 for Amadeo connection"), Range(1024, 49151)]
         private int _port = 4444;
 
+        [SerializeField] bool _debug = false;
+
         // On emulation file, recommended to be small value because of high changes in data lines
         // On Amadeo, recommended to be around 100
         [SerializeField] private int _zeroFBuffer = 100;
@@ -39,6 +41,8 @@ namespace BridgePackage {
         private float[] _forces = new float[5];
         private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
         private bool _isLeftHand = false;
+
+        
 
 
         private void OnEnable() {
@@ -119,6 +123,10 @@ namespace BridgePackage {
                 try {
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();
                     string receivedData = Encoding.ASCII.GetString(result.Buffer);
+                    if (_debug)
+                    {
+                        Debug.Log($"Received data: {receivedData}");
+                    }
                     HandleReceivedData(ParseDataFromAmadeo(receivedData));
                 }
                 catch (OperationCanceledException) {
@@ -186,6 +194,8 @@ namespace BridgePackage {
             }
 
             BridgeEvents.ForcesUpdated?.Invoke(_forces);
+
+           
         }
 
         private static string ParseDataFromAmadeo(string data) {

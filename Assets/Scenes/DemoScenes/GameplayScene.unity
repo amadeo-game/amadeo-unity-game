@@ -429,7 +429,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1501635421118347312, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: inputType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3799182644623730036, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: bridgeCollection
@@ -816,7 +816,7 @@ GameObject:
   - component: {fileID: 1840338801}
   m_Layer: 0
   m_Name: Second Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

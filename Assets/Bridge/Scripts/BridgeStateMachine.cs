@@ -98,8 +98,10 @@ namespace BridgePackage {
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InZeroF);
                     break;
                 case BridgeStates.StartingGame:
-                    StartCoroutine(StartingGame());
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.StartingGame);
+                    StartCoroutine(StartingGame());
+                    //ChangeState(BridgeStates.InGame);
+
                     break;
                 case BridgeStates.InGame:
                     BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.InGame);
@@ -172,7 +174,7 @@ namespace BridgePackage {
 
         internal IEnumerator StartingGame() {
             // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start)
-            yield return new WaitForSecondsRealtime(3f);
+            yield return new WaitForSecondsRealtime(1f);
             // Play Animation (countdown on Screen)
             ChangeState(BridgeStates.InGame);
         }

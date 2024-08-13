@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 using UnityEngine.Serialization;
 
 namespace BridgePackage {
@@ -13,11 +14,11 @@ namespace BridgePackage {
         private Rigidbody2D _rb; // Cached reference to the Rigidbody2D component
         public BoxCollider2D Collider; // Cached reference to the BoxCollider2D component
 
-        private bool _heightChanged = false;
+        private bool _heightChanged = true;
 
         private readonly Queue<float> _heightQueue = new Queue<float>();
         private float _sum = 0f;
-        [SerializeField] private int _queueSize = 20;
+        [SerializeField] private int _queueSize = 5;
 
         // setter for _height
         private int _fingerIndex;
@@ -59,9 +60,9 @@ namespace BridgePackage {
                 : height => _bestHeight = Mathf.Max(_height, _bestHeight);
 
             // Initialize the queue with zeros
-            for (int i = 0; i < _queueSize; i++) {
-                _heightQueue.Enqueue(0f);
-            }
+            //for (int i = 0; i < _queueSize; i++) {
+            //    _heightQueue.Enqueue(0f);
+            //}
         }
 
         internal void SetFingerUnit(FingerUnit unit, int index) {
@@ -79,30 +80,41 @@ namespace BridgePackage {
 
         private void OnForcesUpdated(float[] forces) {
             var height = forces[_fingerIndex];
-            // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + height);
+
 
             // Add new value to the queue and update the running sum
-            _sum -= _heightQueue.Dequeue();
+
             _heightQueue.Enqueue(height);
             _sum += height;
+               
+ 
+            if (_heightQueue.Count > _queueSize)
+            {
+                _sum -= _heightQueue.Dequeue();
+            }
 
             // Calculate the average height from the queue
             float averageHeight = _sum / _queueSize;
 
-            // Adjust _height based on MvcF and MvcE
-            if (_height < averageHeight) {
-                _height = averageHeight * MvcF;
-            }
-            else if (_height > averageHeight) {
-                _height = averageHeight * MvcE;
-            }
-            else {
-                _heightChanged = false;
-                return;
-            }
+            //_height = Mathf.Clamp(averageHeight, -5, 5);
+            _height = averageHeight;
 
-            _heightChanged = true;
+            // Adjust _height based on MvcF and MvcE
+            //if (_height < averageHeight) {
+            //    _height = Math.Max(-5, (averageHeight)); ;
+            //}
+            //else if (_height > averageHeight) {
+            //    _height = Math.Min(5,(averageHeight));
+            //}
+            //Debug.Log("Height is " + _height);
+            //Debug.Log("Flextion MVC: " + MvcF + "(averageHeight * 5 / MvcF) :: " + (averageHeight * 5 / MvcF));
+            //Debug.Log("MVCF is : " + MvcF);
+
+            // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + _height);
+
             _setBestHeight(_height);
+
+            // 20 / x = 5
         }
 
         /// <summary>
@@ -112,6 +124,7 @@ namespace BridgePackage {
         internal void ApplyForce() {
             if (_rb != null) {
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
+                Debug.Log("applying force :: " + _height);
                 _rb.MovePosition(targetPosition);
             }
         }
@@ -136,8 +149,9 @@ namespace BridgePackage {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (_controlEnabled) {
-                BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
             }
+            BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
+
         }
 
         private void OnTriggerExit2D(Collider2D other) {
