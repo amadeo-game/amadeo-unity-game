@@ -192,6 +192,9 @@ namespace BridgePackage {
             return data.Replace("<Amadeo>", "").Replace("</Amadeo>", "");
         }
 
+        private void OnDestroy() {
+            StopClientConnection();
+        }
 
         private void OnApplicationQuit() {
             StopClientConnection();
@@ -203,7 +206,7 @@ namespace BridgePackage {
                 _udpClient.Close();
                 _udpClient.Dispose();
                 _udpClient = null;
-            }
+             }
 
             if (_cancellationTokenSource != null) {
                 _cancellationTokenSource.Cancel();
