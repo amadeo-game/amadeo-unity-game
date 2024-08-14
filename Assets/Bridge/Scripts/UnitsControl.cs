@@ -19,19 +19,55 @@ namespace BridgePackage {
         }
 
         private void OnEnable() {
-            BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
+            BridgeEvents.StartingGameState += SetPlayerUnits;
+            BridgeEvents.InGameState += OnInGameState;
+            
+            // BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
             BridgeEvents.ActiveUnitChanged += OnActiveUnitChanged;
             BridgeEvents.MvcExtensionUpdated += OnMvcExtensionUpdated;
             BridgeEvents.MvcFlexionUpdated += OnMvcFlexionUpdated;
             BridgeEvents.UnitGraceUpdated += OnUnitGraceUpdated;
+            
+            BridgeEvents.GamePausedState += OnPausedState;
+            BridgeEvents.ResumeGameAction += OnResumeState;
+            
+            BridgeEvents.BridgeCollapsingState += OnGameOverState;
+            BridgeEvents.BridgeCompletingState += OnGameOverState;
+            
+            
+        }
+
+        private void OnInGameState() {
+            var playables = BridgeDataManager.PlayableUnits;
+            for (int i = 0; i < _moveUnits.Length; i++) {
+                if (playables[i]) {
+                    _moveUnits[i].SetControl(true, resetPos: false);
+                }
+            }
+        }
+
+        private void OnDisable() {
+            BridgeEvents.StartingGameState -= SetPlayerUnits;
+            BridgeEvents.InGameState -= OnInGameState;
+            
+            // BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
+            BridgeEvents.ActiveUnitChanged -= OnActiveUnitChanged;
+            BridgeEvents.MvcExtensionUpdated -= OnMvcExtensionUpdated;
+            BridgeEvents.MvcFlexionUpdated -= OnMvcFlexionUpdated;
+            BridgeEvents.UnitGraceUpdated -= OnUnitGraceUpdated;
+
+            BridgeEvents.GamePausedState -= OnPausedState;
+            BridgeEvents.ResumeGameAction -= OnResumeState;
+            
+            BridgeEvents.BridgeCollapsingState -= OnGameOverState;
+            BridgeEvents.BridgeCompletingState -= OnGameOverState;
+            
         }
 
         private void OnUnitGraceUpdated(int fingerIndex, float graceValue) {
             if (!_unitsInitialized) {
                 return;
             }
-
-
             Vector2 newSize = _unitsColliders[fingerIndex].size;
             if (_unitsRotated[fingerIndex]) {
                 newSize.x = _graceGrowthRate * graceValue;
@@ -59,12 +95,34 @@ namespace BridgePackage {
             _moveUnits[fingerIndex].MvcF = mvcValue;
         }
 
-        private void OnDisable() {
-            BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
-            BridgeEvents.ActiveUnitChanged -= OnActiveUnitChanged;
-            BridgeEvents.MvcExtensionUpdated -= OnMvcExtensionUpdated;
-            BridgeEvents.MvcFlexionUpdated -= OnMvcFlexionUpdated;
-            BridgeEvents.UnitGraceUpdated -= OnUnitGraceUpdated;
+
+
+        private void OnGameOverState() {
+            var heights = BridgeDataManager.Heights;
+            for (int i = 0; i < _moveUnits.Length; i++) {
+                _moveUnits[i].SetControl(false, goToHeight: heights[i]);
+                _unitsInitialized = false;
+            }        }
+
+        private void OnResumeState() {
+            if (!_unitsInitialized) {
+                return;
+            }
+
+            foreach (MoveUnit unit in _moveUnits) {
+                unit.SetControl(true);
+            }
+        }
+
+        private void OnPausedState() {
+            if (!_unitsInitialized) {
+                return;
+            }
+
+
+            foreach (MoveUnit unit in _moveUnits) {
+                unit.SetControl(false, resetPos: false);
+            }
         }
 
         private void OnActiveUnitChanged(int unitIndex, bool isEnable) {
@@ -75,49 +133,33 @@ namespace BridgePackage {
             _moveUnits[unitIndex].SetControl(isEnable);
         }
 
-        private void OnBridgeStateChanged(BridgeStates state) {
-            if (!_unitsInitialized) {
-                return;
-            }
-
-            if (state is BridgeStates.Paused) {
-                foreach (MoveUnit unit in _moveUnits) {
-                    unit.SetControl(false, resetPos: false);
-                }
-            }
-            else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
-                var heights = BridgeDataManager.Heights;
-                for (int i = 0; i < _moveUnits.Length; i++) {
-                    _moveUnits[i].SetControl(false, goToHeight: heights[i]);
-                    _unitsInitialized = false;
-                }
-            }
-            else if (state is BridgeStates.StartingGame) {
-                foreach (var moveUnit in _moveUnits) {
-                    moveUnit.SetControl(false);
-                }
-            }
-            else if (state is BridgeStates.InGame) {
-                var playables = BridgeDataManager.PlayableUnits;
-                for (int i = 0; i < _moveUnits.Length; i++) {
-                    if (playables[i]) {
-                        _moveUnits[i].SetControl(true, resetPos: false);
-                    }
-                }
-            }
-        }
+        // private void OnBridgeStateChanged(BridgeStates state) {
+        //
+        //     if (state is BridgeStates.StartingGame) {
+        //         foreach (var moveUnit in _moveUnits) {
+        //             moveUnit.SetControl(false);
+        //         }
+        //
+        //     }
+        //     else if (state is BridgeStates.InGame) {
+        //
+        //     }
+        // }
 
 
-        public void SetPlayerUnits(GameObject[] units) {
+        // Set player units, When Bridge is built 
+        public void SetPlayerUnits() {
+            Debug.Log("UnitsControl: SetPlayerUnits called");
+            var units = Bridge.PlayerUnits;
             _moveUnits = units.Select(unit => unit.GetComponent<MoveUnit>()).ToArray();
             _unitsColliders = _moveUnits.Select(unit => unit.Collider).ToArray();
-            
+
 
             // check for each unit if it is rotated
             for (int i = 0; i < _moveUnits.Length; i++) {
                 _unitsRotated[i] = Math.Abs(_moveUnits[i].transform.rotation.eulerAngles.z - 90f) < 10;
             }
-            
+
             // Set FingerUnit enum for each player Unit
             for (int i = 0; i < _moveUnits.Length; i++) {
                 int localIndex = i;

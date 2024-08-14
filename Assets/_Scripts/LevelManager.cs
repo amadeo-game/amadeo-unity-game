@@ -15,12 +15,12 @@ public class LevelManager : MonoBehaviour {
 
     private void OnEnable() {
         // GameStatesEvents.GameSessionInitialized += StartSession;
-        BridgeEvents.BridgeReady += EnableUnits;
+        BridgeEvents.BridgeReadyState += EnableUnits;
     }
 
     private void OnDisable() {
         // GameStatesEvents.GameSessionInitialized -= StartSession;
-        BridgeEvents.BridgeReady -= EnableUnits;
+        BridgeEvents.BridgeReadyState -= EnableUnits;
     }
     
 
@@ -61,14 +61,14 @@ public class LevelManager : MonoBehaviour {
         Debug.Log("LevelManager :: StopSession() called.");
         // Stop the game session
         // Perform any cleanup or save data
-        bridgeAPI.CollapseBridge();
+        BridgeEvents.CollapseBridgeAction?.Invoke();
     }
     
     public void PauseSession() {
         Debug.Log("LevelManager :: PauseSession() called.");
         // Pause the game session
         // Perform any cleanup or save data
-        bridgeAPI.PauseBridge();
+        BridgeEvents.PauseGameAction?.Invoke();
     }
     
     public void OnSessionEnd() {
@@ -79,7 +79,8 @@ public class LevelManager : MonoBehaviour {
     }
     
     private void EnableUnits() {
-        bridgeAPI.EnableGameUnits(BridgeDataManager.ZeroF);
+        BridgeEvents.EnableGameInteraction?.Invoke();
+        
     }
 
     public void AdjustDifficultyBasedOnSessionData(SessionData sessionData) {
@@ -161,6 +162,6 @@ public class LevelManager : MonoBehaviour {
         Debug.Log("LevelManager :: ResumeSession() called.");
         // Resume the game session
         // Retrieve the saved data and resume the game
-        bridgeAPI.ResumeBridge();
+        BridgeEvents.ResumeGameAction?.Invoke();
     }
 }

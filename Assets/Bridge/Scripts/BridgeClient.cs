@@ -11,13 +11,14 @@ using UnityEngine;
 
 public enum InputType {
     EmulationMode,
+    FileMode,
     Amadeo,
 }
 
 namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
     public class BridgeClient : MonoBehaviour {
-        [SerializeField] InputType inputType = InputType.EmulationMode;
+        [SerializeField] InputType inputType = InputType.FileMode;
 
         [SerializeField, Tooltip("Port should be 4444 for Amadeo connection"), Range(1024, 49151)]
         private int _port = 4444;
@@ -40,41 +41,60 @@ namespace BridgePackage {
 
         private float[] _forces = new float[5];
         private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
-        private bool _isLeftHand = false;
 
-        
+        // TODO: Check if still need to use this
+        private bool _isLeftHand = false;
 
 
         private void OnEnable() {
-            BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
-            BridgeEvents.BridgeCollapsed += StopReceiveData;
-            BridgeEvents.BridgeIsComplete += StopReceiveData;
-        }
+            BridgeEvents.InZeroFState += OnZeroFState;
+            BridgeEvents.InGameState += OnInGameState;
 
-        private void OnBridgeStateChanged(BridgeStates state) {
-            if (state == BridgeStates.InZeroF) {
-                Debug.Log("BridgeClient is in ZeroF state. Starting zeroing forces.");
-                StartReceiveData(zeroF: true);
-            }
-            else if (state == BridgeStates.InGame) {
-                if (_isReceiving) {
-                    Debug.LogWarning(
-                        "BridgeClient is already receiving data. Ignoring request to start receiving data.");
-                    return;
-                }
-
-                StartReceiveData();
-            }
-            else if (_isReceiving) {
-                _isReceiving = false;
-            }
+            BridgeEvents.BridgeCollapsingState += OnBridgeCollapsingState;
+            BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
         }
 
         private void OnDisable() {
-            BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
-            BridgeEvents.BridgeCollapsed -= StopReceiveData;
-            BridgeEvents.BridgeIsComplete -= StopReceiveData;
+            BridgeEvents.InZeroFState -= OnZeroFState;
+            BridgeEvents.InGameState -= OnInGameState;
+
+            BridgeEvents.BridgeCollapsingState -= OnBridgeCollapsingState;
+            BridgeEvents.BridgeIsCompletedState -= OnBridgeCompletingState;
         }
+
+        private void OnBridgeCompletingState() {
+            if (_debug) {
+                Debug.Log("BridgeClient is in BridgeCompleting state. Stopping data reception.");
+            }
+            StopReceiveData();
+        }
+
+        private void OnBridgeCollapsingState() {
+            if (_debug) {
+                Debug.Log("BridgeClient is in BridgeCollapsing state. Stopping data reception.");
+            }
+            StopReceiveData();
+        }
+
+
+        private void OnZeroFState() {
+            if (_debug) {
+                Debug.Log("BridgeClient is in ZeroF state. Starting zeroing forces.");
+            }
+
+            StartZeroF();
+        }
+
+        private void OnInGameState() {
+            if (_isReceiving) {
+                Debug.LogWarning(
+                    "BridgeClient is already receiving data. Ignoring request to start receiving data.");
+                return;
+            }
+
+            StartReceiveData();
+        }
+
 
         private void Start() {
             // Initialize the UdpClient
@@ -91,30 +111,46 @@ namespace BridgePackage {
             _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        private void StartReceiveData(bool zeroF = false) {
+        private void StartZeroF() {
+            _isLeftHand = BridgeDataManager.IsLeftHand;
             if (_cancellationTokenSource.IsCancellationRequested) {
                 _cancellationTokenSource.Dispose();
                 _cancellationTokenSource = new CancellationTokenSource();
             }
 
-            _isLeftHand = BridgeDataManager.IsLeftHand;
-            if (zeroF) {
-                SetZeroF(_cancellationTokenSource.Token);
+            SetZeroF(_cancellationTokenSource.Token);
+            if (_debug) {
                 Debug.Log("StartReceiveData :: Starting zeroing forces.");
-                return;
             }
+        }
 
+        private void StartReceiveData() {
             _isReceiving = true;
-            if (inputType == InputType.EmulationMode) {
-                Debug.Log("StartReceiveData :: Emulation mode is true. Starting emulation data.");
-                HandleIncomingDataEmu(_cancellationTokenSource.Token);
+            if (inputType == InputType.FileMode) {
+                if (_debug) {
+                    Debug.Log("StartReceiveData :: FileMode mode is true. Listening to data from demo file...");
+                }
+                HandleIncomingDataFileMode(_cancellationTokenSource.Token);
+            }
+            else if (inputType is InputType.EmulationMode) {
+                if (_debug) {
+                    Debug.Log("StartReceiveData :: Emulation mode is true. Starting emulation data.");
+                }
+
+                HandleIncomingDataFileMode(_cancellationTokenSource.Token);
             }
             else {
+                if (_debug) {
+                    Debug.Log("StartReceiveData :: Amadeo mode is true. Listening to data from Amadeo device...");
+                }
                 ReceiveDataAmadeo(_cancellationTokenSource.Token);
             }
         }
 
         public void StopReceiveData() {
+            if (_debug) {
+                Debug.Log("StopReceiveData :: Stopping data reception.");
+            }
             _isReceiving = false;
         }
 
@@ -123,10 +159,10 @@ namespace BridgePackage {
                 try {
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();
                     string receivedData = Encoding.ASCII.GetString(result.Buffer);
-                    if (_debug)
-                    {
+                    if (_debug) {
                         Debug.Log($"Received data: {receivedData}");
                     }
+
                     HandleReceivedData(ParseDataFromAmadeo(receivedData));
                 }
                 catch (OperationCanceledException) {
@@ -139,9 +175,10 @@ namespace BridgePackage {
                 }
             }
         }
+        
 
 
-        private async void HandleIncomingDataEmu(CancellationToken cancellationToken) {
+        private async void HandleIncomingDataFileMode(CancellationToken cancellationToken) {
             try {
                 string[] lines = await File.ReadAllLinesAsync(EmulationDataFile, cancellationToken);
 
@@ -189,13 +226,11 @@ namespace BridgePackage {
             // Fixing the offset of the forces
             _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
 
-            if (!_isLeftHand) {
-                _forces = _forces.Reverse().ToArray();
-            }
+            // if (!_isLeftHand) {
+            //     _forces = _forces.Reverse().ToArray();
+            // }
 
             BridgeEvents.ForcesUpdated?.Invoke(_forces);
-
-           
         }
 
         private static string ParseDataFromAmadeo(string data) {
@@ -216,7 +251,7 @@ namespace BridgePackage {
                 _udpClient.Close();
                 _udpClient.Dispose();
                 _udpClient = null;
-             }
+            }
 
             if (_cancellationTokenSource != null) {
                 _cancellationTokenSource.Cancel();
@@ -230,7 +265,7 @@ namespace BridgePackage {
             int numOfLinesToRead = _zeroFBuffer;
             string[] lines = new string[numOfLinesToRead];
             try {
-                if (inputType is InputType.EmulationMode) {
+                if (inputType is InputType.FileMode) {
                     // read the only 100 first lines from file, and add them only if it is not an empty line
                     using (StreamReader reader = new StreamReader(EmulationDataFile)) {
                         string line;
@@ -306,7 +341,7 @@ namespace BridgePackage {
                 _zeroForces[i] = sums[i] / count;
             }
 
-            BridgeEvents.ZeroingCompleted?.Invoke();
+            BridgeEvents.FinishedZeroF?.Invoke();
         }
     }
 }

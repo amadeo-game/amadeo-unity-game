@@ -1,15 +1,23 @@
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public class ScriptReferenceFinder : MonoBehaviour
 {
     [MenuItem("Tools/Find All Script References")]
     static void FindScriptReferences()
     {
-        MonoBehaviour[] allScripts = GameObject.FindObjectsOfType<MonoBehaviour>();
-        foreach (var script in allScripts)
+        string filePath = Application.dataPath + "/../Assets/Metadata/ScriptReferences.txt";
+        using (StreamWriter writer = new StreamWriter(filePath))
         {
-            Debug.Log(script.GetType().Name + " attached to " + script.gameObject.name);
+            MonoBehaviour[] allScripts = GameObject.FindObjectsOfType<MonoBehaviour>();
+            foreach (var script in allScripts)
+            {
+                string output = script.GetType().Name + " attached to " + script.gameObject.name;
+                writer.WriteLine(output);
+            }
         }
+
+        Debug.Log("Script references saved to: " + filePath);
     }
 }

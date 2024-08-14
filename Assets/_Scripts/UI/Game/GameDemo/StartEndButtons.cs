@@ -12,8 +12,8 @@ public class StartEndButtons : MonoBehaviour {
     }
 
     private void OnEnable() {
-        BridgePackage.BridgeEvents.BridgeReady += EnableButtons;
-        BridgePackage.BridgeEvents.OnGameStart += () => {
+        BridgePackage.BridgeEvents.BridgeReadyState += EnableButtons;
+        BridgePackage.BridgeEvents.StartingGameState += () => {
             Debug.Log("UI Buttons got notified that the game has started.");
             start.interactable = false;
             success.interactable = true;
@@ -21,8 +21,8 @@ public class StartEndButtons : MonoBehaviour {
                 guideKeys?.SetActive(true);
             }
         };
-        BridgePackage.BridgeEvents.BridgeCollapsed += DisableButtons;
-        BridgePackage.BridgeEvents.BridgeIsComplete += DisableButtons;
+        BridgePackage.BridgeEvents.BridgeCollapsingState += DisableButtons;
+        BridgePackage.BridgeEvents.BridgeIsCompletedState += DisableButtons;
     }
     
     public void PressedEndGameButton() {

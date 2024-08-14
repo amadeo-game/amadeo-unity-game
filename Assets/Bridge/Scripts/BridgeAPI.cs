@@ -37,27 +37,28 @@ namespace BridgePackage {
             Debug.Log("BridgeAPI: BuildBridge called");
         }
 
-        public void EnableGameUnits(bool doZeroF) {
-            Debug.Log("BridgeAPI: EnableGameUnits called, ZeroF: " + doZeroF);
-            bridgeStateMachine.ChangeState(doZeroF ? BridgeStates.InZeroF : BridgeStates.StartingGame);
-        }
+        // public void EnableGameUnits(bool doZeroF) {
+        //     Debug.Log("BridgeAPI: EnableGameUnits called, ZeroF: " + doZeroF);
+        //     bridgeStateMachine.ChangeState(doZeroF ? BridgeStates.InZeroF : BridgeStates.StartingGame);
+        // }
 
-        public void CollapseBridge() {
-            bridgeStateMachine.ChangeState(BridgeStates.BridgeCollapsing);
-        }
+        // public void CollapseBridge() {
+        //     bridgeStateMachine.ChangeState(BridgeStates.BridgeCollapsing);
+        //     
+        // }
 
-        public void CompleteBridge() {
-            Debug.Log("Called CompleteBridge");
-            bridgeStateMachine.ForceCollapseBridge();
-        }
+        // public void CompleteBridge() {
+        //     Debug.Log("Called CompleteBridge");
+        //     bridgeStateMachine.ForceCollapseBridge();
+        // }
 
-        public void PauseBridge() {
-            bridgeStateMachine.ChangeState(BridgeStates.Paused);
-        }
+        // public void PauseBridge() {
+        //     bridgeStateMachine.ChangeState(BridgeStates.Paused);
+        // }
         
-        public void ResumeBridge() {
-            StartCoroutine(bridgeStateMachine.StartingGame());
-        }
+        // public void ResumeBridge() {
+        //     StartCoroutine(bridgeStateMachine.StartingGame());
+        // }
 
         public SessionData GetSessionData() {
             throw new NotImplementedException();

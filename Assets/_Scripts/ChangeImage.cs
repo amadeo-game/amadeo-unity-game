@@ -20,7 +20,7 @@ public class ChangeImage : MonoBehaviour
 
         // Listen for the BridgeIsComplete event
         Debug.Log("ChangeImage: Subscribing to BridgeIsComplete event.");
-        BridgeEvents.BridgeIsComplete += ChangeSprite;
+        BridgeEvents.BridgeIsCompletedState += ChangeSprite;
     }
         
     
@@ -28,7 +28,7 @@ public class ChangeImage : MonoBehaviour
     {
         // Unsubscribe from the event to avoid memory leaks
         Debug.Log("ChangeImage: Unsubscribing from BridgeIsComplete event.");
-        BridgeEvents.BridgeIsComplete -= ChangeSprite;
+        BridgeEvents.BridgeIsCompletedState -= ChangeSprite;
     }
 
     private void ChangeSprite()

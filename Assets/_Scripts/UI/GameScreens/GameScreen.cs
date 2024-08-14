@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 [RequireComponent(typeof(UIDocument))]
 public class GameScreen : MonoBehaviour {
-    const float k_DelayWinScreen = 2f;
+    const float k_DelayWinScreen = 0.5f;
     [SerializeField] bool _openInstructorPanelAtStart = false;
 
     // string IDs
@@ -56,6 +56,7 @@ public class GameScreen : MonoBehaviour {
         GameplayEvents.LoseScreenShown += OnGameLost;
         GameplayEvents.GameStarted += SetIdleStateScreen;
         BridgeEvents.OnTimeDurationChanged += UpdateTimeLabel;
+        BridgeEvents.IdleState += SetIdleStateScreen;
 
 
         GameplayEvents.SettingsUpdated += OnSettingsUpdated;

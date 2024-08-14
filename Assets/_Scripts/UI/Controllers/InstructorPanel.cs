@@ -29,7 +29,7 @@ public class InstructorPanel : MonoBehaviour {
         // Obtain the root visual element of the UXML.
         var rootVisualElement = GetComponent<UIDocument>().rootVisualElement;
 
-        levels = Enumerable.Range(1, BridgeDataManager.NumberOfLevels-1).Select(i => i.ToString()).ToList();
+        levels = Enumerable.Range(1, BridgeDataManager.NumberOfLevels - 1).Select(i => i.ToString()).ToList();
 
         // Initialize UI elements and set up change listeners.
         UpdateUIWithCurrentValues(rootVisualElement);
@@ -94,47 +94,64 @@ public class InstructorPanel : MonoBehaviour {
     }
 
     private void OnEnable() {
-        BridgeEvents.BridgeStateChanged += OnBridgeStateChange;
+        // BridgeEvents.BridgeStateChanged += OnBridgeStateChange;
+        BridgeEvents.IdleState += OnIdleState;
+        BridgeEvents.BuildingState += OnBuildingState;
+        BridgeEvents.GamePausedState += OnPausedState;
+        BridgeEvents.StartingGameState += OnStartingGameState;
+        BridgeEvents.InGameState += OnInGameState;
+        BridgeEvents.BridgeCollapsingState += OnBridgeCollapsingState;
+        BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
     }
-
+    
     private void OnDisable() {
-        BridgeEvents.BridgeStateChanged -= OnBridgeStateChange;
+        BridgeEvents.IdleState -= OnIdleState;
+        BridgeEvents.BuildingState -= OnBuildingState;
+        BridgeEvents.GamePausedState -= OnPausedState;
+        BridgeEvents.StartingGameState -= OnStartingGameState;
+        BridgeEvents.InGameState -= OnInGameState;
+        BridgeEvents.BridgeCollapsingState -= OnBridgeCollapsingState;
+        BridgeEvents.BridgeCompletingState -= OnBridgeCompletingState;
+    }
+    
+    private void OnIdleState() {
+        SetInteractability(_preGameConfigs, true);
+        SetVisibility(_endPauseButtons, false);
+        SetVisibility(_startSessionButton, true);
+        SetInteractability(_startSessionButton, true);
     }
 
-    /// <summary>
-    /// Handles changes in the state of the bridge, update the UI accordingly.
-    /// </summary>
-    ///  <param name="state">The new state of the bridge.</param>
-    private void OnBridgeStateChange(BridgeStates state) {
-        Debug.Log("InstructorScreen :: OnBridgeStateChange() called. New state: " + state);
-        if (state is BridgeStates.Idle) {
-            SetInteractability(_preGameConfigs, true);
-            SetVisibility(_endPauseButtons, false);
-            SetVisibility(_startSessionButton, true);
-            SetInteractability(_startSessionButton, true);
-        }
-        else if (state is BridgeStates.Building) {
-            SetInteractability(_preGameConfigs, false);
-            SetInteractability(_startSessionButton, false);
-        }
-        else if (state is BridgeStates.Paused) {
-            SetVisibility(_pauseSessionButton, false);
-            SetVisibility(_resumeSessionButton, true);
-            SetVisibility(_startSessionButton, false);
-        }
-        else if (state is BridgeStates.InGame) {
-            SetVisibility(_startSessionButton, false);
-            SetInteractability(_endPauseButtons, true);
-            SetVisibility(_pauseSessionButton, true);
-            SetVisibility(_resumeSessionButton, false);
-            SetVisibility(_endSessionButton, true);
-        }
-        else if (state is BridgeStates.StartingGame) {
-            SetInteractability(_resumeSessionButton, false);
-        }
-        else if (state is BridgeStates.BridgeCollapsing || state is BridgeStates.BridgeCompleting) {
-            SetInteractability(_endPauseButtons, false);
-        }
+    private void OnBuildingState() {
+        SetInteractability(_preGameConfigs, false);
+        SetInteractability(_startSessionButton, false);
+    }
+
+    private void OnPausedState() {
+        SetVisibility(_pauseSessionButton, false);
+        SetVisibility(_resumeSessionButton, true);
+        SetInteractability(_resumeSessionButton, true);
+        SetVisibility(_startSessionButton, false);
+    }
+
+    private void OnStartingGameState() {
+        SetInteractability(_resumeSessionButton, false);
+
+    }
+
+    private void OnInGameState() {
+        SetVisibility(_startSessionButton, false);
+        SetInteractability(_endPauseButtons, true);
+        SetVisibility(_pauseSessionButton, true);
+        SetVisibility(_resumeSessionButton, false);
+        SetVisibility(_endSessionButton, true);
+    }
+
+    private void OnBridgeCollapsingState() {
+        SetInteractability(_endPauseButtons, false);
+    }
+
+    private void OnBridgeCompletingState() {
+        SetInteractability(_endPauseButtons, false);
     }
 
     /// <summary>
@@ -183,7 +200,7 @@ public class InstructorPanel : MonoBehaviour {
             if (mvcField != null) {
                 mvcField.value = (int)BridgeDataManager.MvcValuesExtension[i];
             }
-            
+
             var mvcFlexField = root.Q<IntegerField>("mvc_f_" + (i + 1));
             if (mvcFlexField != null) {
                 mvcFlexField.value = (int)BridgeDataManager.MvcValuesFlexion[i];
@@ -221,7 +238,7 @@ public class InstructorPanel : MonoBehaviour {
         else {
             isFlexionToggle.value = BridgeDataManager.IsFlexion;
         }
-        
+
         // Update the zeroF toggle
         var zeroFToggle = root.Q<Toggle>("zero_f_toggle");
         if (zeroFToggle == null) {
@@ -230,7 +247,7 @@ public class InstructorPanel : MonoBehaviour {
         else {
             zeroFToggle.value = BridgeDataManager.ZeroF;
         }
-        
+
         // Update the autoPlay toggle
         var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
         if (autoPlayToggle == null) {
@@ -239,8 +256,7 @@ public class InstructorPanel : MonoBehaviour {
         else {
             autoPlayToggle.value = BridgeDataManager.AutoStart;
         }
-        
-        
+
 
         // Update the level dropdown
         var dropdown = root.Q<DropdownField>("level_picker");
@@ -273,7 +289,7 @@ public class InstructorPanel : MonoBehaviour {
             if (mvcExtField != null) {
                 mvcExtField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue, flexion: false));
             }
-            
+
             var mvcFlexField = root.Q<IntegerField>("mvc_f_" + (localIndex + 1));
             if (mvcFlexField != null) {
                 mvcFlexField.RegisterValueChangedCallback(evt => UpdateMvc(localIndex, evt.newValue, flexion: true));
@@ -304,19 +320,19 @@ public class InstructorPanel : MonoBehaviour {
         }
 
         isFlexionToggle.RegisterValueChangedCallback(evt => SetFlexion(evt.newValue));
-        
+
         var zeroFToggle = root.Q<Toggle>("zero_f_toggle");
         if (zeroFToggle == null) {
             Debug.LogWarning("Failed to find toggle element with name:  + zero_f_toggle");
         }
-        
+
         zeroFToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetZeroF(evt.newValue));
-        
+
         var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
         if (autoPlayToggle == null) {
             Debug.LogWarning("Failed to find toggle element with name:  + auto_start_toggle");
         }
-        
+
         autoPlayToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetAutoStart(evt.newValue));
 
         var dropdown = root.Q<DropdownField>("level_picker");
@@ -375,7 +391,8 @@ public class InstructorPanel : MonoBehaviour {
     private void UpdateMvc(int index, int newValue, bool flexion) {
         if (flexion) {
             BridgeDataManager.SetMvcValuesFlexion(index, newValue);
-        } else {
+        }
+        else {
             BridgeDataManager.SetMvcValuesExtension(index, newValue);
         }
     }
