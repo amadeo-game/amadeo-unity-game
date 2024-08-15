@@ -7,31 +7,53 @@ using Random = UnityEngine.Random;
 public class LevelManager : MonoBehaviour {
     [SerializeField] private BridgeAPI bridgeAPI;
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
-    [FormerlySerializedAs("sessionManager")] [SerializeField] private BridgeDataManager _bridgeDataManager;
+
+    [FormerlySerializedAs("sessionManager")] [SerializeField]
+    private BridgeDataManager _bridgeDataManager;
 
     [SerializeReference] bool useDynamicDifficulty = false;
     private int levelIndex { get; set; } = 1;
     private int sessionCount { get; set; } = 0;
 
+    private bool GameEnded { get; set; } = false;
+
     private void OnEnable() {
         // GameStatesEvents.GameSessionInitialized += StartSession;
         BridgeEvents.BridgeReadyState += EnableUnits;
+
+        BridgeEvents.IdleState += InitializeSession;
+        
     }
 
     private void OnDisable() {
         // GameStatesEvents.GameSessionInitialized -= StartSession;
         BridgeEvents.BridgeReadyState -= EnableUnits;
     }
-    
+
 
     public void InitializeSession() {
+        if (!BridgeDataManager.AutoStart) {
+            return;
+        }
+
         Debug.Log("LevelManager :: SetupNewLevel() called.");
         // Initialize the new game session
         // Retrieve or generate new parameters for the game
 
-        if (useDynamicDifficulty && sessionCount > 0) {
+        if (sessionCount > 2) {
+            if (levelIndex > bridgeCollectionSO.BridgeTypes.Length - 1) {
+                levelIndex = 1;
+                GameEnded = true;
+            }
+            else {
+                levelIndex++;
+            }
+            sessionCount = 0;
+        }
+
+        if (useDynamicDifficulty && sessionCount is > 0 and < 3) {
             // Adjust the difficulty based on the previous session data
-            var sessionData = bridgeAPI.GetSessionData();
+            var sessionData = BridgeDataManager.SessionData;
             AdjustDifficultyBasedOnSessionData(sessionData);
         }
         else {
@@ -45,42 +67,42 @@ public class LevelManager : MonoBehaviour {
 
         sessionCount++;
         GameStatesEvents.GameSessionInitialized?.Invoke();
+        StartSession();
     }
+
 
     public void StartSession() {
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
         Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
         bridgeAPI.BuildBridge(
-
         );
         GameplayEvents.GameStarted?.Invoke();
-
+        sessionCount++;
     }
-    
+
     public void ForceEndSession() {
         Debug.Log("LevelManager :: StopSession() called.");
         // Stop the game session
         // Perform any cleanup or save data
         BridgeEvents.CollapseBridgeAction?.Invoke();
     }
-    
+
     public void PauseSession() {
         Debug.Log("LevelManager :: PauseSession() called.");
         // Pause the game session
         // Perform any cleanup or save data
         BridgeEvents.PauseGameAction?.Invoke();
     }
-    
+
     public void OnSessionEnd() {
         Debug.Log("LevelManager :: EndSession() called.");
         // End the game session
         // Perform any cleanup or save data
         GameStatesEvents.GameSessionEnded?.Invoke();
     }
-    
+
     private void EnableUnits() {
         BridgeEvents.EnableGameInteraction?.Invoke();
-        
     }
 
     public void AdjustDifficultyBasedOnSessionData(SessionData sessionData) {
@@ -90,14 +112,19 @@ public class LevelManager : MonoBehaviour {
         if (sessionData.success) {
             var adjustedHeights = AdjustHeightsForSuccess(sessionData.heights);
             BridgeDataManager.SetHeights(adjustedHeights);
-            BridgeDataManager.SetTimeDuration(BridgeDataManager.TimeDuration *
-                                              0.9f); // Decrease the time slightly for more challenge
         }
         else {
-            var adjustedHeights = AdjustHeightsForFailure(sessionData.heights);
+            var adjustedHeights = AdjustHeightsForFailure(sessionData.heights, sessionData.BestYPositions);
             BridgeDataManager.SetHeights(adjustedHeights);
             BridgeDataManager.SetTimeDuration(BridgeDataManager.TimeDuration *
                                               1.1f); // Increase the time slightly for less challenge
+            // increase 1 more unit to each grace
+            var adjustedGrace = new float[5];
+            for (int i = 0; i < adjustedGrace.Length; i++) {
+                adjustedGrace[i] = BridgeDataManager.UnitsGrace[i] + 1;
+            }
+            
+            BridgeDataManager.SetUnitsGrace(adjustedGrace);
         }
     }
 
@@ -129,7 +156,7 @@ public class LevelManager : MonoBehaviour {
         // Retrieve or generate the MVC values
         return new float[] { 1, 1, 1, 1, 1 }; // Example
     }
-    
+
     private float[] GetMVCValuesFlexion() {
         // Retrieve or generate the MVC values
         return new float[] { 1, 1, 1, 1, 1 }; // Example
@@ -149,12 +176,14 @@ public class LevelManager : MonoBehaviour {
         return previousHeights;
     }
 
-    private int[] AdjustHeightsForFailure(int[] previousHeights) {
+    private int[] AdjustHeightsForFailure(int[] previousHeights, float[] bestYPositions) {
         // Adjust heights to be easier
         for (int i = 0; i < previousHeights.Length; i++) {
-            previousHeights[i] = Mathf.Clamp(previousHeights[i] - 1, 0, 5);
+            var diffHeight = Mathf.Abs(previousHeights[i] - bestYPositions[i]);
+            if (diffHeight > 0) {
+                previousHeights[i] = Mathf.Clamp(previousHeights[i] - 1, 1, 5);
+            }
         }
-
         return previousHeights;
     }
 

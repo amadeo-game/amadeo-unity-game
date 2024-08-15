@@ -9,6 +9,6 @@ public interface IBridgeAPI {
 
     // void EnableGameUnits(bool doZeroF);
     
-    SessionData GetSessionData();
+    // SessionData GetSessionData();
     // void PauseBridge();
 }

@@ -1,16 +1,20 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BridgePackage {
     public class BridgeDataManager : MonoBehaviour {
         private static BridgeData BridgeData = new BridgeData();
-        [SerializeField] BridgeCollectionSO bridgeCollection;
+        [SerializeField] BridgeCollectionSO _bridgeCollection;
 
-        private void Start() {
-            if (this.bridgeCollection == null) {
+        private void Awake() {
+
+
+            SetBridgeCollection(_bridgeCollection);
+            
+            if (this._bridgeCollection == null) {
                 Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
             }
-
-            SetBridgeCollection(bridgeCollection);
         }
 
         void OnEnable() {
@@ -40,7 +44,22 @@ namespace BridgePackage {
             }
         }
 
-        public static BridgeTypeSO BridgeType => BridgeData.bridgeCollection.BridgeTypes[BridgeData.level];
+        public static BridgeTypeSO BridgeType {
+            get {
+                
+                if (BridgeData.bridgeCollection == null) {
+                    Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
+                    
+                }
+                
+                if (BridgeData.bridgeCollection.BridgeTypes.Length == 0) {
+                    Debug.LogError("BridgeTypeSO is not assigned in BridgeDataManager, cannot proceed.");
+                }
+
+                return BridgeData.bridgeCollection.BridgeTypes[BridgeData.level] as BridgeTypeSO;
+        }
+        }
+
         public static int Level => BridgeData.level;
         
         public static int NumberOfLevels => BridgeData.bridgeCollection.BridgeTypes.Length;
@@ -150,7 +169,7 @@ namespace BridgePackage {
             BridgeData.autoStart = newAutoPlay;
         }
 
-        public static void SetSessionData(float[] bestHeights, bool isSuccessful) {
+        internal static void SetSessionData(float[] bestHeights, bool isSuccessful) {
             BridgeData.SessionData.heights = BridgeData.heights;
             BridgeData.SessionData.BestYPositions = bestHeights;
             BridgeData.SessionData.success = isSuccessful;

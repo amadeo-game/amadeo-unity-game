@@ -439,6 +439,10 @@ PrefabInstance:
       propertyPath: bridgeCollection
       value: 
       objectReference: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
+    - target: {fileID: 3799182644623730036, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: _bridgeCollection
+      value: 
+      objectReference: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
     - target: {fileID: 6205020137206850874, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: bridgeTypeSO
       value: 
@@ -764,7 +768,7 @@ MonoBehaviour:
   bridgeAPI: {fileID: 1604210433}
   bridgeCollectionSO: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
   _bridgeDataManager: {fileID: 0}
-  useDynamicDifficulty: 0
+  useDynamicDifficulty: 1
 --- !u!114 &1604210433 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2260458259387714533, guid: 529085a545aba8e41a1548435d4859f5, type: 3}

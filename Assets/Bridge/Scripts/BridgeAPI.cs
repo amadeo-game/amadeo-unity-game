@@ -37,9 +37,11 @@ namespace BridgePackage {
             Debug.Log("BridgeAPI: BuildBridge called");
         }
 
-        public SessionData GetSessionData() {
-            throw new NotImplementedException();
-        }
+        // public SessionData GetSessionData() {
+        //     return new SessionData {
+        //         
+        //     };
+        // }
 
 
     }

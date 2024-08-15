@@ -85,8 +85,12 @@ namespace BridgePackage {
             BridgeEvents.FinishedZeroF -= () => ChangeState(BridgeStates.StartingGame);
             BridgeEvents.FinishStartingGameProcess -= () => ChangeState(BridgeStates.InGame);
 
-            BridgeEvents.EnableGameInteraction -= () => ChangeState(
-                BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
+            BridgeEvents.EnableGameInteraction -= () => {
+                ChangeState(BridgeStates.InZeroF);
+                // TODO: fix the problem of crashing when we dont want zeroF (in ::UnitsControl :: OnInGameState())
+                // ChangeState(
+                //     BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
+            };
             BridgeEvents.PauseGameAction -= () => ChangeState(BridgeStates.Paused);
             BridgeEvents.CollapseBridgeAction -= ForceCollapseBridge;
 
