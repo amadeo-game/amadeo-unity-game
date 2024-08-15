@@ -45,6 +45,8 @@ public class GameScreen : MonoBehaviour {
 
     bool m_IsGameOver;
 
+
+
     void OnEnable() {
         SetVisualElements();
         RegisterButtonCallbacks();
@@ -170,6 +172,7 @@ public class GameScreen : MonoBehaviour {
     }
 
     void SetIdleStateScreen() {
+        m_IsGameOver = false;
         // set visible false to _winScreenRootElement and _loseScreenRootElement
         ShowVisualElement(_winScreenRootElement, false);
         ShowVisualElement(_loseScreenRootElement, false);
@@ -212,26 +215,34 @@ public class GameScreen : MonoBehaviour {
 
     IEnumerator GameLostRoutine() {
         // wait, then show lose screen and blur bg
-        yield return new WaitForSeconds(k_DelayWinScreen);
+        //yield return new WaitForSeconds(k_DelayWinScreen);
+        yield return new WaitForSeconds(0f);
 
         // hide UI
         _settingsButton.style.display = DisplayStyle.None;
 
         AudioManager.PlayDefeatSound();
-        ShowVisualElement(_loseScreenRootElement, true);
+        if (m_IsGameOver)
+        {
+            ShowVisualElement(_loseScreenRootElement, true);
+        }
         BlurBackground(true);
     }
 
     IEnumerator GameWonRoutine() {
         Time.timeScale = 0.5f;
-        yield return new WaitForSeconds(k_DelayWinScreen);
+        //yield return new WaitForSeconds(k_DelayWinScreen);
+        yield return new WaitForSeconds(0f);
 
         // hide the UI
         _settingsButton.style.display = DisplayStyle.None;
 
         AudioManager.PlayVictorySound();
         Debug.Log("Showing Win Screen");
-        ShowVisualElement(_winScreenRootElement, true);
+        if (m_IsGameOver)
+        {
+            ShowVisualElement(_winScreenRootElement, true);
+        }
     }
 
     // volume settings

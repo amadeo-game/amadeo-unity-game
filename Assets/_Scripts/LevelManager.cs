@@ -17,17 +17,25 @@ public class LevelManager : MonoBehaviour {
 
     private bool GameEnded { get; set; } = false;
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         // GameStatesEvents.GameSessionInitialized += StartSession;
         BridgeEvents.BridgeReadyState += EnableUnits;
 
+        BridgeEvents.BridgeIsCompletedState += OnSessionEnd;
+
         BridgeEvents.IdleState += InitializeSession;
-        
+
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         // GameStatesEvents.GameSessionInitialized -= StartSession;
         BridgeEvents.BridgeReadyState -= EnableUnits;
+        BridgeEvents.IdleState += InitializeSession;
+
+        BridgeEvents.BridgeIsCompletedState -= OnSessionEnd;
+
     }
 
 
@@ -99,6 +107,7 @@ public class LevelManager : MonoBehaviour {
         // End the game session
         // Perform any cleanup or save data
         GameStatesEvents.GameSessionEnded?.Invoke();
+        BridgeEvents.FinishedGameCompletingState?.Invoke();
     }
 
     private void EnableUnits() {
@@ -168,15 +177,20 @@ public class LevelManager : MonoBehaviour {
     }
 
     private int[] AdjustHeightsForSuccess(int[] previousHeights) {
+        int changeFinger = (int)(Random.Range(0f, 4.9f));// TODO: Write better
         // Adjust heights to be more challenging
         for (int i = 0; i < previousHeights.Length; i++) {
-            previousHeights[i] = Mathf.Clamp(previousHeights[i] + 1, 0, 5);
+            if (BridgeDataManager.PlayableUnits[i])
+            {
+                previousHeights[i] = Mathf.Clamp(previousHeights[i] + 1, 1, 5);
+            }
         }
-
+        Debug.Log("Game");
         return previousHeights;
     }
 
     private int[] AdjustHeightsForFailure(int[] previousHeights, float[] bestYPositions) {
+        Debug.Log("AdjustHeightsForFailure ");
         // Adjust heights to be easier
         for (int i = 0; i < previousHeights.Length; i++) {
             var diffHeight = Mathf.Abs(previousHeights[i] - bestYPositions[i]);

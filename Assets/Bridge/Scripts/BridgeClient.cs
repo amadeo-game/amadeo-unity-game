@@ -19,7 +19,7 @@ public enum InputType {
 namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
     public class BridgeClient : MonoBehaviour {
-        [SerializeField] InputType inputType = InputType.FileMode;
+        [SerializeField] InputType inputType = InputType.Amadeo;
 
         // input system on button
         [SerializeField] private bool _useInputSystem = false;
@@ -233,6 +233,7 @@ namespace BridgePackage {
         }
 
         private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
+            Debug.Log("Receive Data from Amadeo");
             while (_isReceiving && !cancellationToken.IsCancellationRequested) {
                 try {
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();
@@ -307,11 +308,7 @@ namespace BridgePackage {
             // Fixing the offset of the forces
             _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
 
-            if (!_isLeftHand) {
-                // _forces = _forces.Reverse().ToArray();
-                // Swap between the first and last elements
-                (_forces[0], _forces[4]) = (_forces[4], _forces[0]);
-            }
+            _forces = _forces.Reverse().ToArray();
 
             BridgeEvents.ForcesUpdated?.Invoke(_forces);
         }

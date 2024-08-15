@@ -4,6 +4,7 @@ using System.IO;
 
 public class ScriptReferenceFinder : MonoBehaviour
 {
+    /*
     [MenuItem("Tools/Find All Script References")]
     static void FindScriptReferences()
     {
@@ -20,4 +21,5 @@ public class ScriptReferenceFinder : MonoBehaviour
 
         Debug.Log("Script references saved to: " + filePath);
     }
+    */
 }

@@ -4,6 +4,7 @@ using System.IO;
 
 public class AssetFolderTreePrinter : MonoBehaviour
 {
+    /*
     [MenuItem("Tools/Print Asset Folder Tree")]
     static void PrintAssetFolderTree()
     {
@@ -30,4 +31,5 @@ public class AssetFolderTreePrinter : MonoBehaviour
             PrintDirectory(subDir, indent + "  ", writer);
         }
     }
+    */
 }
