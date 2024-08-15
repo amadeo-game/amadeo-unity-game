@@ -4,6 +4,7 @@ using System.IO;
 
 public class HierarchyPrinter : MonoBehaviour
 {
+    /*
     [MenuItem("Tools/Print Scene Hierarchy")]
     static void PrintHierarchy()
     {
@@ -27,4 +28,5 @@ public class HierarchyPrinter : MonoBehaviour
             PrintHierarchyRecursive(child.gameObject, indent + "  ", writer);
         }
     }
+    */
 }

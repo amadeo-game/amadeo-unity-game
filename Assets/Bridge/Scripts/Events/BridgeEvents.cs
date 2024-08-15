@@ -87,9 +87,13 @@ namespace BridgePackage {
         // Finished animate completing
         public static Action FinishedAnimatingBridgeCompletingState;
 
-        
+        // ---- Game Over Return Events ----
+        public static Action FinishedGameCompletingState;
+        public static Action FinishedGameFailedState;
+
+
         // ---- Mid-Game Interaction Events ----
-        
+
         // Enable the guide units
         public static Action EnableGameInteraction;
         
