@@ -21,9 +21,12 @@ namespace BridgePackage
         }
 
         private void OnBuildingState() {
-            if (_background == null) {
-                return;
-            }
+            Debug.Log("BridgeEnvironment :: OnBuildingState() called.");
+            // if (_background == null) {
+            //     Debug.Log("Background is null. Returning.");
+            //     return;
+            // }
+            SetBackground();
         }
         private void SetBackground() {
             if (_currentLevel != BridgeDataManager.Level) {
