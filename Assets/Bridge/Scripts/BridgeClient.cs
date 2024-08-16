@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -7,8 +8,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Debug = UnityEngine.Debug;
 
 
 public enum InputType {
@@ -21,6 +24,7 @@ namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
     public class BridgeClient : MonoBehaviour {
         [SerializeField] InputType inputType = InputType.Amadeo;
+        UnitsControl _unitsControl;
 
         // input system on button
         private bool _useInputSystem = false;
@@ -47,6 +51,8 @@ namespace BridgePackage {
         private IPEndPoint _remoteEndPoint;
 
         private float[] _forces = new float[5];
+        private bool _dataReceived = false;
+
         private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
 
         private float[] _emulationForces = new float[5]; // Store forces from emulation file
@@ -61,58 +67,27 @@ namespace BridgePackage {
         [SerializeField] InputAction Finger3  = new InputAction(type: InputActionType.Button);
         [SerializeField] InputAction Finger4  = new InputAction(type: InputActionType.Button);
         [SerializeField] InputAction Finger5  = new InputAction(type: InputActionType.Button);
+        
 
-        void Update() {
+        private void GetForcesFromInput() {
             if (_useInputSystem) {
-                
-                _forces[0] += Finger1.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
-                _forces[1] += Finger2.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
-                _forces[2] += Finger3.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
-                _forces[3] += Finger4.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
-                _forces[4] += Finger5.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
-                
-                // if (Input.GetKeyDown(Finger1)) {
-                //     Debug.Log("Key Y Pressed");
-                //     _forces[0] += -0.1f;
-                // }
-                // else {
-                //     _forces[0] = 0;
-                // }
-                //
-                // if (Input.GetKeyDown(Finger2)) {
-                //     Debug.Log("Key U Pressed");
-                //     _forces[1] += -0.1f;
-                // }
-                // else {
-                //     _forces[1] = 0;
-                // }
-                //
-                // if (Input.GetKeyDown(Finger3)) {
-                //     Debug.Log("Key I Pressed");
-                //     _forces[2] += -0.1f;
-                // }
-                // else {
-                //     _forces[2] = 0;
-                // }
-                //
-                // if (Input.GetKeyDown(Finger4)) {
-                //     Debug.Log("Key O Pressed");
-                //     _forces[3] += -0.1f;
-                // }
-                // else {
-                //     _forces[3] = 0;
-                // }
-                //
-                // if (Input.GetKeyDown(Finger5)) {
-                //     Debug.Log("Key P Pressed");
-                //     _forces[4] += -0.1f;
-                // }
-                // else {
-                //     _forces[4] = 0;
-                // }
-                Debug.Log( "Input System Forces: " + string.Join(", ", _forces));
-                BridgeEvents.ForcesUpdated?.Invoke(_forces);
+                _forces[0] += Finger1.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[1] += Finger2.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[2] += Finger3.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[3] += Finger4.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[4] += Finger5.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+
+                // Debug.Log("Input System Forces: " + string.Join(", ", _forces));
+                _unitsControl.OnForcesUpdated(_forces);
             }
+        }
+
+        private void FixedUpdate() {
+            if (_dataReceived) {
+                _unitsControl.OnForcesUpdated(_forces);
+                _dataReceived = false;
+            }
+            GetForcesFromInput();
         }
 
 
@@ -196,6 +171,7 @@ namespace BridgePackage {
 
 
         private void Start() {
+            _unitsControl = GetComponent<UnitsControl>();
             // Initialize the UdpClient
             try {
                 _udpClient = new UdpClient(_port); // Listen for data on port (should be 4444)
@@ -260,28 +236,84 @@ namespace BridgePackage {
             _forces = new float[5];
         }
 
-        private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
+        private async void ReceiveDataAmadeo(CancellationToken cancellationToken)
+        {
             Debug.Log("Receive Data from Amadeo");
-            while (_isReceiving && !cancellationToken.IsCancellationRequested) {
-                try {
+            Stopwatch stopwatch = new Stopwatch();
+            while (_isReceiving && !cancellationToken.IsCancellationRequested)
+            {
+                try
+                {
+                    stopwatch.Start();
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();
                     string receivedData = Encoding.ASCII.GetString(result.Buffer);
-                    if (_debug) {
+                    stopwatch.Stop();
+
+                    if (_debug)
+                    {
                         Debug.Log($"Received data: {receivedData}");
+                        Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
                     }
 
                     HandleReceivedData(ParseDataFromAmadeo(receivedData));
+                    stopwatch.Reset();
                 }
-                catch (OperationCanceledException) {
+                catch (OperationCanceledException)
+                {
                     Debug.Log("Data reception was canceled.");
                     break;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     Debug.LogError($"Exception in ReceiveData: {ex.Message}");
                     break;
                 }
             }
         }
+
+        
+        // private async void ReceiveDataAmadeo(CancellationToken cancellationToken)
+        // {
+        //     Debug.Log("Receive Data from Amadeo");
+        //     while (_isReceiving && !cancellationToken.IsCancellationRequested)
+        //     {
+        //         try
+        //         {
+        //             UdpReceiveResult result = await _udpClient.ReceiveAsync();
+        //             string receivedData = Encoding.ASCII.GetString(result.Buffer);
+        //
+        //             if (_debug)
+        //             {
+        //                 Debug.Log($"Received data: {receivedData}");
+        //             }
+        //
+        //             // Offload heavy processing to a job if necessary
+        //             ProcessReceivedData(receivedData);
+        //         }
+        //         catch (OperationCanceledException)
+        //         {
+        //             Debug.Log("Data reception was canceled.");
+        //             break;
+        //         }
+        //         catch (Exception ex)
+        //         {
+        //             Debug.LogError($"Exception in ReceiveData: {ex.Message}");
+        //             break;
+        //         }
+        //     }
+        // }
+        //
+        // private void ProcessReceivedData(string data)
+        // {
+        //     // Simple processing on main thread, or schedule a job for heavy processing
+        //     var job = new ProcessDataJob { RawData = data };
+        //     JobHandle handle = job.Schedule();
+        //     handle.Complete();
+        //
+        //     // Apply processed data
+        //     ApplyProcessedData(job.Result);
+        // }
+
 
 
         private async void HandleIncomingDataFileMode(CancellationToken cancellationToken) {
@@ -320,7 +352,7 @@ namespace BridgePackage {
                 Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
-
+            Debug.Log($"Data received at: {Time.time}");
             // Parse the forces from the received data, str length is 11
             strForces.Select(str =>
                     float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
@@ -338,7 +370,9 @@ namespace BridgePackage {
 
             _forces = _forces.Reverse().ToArray();
 
-            BridgeEvents.ForcesUpdated?.Invoke(_forces);
+            // BridgeEvents.ForcesUpdated?.Invoke(_forces);
+            
+            _dataReceived = true;
         }
 
         private static string ParseDataFromAmadeo(string data) {

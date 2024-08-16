@@ -14,6 +14,15 @@ namespace BridgePackage {
         private BoxCollider2D[] _unitsColliders; // Array to store colliders of player units
         private readonly bool[] _unitsRotated = new bool[5];
         private bool _unitsInitialized = false;
+        private Int16 NUMOFUNITS = 5;
+        
+        private float[] _bestHeights = new float[5];
+        
+        SetBestHeight _setBestHeight;
+
+        delegate void SetBestHeight(float height, int index);
+        public float BestHeights(int index) => _bestHeights[index];
+            
 
         private void Start() {
             _moveUnits = new MoveUnit[5];
@@ -37,6 +46,9 @@ namespace BridgePackage {
 
         // Enable player units control
         private void EnablePlayerUnitControl() {
+            _setBestHeight = BridgeDataManager.IsFlexion
+                ? (height ,i) => _bestHeights[i] = Mathf.Min(height, _bestHeights[i])
+                : (height ,i) => _bestHeights[i] = Mathf.Max(height, _bestHeights[i]); 
             var playables = BridgeDataManager.PlayableUnits;
             for (int i = 0; i < _moveUnits.Length; i++) {
                 if (playables[i]) {
@@ -185,10 +197,17 @@ namespace BridgePackage {
             _unitsInitialized = true;
         }
 
+        internal void OnForcesUpdated(float[] forces) {
+            for (int i = 0; i < NUMOFUNITS; i++) {
+                var height = forces[i]; // There is a fixed size of total 5 units, so forces is always of size 5
+                _moveUnits[i].OnForcesUpdated(height);
+                _setBestHeight(height, i);
+            }
+        }
+
         public void CollectSessionData(bool success) {
             _unitsInitialized = false;
-            float[] bestHeights = _moveUnits.Select(unit => unit.BestHeight).ToArray();
-            BridgeDataManager.SetSessionData(bestHeights, success);
+            BridgeDataManager.SetSessionData(_bestHeights, success);
         }
     }
 }
