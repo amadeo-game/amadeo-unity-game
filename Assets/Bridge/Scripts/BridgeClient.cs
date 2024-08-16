@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 
 public enum InputType {
@@ -22,7 +24,7 @@ namespace BridgePackage {
         [SerializeField] InputType inputType = InputType.Amadeo;
 
         // input system on button
-        [SerializeField] private bool _useInputSystem = false;
+        private bool _useInputSystem = false;
 
 
         [SerializeField, Tooltip("Port should be 4444 for Amadeo connection"), Range(1024, 49151)]
@@ -37,10 +39,11 @@ namespace BridgePackage {
         private CancellationTokenSource _cancellationTokenSource;
         private bool _isReceiving = false;
         private UdpClient _udpClient;
-        private const string EmulationDataFile = "Assets/AmadeoRecords/force_data.txt";
-
-        private const int DefaultPortNumber = 4444;
-
+        private const string FileModeDataFile = "Assets/AmadeoRecords/force_data.txt";
+        
+        // Emulation Mode
+        [SerializeField] float _emulationSpeed = 0.01f;
+        
         // you can use this to store and use specific endpoint
         private IPEndPoint _remoteEndPoint;
 
@@ -54,60 +57,76 @@ namespace BridgePackage {
 
         // Set Input System to listen on buttons {'y', 'u', 'i', 'o', 'p'}
 
-        [SerializeField] private KeyCode keyY = KeyCode.Y;
-        [SerializeField] private KeyCode keyU = KeyCode.U;
-        [SerializeField] private KeyCode keyI = KeyCode.I;
-        [SerializeField] private KeyCode keyO = KeyCode.O;
-        [SerializeField] private KeyCode keyP = KeyCode.P;
+        [SerializeField] InputAction Finger1 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger2  = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger3  = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger4  = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger5  = new InputAction(type: InputActionType.Button);
 
         void Update() {
             if (_useInputSystem) {
-                if (Input.GetKeyDown(keyY)) {
-                    Debug.Log("Key Y Pressed");
-                    _forces[0] += -0.1f;
-                }
-                else {
-                    _forces[0] = 0;
-                }
-
-                if (Input.GetKeyDown(keyU)) {
-                    Debug.Log("Key U Pressed");
-                    _forces[1] += -0.1f;
-                }
-                else {
-                    _forces[1] = 0;
-                }
-
-                if (Input.GetKeyDown(keyI)) {
-                    Debug.Log("Key I Pressed");
-                    _forces[2] += -0.1f;
-                }
-                else {
-                    _forces[2] = 0;
-                }
-
-                if (Input.GetKeyDown(keyO)) {
-                    Debug.Log("Key O Pressed");
-                    _forces[3] += -0.1f;
-                }
-                else {
-                    _forces[3] = 0;
-                }
-
-                if (Input.GetKeyDown(keyP)) {
-                    Debug.Log("Key P Pressed");
-                    _forces[4] += -0.1f;
-                }
-                else {
-                    _forces[4] = 0;
-                }
-
+                
+                _forces[0] += Finger1.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
+                _forces[1] += Finger2.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
+                _forces[2] += Finger3.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
+                _forces[3] += Finger4.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
+                _forces[4] += Finger5.ReadValue<float>()*_emulationSpeed*Time.deltaTime;
+                
+                // if (Input.GetKeyDown(Finger1)) {
+                //     Debug.Log("Key Y Pressed");
+                //     _forces[0] += -0.1f;
+                // }
+                // else {
+                //     _forces[0] = 0;
+                // }
+                //
+                // if (Input.GetKeyDown(Finger2)) {
+                //     Debug.Log("Key U Pressed");
+                //     _forces[1] += -0.1f;
+                // }
+                // else {
+                //     _forces[1] = 0;
+                // }
+                //
+                // if (Input.GetKeyDown(Finger3)) {
+                //     Debug.Log("Key I Pressed");
+                //     _forces[2] += -0.1f;
+                // }
+                // else {
+                //     _forces[2] = 0;
+                // }
+                //
+                // if (Input.GetKeyDown(Finger4)) {
+                //     Debug.Log("Key O Pressed");
+                //     _forces[3] += -0.1f;
+                // }
+                // else {
+                //     _forces[3] = 0;
+                // }
+                //
+                // if (Input.GetKeyDown(Finger5)) {
+                //     Debug.Log("Key P Pressed");
+                //     _forces[4] += -0.1f;
+                // }
+                // else {
+                //     _forces[4] = 0;
+                // }
+                Debug.Log( "Input System Forces: " + string.Join(", ", _forces));
                 BridgeEvents.ForcesUpdated?.Invoke(_forces);
             }
         }
 
 
         private void OnEnable() {
+            // Enable the input system
+            Finger1.Enable();
+            Finger2.Enable();
+            Finger3.Enable();
+            Finger4.Enable();
+            Finger5.Enable();
+
+            
+            
             BridgeEvents.InZeroFState += OnZeroFState;
             BridgeEvents.InGameState += OnInGameState;
 
@@ -116,6 +135,15 @@ namespace BridgePackage {
         }
 
         private void OnDisable() {
+            // Disable the input system
+            Finger1.Disable();
+            Finger2.Disable();
+            Finger3.Disable();
+            Finger4.Disable();
+            Finger5.Disable();
+            
+            
+            
             BridgeEvents.InZeroFState -= OnZeroFState;
             BridgeEvents.InGameState -= OnInGameState;
 
@@ -221,15 +249,16 @@ namespace BridgePackage {
             }
         }
 
-        public void StopReceiveData() {
+        private void StopReceiveData() {
             if (_debug) {
                 Debug.Log("StopReceiveData :: Stopping data reception.");
             }
-
             _isReceiving = false;
             if (inputType is InputType.EmulationMode) {
                 _useInputSystem = false;
             }
+            // reset forces to zero
+            _forces = new float[5];
         }
 
         private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
@@ -258,7 +287,7 @@ namespace BridgePackage {
 
         private async void HandleIncomingDataFileMode(CancellationToken cancellationToken) {
             try {
-                string[] lines = await File.ReadAllLinesAsync(EmulationDataFile, cancellationToken);
+                string[] lines = await File.ReadAllLinesAsync(FileModeDataFile, cancellationToken);
 
                 int index = 0;
 
@@ -347,7 +376,7 @@ namespace BridgePackage {
             try {
                 if (inputType is InputType.FileMode) {
                     // read the only 100 first lines from file, and add them only if it is not an empty line
-                    using (StreamReader reader = new StreamReader(EmulationDataFile)) {
+                    using (StreamReader reader = new StreamReader(FileModeDataFile)) {
                         string line;
                         while ((line = reader.ReadLine()) != null && index < numOfLinesToRead) {
                             if (!string.IsNullOrWhiteSpace(line)) {
