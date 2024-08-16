@@ -111,7 +111,7 @@ namespace BridgePackage {
             //Debug.Log("MVCF is : " + MvcF);
 
             // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + _height);
-
+            ApplyForce();
             _setBestHeight(_height);
 
             // 20 / x = 5
@@ -129,13 +129,13 @@ namespace BridgePackage {
             }
         }
 
-        private void FixedUpdate() {
-            if (_controlEnabled) {
-                if (_heightChanged) {
-                    ApplyForce();
-                }
-            }
-        }
+        // private void FixedUpdate() {
+        //     if (_controlEnabled) {
+        //         if (_heightChanged) {
+        //             ApplyForce();
+        //         }
+        //     }
+        // }
 
         // internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
         //     _controlEnabled = controlEnabled;
@@ -153,7 +153,10 @@ namespace BridgePackage {
         
         internal void ResetPosition() {
             _height = 0;
-            ApplyForce();
+            var transform1 = transform;
+            Vector2 targetPosition = new Vector2(transform1.position.x, _height);
+            transform1.position = targetPosition;
+            // ApplyForce();
         }
         
         internal void ConnectToBridge() {

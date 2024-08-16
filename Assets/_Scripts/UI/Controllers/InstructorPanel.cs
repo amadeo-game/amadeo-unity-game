@@ -102,7 +102,14 @@ public class InstructorPanel : MonoBehaviour {
         BridgeEvents.InGameState += OnInGameState;
         BridgeEvents.BridgeCollapsingState += OnBridgeCollapsingState;
         BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
+        BridgeEvents.GameFailedState += OnGameFailedState;
         BridgeEvents.GameWonState += OnGameWonState;
+    }
+
+    private void OnGameFailedState() {
+        SetVisibility(_endPauseButtons, false);
+        SetVisibility(_startSessionButton, true);
+        SetInteractability(_startSessionButton, true);
     }
 
     private void OnGameWonState()
@@ -120,6 +127,7 @@ public class InstructorPanel : MonoBehaviour {
         BridgeEvents.InGameState -= OnInGameState;
         BridgeEvents.BridgeCollapsingState -= OnBridgeCollapsingState;
         BridgeEvents.BridgeCompletingState -= OnBridgeCompletingState;
+        BridgeEvents.GameFailedState -= OnGameFailedState;
         BridgeEvents.GameWonState -= OnGameWonState;
     }
     
