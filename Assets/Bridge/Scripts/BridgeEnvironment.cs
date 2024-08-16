@@ -23,11 +23,9 @@ namespace BridgePackage
         }
         
         private void SetBackground() {
-            if (_currentLevel != BridgeDataManager.Level) {
-                _currentLevel = BridgeDataManager.Level;
-                Destroy(_background);
-                _background = Instantiate(BridgeDataManager.BridgeType.BridgeEnvDecoration);
-            }
+            _currentLevel = BridgeDataManager.Level;
+            Destroy(_background);
+            _background = Instantiate(BridgeDataManager.BridgeType.BridgeEnvDecoration);
         }
     }
 }

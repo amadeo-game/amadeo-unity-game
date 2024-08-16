@@ -25,7 +25,7 @@ namespace BridgePackage {
             // constructor, starting values
             this.SessionData = new SessionData();
             this.TimeDuration = 200f;
-            this.heights = new int[5] { 0, -5, 0, 0, 0 };
+            this.heights = new int[5] { 0, 0, 0, 0, 0 };
             this.bridgeCollection = null;
             this.level = 1;
             this.isLeftHand = true;
@@ -34,8 +34,8 @@ namespace BridgePackage {
             this.mvcValuesFlexion = new float[5] { 1, 1, 1, 1, 1 };
             this.playableUnits = new bool[5] { false, true, false, false, false};
             this.unitsGrace = new float[5] { 0, 0, 0, 0, 0 };
-            this.zeroF = false;
-            this.autoStart = false;
+            this.zeroF = true;
+            this.autoStart = true;
         }
 
 

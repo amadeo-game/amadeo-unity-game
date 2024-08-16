@@ -9,7 +9,11 @@ namespace BridgePackage {
         [SerializeField] private float fallAnimDuration = 2f;
         [SerializeField] private float successAnimDuration = 2f;
         private BridgeStateMachine stateMachine;
-
+        
+        private Coroutine buildUpBridgeCoroutine;
+        private Coroutine bridgeFallDownCoroutine;
+        private Coroutine successCoroutine;
+        
         private void Awake() {
             stateMachine = GetComponent<BridgeStateMachine>();
         }
@@ -29,22 +33,33 @@ namespace BridgePackage {
         public void AnimateBuildUpBridge() {
             GameObject[] bridgeUnits = Bridge.TotalBridgeUnits;
             int heightOffset = Bridge.BridgeRiseDownOffset;
-            StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, heightOffset, riseAnimDuration,
+            // check if the coroutine is running
+            if (buildUpBridgeCoroutine != null) {
+                StopCoroutine(buildUpBridgeCoroutine);
+            }
+            buildUpBridgeCoroutine = StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, heightOffset, riseAnimDuration,
                 BridgeEvents.FinishedAnimatingBuildingState));
         }
 
         public void AnimateBridgeFallDown() {
             GameObject[] bridgeUnits = Bridge.TotalBridgeUnits;
             int heightOffset = Bridge.BridgeRiseDownOffset;
-            StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, -heightOffset, fallAnimDuration,
+            // check if the coroutine is running
+            if (bridgeFallDownCoroutine != null) {
+                StopCoroutine(bridgeFallDownCoroutine);
+            }
+            bridgeFallDownCoroutine = StartCoroutine(AnimateUnitsWithOffset(bridgeUnits, -heightOffset, fallAnimDuration,
                 BridgeEvents.FinishedAnimatingBridgeCollapsingState));
         }
 
         public void AnimateSuccess() {
             GameObject[] playerUnits = Bridge.PlayerUnits;
             int[] unitHeights = Bridge.PlayerUnitsHeights;
-
-            StartCoroutine(AnimatePlayerUnitsSuccess(playerUnits, unitHeights, successAnimDuration,
+            // check if the coroutine is running
+            if (successCoroutine != null) {
+                StopCoroutine(successCoroutine);
+            }
+            successCoroutine = StartCoroutine(AnimatePlayerUnitsSuccess(playerUnits, unitHeights, successAnimDuration,
                 BridgeEvents.FinishedAnimatingBridgeCompletingState));
         }
 
@@ -79,6 +94,7 @@ namespace BridgePackage {
                 unit.transform.position = Vector3.Lerp(startPos, endPos, riseAndFallCurve.Evaluate(t));
                 yield return null;
             }
+            if (unit == null) yield break;
             unit.transform.position = endPos;
             yield return null;
         }

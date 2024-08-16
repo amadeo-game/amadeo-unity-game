@@ -13,6 +13,8 @@ public class LevelManager : MonoBehaviour {
     [SerializeReference] bool useDynamicDifficulty = false;
     private int levelIndex { get; set; } = 1;
     private int sessionCount { get; set; } = 0;
+    
+    [SerializeField] private int _sessionsPerLevel = 3;
 
     private bool GameEnded { get; set; } = false;
 
@@ -28,13 +30,7 @@ public class LevelManager : MonoBehaviour {
 
     }
 
-    private void StartNextSession() {
-        if (!BridgeDataManager.AutoStart) {
-            return;
-        }
-        
-        StartSession();
-    }
+
 
     private void PrepareNextSession() {
         InitializeSession();
@@ -59,20 +55,22 @@ public class LevelManager : MonoBehaviour {
 
         Debug.Log("LevelManager :: SetupNewLevel() called.");
         // Initialize the new game session
-        // Retrieve or generate new parameters for the game
-
-        if (sessionCount > 2) {
+        
+        // 3 sessions per level, then move to the next level
+        // level cannot be higher than the number of BridgeTypes - 1
+        
+        if (sessionCount > _sessionsPerLevel) {
+            levelIndex++;
+            sessionCount = 0;
             if (levelIndex > bridgeCollectionSO.BridgeTypes.Length - 1) {
                 levelIndex = 1;
                 GameEnded = true;
+                return;
             }
-            else {
-                levelIndex++;
-            }
-            sessionCount = 0;
         }
-
-        if (useDynamicDifficulty && sessionCount is > 0) {
+        
+        BridgeDataManager.SetLevel(levelIndex);
+        if (useDynamicDifficulty && sessionCount > 0) {
             // Adjust the difficulty based on the previous session data
             var sessionData = BridgeDataManager.SessionData;
             AdjustDifficultyBasedOnSessionData(sessionData);
@@ -83,12 +81,25 @@ public class LevelManager : MonoBehaviour {
             BridgeDataManager.SetIsFlexion(GetIsFlexion());
             BridgeDataManager.SetMvcValuesExtension(GetMvcValuesExtension());
             BridgeDataManager.SetMvcValuesFlexion(GetMVCValuesFlexion());
-            BridgeDataManager.SetPlayableUnits(GetPlayableUnits());
+            // BridgeDataManager.SetPlayableUnits(GetPlayableUnits());
+            
         }
-
+        
         sessionCount++;
     }
 
+    private void StartNextSession() {
+        if (!BridgeDataManager.AutoStart) {
+            return;
+        }
+
+        if (GameEnded) {
+            Debug.Log("LevelManager :: GameEnded, no more levels to play.");
+            return;
+        }
+        Debug.Log("LevelManager :: StartNextSession() called.");
+        StartSession();
+    }
 
     public void StartSession() {
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
@@ -215,4 +226,31 @@ public class LevelManager : MonoBehaviour {
         // Retrieve the saved data and resume the game
         BridgeEvents.ResumeGameAction?.Invoke();
     }
+    
+//     // Retrieve or generate new parameters for the game
+//
+//     if (sessionCount > 2) {
+//         if (levelIndex > bridgeCollectionSO.BridgeTypes.Length - 1) {
+//             levelIndex = 1;
+//             GameEnded = true;
+//         }
+//         else {
+//             levelIndex++;
+//         }
+//         sessionCount = 0;
+//     }
+//
+//     if (useDynamicDifficulty && sessionCount > 0) {
+//         // Adjust the difficulty based on the previous session data
+//         var sessionData = BridgeDataManager.SessionData;
+//         AdjustDifficultyBasedOnSessionData(sessionData);
+//     }
+// else {
+//     BridgeDataManager.SetLevel(levelIndex);
+//     BridgeDataManager.SetIsLeftHand(GetIsLeftHand());
+//     BridgeDataManager.SetIsFlexion(GetIsFlexion());
+//     BridgeDataManager.SetMvcValuesExtension(GetMvcValuesExtension());
+//     BridgeDataManager.SetMvcValuesFlexion(GetMVCValuesFlexion());
+//     // BridgeDataManager.SetPlayableUnits(GetPlayableUnits());
+// }
 }

@@ -17,6 +17,7 @@ namespace BridgePackage {
             Bridge.BridgeRiseDownOffset = bridgeRiseDownOffset;
             Bridge.PlayerUnitsHeights = playerUnitsHeights;
             BuildBridge(playerUnitsHeights);
+            Debug.Log("Bridge: Bridge built successfully");
         }
 
         public static void EnableGuideUnits() {
