@@ -124,7 +124,7 @@ namespace BridgePackage {
         internal void ApplyForce() {
             if (_rb != null) {
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
-                Debug.Log("applying force :: " + _height);
+                // Debug.Log("applying force :: " + _height);
                 _rb.MovePosition(targetPosition);
             }
         }
@@ -137,14 +137,28 @@ namespace BridgePackage {
             }
         }
 
-        internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
+        // internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
+        //     _controlEnabled = controlEnabled;
+        //     if (!controlEnabled) {
+        //         _height = goToHeight;
+        //         if (resetPos) {
+        //             ApplyForce();
+        //         }
+        //     }
+        // }
+        
+        internal void SetControl(bool controlEnabled) {
             _controlEnabled = controlEnabled;
-            if (!controlEnabled) {
-                _height = goToHeight;
-                if (resetPos) {
-                    ApplyForce();
-                }
-            }
+        }
+        
+        internal void ResetPosition() {
+            _height = 0;
+            ApplyForce();
+        }
+        
+        internal void ConnectToBridge() {
+            _height = BridgeDataManager.Heights[_fingerIndex];
+            ApplyForce();
         }
 
         private void OnTriggerEnter2D(Collider2D other) {

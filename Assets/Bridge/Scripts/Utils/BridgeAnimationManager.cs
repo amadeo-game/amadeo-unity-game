@@ -80,6 +80,7 @@ namespace BridgePackage {
                 yield return null;
             }
             unit.transform.position = endPos;
+            yield return null;
         }
 
         private IEnumerator AnimatePlayerUnitsSuccess(GameObject[] playerUnits, int[] unitHeights, float duration,

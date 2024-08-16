@@ -120,7 +120,7 @@ namespace BridgePackage {
             BridgeEvents.InGameState -= OnInGameState;
 
             BridgeEvents.BridgeCollapsingState -= OnBridgeCollapsingState;
-            BridgeEvents.BridgeIsCompletedState -= OnBridgeCompletingState;
+            BridgeEvents.BridgeCompletingState -= OnBridgeCompletingState;
         }
 
         private void OnBridgeCompletingState() {
@@ -189,11 +189,11 @@ namespace BridgePackage {
                 _cancellationTokenSource.Dispose();
                 _cancellationTokenSource = new CancellationTokenSource();
             }
-
-            SetZeroF(_cancellationTokenSource.Token);
             if (_debug) {
                 Debug.Log("StartReceiveData :: Starting zeroing forces.");
             }
+            SetZeroF(_cancellationTokenSource.Token);
+
         }
 
         private void StartReceiveData() {
@@ -382,7 +382,6 @@ namespace BridgePackage {
                 string[] parsedData = lines.Select(ParseDataFromAmadeo).ToArray();
                 CalculateZeroingForces(parsedData);
 
-                Debug.Log("Zeroing completed and data sent to client.");
             }
             catch (OperationCanceledException) {
                 Debug.Log("Data reception was canceled.");
@@ -420,6 +419,7 @@ namespace BridgePackage {
             for (int i = 0; i < sums.Length; i++) {
                 _zeroForces[i] = sums[i] / count;
             }
+            Debug.Log("Zeroing completed and data sent to client.");
 
             BridgeEvents.FinishedZeroF?.Invoke();
         }

@@ -5,7 +5,6 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour {
-    [SerializeField] private BridgeAPI bridgeAPI;
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
 
     [FormerlySerializedAs("sessionManager")] [SerializeField]
@@ -23,17 +22,31 @@ public class LevelManager : MonoBehaviour {
         BridgeEvents.BridgeReadyState += EnableUnits;
 
         BridgeEvents.BridgeIsCompletedState += OnSessionEnd;
+        BridgeEvents.GameWonState += PrepareNextSession;
 
-        BridgeEvents.IdleState += InitializeSession;
+        BridgeEvents.IdleState += StartNextSession;
 
+    }
+
+    private void StartNextSession() {
+        if (!BridgeDataManager.AutoStart) {
+            return;
+        }
+        
+        StartSession();
+    }
+
+    private void PrepareNextSession() {
+        InitializeSession();
+        BridgeEvents.RestartGameAction?.Invoke();
     }
 
     private void OnDisable()
     {
         // GameStatesEvents.GameSessionInitialized -= StartSession;
         BridgeEvents.BridgeReadyState -= EnableUnits;
-        BridgeEvents.IdleState += InitializeSession;
-
+        BridgeEvents.IdleState -= StartNextSession;
+        BridgeEvents.GameWonState -= PrepareNextSession;
         BridgeEvents.BridgeIsCompletedState -= OnSessionEnd;
 
     }
@@ -59,7 +72,7 @@ public class LevelManager : MonoBehaviour {
             sessionCount = 0;
         }
 
-        if (useDynamicDifficulty && sessionCount is > 0 and < 3) {
+        if (useDynamicDifficulty && sessionCount is > 0) {
             // Adjust the difficulty based on the previous session data
             var sessionData = BridgeDataManager.SessionData;
             AdjustDifficultyBasedOnSessionData(sessionData);
@@ -74,16 +87,14 @@ public class LevelManager : MonoBehaviour {
         }
 
         sessionCount++;
-        GameStatesEvents.GameSessionInitialized?.Invoke();
-        StartSession();
     }
 
 
     public void StartSession() {
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
         Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
-        bridgeAPI.BuildBridge(
-        );
+        // Start the game session
+        BridgeEvents.BuildingBridgeAction?.Invoke();
         GameplayEvents.GameStarted?.Invoke();
         sessionCount++;
     }
@@ -106,8 +117,7 @@ public class LevelManager : MonoBehaviour {
         Debug.Log("LevelManager :: EndSession() called.");
         // End the game session
         // Perform any cleanup or save data
-        GameStatesEvents.GameSessionEnded?.Invoke();
-        BridgeEvents.FinishedGameCompletingState?.Invoke();
+        BridgeEvents.FinishedGameCompletedState?.Invoke();
     }
 
     private void EnableUnits() {
@@ -185,12 +195,10 @@ public class LevelManager : MonoBehaviour {
                 previousHeights[i] = Mathf.Clamp(previousHeights[i] + 1, 1, 5);
             }
         }
-        Debug.Log("Game");
         return previousHeights;
     }
 
     private int[] AdjustHeightsForFailure(int[] previousHeights, float[] bestYPositions) {
-        Debug.Log("AdjustHeightsForFailure ");
         // Adjust heights to be easier
         for (int i = 0; i < previousHeights.Length; i++) {
             var diffHeight = Mathf.Abs(previousHeights[i] - bestYPositions[i]);

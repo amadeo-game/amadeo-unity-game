@@ -22,7 +22,7 @@ namespace BridgePackage {
 
         private BridgeAnimationManager animationManager;
         private BridgeStateMachine stateMachine;
-        private UnitsControl unitsControl;
+        private UnitsControl _unitsControl;
         // private GameObject _bridgeHolder;
         private GameObject[] _playerUnits;
         private GameObject[] _guideUnits;
@@ -31,8 +31,6 @@ namespace BridgePackage {
         private void OnEnable() {
             BridgeEvents.BuildingState += OnBuildingState;
             stateMachine.OnForceResetBridge += OnForceResetWithHeights;
-
-            BridgeEvents.InGameState += EnableGuideUnits;
             
             BridgeEvents.BridgeCollapsingState += OnBridgeCollapsingState;
             BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
@@ -43,8 +41,6 @@ namespace BridgePackage {
         private void OnDisable() {
             BridgeEvents.BuildingState -= OnBuildingState;
             stateMachine.OnForceResetBridge -= OnForceResetWithHeights;
-
-            BridgeEvents.InGameState -= EnableGuideUnits;
             
             // TODO: Check This events
             BridgeEvents.BridgeCollapsingState -= OnBridgeCollapsingState;
@@ -71,16 +67,19 @@ namespace BridgePackage {
                 Debug.Log("BuildBridge: Existing bridgeHolder destroyed");
             }
             
+            // Build the bridge
             var playerUnitsHeights = BridgeDataManager.Heights;
-
             Bridge.BuildBridgeWithHeights(playerUnitsHeights, bridgeRiseDownOffset);
+            
+            // Set the player units
+            _unitsControl.SetPlayerUnits();
             
             // Fire the FinishedBuildingBridge event
             BridgeEvents.FinishedBuildingBridge?.Invoke();
         }
 
         private void CollectSessionData(bool success) {
-            unitsControl.CollectSessionData(success: success);
+            _unitsControl.CollectSessionData(success: success);
         }
 
 
@@ -88,18 +87,11 @@ namespace BridgePackage {
         private void Awake() {
             animationManager = GetComponent<BridgeAnimationManager>();
             stateMachine = GetComponent<BridgeStateMachine>();
-            unitsControl = GetComponent<UnitsControl>();
+            _unitsControl = GetComponent<UnitsControl>();
 
         }
         
-        private void EnableGuideUnits() {
-            StartCoroutine(EnableGuideUnitsRoutine());
-        }
 
-        private IEnumerator EnableGuideUnitsRoutine() {
-            yield return new WaitForSecondsRealtime(2f);
-            Bridge.EnableGuideUnits();
-        }
 
         // private void BuildBridgeWithHeights() {
         //     BuildBridge();

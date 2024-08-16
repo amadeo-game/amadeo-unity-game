@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,20 +12,34 @@ public class StartEndButtons : MonoBehaviour {
         DisableButtons();
     }
 
-    private void OnEnable() {
-        BridgePackage.BridgeEvents.BridgeReadyState += EnableButtons;
-        BridgePackage.BridgeEvents.StartingGameState += () => {
-            Debug.Log("UI Buttons got notified that the game has started.");
-            start.interactable = false;
-            success.interactable = true;
-            if (guideKeys != null) {
-                guideKeys?.SetActive(true);
-            }
-        };
-        BridgePackage.BridgeEvents.BridgeCollapsingState += DisableButtons;
-        BridgePackage.BridgeEvents.BridgeIsCompletedState += DisableButtons;
-    }
-    
+    // private void OnEnable() {
+    //     BridgePackage.BridgeEvents.BridgeReadyState += EnableButtons;
+    //     BridgePackage.BridgeEvents.StartingGameState += () => {
+    //         Debug.Log("UI Buttons got notified that the game has started.");
+    //         start.interactable = false;
+    //         success.interactable = true;
+    //         if (guideKeys != null) {
+    //             guideKeys?.SetActive(true);
+    //         }
+    //     };
+    //     BridgePackage.BridgeEvents.BridgeCollapsingState += DisableButtons;
+    //     BridgePackage.BridgeEvents.BridgeIsCompletedState += DisableButtons;
+    // }
+    //
+    // private void OnDisable() {
+    //     BridgePackage.BridgeEvents.BridgeReadyState -= EnableButtons;
+    //     BridgePackage.BridgeEvents.StartingGameState -= () => {
+    //         Debug.Log("UI Buttons got notified that the game has started.");
+    //         start.interactable = false;
+    //         success.interactable = true;
+    //         if (guideKeys != null) {
+    //             guideKeys?.SetActive(true);
+    //         }
+    //     };
+    //     BridgePackage.BridgeEvents.BridgeCollapsingState -= DisableButtons;
+    //     BridgePackage.BridgeEvents.BridgeIsCompletedState -= DisableButtons;
+    // }
+
     public void PressedEndGameButton() {
         start.interactable = false;
         end.interactable = false;

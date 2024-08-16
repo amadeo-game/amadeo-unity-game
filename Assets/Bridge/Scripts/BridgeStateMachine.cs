@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace BridgePackage {
     public enum BridgeStates {
@@ -31,6 +32,8 @@ namespace BridgePackage {
         private Dictionary<FingerUnit, bool> _unitPlacementStatus;
 
         private bool _isPaused = false;
+        
+        [SerializeField] private bool _debugMode = false;
 
 
         private void Awake() {
@@ -59,21 +62,34 @@ namespace BridgePackage {
             BridgeEvents.FinishedZeroF += () => ChangeState(BridgeStates.StartingGame);
             BridgeEvents.FinishStartingGameProcess += () => ChangeState(BridgeStates.InGame);
 
-            BridgeEvents.EnableGameInteraction += () => ChangeState(
-                BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
+            
+            // --- Action Events ---
+            BridgeEvents.BuildingBridgeAction += OnBuildBridgeAction;
+            BridgeEvents.EnableGameInteraction += () => {
+                // ChangeState(BridgeStates.InZeroF);
+                // TODO: fix the problem of crashing when we dont want zeroF (in ::UnitsControl :: OnInGameState())
+                Debug.Log("BridgeStateMachine :: EnableGameInteraction called, ZeroF: " + BridgeDataManager.ZeroF);
+                ChangeState(
+                    BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.StartingGame);
+            };
             BridgeEvents.PauseGameAction += () => {
                 _isPaused = true;
                 ChangeState(BridgeStates.Paused);
             };
             BridgeEvents.ResumeGameAction += () => {
                 ChangeState(BridgeStates.InGame);
-                _isPaused = false;
             };
             BridgeEvents.CollapseBridgeAction += ForceCollapseBridge;
-
+            
+            BridgeEvents.RestartGameAction += () => {
+                ChangeState(BridgeStates.Idle);
+            };
+            
+            
+            // --- Animation Events ---
             BridgeEvents.FinishedAnimatingBridgeCollapsingState += () => ChangeState(BridgeStates.GameFailed);
             BridgeEvents.FinishedAnimatingBridgeCompletingState += () => ChangeState(BridgeStates.BridgeCompleted);
-            BridgeEvents.FinishedGameCompletingState += () => ChangeState(BridgeStates.GameWon);
+            BridgeEvents.FinishedGameCompletedState += () => ChangeState(BridgeStates.GameWon);
         }
 
         private void OnDisable() {
@@ -86,18 +102,38 @@ namespace BridgePackage {
             BridgeEvents.FinishedZeroF -= () => ChangeState(BridgeStates.StartingGame);
             BridgeEvents.FinishStartingGameProcess -= () => ChangeState(BridgeStates.InGame);
 
+            // --- Action Events ---
+            BridgeEvents.BuildingBridgeAction -= OnBuildBridgeAction;
             BridgeEvents.EnableGameInteraction -= () => {
-                ChangeState(BridgeStates.InZeroF);
+                // ChangeState(BridgeStates.InZeroF);
                 // TODO: fix the problem of crashing when we dont want zeroF (in ::UnitsControl :: OnInGameState())
-                // ChangeState(
-                //     BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
+                ChangeState(
+                    BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
             };
             BridgeEvents.PauseGameAction -= () => ChangeState(BridgeStates.Paused);
             BridgeEvents.CollapseBridgeAction -= ForceCollapseBridge;
+            
+            BridgeEvents.RestartGameAction -= () => {
+                ChangeState(BridgeStates.Idle);
+            };
 
+            // --- Animation Events ---
             BridgeEvents.FinishedAnimatingBridgeCollapsingState -= () => ChangeState(BridgeStates.GameFailed);
             BridgeEvents.FinishedAnimatingBridgeCompletingState -= () => ChangeState(BridgeStates.BridgeCompleted);
-            BridgeEvents.FinishedGameCompletingState -= () => ChangeState(BridgeStates.GameWon);
+            BridgeEvents.FinishedGameCompletedState -= () => ChangeState(BridgeStates.GameWon);
+        }
+
+        private void OnBuildBridgeAction() {
+            if (BridgeDataManager.Heights.Length != 5) {
+                throw new ArgumentException("unitHeights must have 5 elements.");
+            }
+
+            if (Array.Exists(BridgeDataManager.Heights, height => height < -5 || height > 5)) {
+                throw new ArgumentException("The height of each unit must be between 0 and 5.");
+            }
+
+            Debug.Log("BuildBridge called");
+            StartBuilding();
         }
 
 
@@ -116,19 +152,23 @@ namespace BridgePackage {
         }
 
         private void ChangeState(BridgeStates state) {
+            if (_debugMode) {
+                Debug.Log("BridgeStateMachine :: Changing state from " + currentState + " to " + state);
+            }
             currentState = state;
             switch (state) {
                 case BridgeStates.Idle:
                     BridgeEvents.IdleState?.Invoke();
-                    // BridgeEvents.BridgeStateChanged?.Invoke(BridgeStates.Idle);
                     break;
 
                 case BridgeStates.Building:
                     BridgeEvents.BuildingState?.Invoke();
                     break;
+                
                 case BridgeStates.AnimationBuilding:
                     BridgeEvents.AnimatingBuildingState?.Invoke();
                     break;
+                
                 case BridgeStates.BridgeReady:
                     BridgeEvents.BridgeReadyState?.Invoke();
                     break;
@@ -136,19 +176,19 @@ namespace BridgePackage {
                 case BridgeStates.InZeroF:
                     BridgeEvents.InZeroFState?.Invoke();
                     break;
+                
                 case BridgeStates.StartingGame:
-                    StartCoroutine(StartingGame());
+                    BridgeEvents.StartingGameState?.Invoke();
                     
-                    SetPlayerUnitsDictionary();
-                    //ChangeState(BridgeStates.InGame);
                     break;
+                
                 case BridgeStates.InGame:
                     BridgeEvents.InGameState?.Invoke();
                     if (!_isPaused) {
-                        BridgeEvents.StartingGameState?.Invoke();
+                        SetPlayerUnitsDictionary();
                     }
-
                     StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
+                    _isPaused = false;
                     break;
 
                 case BridgeStates.Paused:
@@ -162,23 +202,29 @@ namespace BridgePackage {
                     BridgeTimer.ResetTimer();
                     ChangeState(BridgeStates.AnimationBridgeCollapsing);
                     break;
+                
                 case BridgeStates.AnimationBridgeCollapsing:
                     BridgeEvents.AnimatingBridgeCollapsingState?.Invoke();
                     break;
+                
                 case BridgeStates.GameFailed:
                     HandleGameWinOrLose(won: false);
                     break;
+                
                 case BridgeStates.BridgeCompleting:
                     BridgeEvents.BridgeCompletingState?.Invoke();
                     BridgeTimer.ResetTimer();
                     ChangeState(BridgeStates.AnimationBridgeCompleting);
                     break;
+                
                 case BridgeStates.AnimationBridgeCompleting:
                     BridgeEvents.AnimatingBridgeCompletingState?.Invoke();
                     break;
+                
                 case BridgeStates.BridgeCompleted:
                     BridgeEvents.BridgeIsCompletedState?.Invoke();
                     break;
+                
                 case BridgeStates.GameWon:
                     Debug.Log("GameWon State Called");
                     HandleGameWinOrLose(won: true);
@@ -197,20 +243,18 @@ namespace BridgePackage {
             else {
                 BridgeEvents.GameFailedState?.Invoke();
             }
-
-            ChangeState(BridgeStates.Idle);
         }
 
         internal IEnumerator StartingGame() {
-            BridgeEvents.StartingGameState?.Invoke();
+            
             // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start)
             yield return new WaitForSecondsRealtime(0f);
             // Play Animation (countdown on Screen)
-            ChangeState(BridgeStates.InGame);
+            
         }
 
         public void StartBuilding() {
-            if (currentState is not (BridgeStates.Idle or BridgeStates.BridgeReady or BridgeStates.GameFailed
+            if (currentState is not (BridgeStates.Idle or BridgeStates.GameFailed
                 or BridgeStates.GameWon)) {
                 return;
             }

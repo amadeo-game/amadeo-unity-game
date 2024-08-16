@@ -17,7 +17,7 @@ namespace BridgePackage {
 
         // Animating the building of the bridge
         public static Action AnimatingBuildingState;
-        
+
         // Bridge is ready to be played
         public static Action BridgeReadyState;
 
@@ -88,12 +88,15 @@ namespace BridgePackage {
         public static Action FinishedAnimatingBridgeCompletingState;
 
         // ---- Game Over Return Events ----
-        public static Action FinishedGameCompletingState;
+        public static Action FinishedGameCompletedState;
         public static Action FinishedGameFailedState;
 
 
         // ---- Mid-Game Interaction Events ----
 
+        // 
+        public static Action BuildingBridgeAction;
+            
         // Enable the guide units
         public static Action EnableGameInteraction;
         
@@ -105,5 +108,8 @@ namespace BridgePackage {
 
         // Initiate collapsing the bridge
         public static Action CollapseBridgeAction;
+        
+        // Restart the game
+        public static Action RestartGameAction;
     }
 }
