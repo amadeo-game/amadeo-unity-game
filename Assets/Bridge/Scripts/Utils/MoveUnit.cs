@@ -79,7 +79,7 @@ namespace BridgePackage {
         }
 
         private void OnForcesUpdated(float[] forces) {
-            var height = forces[_fingerIndex];
+            var height = forces[_fingerIndex]; // There is a fixed size of total 5 units, so forces is always of size 5
 
 
             // Add new value to the queue and update the running sum
@@ -96,25 +96,10 @@ namespace BridgePackage {
             // Calculate the average height from the queue
             float averageHeight = _sum / _queueSize;
 
-            //_height = Mathf.Clamp(averageHeight, -5, 5);
             _height = averageHeight;
-
-            // Adjust _height based on MvcF and MvcE
-            //if (_height < averageHeight) {
-            //    _height = Math.Max(-5, (averageHeight)); ;
-            //}
-            //else if (_height > averageHeight) {
-            //    _height = Math.Min(5,(averageHeight));
-            //}
-            //Debug.Log("Height is " + _height);
-            //Debug.Log("Flextion MVC: " + MvcF + "(averageHeight * 5 / MvcF) :: " + (averageHeight * 5 / MvcF));
-            //Debug.Log("MVCF is : " + MvcF);
-
-            // Debug.Log(" Forces updated for " + _fingerUnit + " with height " + _height);
+            
             ApplyForce();
             _setBestHeight(_height);
-
-            // 20 / x = 5
         }
 
         /// <summary>
@@ -129,24 +114,6 @@ namespace BridgePackage {
             }
         }
 
-        // private void FixedUpdate() {
-        //     if (_controlEnabled) {
-        //         if (_heightChanged) {
-        //             ApplyForce();
-        //         }
-        //     }
-        // }
-
-        // internal void SetControl(bool controlEnabled, bool resetPos = true, float goToHeight = 0f) {
-        //     _controlEnabled = controlEnabled;
-        //     if (!controlEnabled) {
-        //         _height = goToHeight;
-        //         if (resetPos) {
-        //             ApplyForce();
-        //         }
-        //     }
-        // }
-        
         internal void SetControl(bool controlEnabled) {
             _controlEnabled = controlEnabled;
         }
