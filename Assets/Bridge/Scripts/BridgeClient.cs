@@ -188,7 +188,8 @@ namespace BridgePackage {
             try {
                 _udpClient = new UdpClient(_port); // Listen for data on port (should be 4444)
                 // you can use this to store and use specific endpoint
-                _remoteEndPoint = new IPEndPoint(IPAddress.Any, 0); // Placeholder for any remote endpoint
+             
+                _remoteEndPoint = new IPEndPoint(IPAddress.Parse("10.100.4.30"), 0); // Placeholder for any remote endpoint
             }
             catch (Exception ex) {
                 Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
