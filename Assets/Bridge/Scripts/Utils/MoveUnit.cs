@@ -68,7 +68,9 @@ namespace BridgePackage {
         
         internal void OnForcesUpdated(float force) {
             // Add new value to the queue and update the running sum
-
+            if (!_controlEnabled) {
+                return;
+            }
             _heightQueue.Enqueue(force);
             _sum += force;
 
@@ -117,8 +119,6 @@ namespace BridgePackage {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (_controlEnabled) { }
-
             BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
         }
 

@@ -445,6 +445,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1110752615264533323, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: _graceGrowthRate
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1501635421118347312, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: _debug
       value: 1
@@ -1182,6 +1186,10 @@ PrefabInstance:
       value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: successAnimDuration
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: collapseAnimDuration
       value: 0.01
       objectReference: {fileID: 0}
@@ -1230,9 +1238,7 @@ PrefabInstance:
       value: BridgeGenerator
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 5236456366724980912, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
-    - {fileID: 8619089270259660289, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
-    - {fileID: 2260458259387714533, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

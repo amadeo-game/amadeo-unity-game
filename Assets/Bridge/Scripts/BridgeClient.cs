@@ -252,10 +252,10 @@ namespace BridgePackage {
                     if (_debug)
                     {
                         Debug.Log($"Received data: {receivedData}");
-                        Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
                     }
 
                     HandleReceivedData(ParseDataFromAmadeo(receivedData));
+                    Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
                     stopwatch.Reset();
                 }
                 catch (OperationCanceledException)
@@ -270,50 +270,6 @@ namespace BridgePackage {
                 }
             }
         }
-
-        
-        // private async void ReceiveDataAmadeo(CancellationToken cancellationToken)
-        // {
-        //     Debug.Log("Receive Data from Amadeo");
-        //     while (_isReceiving && !cancellationToken.IsCancellationRequested)
-        //     {
-        //         try
-        //         {
-        //             UdpReceiveResult result = await _udpClient.ReceiveAsync();
-        //             string receivedData = Encoding.ASCII.GetString(result.Buffer);
-        //
-        //             if (_debug)
-        //             {
-        //                 Debug.Log($"Received data: {receivedData}");
-        //             }
-        //
-        //             // Offload heavy processing to a job if necessary
-        //             ProcessReceivedData(receivedData);
-        //         }
-        //         catch (OperationCanceledException)
-        //         {
-        //             Debug.Log("Data reception was canceled.");
-        //             break;
-        //         }
-        //         catch (Exception ex)
-        //         {
-        //             Debug.LogError($"Exception in ReceiveData: {ex.Message}");
-        //             break;
-        //         }
-        //     }
-        // }
-        //
-        // private void ProcessReceivedData(string data)
-        // {
-        //     // Simple processing on main thread, or schedule a job for heavy processing
-        //     var job = new ProcessDataJob { RawData = data };
-        //     JobHandle handle = job.Schedule();
-        //     handle.Complete();
-        //
-        //     // Apply processed data
-        //     ApplyProcessedData(job.Result);
-        // }
-
 
 
         private async void HandleIncomingDataFileMode(CancellationToken cancellationToken) {
