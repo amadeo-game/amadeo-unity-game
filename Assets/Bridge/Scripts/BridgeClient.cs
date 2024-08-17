@@ -12,6 +12,7 @@ using UnityEngine;
 using Unity.Collections;
 using UnityEngine.InputSystem;
 using Debug = UnityEngine.Debug;
+using UnityEditor.Experimental.GraphView;
 
 
 public enum InputType {
@@ -190,6 +191,8 @@ namespace BridgePackage {
                 // you can use this to store and use specific endpoint
              
                 _remoteEndPoint = new IPEndPoint(IPAddress.Parse("10.100.4.30"), 0); // Placeholder for any remote endpoint
+                                                                                     // Start receiving data asynchronously
+                _udpClient.BeginReceive(ReceiveDataCallback, null);
             }
             catch (Exception ex) {
                 Debug.LogError($"Failed to initialize UdpClient: {ex.Message}");
@@ -217,6 +220,7 @@ namespace BridgePackage {
 
         private void StartReceiveData() {
             _isReceiving = true;
+            
             if (inputType == InputType.FileMode) {
                 if (_debug) {
                     Debug.Log("StartReceiveData :: FileMode mode is true. Listening to data from demo file...");
@@ -236,7 +240,7 @@ namespace BridgePackage {
                     Debug.Log("StartReceiveData :: Amadeo mode is true. Listening to data from Amadeo device...");
                 }
 
-                ReceiveDataAmadeo(_cancellationTokenSource.Token);
+                //ReceiveDataAmadeo(_cancellationTokenSource.Token);
             }
         }
 
@@ -255,6 +259,41 @@ namespace BridgePackage {
                 _forces[i] = 0; // math.zero() returns 0
             }
         }
+
+        private void ReceiveDataCallback(IAsyncResult ar)
+        {
+            Debug.Log("Receive Data from Amadeo");
+            //Stopwatch stopwatch = new Stopwatch();
+            try
+            {
+                Debug.Log("Receove ------------------------------");
+               // stopwatch.Start();
+                byte[] receivedBytes = _udpClient.EndReceive(ar, ref _remoteEndPoint);
+                string receivedData = Encoding.ASCII.GetString(receivedBytes);
+                //stopwatch.Stop();
+
+                if (_debug)
+                {
+                    Debug.Log($"Received data: {receivedData}");
+                }
+
+                HandleReceivedData(ParseDataFromAmadeo(receivedData));
+                //Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
+                //stopwatch.Reset();
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.Log("Data reception was canceled.");
+               
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Exception in ReceiveData: {ex.Message}");
+            }
+            _udpClient.BeginReceive(ReceiveDataCallback, null);
+        }
+
+
 
         private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
             Debug.Log("Receive Data from Amadeo");
@@ -323,7 +362,7 @@ namespace BridgePackage {
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
 
-            Debug.Log($"Data received at: {Time.time}");
+            //Debug.Log($"Data received at: {Time.time}");
             // // Parse the forces from the received data, str length is 11
             // strForces.Select(str =>
             //         float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
