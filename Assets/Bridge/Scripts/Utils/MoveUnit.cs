@@ -73,7 +73,6 @@ namespace BridgePackage {
                 return;
             }
 
-            force = Mathf.Clamp(force, -5.0f, 5.0f);
             
             // Subtract the old value from the sum and add the new force
             _sum -= _heightBuffer[_currentIndex];

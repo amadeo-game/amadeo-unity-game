@@ -77,16 +77,23 @@ namespace BridgePackage {
 
         private void GetForcesFromInput() {
             if (_useInputSystem) {
+ 
+                //
+                //
                 _forces[0] += Finger1.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
                 _forces[1] += Finger2.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
                 _forces[2] += Finger3.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
                 _forces[3] += Finger4.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
                 _forces[4] += Finger5.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                for (int i = 0; i < _forces.Length; i++) {
+                    _forces[i] = Mathf.Clamp(_forces[i], -5.0f, 5.0f);
+                }
 
                 // Debug.Log("Input System Forces: " + string.Join(", ", _forces));
                 _unitsControl.OnForcesUpdated(_forces);
             }
         }
+
 
         private void FixedUpdate() {
             if (_dataReceived) {
@@ -322,12 +329,13 @@ namespace BridgePackage {
             //     .Skip(strForces.Length - 5) // Skip to the last 5 elements
             //     .ToArray()
             //     .CopyTo(_forces, 0); // Copy to test array starting at index 0
-            
+
             // Assuming strForces is a string array with at least 11 elements
-            for (int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 // Parse the last 5 elements from strForces and assign them to _forces
-                _forces[i] = float.Parse(strForces[strForces.Length - 5 + i].Replace(",", "."), CultureInfo.InvariantCulture);
+                float force = float.Parse(strForces[strForces.Length - 5 + i].Replace(",", "."),
+                    CultureInfo.InvariantCulture);
+                _forces[i] = Mathf.Clamp(force, -5.0f, 5.0f);
             }
 
 
