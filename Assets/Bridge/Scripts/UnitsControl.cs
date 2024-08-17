@@ -65,7 +65,7 @@ namespace BridgePackage {
         }
 
         private IEnumerator EnableGuideUnitsRoutine() {
-            yield return new WaitForSecondsRealtime(2f);
+            yield return new WaitForSecondsRealtime(1f);
             Bridge.EnableGuideUnits();
             BridgeEvents.FinishStartingGameProcess?.Invoke();
         }

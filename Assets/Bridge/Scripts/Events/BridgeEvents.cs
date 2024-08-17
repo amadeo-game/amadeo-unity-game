@@ -62,7 +62,7 @@ namespace BridgePackage {
         internal static Action<int, float> MvcFlexionUpdated;
         internal static Action<int, float> UnitGraceUpdated;
 
-        
+        public static Action<int> CountDown;
         public static Action<BridgeData> OnBridgeDataUpdated;
 
         // ---- RETURN EVENTS ----

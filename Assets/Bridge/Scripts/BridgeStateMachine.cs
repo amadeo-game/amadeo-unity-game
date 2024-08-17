@@ -42,11 +42,11 @@ namespace BridgePackage {
 
         private void SetPlayerUnitsDictionary() {
             _unitPlacementStatus = new Dictionary<FingerUnit, bool> {
-                { FingerUnit.First, !BridgeDataManager.PlayableUnits[0] },
-                { FingerUnit.Second, !BridgeDataManager.PlayableUnits[1] },
-                { FingerUnit.Third, !BridgeDataManager.PlayableUnits[2] },
-                { FingerUnit.Fourth, !BridgeDataManager.PlayableUnits[3] },
-                { FingerUnit.Fifth, !BridgeDataManager.PlayableUnits[4] }
+                { FingerUnit.First, BridgeDataManager.PlayableUnits[0] == false || BridgeDataManager.Heights[0] == 0 },
+                { FingerUnit.Second, BridgeDataManager.PlayableUnits[1] == false || BridgeDataManager.Heights[1] == 0 },
+                { FingerUnit.Third, BridgeDataManager.PlayableUnits[2] == false || BridgeDataManager.Heights[2] == 0 },
+                { FingerUnit.Fourth, BridgeDataManager.PlayableUnits[3] == false || BridgeDataManager.Heights[3] == 0 },
+                { FingerUnit.Fifth, BridgeDataManager.PlayableUnits[4] == false || BridgeDataManager.Heights[4] == 0 }
             };
         }
 
@@ -183,11 +183,10 @@ namespace BridgePackage {
                     break;
                 
                 case BridgeStates.InGame:
-                    BridgeEvents.InGameState?.Invoke();
+                    StartCoroutine( StartingGame() );
                     if (!_isPaused) {
                         SetPlayerUnitsDictionary();
                     }
-                    StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
                     _isPaused = false;
                     break;
 
@@ -246,11 +245,14 @@ namespace BridgePackage {
         }
 
         internal IEnumerator StartingGame() {
-            
-            // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start)
-            yield return new WaitForSecondsRealtime(0f);
-            // Play Animation (countdown on Screen)
-            
+            // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start), and update the UI with the countdown
+            for (int i = 3; i >= 0; i--) {
+                // Play Animation (countdown on Screen)
+                BridgeEvents.CountDown?.Invoke(i);
+                yield return new WaitForSecondsRealtime(1);
+            }
+            StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
+            BridgeEvents.InGameState?.Invoke();
         }
 
         public void StartBuilding() {

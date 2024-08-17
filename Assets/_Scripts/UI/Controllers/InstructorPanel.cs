@@ -154,7 +154,6 @@ public class InstructorPanel : MonoBehaviour {
 
     private void OnStartingGameState() {
         SetInteractability(_resumeSessionButton, false);
-
     }
 
     private void OnInGameState() {
