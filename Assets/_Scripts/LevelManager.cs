@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using BridgePackage;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,6 +8,7 @@ using Random = UnityEngine.Random;
 public class LevelManager : MonoBehaviour {
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
 
+    [SerializeField] private float _timeBetweenSessions = 1f;
     [FormerlySerializedAs("sessionManager")] [SerializeField]
     private BridgeDataManager _bridgeDataManager;
 
@@ -25,6 +27,7 @@ public class LevelManager : MonoBehaviour {
 
         BridgeEvents.BridgeIsCompletedState += OnSessionEnd;
         BridgeEvents.GameWonState += PrepareNextSession;
+        BridgeEvents.GameFailedState += PrepareNextSession;
 
         BridgeEvents.IdleState += StartNextSession;
 
@@ -34,8 +37,17 @@ public class LevelManager : MonoBehaviour {
 
     private void PrepareNextSession() {
         InitializeSession();
-        BridgeEvents.RestartGameAction?.Invoke();
+        StartCoroutine(RestartGameAfterDelay());
     }
+    
+    // coroutine to wait a little bit before starting the next session
+    
+    IEnumerator RestartGameAfterDelay() {
+        yield return new WaitForSeconds(_timeBetweenSessions);
+        BridgeEvents.RestartGameAction?.Invoke();
+        yield return null;
+    }
+    
 
     private void OnDisable()
     {
@@ -43,6 +55,8 @@ public class LevelManager : MonoBehaviour {
         BridgeEvents.BridgeReadyState -= EnableUnits;
         BridgeEvents.IdleState -= StartNextSession;
         BridgeEvents.GameWonState -= PrepareNextSession;
+        BridgeEvents.GameFailedState += PrepareNextSession;
+
         BridgeEvents.BridgeIsCompletedState -= OnSessionEnd;
 
     }

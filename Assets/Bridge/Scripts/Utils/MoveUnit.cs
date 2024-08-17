@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.Serialization;
 
 namespace BridgePackage {
@@ -29,24 +28,23 @@ namespace BridgePackage {
 
         private float _height;
 
-        private float _bestHeight = 0f;
+
 
         private bool _isFlexion;
+        private bool _isRbNotNull;
 
-        delegate void SetBestHeight(float height);
-
-        SetBestHeight _setBestHeight;
-
-        public float BestHeight => _bestHeight;
 
         private void Awake() {
+     
             // Cache the Rigidbody2D component at the start
             _rb = GetComponent<Rigidbody2D>();
+
             Collider = GetComponent<BoxCollider2D>();
             if (_rb == null) {
+                
                 Debug.LogError("Rigidbody2D component not found on " + gameObject.name);
             }
-
+            _isRbNotNull = true;
             if (Collider == null) {
                 Debug.LogError("BoxCollider2D component not found on " + gameObject.name);
             }
@@ -55,9 +53,7 @@ namespace BridgePackage {
 
             MvcE = BridgeDataManager.MvcValuesExtension[_fingerIndex];
             MvcF = BridgeDataManager.MvcValuesFlexion[_fingerIndex];
-            _setBestHeight = _isFlexion
-                ? height => _bestHeight = Mathf.Min(_height, _bestHeight)
-                : height => _bestHeight = Mathf.Max(_height, _bestHeight);
+
 
             // Initialize the queue with zeros
             //for (int i = 0; i < _queueSize; i++) {
@@ -69,27 +65,17 @@ namespace BridgePackage {
             _fingerUnit = unit;
             _fingerIndex = index;
         }
-
-        private void OnEnable() {
-            BridgeEvents.ForcesUpdated += OnForcesUpdated;
-        }
-
-        private void OnDisable() {
-            BridgeEvents.ForcesUpdated -= OnForcesUpdated;
-        }
-
-        private void OnForcesUpdated(float[] forces) {
-            var height = forces[_fingerIndex]; // There is a fixed size of total 5 units, so forces is always of size 5
-
-
+        
+        internal void OnForcesUpdated(float force) {
             // Add new value to the queue and update the running sum
+            if (!_controlEnabled) {
+                return;
+            }
+            _heightQueue.Enqueue(force);
+            _sum += force;
 
-            _heightQueue.Enqueue(height);
-            _sum += height;
-               
- 
-            if (_heightQueue.Count > _queueSize)
-            {
+
+            if (_heightQueue.Count > _queueSize) {
                 _sum -= _heightQueue.Dequeue();
             }
 
@@ -97,27 +83,28 @@ namespace BridgePackage {
             float averageHeight = _sum / _queueSize;
 
             _height = averageHeight;
+
+            MoveUnitPosition();
             
-            ApplyForce();
-            _setBestHeight(_height);
         }
 
         /// <summary>
         /// Applies the specified force to the unit.
         /// </summary>
         /// <param name="force">Force to apply.</param>
-        internal void ApplyForce() {
-            if (_rb != null) {
+        private void MoveUnitPosition() {
+            if (_isRbNotNull) {
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
                 // Debug.Log("applying force :: " + _height);
                 _rb.MovePosition(targetPosition);
+                // Debug.Log($"Unit moved at: {Time.time} to position: {targetPosition}");
             }
         }
 
         internal void SetControl(bool controlEnabled) {
             _controlEnabled = controlEnabled;
         }
-        
+
         internal void ResetPosition() {
             _height = 0;
             var transform1 = transform;
@@ -125,17 +112,14 @@ namespace BridgePackage {
             transform1.position = targetPosition;
             // ApplyForce();
         }
-        
+
         internal void ConnectToBridge() {
             _height = BridgeDataManager.Heights[_fingerIndex];
-            ApplyForce();
+            MoveUnitPosition();
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            if (_controlEnabled) {
-            }
             BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
-
         }
 
         private void OnTriggerExit2D(Collider2D other) {

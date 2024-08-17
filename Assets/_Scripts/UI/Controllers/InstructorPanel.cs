@@ -109,6 +109,7 @@ public class InstructorPanel : MonoBehaviour {
     private void OnGameFailedState() {
         SetVisibility(_endPauseButtons, false);
         SetVisibility(_startSessionButton, true);
+        SetInteractability(_preGameConfigs, true);
         SetInteractability(_startSessionButton, true);
     }
 
@@ -116,6 +117,7 @@ public class InstructorPanel : MonoBehaviour {
     {
         SetVisibility(_endPauseButtons, false);
         SetVisibility(_startSessionButton, true);
+        SetInteractability(_preGameConfigs, true);
         SetInteractability(_startSessionButton, true);
     }
 
@@ -152,7 +154,6 @@ public class InstructorPanel : MonoBehaviour {
 
     private void OnStartingGameState() {
         SetInteractability(_resumeSessionButton, false);
-
     }
 
     private void OnInGameState() {

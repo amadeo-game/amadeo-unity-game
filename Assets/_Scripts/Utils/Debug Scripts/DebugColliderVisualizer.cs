@@ -23,19 +23,19 @@ public class DebugColliderVisualizer : MonoBehaviour {
         }
     }
 
-    private void OnDrawGizmosSelected() {
-        // Optional: Visualize only when selected in the Editor
-        if (DebugSettings.DebugModeEnabled) {
-            DrawColliderGizmos();
-        }
-    }
+    // private void OnDrawGizmosSelected() {
+    //     // Optional: Visualize only when selected in the Editor
+    //     if (DebugSettings.DebugModeEnabled) {
+    //         DrawColliderGizmos();
+    //     }
+    // }
 
-    private void OnRenderObject() {
-        // This will visualize in both the Editor and the Build
-        if (DebugSettings.DebugModeEnabled) {
-            DrawColliderGizmos();
-        }
-    }
+    // private void OnRenderObject() {
+    //     // This will visualize in both the Editor and the Build
+    //     if (DebugSettings.DebugModeEnabled) {
+    //         DrawColliderGizmos();
+    //     }
+    // }
 
     private void DrawColliderGizmos() {
         // For 2D colliders
