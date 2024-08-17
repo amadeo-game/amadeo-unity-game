@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using BridgePackage;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,19 +11,21 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
 
     [SerializeField] private float _timeBetweenSessions = 1f;
-    [FormerlySerializedAs("sessionManager")] [SerializeField]
-    private BridgeDataManager _bridgeDataManager;
 
+    // [FormerlySerializedAs("sessionManager")] [SerializeField]
+    //
+    //
+    // private BridgeDataManager _bridgeDataManager;
+    [SerializeField] bool[] _playableUnits = new bool[5];
     [SerializeReference] bool useDynamicDifficulty = false;
     private int levelIndex { get; set; } = 1;
     private int sessionCount { get; set; } = 0;
-    
+
     [SerializeField] private int _sessionsPerLevel = 3;
 
     private bool GameEnded { get; set; } = false;
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         // GameStatesEvents.GameSessionInitialized += StartSession;
         BridgeEvents.BridgeReadyState += EnableUnits;
 
@@ -30,27 +34,24 @@ public class LevelManager : MonoBehaviour {
         BridgeEvents.GameFailedState += PrepareNextSession;
 
         BridgeEvents.IdleState += StartNextSession;
-
     }
-
 
 
     private void PrepareNextSession() {
         InitializeSession();
         StartCoroutine(RestartGameAfterDelay());
     }
-    
+
     // coroutine to wait a little bit before starting the next session
-    
+
     IEnumerator RestartGameAfterDelay() {
         yield return new WaitForSeconds(_timeBetweenSessions);
         BridgeEvents.RestartGameAction?.Invoke();
         yield return null;
     }
-    
 
-    private void OnDisable()
-    {
+
+    private void OnDisable() {
         // GameStatesEvents.GameSessionInitialized -= StartSession;
         BridgeEvents.BridgeReadyState -= EnableUnits;
         BridgeEvents.IdleState -= StartNextSession;
@@ -58,7 +59,6 @@ public class LevelManager : MonoBehaviour {
         BridgeEvents.GameFailedState += PrepareNextSession;
 
         BridgeEvents.BridgeIsCompletedState -= OnSessionEnd;
-
     }
 
 
@@ -67,12 +67,13 @@ public class LevelManager : MonoBehaviour {
             return;
         }
 
+        _playableUnits = BridgeDataManager.PlayableUnits;
         Debug.Log("LevelManager :: SetupNewLevel() called.");
         // Initialize the new game session
-        
+
         // 3 sessions per level, then move to the next level
         // level cannot be higher than the number of BridgeTypes - 1
-        
+
         if (sessionCount > _sessionsPerLevel) {
             levelIndex++;
             sessionCount = 0;
@@ -82,7 +83,7 @@ public class LevelManager : MonoBehaviour {
                 return;
             }
         }
-        
+
         BridgeDataManager.SetLevel(levelIndex);
         if (useDynamicDifficulty && sessionCount > 0) {
             // Adjust the difficulty based on the previous session data
@@ -96,9 +97,8 @@ public class LevelManager : MonoBehaviour {
             BridgeDataManager.SetMvcValuesExtension(GetMvcValuesExtension());
             BridgeDataManager.SetMvcValuesFlexion(GetMVCValuesFlexion());
             // BridgeDataManager.SetPlayableUnits(GetPlayableUnits());
-            
         }
-        
+
         sessionCount++;
     }
 
@@ -111,6 +111,7 @@ public class LevelManager : MonoBehaviour {
             Debug.Log("LevelManager :: GameEnded, no more levels to play.");
             return;
         }
+
         Debug.Log("LevelManager :: StartNextSession() called.");
         StartSession();
     }
@@ -153,23 +154,34 @@ public class LevelManager : MonoBehaviour {
         // Adjust the difficulty based on the session data
         // For example, modify the heights or time duration based on performance
         // This example increases the height range and reduces the time if the player succeeded
-        if (sessionData.success) {
-            var adjustedHeights = AdjustHeightsForSuccess(sessionData.heights);
-            BridgeDataManager.SetHeights(adjustedHeights);
-        }
-        else {
-            var adjustedHeights = AdjustHeightsForFailure(sessionData.heights, sessionData.BestYPositions);
-            BridgeDataManager.SetHeights(adjustedHeights);
-            BridgeDataManager.SetTimeDuration(BridgeDataManager.TimeDuration *
-                                              1.1f); // Increase the time slightly for less challenge
-            // increase 1 more unit to each grace
-            var adjustedGrace = new float[5];
-            for (int i = 0; i < adjustedGrace.Length; i++) {
-                adjustedGrace[i] = BridgeDataManager.UnitsGrace[i] + 1;
+        var adjustedHeights = ApplyDynamicHeight(sessionData.heights, sessionData.success, sessionData.BestYPositions);
+        float[] graces = BridgeDataManager.UnitsGrace;
+        for (int i = 0; i < graces.Length; i++) {
+            float newGrace;
+            if (sessionData.success) {
+                newGrace = Mathf.Min(1, graces[i] - 1);
             }
-            
-            BridgeDataManager.SetUnitsGrace(adjustedGrace);
+            else {
+                newGrace = Mathf.Max(4, graces[i] + 1);
+            }
+
+            BridgeDataManager.SetUnitsGrace(i, newGrace);
         }
+
+        // else {
+        //     // var adjustedHeights = AdjustHeightsForFailure(sessionData.heights, sessionData.BestYPositions);
+        //     BridgeDataManager.SetHeights(adjustedHeights);
+        //     BridgeDataManager.SetTimeDuration(BridgeDataManager.TimeDuration *
+        //                                       1.1f); // Increase the time slightly for less challenge
+        //     // increase 1 more unit to each grace
+        //     var adjustedGrace = new float[5];
+        //     for (int i = 0; i < adjustedGrace.Length; i++) {
+        //         adjustedGrace[i] = BridgeDataManager.UnitsGrace[i] + 1;
+        //     }
+
+
+        BridgeDataManager.SetHeights(adjustedHeights);
+        BridgeDataManager.SetPlayableUnits(_playableUnits);
     }
 
     private int[] AssignRandomHeights() {
@@ -211,28 +223,75 @@ public class LevelManager : MonoBehaviour {
         return new bool[] { true, true, true, true, true }; // Example
     }
 
-    private int[] AdjustHeightsForSuccess(int[] previousHeights) {
-        int changeFinger = (int)(Random.Range(0f, 4.9f));// TODO: Write better
-        // Adjust heights to be more challenging
-        for (int i = 0; i < previousHeights.Length; i++) {
-            if (BridgeDataManager.PlayableUnits[i])
-            {
-                previousHeights[i] = Mathf.Clamp(previousHeights[i] + 1, 1, 5);
+    private int[] ApplyDynamicHeight(int[] previousHeights, bool success, float[] bestYPosition) {
+        // random number between 1 and 5
+        float[] mvcs = BridgeDataManager.IsFlexion
+            ? BridgeDataManager.MvcValuesFlexion
+            : BridgeDataManager.MvcValuesExtension;
+        // MVC is BridgeDataManager
+        // only the playable units i will be adjusted, 50% chance to be increase by 1 if the unit is less then min(5 ,(int)(mvcs[i]/5))
+        // for the rest of the units, they will be placed randomly between 0 and 5, because they are not playable
+        int maxSimultaneousUnits = (levelIndex / 3)+1;
+
+        // take only the number of maxSimultaneousUnits and choose randomly which finger to active and the rest turn off in playableUnits
+        // int unitToActive = Random.Range(0, 5);
+
+        // choose maxSimultaneousUnits random numbers between 0 and 5 and turn them on in playableUnits, the rest turn off
+
+        HashSet<int> unitsToActive = new HashSet<int>();
+        for (int i = 0; i < maxSimultaneousUnits; i++) {
+            var unit = Random.Range(0, 5);
+            int tries = 0;
+            while (unitsToActive.Contains(unit) || tries < 5) {
+                tries++;
+            }
+
+            unitsToActive.Add(unit);
+        }
+
+        for (int i = 0; i < _playableUnits.Length; i++) {
+            _playableUnits[i] = false;
+        }
+
+        foreach (var unit in unitsToActive) {
+            _playableUnits[unit] = true;
+        }
+        Debug.Log("LevelManager :: playableUnits " + string.Join(",", _playableUnits));
+
+        if (success) {
+            // Adjust heights to be harder
+            for (int i = 0; i < previousHeights.Length; i++) {
+                if (_playableUnits[i]) {
+                    if (Random.Range(0, 2) == 1) {
+                        previousHeights[i] = Mathf.Min(previousHeights[i]+1, Mathf.Min(5, (int)(mvcs[i] / 5) + 1));
+                    }
+                }
+                else {
+                    previousHeights[i] = Random.Range(0, 6);
+                }
             }
         }
+        else {
+            // Adjust heights to be easier
+            for (int i = 0; i < previousHeights.Length; i++) {
+                if (_playableUnits[i]) {
+                    if (Random.Range(0, 2) == 1) {
+                        previousHeights[i] = Mathf.Max(1, previousHeights[i] - 1);
+                    }
+                }
+                else {
+                    previousHeights[i] = Random.Range(0, 6);
+                }
+            }
+        }
+
         return previousHeights;
     }
 
-    private int[] AdjustHeightsForFailure(int[] previousHeights, float[] bestYPositions) {
-        // Adjust heights to be easier
-        for (int i = 0; i < previousHeights.Length; i++) {
-            var diffHeight = Mathf.Abs(previousHeights[i] - bestYPositions[i]);
-            if (diffHeight > 0) {
-                previousHeights[i] = Mathf.Clamp(previousHeights[i] - 1, 1, 5);
-            }
-        }
-        return previousHeights;
-    }
+    // private int[] AdjustHeightsForFailure(int[] previousHeights, float[] bestYPositions) {
+    //     
+    //     return previousHeights;
+    // }
 
     public void ResumeSession() {
         Debug.Log("LevelManager :: ResumeSession() called.");
@@ -240,7 +299,7 @@ public class LevelManager : MonoBehaviour {
         // Retrieve the saved data and resume the game
         BridgeEvents.ResumeGameAction?.Invoke();
     }
-    
+
 //     // Retrieve or generate new parameters for the game
 //
 //     if (sessionCount > 2) {
