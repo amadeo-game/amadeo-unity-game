@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private BridgeCollectionSO bridgeCollectionSO;
 
     [SerializeField] private float _timeBetweenSessions = 1f;
+    [SerializeField] private bool _allowFingerChange = false;
 
     // [FormerlySerializedAs("sessionManager")] [SerializeField]
     //
@@ -231,31 +232,34 @@ public class LevelManager : MonoBehaviour {
         // MVC is BridgeDataManager
         // only the playable units i will be adjusted, 50% chance to be increase by 1 if the unit is less then min(5 ,(int)(mvcs[i]/5))
         // for the rest of the units, they will be placed randomly between 0 and 5, because they are not playable
-        int maxSimultaneousUnits = (levelIndex / 3)+1;
+        int maxSimultaneousUnits = (levelIndex / 3) + 1;
 
         // take only the number of maxSimultaneousUnits and choose randomly which finger to active and the rest turn off in playableUnits
         // int unitToActive = Random.Range(0, 5);
 
         // choose maxSimultaneousUnits random numbers between 0 and 5 and turn them on in playableUnits, the rest turn off
 
-        HashSet<int> unitsToActive = new HashSet<int>();
-        for (int i = 0; i < maxSimultaneousUnits; i++) {
-            var unit = Random.Range(0, 5);
-            int tries = 0;
-            while (unitsToActive.Contains(unit) || tries < 5) {
-                tries++;
+        if (_allowFingerChange) {
+            HashSet<int> unitsToActive = new HashSet<int>();
+            for (int i = 0; i < maxSimultaneousUnits; i++) {
+                var unit = Random.Range(0, 5);
+                int tries = 0;
+                while (unitsToActive.Contains(unit) || tries < 5) {
+                    tries++;
+                }
+
+                unitsToActive.Add(unit);
             }
 
-            unitsToActive.Add(unit);
+            for (int i = 0; i < _playableUnits.Length; i++) {
+                _playableUnits[i] = false;
+            }
+
+            foreach (var unit in unitsToActive) {
+                _playableUnits[unit] = true;
+            }
         }
 
-        for (int i = 0; i < _playableUnits.Length; i++) {
-            _playableUnits[i] = false;
-        }
-
-        foreach (var unit in unitsToActive) {
-            _playableUnits[unit] = true;
-        }
         Debug.Log("LevelManager :: playableUnits " + string.Join(",", _playableUnits));
 
         if (success) {
@@ -263,7 +267,10 @@ public class LevelManager : MonoBehaviour {
             for (int i = 0; i < previousHeights.Length; i++) {
                 if (_playableUnits[i]) {
                     if (Random.Range(0, 2) == 1) {
-                        previousHeights[i] = Mathf.Min(previousHeights[i]+1, Mathf.Min(5, (int)(mvcs[i] / 5) + 1));
+                        previousHeights[i] = Mathf.Min(previousHeights[i] + 1, Mathf.Min(5, (int)(mvcs[i] / 5) + 1));
+                    }
+                    else {
+                        previousHeights[i] = Mathf.Max(previousHeights[i], 1);
                     }
                 }
                 else {
@@ -275,9 +282,7 @@ public class LevelManager : MonoBehaviour {
             // Adjust heights to be easier
             for (int i = 0; i < previousHeights.Length; i++) {
                 if (_playableUnits[i]) {
-                    if (Random.Range(0, 2) == 1) {
-                        previousHeights[i] = Mathf.Max(1, previousHeights[i] - 1);
-                    }
+                    previousHeights[i] = Mathf.Max(1, previousHeights[i] - 1);
                 }
                 else {
                     previousHeights[i] = Random.Range(0, 6);
@@ -287,11 +292,6 @@ public class LevelManager : MonoBehaviour {
 
         return previousHeights;
     }
-
-    // private int[] AdjustHeightsForFailure(int[] previousHeights, float[] bestYPositions) {
-    //     
-    //     return previousHeights;
-    // }
 
     public void ResumeSession() {
         Debug.Log("LevelManager :: ResumeSession() called.");
