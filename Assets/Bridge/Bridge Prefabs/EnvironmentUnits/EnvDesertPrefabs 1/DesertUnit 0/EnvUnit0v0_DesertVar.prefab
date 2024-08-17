@@ -32,9 +32,13 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 668367842332855738, guid: 742d17f0d1a3a8344a232731101c4857, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6311200769638851662, guid: 742d17f0d1a3a8344a232731101c4857, type: 3}
       propertyPath: m_Name
-      value: EnvUnit0v0_woodenVar
+      value: EnvUnit0v0_DesertVar
       objectReference: {fileID: 0}
     - target: {fileID: 6371951930669603223, guid: 742d17f0d1a3a8344a232731101c4857, type: 3}
       propertyPath: m_LocalPosition.x
@@ -78,11 +82,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8890421060004084665, guid: 742d17f0d1a3a8344a232731101c4857, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6327871
+      value: 0.64969784
       objectReference: {fileID: 0}
     - target: {fileID: 8890421060004084665, guid: 742d17f0d1a3a8344a232731101c4857, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4265396
+      value: 0.46875
       objectReference: {fileID: 0}
     - target: {fileID: 8890421060004084665, guid: 742d17f0d1a3a8344a232731101c4857, type: 3}
       propertyPath: m_LocalPosition.x
