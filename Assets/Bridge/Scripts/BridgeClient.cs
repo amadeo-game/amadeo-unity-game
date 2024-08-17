@@ -12,8 +12,6 @@ using UnityEngine;
 using Unity.Collections;
 using UnityEngine.InputSystem;
 using Debug = UnityEngine.Debug;
-using UnityEditor.Experimental.GraphView;
-
 
 public enum InputType {
     EmulationMode,
@@ -262,11 +260,9 @@ namespace BridgePackage {
 
         private void ReceiveDataCallback(IAsyncResult ar)
         {
-            Debug.Log("Receive Data from Amadeo");
             //Stopwatch stopwatch = new Stopwatch();
             try
             {
-                Debug.Log("Receove ------------------------------");
                // stopwatch.Start();
                 byte[] receivedBytes = _udpClient.EndReceive(ar, ref _remoteEndPoint);
                 string receivedData = Encoding.ASCII.GetString(receivedBytes);
@@ -274,6 +270,8 @@ namespace BridgePackage {
 
                 if (_debug)
                 {
+                    Debug.Log("Receive Data from Amadeo");
+
                     Debug.Log($"Received data: {receivedData}");
                 }
 

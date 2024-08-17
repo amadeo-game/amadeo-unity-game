@@ -518,7 +518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &366345237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,8 +1088,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -95}
+  m_SizeDelta: {x: 0, y: 190}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1419902400
 MonoBehaviour:
@@ -1113,7 +1113,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 928657487, guid: 949c4388fda347143bbc104f0962bd81, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1203,6 +1203,7 @@ MonoBehaviour:
   bridgeCollectionSO: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
   _timeBetweenSessions: 1
   _allowFingerChange: 0
+  _gameEndCanvas: {fileID: 366345239}
   _playableUnits: 0000000000
   useDynamicDifficulty: 1
   _sessionsPerLevel: 3
@@ -1288,7 +1289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7019608, g: 0.9490196, b: 1, a: 0.69411767}
+  m_Color: {r: 0.7019608, g: 0.9490196, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

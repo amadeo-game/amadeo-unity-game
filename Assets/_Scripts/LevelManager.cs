@@ -73,6 +73,7 @@ public class LevelManager : MonoBehaviour {
         if (!BridgeDataManager.AutoStart) {
             return;
         }
+        levelIndex = BridgeDataManager.Level;
 
         _playableUnits = BridgeDataManager.PlayableUnits;
         Debug.Log("LevelManager :: SetupNewLevel() called.");
@@ -114,20 +115,22 @@ public class LevelManager : MonoBehaviour {
             return;
         }
 
-        if (GameEnded) {
-            Debug.Log("LevelManager :: GameEnded, no more levels to play.");
-            ShowGameEndCanvas();
-            return;
-        }
+
         Debug.Log("LevelManager :: StartNextSession() called.");
         StartSession();
     }
 
     public void StartSession() {
+
         if (GameEnded) {
-            ShowGameEndCanvas(false);
-            GameEnded = false;
+                Debug.Log("LevelManager :: GameEnded, no more levels to play.");
+                ShowGameEndCanvas();
+                GameEnded = false;
+
+            return;
         }
+            
+        ShowGameEndCanvas(false);
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
         Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
         // Start the game session
