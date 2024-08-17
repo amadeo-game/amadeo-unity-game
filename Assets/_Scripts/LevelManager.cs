@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour {
 
     [SerializeField] private float _timeBetweenSessions = 1f;
     [SerializeField] private bool _allowFingerChange = false;
+    
+    [SerializeField] private Canvas _gameEndCanvas;
 
     // [FormerlySerializedAs("sessionManager")] [SerializeField]
     //
@@ -35,6 +37,10 @@ public class LevelManager : MonoBehaviour {
         BridgeEvents.GameFailedState += PrepareNextSession;
 
         BridgeEvents.IdleState += StartNextSession;
+    }
+    
+    private void ShowGameEndCanvas(bool show = true) {
+        _gameEndCanvas.gameObject.SetActive(show);
     }
 
 
@@ -110,14 +116,18 @@ public class LevelManager : MonoBehaviour {
 
         if (GameEnded) {
             Debug.Log("LevelManager :: GameEnded, no more levels to play.");
+            ShowGameEndCanvas();
             return;
         }
-
         Debug.Log("LevelManager :: StartNextSession() called.");
         StartSession();
     }
 
     public void StartSession() {
+        if (GameEnded) {
+            ShowGameEndCanvas(false);
+            GameEnded = false;
+        }
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
         Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
         // Start the game session
