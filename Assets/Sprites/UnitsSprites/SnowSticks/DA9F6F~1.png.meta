@@ -606,17 +606,25 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: DA9F6F~1_23
+      name: 23
       rect:
         serializedVersion: 2
-        x: 4
-        y: 504
-        width: 62
-        height: 346
+        x: 9
+        y: 517
+        width: 51
+        height: 269
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      border: {x: 7, y: 38, z: 12, w: 67}
+      outline:
+      - - {x: 11.202255, y: -126.5}
+        - {x: -12.5, y: -126.5}
+        - {x: -17.5, y: -121.5}
+        - {x: -17.5, y: 117.5}
+        - {x: -14.5, y: 123.5}
+        - {x: 15.5, y: 123.5}
+        - {x: 17.5, y: 117.640015}
+        - {x: 17.5, y: -120.5}
       physicsShape: []
       tessellationDetail: 0
       bones: []
@@ -966,13 +974,13 @@ TextureImporter:
       name: DA9F6F~1_40
       rect:
         serializedVersion: 2
-        x: 158
-        y: 436
-        width: 168
-        height: 126
+        x: 162
+        y: 445
+        width: 160
+        height: 115
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 22, y: 34, z: 27, w: 26}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -1036,7 +1044,11 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
+      outline:
+      - - {x: -18, y: -59.5}
+        - {x: -18, y: 44.5}
+        - {x: 18, y: 44.5}
+        - {x: 17, y: -59.5}
       physicsShape: []
       tessellationDetail: 0
       bones: []
@@ -2289,13 +2301,13 @@ TextureImporter:
       name: DA9F6F~1_103
       rect:
         serializedVersion: 2
-        x: 159
-        y: 112
-        width: 167
-        height: 98
+        x: 164
+        y: 123
+        width: 157
+        height: 82
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 13, y: 26, z: 9, w: 14}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -2626,12 +2638,12 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 159
-        y: 10
+        y: 26
         width: 170
-        height: 92
+        height: 76
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 13, y: 23, z: 19, w: 13}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -2842,6 +2854,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      23: -291915731
       DA9F6F~1_0: -615178545
       DA9F6F~1_1: 664618710
       DA9F6F~1_10: 869719554
@@ -2887,7 +2900,6 @@ TextureImporter:
       DA9F6F~1_20: 716199145
       DA9F6F~1_21: -398329398
       DA9F6F~1_22: -1444747378
-      DA9F6F~1_23: -291915731
       DA9F6F~1_24: -1944335308
       DA9F6F~1_25: 1061115951
       DA9F6F~1_26: 126685335
