@@ -29,21 +29,19 @@ namespace BridgePackage {
         private float _height;
 
 
-
         private bool _isFlexion;
         private bool _isRbNotNull;
 
 
         private void Awake() {
-     
             // Cache the Rigidbody2D component at the start
             _rb = GetComponent<Rigidbody2D>();
 
             Collider = GetComponent<BoxCollider2D>();
             if (_rb == null) {
-                
                 Debug.LogError("Rigidbody2D component not found on " + gameObject.name);
             }
+
             _isRbNotNull = true;
             if (Collider == null) {
                 Debug.LogError("BoxCollider2D component not found on " + gameObject.name);
@@ -55,38 +53,72 @@ namespace BridgePackage {
             MvcF = BridgeDataManager.MvcValuesFlexion[_fingerIndex];
 
 
-            // Initialize the queue with zeros
-            //for (int i = 0; i < _queueSize; i++) {
-            //    _heightQueue.Enqueue(0f);
-            //}
+            // Initialize the buffer if not already done
+            _heightBuffer ??= new float[_queueSize];
+
         }
 
         internal void SetFingerUnit(FingerUnit unit, int index) {
             _fingerUnit = unit;
             _fingerIndex = index;
         }
-        
+
+        private int _currentIndex = 0;
+        private float[] _heightBuffer;
+        private int _count = 0;
+
+
         internal void OnForcesUpdated(float force) {
-            // Add new value to the queue and update the running sum
             if (!_controlEnabled) {
                 return;
             }
-            _heightQueue.Enqueue(force);
+
+            force = Mathf.Clamp(force, -5.0f, 5.0f);
+            
+            // Subtract the old value from the sum and add the new force
+            _sum -= _heightBuffer[_currentIndex];
             _sum += force;
 
+            // Replace the old value with the new one in the buffer
+            _heightBuffer[_currentIndex] = force;
 
-            if (_heightQueue.Count > _queueSize) {
-                _sum -= _heightQueue.Dequeue();
+            // Increment the index and wrap around if needed
+            _currentIndex = (_currentIndex + 1) % _queueSize;
+
+            // Increment the count up to _queueSize
+            if (_count < _queueSize) {
+                _count++;
             }
 
-            // Calculate the average height from the queue
-            float averageHeight = _sum / _queueSize;
+            // Calculate the average height based on the number of elements added so far
+            float averageHeight = _sum / _count;
 
             _height = averageHeight;
 
             MoveUnitPosition();
-            
         }
+
+        // internal void OnForcesUpdated(float force) {
+        //     // Add new value to the queue and update the running sum
+        //     if (!_controlEnabled) {
+        //         return;
+        //     }
+        //     _heightQueue.Enqueue(force);
+        //     _sum += force;
+        //
+        //
+        //     if (_heightQueue.Count > _queueSize) {
+        //         _sum -= _heightQueue.Dequeue();
+        //     }
+        //
+        //     // Calculate the average height from the queue
+        //     float averageHeight = _sum / _queueSize;
+        //
+        //     _height = averageHeight;
+        //
+        //     MoveUnitPosition();
+        //     
+        // }
 
         /// <summary>
         /// Applies the specified force to the unit.

@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using Unity.Collections;
 using System.Linq;
 using BridgePackage;
 using UnityEngine;
+
 using UnityEngine.Serialization;
 
 namespace BridgePackage {
@@ -197,9 +199,19 @@ namespace BridgePackage {
             _unitsInitialized = true;
         }
 
-        internal void OnForcesUpdated(float[] forces) {
-            for (int i = 0; i < NUMOFUNITS; i++) {
-                var height = forces[i]; // There is a fixed size of total 5 units, so forces is always of size 5
+        // internal void OnForcesUpdated(float[] forces) {
+        //     for (int i = 0; i < NUMOFUNITS; i++) {
+        //         var height = forces[i]; // There is a fixed size of total 5 units, so forces is always of size 5
+        //         _moveUnits[i].OnForcesUpdated(height);
+        //         _setBestHeight(height, i);
+        //     }
+        // }
+        
+        internal void OnForcesUpdated(NativeArray<float> forces)
+        {
+            for (int i = 0; i < forces.Length; i++)
+            {
+                float height = forces[i]; // Forces array is a NativeArray<float> of fixed size
                 _moveUnits[i].OnForcesUpdated(height);
                 _setBestHeight(height, i);
             }

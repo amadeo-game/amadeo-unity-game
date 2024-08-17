@@ -8,8 +8,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Unity.Jobs;
 using UnityEngine;
+using Unity.Collections;
 using UnityEngine.InputSystem;
 using Debug = UnityEngine.Debug;
 
@@ -43,17 +43,23 @@ namespace BridgePackage {
         private bool _isReceiving = false;
         private UdpClient _udpClient;
         private const string FileModeDataFile = "Assets/AmadeoRecords/force_data.txt";
-        
+
         // Emulation Mode
         [SerializeField] float _emulationSpeed = 0.01f;
-        
+
         // you can use this to store and use specific endpoint
         private IPEndPoint _remoteEndPoint;
 
-        private float[] _forces = new float[5];
-        private bool _dataReceived = false;
+        // private float[] _forces = new float[5];
+        //
+        // private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
 
-        private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
+        // NativeArrays to hold forces and zeroForces
+        private NativeArray<float> _forces;
+        private NativeArray<float> _zeroForces;
+
+
+        private bool _dataReceived = false;
 
         private float[] _emulationForces = new float[5]; // Store forces from emulation file
 
@@ -63,11 +69,11 @@ namespace BridgePackage {
         // Set Input System to listen on buttons {'y', 'u', 'i', 'o', 'p'}
 
         [SerializeField] InputAction Finger1 = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger2  = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger3  = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger4  = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger5  = new InputAction(type: InputActionType.Button);
-        
+        [SerializeField] InputAction Finger2 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger3 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger4 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction Finger5 = new InputAction(type: InputActionType.Button);
+
 
         private void GetForcesFromInput() {
             if (_useInputSystem) {
@@ -87,6 +93,7 @@ namespace BridgePackage {
                 _unitsControl.OnForcesUpdated(_forces);
                 _dataReceived = false;
             }
+
             GetForcesFromInput();
         }
 
@@ -99,8 +106,7 @@ namespace BridgePackage {
             Finger4.Enable();
             Finger5.Enable();
 
-            
-            
+
             BridgeEvents.InZeroFState += OnZeroFState;
             BridgeEvents.InGameState += OnInGameState;
 
@@ -115,9 +121,8 @@ namespace BridgePackage {
             Finger3.Disable();
             Finger4.Disable();
             Finger5.Disable();
-            
-            
-            
+
+
             BridgeEvents.InZeroFState -= OnZeroFState;
             BridgeEvents.InGameState -= OnInGameState;
 
@@ -150,8 +155,8 @@ namespace BridgePackage {
             if (inputType is InputType.EmulationMode) {
                 if (_debug) {
                     Debug.Log("BridgeClient is in ZeroF state. Starting zeroing forces.");
-                    
                 }
+
                 BridgeEvents.FinishedZeroF?.Invoke();
                 return;
             }
@@ -184,6 +189,8 @@ namespace BridgePackage {
             }
 
             _cancellationTokenSource = new CancellationTokenSource();
+            _forces = new NativeArray<float>(5, Allocator.Persistent);
+            _zeroForces = new NativeArray<float>(5, Allocator.Persistent);
         }
 
         private void StartZeroF() {
@@ -192,11 +199,12 @@ namespace BridgePackage {
                 _cancellationTokenSource.Dispose();
                 _cancellationTokenSource = new CancellationTokenSource();
             }
+
             if (_debug) {
                 Debug.Log("StartReceiveData :: Starting zeroing forces.");
             }
-            SetZeroF(_cancellationTokenSource.Token);
 
+            SetZeroF(_cancellationTokenSource.Token);
         }
 
         private void StartReceiveData() {
@@ -228,29 +236,29 @@ namespace BridgePackage {
             if (_debug) {
                 Debug.Log("StopReceiveData :: Stopping data reception.");
             }
+
             _isReceiving = false;
             if (inputType is InputType.EmulationMode) {
                 _useInputSystem = false;
             }
-            // reset forces to zero
-            _forces = new float[5];
+
+            // Reset the forces to zero using Unity.Mathematics
+            for (int i = 0; i < _forces.Length; i++) {
+                _forces[i] = 0; // math.zero() returns 0
+            }
         }
 
-        private async void ReceiveDataAmadeo(CancellationToken cancellationToken)
-        {
+        private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
             Debug.Log("Receive Data from Amadeo");
             Stopwatch stopwatch = new Stopwatch();
-            while (_isReceiving && !cancellationToken.IsCancellationRequested)
-            {
-                try
-                {
+            while (_isReceiving && !cancellationToken.IsCancellationRequested) {
+                try {
                     stopwatch.Start();
                     UdpReceiveResult result = await _udpClient.ReceiveAsync();
                     string receivedData = Encoding.ASCII.GetString(result.Buffer);
                     stopwatch.Stop();
 
-                    if (_debug)
-                    {
+                    if (_debug) {
                         Debug.Log($"Received data: {receivedData}");
                     }
 
@@ -258,13 +266,11 @@ namespace BridgePackage {
                     Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
                     stopwatch.Reset();
                 }
-                catch (OperationCanceledException)
-                {
+                catch (OperationCanceledException) {
                     Debug.Log("Data reception was canceled.");
                     break;
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     Debug.LogError($"Exception in ReceiveData: {ex.Message}");
                     break;
                 }
@@ -308,27 +314,71 @@ namespace BridgePackage {
                 Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
+
             Debug.Log($"Data received at: {Time.time}");
-            // Parse the forces from the received data, str length is 11
-            strForces.Select(str =>
-                    float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
-                .Skip(strForces.Length - 5) // Skip to the last 5 elements
-                .ToArray()
-                .CopyTo(_forces, 0); // Copy to test array starting at index 0
+            // // Parse the forces from the received data, str length is 11
+            // strForces.Select(str =>
+            //         float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
+            //     .Skip(strForces.Length - 5) // Skip to the last 5 elements
+            //     .ToArray()
+            //     .CopyTo(_forces, 0); // Copy to test array starting at index 0
+            
+            // Assuming strForces is a string array with at least 11 elements
+            for (int i = 0; i < 5; i++)
+            {
+                // Parse the last 5 elements from strForces and assign them to _forces
+                _forces[i] = float.Parse(strForces[strForces.Length - 5 + i].Replace(",", "."), CultureInfo.InvariantCulture);
+            }
+
 
 
             OffsetForcesAndSend();
         }
 
+        // private void OffsetForcesAndSend() {
+        //     // Fixing the offset of the forces
+        //     _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
+        //
+        //     _forces = _forces.Reverse().ToArray();
+        //
+        //     // BridgeEvents.ForcesUpdated?.Invoke(_forces);
+        //     
+        //     _dataReceived = true;
+        // }
+
         private void OffsetForcesAndSend() {
-            // Fixing the offset of the forces
-            _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
+            // Ensure the NativeArrays are the same length
+            int length = _forces.Length;
+            if (length != _zeroForces.Length) {
+                Debug.LogError("Forces and ZeroForces arrays must be the same length.");
+                return;
+            }
 
-            _forces = _forces.Reverse().ToArray();
+            // Subtract zeroForces from forces and reverse the array in one pass
+            for (int i = 0; i < length / 2; i++) {
+                // Perform the subtraction for both the forward and reverse pairs
+                float offsetValue1 = _forces[i] - _zeroForces[i];
+                float offsetValue2 = _forces[length - 1 - i] - _zeroForces[length - 1 - i];
 
-            // BridgeEvents.ForcesUpdated?.Invoke(_forces);
-            
+                // Reverse the values in place
+                _forces[i] = offsetValue2;
+                _forces[length - 1 - i] = offsetValue1;
+            }
+
+            // Handle the middle element for odd-length arrays
+            if (length % 2 != 0) {
+                int midIndex = length / 2;
+                _forces[midIndex] = _forces[midIndex] - _zeroForces[midIndex];
+            }
+
+            // Mark the data as received
             _dataReceived = true;
+
+            // Example debug output
+            Debug.Log("Forces processed and event triggered:");
+            for (int i = 0; i < length; i++) {
+                Debug.Log($"Force {i}: {_forces[i]}");
+            }
         }
 
         private static string ParseDataFromAmadeo(string data) {
@@ -337,6 +387,9 @@ namespace BridgePackage {
 
         private void OnDestroy() {
             StopClientConnection();
+            // Dispose of NativeArrays to avoid memory leaks
+            if (_forces.IsCreated) _forces.Dispose();
+            if (_zeroForces.IsCreated) _zeroForces.Dispose();
         }
 
         private void OnApplicationQuit() {
@@ -399,7 +452,6 @@ namespace BridgePackage {
                 // apply ParseDataFromAmadeo to lines
                 string[] parsedData = lines.Select(ParseDataFromAmadeo).ToArray();
                 CalculateZeroingForces(parsedData);
-
             }
             catch (OperationCanceledException) {
                 Debug.Log("Data reception was canceled.");
@@ -437,6 +489,7 @@ namespace BridgePackage {
             for (int i = 0; i < sums.Length; i++) {
                 _zeroForces[i] = sums[i] / count;
             }
+
             Debug.Log("Zeroing completed and data sent to client.");
 
             BridgeEvents.FinishedZeroF?.Invoke();
