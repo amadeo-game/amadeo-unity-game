@@ -7,7 +7,7 @@ using UnityEngine;
 public class AudioController : MonoBehaviour {
     private void OnEnable() {
         BridgeEvents.BridgeCollapsingState += PlayVictorySound;
-        BridgeEvents.BridgeIsCompletedState += PlayDefeatSound;
+        BridgeEvents.BridgeCompletingState += PlayDefeatSound;
     }
 
     private void PlayVictorySound() {

@@ -70,9 +70,14 @@ namespace BridgePackage {
 
             var envUnitsGameObjects =
                 GenerateBridgeEnvironment(envUnits, BridgeDataManager.BridgeType, BridgeHolder, BridgeRiseDownOffset);
-
+            
             GameObject guideUnit = BridgeDataManager.BridgeType.GetPlayableUnitPrefab.GuideUnit;
             GuideUnits = BuildGuideUnits(BridgeHolder, playerUnitsPositions, guideUnit);
+
+            for (int i = 0; i < GuideUnits.Length; i++) {
+                var drawLine = GuideUnits[i].GetComponent<DrawLineBetweenObjects>();
+                drawLine.Target = PlayerUnits[i].transform;
+            }
             
             TotalBridgeUnits = GetSequencedBridgeUnits(PlayerUnits, envUnitsGameObjects);
 
