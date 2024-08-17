@@ -219,7 +219,7 @@ namespace BridgePackage {
 
         public void CollectSessionData(bool success) {
             _unitsInitialized = false;
-            BridgeDataManager.SetSessionData(_bestHeights, success);
+            BridgeDataManager.SetSessionData(Bridge.PlayerUnitsHeights,_bestHeights, success);
         }
     }
 }

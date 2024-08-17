@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -45,6 +46,8 @@ namespace BridgePackage {
                 return BridgeData.heights;
             }
         }
+        
+        public static int[] HeightsAbsolute => BridgeData.heights;
 
         public static BridgeTypeSO BridgeType {
             get {
@@ -171,8 +174,9 @@ namespace BridgePackage {
             BridgeData.autoStart = newAutoPlay;
         }
 
-        internal static void SetSessionData(float[] bestHeights, bool isSuccessful) {
-            BridgeData.SessionData.heights = BridgeData.heights;
+        internal static void SetSessionData(int[] heights ,float[] bestHeights, bool isSuccessful) {
+            BridgeData.SessionData.heights = BridgeData.heights.Select(x => Mathf.Abs(x)).ToArray();
+            Debug.Log("SetSessionData :: " + string.Join(",", BridgeData.SessionData.heights));
             BridgeData.SessionData.BestYPositions = bestHeights;
             BridgeData.SessionData.success = isSuccessful;
         }

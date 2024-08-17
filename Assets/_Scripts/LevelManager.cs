@@ -261,13 +261,16 @@ public class LevelManager : MonoBehaviour {
         }
 
         Debug.Log("LevelManager :: playableUnits " + string.Join(",", _playableUnits));
-
+        
         if (success) {
             // Adjust heights to be harder
             for (int i = 0; i < previousHeights.Length; i++) {
                 if (_playableUnits[i]) {
                     if (Random.Range(0, 2) == 1) {
-                        previousHeights[i] = Mathf.Min(previousHeights[i] + 1, Mathf.Min(5, (int)(mvcs[i] / 5) + 1));
+                        Debug.Log("Adjusting height for unit " + i + " to be harder.");
+                        var topLimit = Mathf.Min(5, (int)(mvcs[i] / 5) + 1);
+                        Debug.Log("Top limit for unit " + i + " is " + topLimit);
+                        previousHeights[i] = Mathf.Min(previousHeights[i] + 1, topLimit);
                     }
                     else {
                         previousHeights[i] = Mathf.Max(previousHeights[i], 1);
