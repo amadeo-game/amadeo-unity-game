@@ -106,6 +106,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -281,13 +294,13 @@ TextureImporter:
       name: Remove-bg.ai_1722439369221_8
       rect:
         serializedVersion: 2
-        x: 22
-        y: 730
-        width: 116
-        height: 118
+        x: 26
+        y: 733
+        width: 108
+        height: 111
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 28, y: 45, z: 24, w: 40}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -308,7 +321,7 @@ TextureImporter:
         height: 118
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 68, y: 55, z: 36, w: 50}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -329,7 +342,7 @@ TextureImporter:
         height: 118
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 42, y: 48, z: 68, w: 58}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -911,10 +924,10 @@ TextureImporter:
       name: Remove-bg.ai_1722439369221_38
       rect:
         serializedVersion: 2
-        x: 700
-        y: 0
-        width: 314
-        height: 114
+        x: 703
+        y: 4
+        width: 308
+        height: 106
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 20, y: 12, z: 13, w: 16}

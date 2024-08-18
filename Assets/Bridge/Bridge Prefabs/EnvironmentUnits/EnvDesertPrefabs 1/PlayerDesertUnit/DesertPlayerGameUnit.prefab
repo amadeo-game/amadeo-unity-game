@@ -10,19 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.64969784
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.46875
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.004
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.002
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_LocalPosition.z
@@ -56,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 706741845882226344, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_Size.x
       value: 1
@@ -66,36 +74,44 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_SpriteTilingProperty.border.w
-      value: 0.16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_SpriteTilingProperty.border.x
-      value: 0.19999999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_SpriteTilingProperty.border.y
-      value: 0.12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_SpriteTilingProperty.border.z
-      value: 0.13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 3.14
+      value: 3.49
       objectReference: {fileID: 0}
     - target: {fileID: 5289215783859174026, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1.14
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 8013087683977091220, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_Name
       value: DesertPlayerGameUnit
       objectReference: {fileID: 0}
+    - target: {fileID: 8013087683977091220, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8928740501357359275, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 506146947, guid: 437b1cdaee9a6c34dbb5db30be07c5e9, type: 3}
+      objectReference: {fileID: -1496873769, guid: 437b1cdaee9a6c34dbb5db30be07c5e9, type: 3}
+    - target: {fileID: 8928740501357359275, guid: e7f1951cf2b71b349953325bdb9d6307, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
