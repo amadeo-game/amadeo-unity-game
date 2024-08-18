@@ -113,6 +113,7 @@ namespace BridgePackage {
             Finger5.Enable();
 
 
+            BridgeEvents.BuildingState += () => _isLeftHand = BridgeDataManager.IsLeftHand;
             BridgeEvents.InZeroFState += OnZeroFState;
             BridgeEvents.InGameState += OnInGameState;
 
@@ -129,6 +130,7 @@ namespace BridgePackage {
             Finger5.Disable();
 
 
+            BridgeEvents.BuildingState -= () => _isLeftHand = BridgeDataManager.IsLeftHand;
             BridgeEvents.InZeroFState -= OnZeroFState;
             BridgeEvents.InGameState -= OnInGameState;
 
@@ -218,7 +220,7 @@ namespace BridgePackage {
 
         private void StartReceiveData() {
             _isReceiving = true;
-            
+
             if (inputType == InputType.FileMode) {
                 if (_debug) {
                     Debug.Log("StartReceiveData :: FileMode mode is true. Listening to data from demo file...");
@@ -402,24 +404,33 @@ namespace BridgePackage {
                 Debug.LogError("Forces and ZeroForces arrays must be the same length.");
                 return;
             }
-            /*
-            // Subtract zeroForces from forces and reverse the array in one pass
-            for (int i = 0; i < length / 2; i++) {
-                // Perform the subtraction for both the forward and reverse pairs
-                float offsetValue1 = _forces[i] - _zeroForces[i];
-                float offsetValue2 = _forces[length - 1 - i] - _zeroForces[length - 1 - i];
 
-                // Reverse the values in place
-                _forces[i] = offsetValue2;
-                _forces[length - 1 - i] = offsetValue1;
+            if (_isLeftHand) {
+                // do it with reverse
+                // Subtract zeroForces from forces and reverse the array in one pass
+                for (int i = 0; i < length / 2; i++) {
+                    // Perform the subtraction for both the forward and reverse pairs
+                    float offsetValue1 = _forces[i] - _zeroForces[i];
+                    float offsetValue2 = _forces[length - 1 - i] - _zeroForces[length - 1 - i];
+
+                    // Reverse the values in place
+                    _forces[i] = offsetValue2;
+                    _forces[length - 1 - i] = offsetValue1;
+                }
+            } else {
+                // Subtract zeroForces from forces
+                for (int i = 0; i < length; i++) {
+                    _forces[i] -= _zeroForces[i];
+                }
             }
+
 
             // Handle the middle element for odd-length arrays
             if (length % 2 != 0) {
                 int midIndex = length / 2;
-                _forces[midIndex] = _forces[midIndex] - _zeroForces[midIndex];
+                _forces[midIndex] -= _zeroForces[midIndex];
             }
-            */
+            
             // Mark the data as received
             _dataReceived = true;
 
