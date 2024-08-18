@@ -260,7 +260,7 @@
 .unity-base-text-field {
     width: 70px;
     height: 70px;
-    font-size: 44px;
+    font-size: 32px;
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 }
