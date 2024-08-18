@@ -261,32 +261,35 @@ namespace BridgePackage {
         private void ReceiveDataCallback(IAsyncResult ar)
         {
             //Stopwatch stopwatch = new Stopwatch();
-            try
+            if (_isReceiving)
             {
-               // stopwatch.Start();
-                byte[] receivedBytes = _udpClient.EndReceive(ar, ref _remoteEndPoint);
-                string receivedData = Encoding.ASCII.GetString(receivedBytes);
-                //stopwatch.Stop();
-
-                if (_debug)
+                try
                 {
-                    Debug.Log("Receive Data from Amadeo");
+                    // stopwatch.Start();
+                    byte[] receivedBytes = _udpClient.EndReceive(ar, ref _remoteEndPoint);
+                    string receivedData = Encoding.ASCII.GetString(receivedBytes);
+                    //stopwatch.Stop();
 
-                    Debug.Log($"Received data: {receivedData}");
+                    if (_debug)
+                    {
+                        Debug.Log("Receive Data from Amadeo");
+
+                        Debug.Log($"Received data: {receivedData}");
+                    }
+
+                    HandleReceivedData(ParseDataFromAmadeo(receivedData));
+                    //Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
+                    //stopwatch.Reset();
                 }
+                catch (OperationCanceledException)
+                {
+                    Debug.Log("Data reception was canceled.");
 
-                HandleReceivedData(ParseDataFromAmadeo(receivedData));
-                //Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
-                //stopwatch.Reset();
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.Log("Data reception was canceled.");
-               
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Exception in ReceiveData: {ex.Message}");
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Exception in ReceiveData: {ex.Message}");
+                }
             }
             _udpClient.BeginReceive(ReceiveDataCallback, null);
         }
@@ -399,7 +402,7 @@ namespace BridgePackage {
                 Debug.LogError("Forces and ZeroForces arrays must be the same length.");
                 return;
             }
-
+            /*
             // Subtract zeroForces from forces and reverse the array in one pass
             for (int i = 0; i < length / 2; i++) {
                 // Perform the subtraction for both the forward and reverse pairs
@@ -416,7 +419,7 @@ namespace BridgePackage {
                 int midIndex = length / 2;
                 _forces[midIndex] = _forces[midIndex] - _zeroForces[midIndex];
             }
-
+            */
             // Mark the data as received
             _dataReceived = true;
 
