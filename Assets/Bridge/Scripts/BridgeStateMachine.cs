@@ -249,7 +249,7 @@ namespace BridgePackage {
             for (int i = 3; i >= 0; i--) {
                 // Play Animation (countdown on Screen)
                 BridgeEvents.CountDown?.Invoke(i);
-                yield return new WaitForSecondsRealtime(1);
+                yield return new WaitForSecondsRealtime(0.2f);
             }
             StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
             BridgeEvents.InGameState?.Invoke();

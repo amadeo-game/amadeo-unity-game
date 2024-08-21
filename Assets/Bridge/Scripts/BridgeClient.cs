@@ -405,7 +405,7 @@ namespace BridgePackage {
                 return;
             }
 
-            if (_isLeftHand) {
+            if (!_isLeftHand) {
                 // do it with reverse
                 // Subtract zeroForces from forces and reverse the array in one pass
                 for (int i = 0; i < length / 2; i++) {

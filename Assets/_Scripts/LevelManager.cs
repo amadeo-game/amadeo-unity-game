@@ -169,6 +169,7 @@ public class LevelManager : MonoBehaviour {
         // For example, modify the heights or time duration based on performance
         // This example increases the height range and reduces the time if the player succeeded
         var adjustedHeights = ApplyDynamicHeight(sessionData.heights, sessionData.success, sessionData.BestYPositions);
+        
         float[] graces = BridgeDataManager.UnitsGrace;
         for (int i = 0; i < graces.Length; i++) {
             float newGrace;
@@ -181,6 +182,7 @@ public class LevelManager : MonoBehaviour {
 
             BridgeDataManager.SetUnitsGrace(i, newGrace);
         }
+        
 
         // else {
         //     // var adjustedHeights = AdjustHeightsForFailure(sessionData.heights, sessionData.BestYPositions);
@@ -245,7 +247,7 @@ public class LevelManager : MonoBehaviour {
         // MVC is BridgeDataManager
         // only the playable units i will be adjusted, 50% chance to be increase by 1 if the unit is less then min(5 ,(int)(mvcs[i]/5))
         // for the rest of the units, they will be placed randomly between 0 and 5, because they are not playable
-        int maxSimultaneousUnits = (levelIndex / 3) + 1;
+        int maxSimultaneousUnits = (levelIndex / 3);
 
         // take only the number of maxSimultaneousUnits and choose randomly which finger to active and the rest turn off in playableUnits
         // int unitToActive = Random.Range(0, 5);
@@ -254,7 +256,7 @@ public class LevelManager : MonoBehaviour {
 
         if (_allowFingerChange) {
             HashSet<int> unitsToActive = new HashSet<int>();
-            for (int i = 0; i < maxSimultaneousUnits; i++) {
+            for (int i = 0; i < maxSimultaneousUnits+1; i++) {
                 var unit = Random.Range(0, 5);
                 int tries = 0;
                 while (unitsToActive.Contains(unit) || tries < 5) {
