@@ -4,124 +4,104 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using System;
 
-namespace UIToolkitDemo
-{
-    // note: this uses JsonUtility for demo purposes only; for production work, consider a more performant solution like MessagePack (https://msgpack.org/index.html) 
-    // or Protocol Buffers (https://developers.google.com/protocol-buffers)
-    // 
 
-    [RequireComponent(typeof(GameDataManager))]
-    public class SaveManager : MonoBehaviour
-    {
+// note: this uses JsonUtility for demo purposes only; for production work, consider a more performant solution like MessagePack (https://msgpack.org/index.html) 
+// or Protocol Buffers (https://developers.google.com/protocol-buffers)
+// 
 
-        public static event Action<GameData> GameDataLoaded;
+[RequireComponent(typeof(GameDataManager))]
+public class SaveManager : MonoBehaviour {
+    public static event Action<GameData> GameDataLoaded;
 
-        [Tooltip("Filename to save game and settings data")]
-        [SerializeField] string m_SaveFilename = "gamesettings.dat";
-        [Tooltip("Show Debug messages.")]
-        [SerializeField] bool m_Debug;
+    [Tooltip("Filename to save game and settings data")] [SerializeField]
+    string m_SaveFilename = "gamesettings.dat";
 
-        GameDataManager m_GameDataManager;
+    [Tooltip("Show Debug messages.")] [SerializeField]
+    bool m_Debug;
 
-        void Awake()
-        {
-            m_GameDataManager = GetComponent<GameDataManager>();
-        }
-        void OnApplicationQuit()
-        {
-            SaveGame();
-        }
+    GameDataManager m_GameDataManager;
 
-        void OnEnable()
-        {
-            // SettingsEvents.SettingsShown += OnSettingsShown;
-            GameplayEvents.SettingsLoaded += OnSettingsShown;
-            // SettingsEvents.SettingsUpdated += OnSettingsUpdated;
+    void Awake() {
+        m_GameDataManager = GetComponent<GameDataManager>();
+    }
 
-            GameplayEvents.SettingsUpdated += OnSettingsUpdated;
+    void OnApplicationQuit() {
+        SaveGame();
+    }
 
-        }
+    void OnEnable() {
+        // SettingsEvents.SettingsShown += OnSettingsShown;
+        GameplayEvents.SettingsLoaded += OnSettingsShown;
+        // SettingsEvents.SettingsUpdated += OnSettingsUpdated;
 
-        void OnDisable()
-        {
-            // SettingsEvents.SettingsShown -= OnSettingsShown;
-            GameplayEvents.SettingsLoaded -= OnSettingsShown;
-            // SettingsEvents.SettingsUpdated -= OnSettingsUpdated;
+        GameplayEvents.SettingsUpdated += OnSettingsUpdated;
+    }
 
-            GameplayEvents.SettingsUpdated -= OnSettingsUpdated;
+    void OnDisable() {
+        // SettingsEvents.SettingsShown -= OnSettingsShown;
+        GameplayEvents.SettingsLoaded -= OnSettingsShown;
+        // SettingsEvents.SettingsUpdated -= OnSettingsUpdated;
 
-        }
-        public GameData NewGame()
-        {
-            return new GameData();
-        }
+        GameplayEvents.SettingsUpdated -= OnSettingsUpdated;
+    }
 
-        public void LoadGame()
-        {
-            // load saved data from FileDataHandler
+    public GameData NewGame() {
+        return new GameData();
+    }
 
-            if (m_GameDataManager.GameData != null)
-            {
-                if (m_Debug)
-                {
-                    Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
-                }
+    public void LoadGame() {
+        // load saved data from FileDataHandler
 
-                m_GameDataManager.GameData = NewGame();
-            }
-            else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString))
-            {
-                m_GameDataManager.GameData.LoadJson(jsonString);
-
-                if (m_Debug)
-                {
-                    Debug.Log("SaveManager.LoadGame: " + m_SaveFilename + " json string: " + jsonString);
-                }
+        if (m_GameDataManager.GameData != null) {
+            if (m_Debug) {
+                Debug.Log("GAME DATA MANAGER LoadGame: Initializing game data.");
             }
 
-            // notify other game objects 
-            if (m_GameDataManager.GameData != null)
-            {
-                GameDataLoaded?.Invoke(m_GameDataManager.GameData);
+            m_GameDataManager.GameData = NewGame();
+        }
+        else if (FileManager.LoadFromFile(m_SaveFilename, out var jsonString)) {
+            m_GameDataManager.GameData.LoadJson(jsonString);
+
+            if (m_Debug) {
+                Debug.Log("SaveManager.LoadGame: " + m_SaveFilename + " json string: " + jsonString);
             }
         }
 
-        public void SaveGame()
-        {
-            // string jsonFile = m_GameDataManager.GameData.ToJson();
-            GameData gameData = m_GameDataManager.GameData;
-            string jsonFile = gameData.ToJson();
-
-
-            // save to disk with FileDataHandler
-            if (FileManager.WriteToFile(m_SaveFilename, jsonFile) && m_Debug)
-            {
-                Debug.Log("SaveManager.SaveGame: " + m_SaveFilename + " json string: " + jsonFile);
-            }
+        // notify other game objects 
+        if (m_GameDataManager.GameData != null) {
+            GameDataLoaded?.Invoke(m_GameDataManager.GameData);
         }
+    }
 
-        // Load the saved GameData and display on the Settings Screen
-        void OnSettingsShown()
-        {
-            Debug.Log("SaveManager.OnSettingsShown: LoadGame() called.");
+    public void SaveGame() {
+        // string jsonFile = m_GameDataManager.GameData.ToJson();
+        GameData gameData = m_GameDataManager.GameData;
+        string jsonFile = gameData.ToJson();
 
-            if (m_GameDataManager.GameData != null)
-            {
-                GameDataLoaded?.Invoke(m_GameDataManager.GameData);
-            }
-            else {
-                Debug.Log("GameDataManager.GameData is null.");
-            
-            }
+
+        // save to disk with FileDataHandler
+        if (FileManager.WriteToFile(m_SaveFilename, jsonFile) && m_Debug) {
+            Debug.Log("SaveManager.SaveGame: " + m_SaveFilename + " json string: " + jsonFile);
         }
+    }
 
-        // Update the GameDataManager data and save
-        void OnSettingsUpdated(GameData gameData)
-        {
-            Debug.Log("SaveManager.OnSettingsUpdated: GameData updated.");
+    // Load the saved GameData and display on the Settings Screen
+    void OnSettingsShown() {
+        Debug.Log("SaveManager.OnSettingsShown: LoadGame() called.");
 
-            m_GameDataManager.GameData = gameData;
-            SaveGame();
+        if (m_GameDataManager.GameData != null) {
+            GameDataLoaded?.Invoke(m_GameDataManager.GameData);
         }
+        else {
+            Debug.Log("GameDataManager.GameData is null.");
+        }
+    }
+
+    // Update the GameDataManager data and save
+    void OnSettingsUpdated(GameData gameData) {
+        Debug.Log("SaveManager.OnSettingsUpdated: GameData updated.");
+
+        m_GameDataManager.GameData = gameData;
+        SaveGame();
     }
 }
