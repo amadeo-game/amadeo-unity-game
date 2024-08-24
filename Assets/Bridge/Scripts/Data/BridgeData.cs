@@ -38,12 +38,6 @@ namespace BridgePackage {
             this.autoStart = true;
         }
 
-
-        // setter for isLeftHand
-        public void SetIsLeftHand(bool leftHand) {
-            this.isLeftHand = leftHand;
-        }
-
         public string ToJson() {
             return JsonUtility.ToJson(this);
         }

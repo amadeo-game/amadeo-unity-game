@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 
 public class InstructorPanel : MonoBehaviour {
     public LevelManager LevelManager;
-
     // Containers for UI elements
     private VisualElement _preGameConfigs;
     private VisualElement _endPauseButtons;
@@ -18,6 +17,7 @@ public class InstructorPanel : MonoBehaviour {
     private Button _endSessionButton;
     private Button _pauseSessionButton;
     private Button _resumeSessionButton;
+    private Button _playTrialButton;
     private Button _startSessionButton;
 
     private List<SliderInt> _sliders = new List<SliderInt>(); // List to hold slider references
@@ -39,6 +39,7 @@ public class InstructorPanel : MonoBehaviour {
 
         SetVisibility(_endPauseButtons, false);
         SetVisibility(_resumeSessionButton, false);
+        SetVisibility(_playTrialButton, true);
         SetVisibility(_startSessionButton, true);
     }
 
@@ -73,9 +74,15 @@ public class InstructorPanel : MonoBehaviour {
             return;
         }
 
+        _playTrialButton = root.Q<Button>("play_trial_button");
+        if (_playTrialButton == null) {
+            Debug.LogError("Failed to find 'PLAY TRIAL' button.");
+            return;
+        }
+        
         _startSessionButton = root.Q<Button>("start_session_button");
         if (_startSessionButton == null) {
-            Debug.LogError("Failed to find 'Start Game' button.");
+            Debug.LogError("Failed to find 'Start Session' button.");
             return;
         }
 
@@ -85,7 +92,8 @@ public class InstructorPanel : MonoBehaviour {
 
         _resumeSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ResumeSession());
 
-        _startSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
+        _playTrialButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
+        _startSessionButton.RegisterCallback<ClickEvent>(evt => BridgeEvents.PlaySession());
     }
 
     private void OnPausePressed() {
@@ -95,6 +103,8 @@ public class InstructorPanel : MonoBehaviour {
 
     private void OnEnable() {
         // BridgeEvents.BridgeStateChanged += OnBridgeStateChange;
+        
+        
         BridgeEvents.IdleState += OnIdleState;
         BridgeEvents.BuildingState += OnBuildingState;
         BridgeEvents.GamePausedState += OnPausedState;
@@ -108,16 +118,20 @@ public class InstructorPanel : MonoBehaviour {
 
     private void OnGameFailedState() {
         SetVisibility(_endPauseButtons, false);
+        SetVisibility(_playTrialButton, true);
         SetVisibility(_startSessionButton, true);
         SetInteractability(_preGameConfigs, true);
+        SetInteractability(_playTrialButton, true);
         SetInteractability(_startSessionButton, true);
     }
 
     private void OnGameWonState()
     {
         SetVisibility(_endPauseButtons, false);
+        SetVisibility(_playTrialButton, true);
         SetVisibility(_startSessionButton, true);
         SetInteractability(_preGameConfigs, true);
+        SetInteractability(_playTrialButton, true);
         SetInteractability(_startSessionButton, true);
     }
 
@@ -136,12 +150,15 @@ public class InstructorPanel : MonoBehaviour {
     private void OnIdleState() {
         SetInteractability(_preGameConfigs, true);
         SetVisibility(_endPauseButtons, false);
+        SetVisibility(_playTrialButton, true);
         SetVisibility(_startSessionButton, true);
+        SetInteractability(_playTrialButton, true);
         SetInteractability(_startSessionButton, true);
     }
 
     private void OnBuildingState() {
         SetInteractability(_preGameConfigs, false);
+        SetInteractability(_playTrialButton, false);
         SetInteractability(_startSessionButton, false);
     }
 
@@ -149,6 +166,7 @@ public class InstructorPanel : MonoBehaviour {
         SetVisibility(_pauseSessionButton, false);
         SetVisibility(_resumeSessionButton, true);
         SetInteractability(_resumeSessionButton, true);
+        SetVisibility(_playTrialButton, false);
         SetVisibility(_startSessionButton, false);
     }
 
@@ -157,6 +175,7 @@ public class InstructorPanel : MonoBehaviour {
     }
 
     private void OnInGameState() {
+        SetVisibility(_playTrialButton, false);
         SetVisibility(_startSessionButton, false);
         SetInteractability(_endPauseButtons, true);
         SetVisibility(_pauseSessionButton, true);
@@ -266,14 +285,14 @@ public class InstructorPanel : MonoBehaviour {
             zeroFToggle.value = BridgeDataManager.ZeroF;
         }
 
-        // Update the autoPlay toggle
-        var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
-        if (autoPlayToggle == null) {
-            Debug.LogWarning("Failed to find toggle element with name: auto_start_toggle");
-        }
-        else {
-            autoPlayToggle.value = BridgeDataManager.AutoStart;
-        }
+        // // Update the autoPlay toggle
+        // var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
+        // if (autoPlayToggle == null) {
+        //     Debug.LogWarning("Failed to find toggle element with name: auto_start_toggle");
+        // }
+        // else {
+        //     autoPlayToggle.value = BridgeDataManager.AutoStart;
+        // }
 
 
         // Update the level dropdown
@@ -293,7 +312,6 @@ public class InstructorPanel : MonoBehaviour {
     private void SetupUIChangeListeners(VisualElement root) {
         for (int i = 0; i < 5; i++) {
             int localIndex = i; // Create a local copy of the loop variable
-
             if (_sliders[i] != null) {
                 _sliders[i].RegisterValueChangedCallback(evt => UpdateHeight(localIndex, evt.newValue));
             }

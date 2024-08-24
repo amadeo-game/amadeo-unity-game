@@ -48,6 +48,7 @@ namespace BridgePackage {
 
         // Enable player units control
         private void EnablePlayerUnitControl() {
+            Debug.Log("UnitsControl: EnablePlayerUnitControl called");
             _setBestHeight = BridgeDataManager.IsFlexion
                 ? (height ,i) => _bestHeights[i] = Mathf.Min(height, _bestHeights[i])
                 : (height ,i) => _bestHeights[i] = Mathf.Max(height, _bestHeights[i]); 
@@ -127,6 +128,7 @@ namespace BridgePackage {
                 _moveUnits[i].SetControl(false);
                 _unitsInitialized = false;
             }
+            _moveUnits = new MoveUnit[5];
             
         }
 
@@ -156,8 +158,11 @@ namespace BridgePackage {
                 return;
             }
 
-            _moveUnits[unitIndex].SetControl(isEnable);
-            _moveUnits[unitIndex].ResetPosition();
+            // if (_moveUnits[unitIndex] != null) {
+            //     _moveUnits[unitIndex].SetControl(isEnable);
+            //     _moveUnits[unitIndex].ResetPosition();
+            // }
+
         }
 
         // private void OnBridgeStateChanged(BridgeStates state) {

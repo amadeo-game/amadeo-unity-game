@@ -36,6 +36,7 @@ namespace BridgePackage {
             BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
 
             BridgeEvents.GameFailedState += OnDestroyBridge;
+            BridgeEvents.ForceDestroyBridge += OnDestroyBridge;
         }
         
         private void OnDisable() {
@@ -47,6 +48,7 @@ namespace BridgePackage {
             BridgeEvents.BridgeCompletingState -= OnBridgeCompletingState;
             
             BridgeEvents.GameFailedState -= OnDestroyBridge;
+            BridgeEvents.ForceDestroyBridge -= OnDestroyBridge;
         }
 
         private void OnBridgeCompletingState() {

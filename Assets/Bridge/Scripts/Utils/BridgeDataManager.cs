@@ -1,18 +1,14 @@
-using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace BridgePackage {
     public class BridgeDataManager : MonoBehaviour {
         private static BridgeData BridgeData = new BridgeData();
         [SerializeField] BridgeCollectionSO _bridgeCollection;
-
+        
         private void Awake() {
-
-
             SetBridgeCollection(_bridgeCollection);
-            
+
             if (this._bridgeCollection == null) {
                 Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
             }
@@ -40,33 +36,31 @@ namespace BridgePackage {
                     }
                     // Debug.Log("BridgeDataManager :: AFTER Heights accessed " + string.Join(",", BridgeData.heights));
                 }
-                
+
                 Debug.Log("BridgeDataManager :: Heights accessed " + string.Join(",", BridgeData.heights));
 
                 return BridgeData.heights;
             }
         }
-        
-        public static int[] HeightsAbsolute => BridgeData.heights;
+
+        public static int[] HeightsAbsolute => BridgeData.heights.Select( Mathf.Abs).ToArray();
 
         public static BridgeTypeSO BridgeType {
             get {
-                
                 if (BridgeData.bridgeCollection == null) {
                     Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
-                    
                 }
-                
+
                 if (BridgeData.bridgeCollection.BridgeTypes.Length == 0) {
                     Debug.LogError("BridgeTypeSO is not assigned in BridgeDataManager, cannot proceed.");
                 }
 
                 return BridgeData.bridgeCollection.BridgeTypes[BridgeData.level] as BridgeTypeSO;
-        }
+            }
         }
 
         public static int Level => BridgeData.level;
-        
+
         public static int NumberOfLevels => BridgeData.bridgeCollection.BridgeTypes.Length;
         public static bool IsLeftHand => BridgeData.isLeftHand;
         public static bool IsFlexion => BridgeData.isFlexion;
@@ -80,11 +74,11 @@ namespace BridgePackage {
         public static SessionData SessionData => BridgeData.SessionData;
 
         // write all the setters too
-
         public static void SetHeights(int[] newHeights) {
             if (newHeights.Length == 5) {
                 BridgeData.heights = newHeights;
             }
+            
         }
 
         public static void SetLevel(int newLevel) {
@@ -155,7 +149,7 @@ namespace BridgePackage {
                 BridgeData.unitsGrace = floats;
             }
         }
-        
+
         public static void SetUnitsGrace(int index, float value) {
             if (index < 0 || index > 4) {
                 Debug.LogWarning("Index must be between 0 and 4.");
@@ -174,7 +168,7 @@ namespace BridgePackage {
             BridgeData.autoStart = newAutoPlay;
         }
 
-        internal static void SetSessionData(int[] heights ,float[] bestHeights, bool isSuccessful) {
+        internal static void SetSessionData(int[] heights, float[] bestHeights, bool isSuccessful) {
             BridgeData.SessionData.heights = BridgeData.heights.Select(x => Mathf.Abs(x)).ToArray();
             Debug.Log("SetSessionData :: " + string.Join(",", BridgeData.SessionData.heights));
             BridgeData.SessionData.BestYPositions = bestHeights;

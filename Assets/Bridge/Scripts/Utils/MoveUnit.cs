@@ -138,6 +138,7 @@ namespace BridgePackage {
 
         internal void ResetPosition() {
             _height = 0;
+            
             var transform1 = transform;
             Vector2 targetPosition = new Vector2(transform1.position.x, _height);
             transform1.position = targetPosition;

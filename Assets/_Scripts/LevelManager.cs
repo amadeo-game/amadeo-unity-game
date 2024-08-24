@@ -28,16 +28,16 @@ public class LevelManager : MonoBehaviour {
 
     private bool GameEnded { get; set; } = false;
 
-    private void OnEnable() {
-        // GameStatesEvents.GameSessionInitialized += StartSession;
-        BridgeEvents.BridgeReadyState += EnableUnits;
-
-        BridgeEvents.BridgeIsCompletedState += OnSessionEnd;
-        BridgeEvents.GameWonState += PrepareNextSession;
-        BridgeEvents.GameFailedState += PrepareNextSession;
-
-        BridgeEvents.IdleState += StartNextSession;
-    }
+    // private void OnEnable() {
+    //     // GameStatesEvents.GameSessionInitialized += StartSession;
+    //     BridgeEvents.BridgeReadyState += EnableUnits;
+    //
+    //     BridgeEvents.BridgeIsCompletedState += OnSessionEnd;
+    //     BridgeEvents.GameWonState += PrepareNextSession;
+    //     BridgeEvents.GameFailedState += PrepareNextSession;
+    //
+    //     BridgeEvents.IdleState += StartNextSession;
+    // }
     
     private void ShowGameEndCanvas(bool show = true) {
         _gameEndCanvas.gameObject.SetActive(show);
@@ -58,15 +58,15 @@ public class LevelManager : MonoBehaviour {
     }
 
 
-    private void OnDisable() {
-        // GameStatesEvents.GameSessionInitialized -= StartSession;
-        BridgeEvents.BridgeReadyState -= EnableUnits;
-        BridgeEvents.IdleState -= StartNextSession;
-        BridgeEvents.GameWonState -= PrepareNextSession;
-        BridgeEvents.GameFailedState += PrepareNextSession;
-
-        BridgeEvents.BridgeIsCompletedState -= OnSessionEnd;
-    }
+    // private void OnDisable() {
+    //     // GameStatesEvents.GameSessionInitialized -= StartSession;
+    //     BridgeEvents.BridgeReadyState -= EnableUnits;
+    //     BridgeEvents.IdleState -= StartNextSession;
+    //     BridgeEvents.GameWonState -= PrepareNextSession;
+    //     BridgeEvents.GameFailedState += PrepareNextSession;
+    //
+    //     BridgeEvents.BridgeIsCompletedState -= OnSessionEnd;
+    // }
 
 
     public void InitializeSession() {
@@ -134,7 +134,7 @@ public class LevelManager : MonoBehaviour {
         string hand = BridgeDataManager.IsLeftHand ? "Left" : "Right";
         Debug.Log("LevelManager :: StartSession() called., chosen Hand is " + hand);
         // Start the game session
-        BridgeEvents.BuildingBridgeAction?.Invoke();
+        BridgeEvents.PlayTrial?.Invoke();
         GameplayEvents.GameStarted?.Invoke();
         sessionCount++;
     }

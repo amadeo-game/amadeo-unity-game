@@ -26,10 +26,10 @@ namespace BridgePackage {
 
         // Last state before the game starts, used to prepare the game (UI, animations, etc)
         public static Action StartingGameState;
-        
+
         // The game is in progress and the player can interact with the units
         public static Action InGameState;
-        
+
         // The game is paused
         public static Action GamePausedState;
 
@@ -44,18 +44,23 @@ namespace BridgePackage {
 
         // The bridge is completing
         public static Action BridgeCompletingState;
-        
+
         // Animate the bridge completing
         public static Action AnimatingBridgeCompletingState;
-        
+
         // The bridge is completed
         public static Action BridgeIsCompletedState;
 
         // The game has been won
         public static Action GameWonState;
 
+        // Game Over
+        public static Action GameFinishedState;
 
-        
+
+        public static Action<bool> EnableIndividuation;
+        public static Action<bool> EnableMultiFingerSimultaneous;
+
         internal static Action<FingerUnit, bool> UnitPlacementStatusChanged;
         internal static Action<int, bool> ActiveUnitChanged;
         internal static Action<int, float> MvcExtensionUpdated;
@@ -63,7 +68,14 @@ namespace BridgePackage {
         internal static Action<int, float> UnitGraceUpdated;
 
         public static Action<int> CountDown;
+        
+        // For adjusting difficulty
+        public static Action PrepareBridgeConfigs;
+        
         public static Action<BridgeData> OnBridgeDataUpdated;
+        
+        internal static Action ForceDestroyBridge;
+
 
         // ---- RETURN EVENTS ----
 
@@ -73,7 +85,7 @@ namespace BridgePackage {
 
         // Finished building the bridge
         public static Action FinishedBuildingBridge;
-        
+
         // FinishStartingGameProcess
         public static Action FinishStartingGameProcess;
 
@@ -83,7 +95,7 @@ namespace BridgePackage {
 
         // Finished animate collapsing
         public static Action FinishedAnimatingBridgeCollapsingState;
-        
+
         // Finished animate completing
         public static Action FinishedAnimatingBridgeCompletingState;
 
@@ -95,11 +107,13 @@ namespace BridgePackage {
         // ---- Mid-Game Interaction Events ----
 
         // 
-        public static Action BuildingBridgeAction;
-            
+        public static Action PlayTrial;
+
+        public static Action PlaySession;
+
         // Enable the guide units
         public static Action EnableGameInteraction;
-        
+
         // called when the game is paused
         public static Action PauseGameAction;
 
@@ -108,8 +122,14 @@ namespace BridgePackage {
 
         // Initiate collapsing the bridge
         public static Action CollapseBridgeAction;
-        
+
         // Restart the game
         public static Action RestartGameAction;
+
+        // Game Over Action
+        public static Action GameFinishedAction;
+        
+        
+        
     }
 }
