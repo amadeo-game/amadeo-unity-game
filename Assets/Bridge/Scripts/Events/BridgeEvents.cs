@@ -63,6 +63,9 @@ namespace BridgePackage {
 
         internal static Action<FingerUnit, bool> UnitPlacementStatusChanged;
         internal static Action<int, bool> ActiveUnitChanged;
+        public static Action<bool[]> PlayableUnitsChanged;
+        public static Action<float[]> GraceValuesChanged;
+        public static Action<int[]> HeightValuesChanged;
         internal static Action<int, float> MvcExtensionUpdated;
         internal static Action<int, float> MvcFlexionUpdated;
         internal static Action<int, float> UnitGraceUpdated;

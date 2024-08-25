@@ -52,13 +52,13 @@ namespace BridgePackage {
         
         private static void BuildBridge(int[] playerUnitsHeights) {
             
-            Debug.Log($"BuildBridge: bridgeHolder is {BridgeHolder}");
+            // Debug.Log($"BuildBridge: bridgeHolder is {BridgeHolder}");
 
 
 
             // Instantiate a new bridge holder
             BridgeHolder = new GameObject("Bridge Holder");
-            Debug.Log("BuildBridge: New bridgeHolder instantiated");
+            // Debug.Log("BuildBridge: New bridgeHolder instantiated");
 
             var envUnits = GetBridgeEnvironmentHeights(playerUnitsHeights);
 

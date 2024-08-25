@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class InstructorPanel : MonoBehaviour {
+    [SerializeField] private bool _debug = false;
     public LevelManager LevelManager;
     // Containers for UI elements
     private VisualElement _preGameConfigs;
@@ -20,9 +21,12 @@ public class InstructorPanel : MonoBehaviour {
     private Button _playTrialButton;
     private Button _startSessionButton;
 
+    // UI elements
     private List<SliderInt> _sliders = new List<SliderInt>(); // List to hold slider references
     private DropdownField _dropdownField;
     private List<string> levels;
+    private Toggle[] _activeUnitToggles = new Toggle[5];
+    private FloatField[] _graceFields = new FloatField[5];
 
 
     private void Start() {
@@ -114,6 +118,11 @@ public class InstructorPanel : MonoBehaviour {
         BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
         BridgeEvents.GameFailedState += OnGameFailedState;
         BridgeEvents.GameWonState += OnGameWonState;
+        
+        // On Field Changes
+        BridgeEvents.PlayableUnitsChanged += OnActiveUnitsChanged;
+        BridgeEvents.GraceValuesChanged += OnGraceChanged;
+        BridgeEvents.HeightValuesChanged += OnHeightsChanged;
     }
 
     private void OnGameFailedState() {
@@ -145,6 +154,11 @@ public class InstructorPanel : MonoBehaviour {
         BridgeEvents.BridgeCompletingState -= OnBridgeCompletingState;
         BridgeEvents.GameFailedState -= OnGameFailedState;
         BridgeEvents.GameWonState -= OnGameWonState;
+        
+        // On Field Changes
+        BridgeEvents.PlayableUnitsChanged -= OnActiveUnitsChanged;
+        BridgeEvents.GraceValuesChanged -= OnGraceChanged;
+        BridgeEvents.HeightValuesChanged -= OnHeightsChanged;
     }
     
     private void OnIdleState() {
@@ -319,6 +333,7 @@ public class InstructorPanel : MonoBehaviour {
             var graceField = root.Q<FloatField>("grace_" + (localIndex + 1));
             if (graceField != null) {
                 graceField.RegisterValueChangedCallback(evt => UpdateGrace(localIndex, evt.newValue));
+                _graceFields[localIndex] = graceField;
             }
 
             var mvcExtField = root.Q<IntegerField>("mvc_e_" + (localIndex + 1));
@@ -334,6 +349,7 @@ public class InstructorPanel : MonoBehaviour {
             var toggle = root.Q<Toggle>("active_unit_" + (localIndex + 1));
             if (toggle != null) {
                 toggle.RegisterValueChangedCallback(evt => UpdateActiveUnit(localIndex, evt.newValue));
+                _activeUnitToggles[localIndex] = toggle;
             }
         }
 
@@ -440,5 +456,31 @@ public class InstructorPanel : MonoBehaviour {
     /// <param name="newState">New active state.</param>
     private void UpdateActiveUnit(int index, bool newState) {
         BridgeDataManager.SetPlayableUnit(index: index, value: newState);
+    }
+    
+    private void OnActiveUnitsChanged(bool[] activeUnits) {
+        for (int i = 0; i < activeUnits.Length; i++) {
+            // if not active do not apply the green color
+            // _activeUnitToggles[i].style.color = activeUnits[i] ? Color.green : Color.white;
+            _activeUnitToggles[i].Q<VisualElement>("unity-checkmark").style.backgroundColor = activeUnits[i] ? Color.green : Color.white;
+            if (_debug) {
+                Debug.Log($"Unit {i + 1} is active: {activeUnits[i]}");
+            }
+        }
+    }
+    
+    private void OnGraceChanged(float[] graceValues) {
+        for (int i = 0; i < graceValues.Length; i++) {
+            _graceFields[i].value = graceValues[i];
+        }
+    }
+    
+    private void OnHeightsChanged(int[] heights) {
+        for (int i = 0; i < heights.Length; i++) {
+            _sliders[i].value = Mathf.Abs(heights[i]);
+            if (_debug) {
+                Debug.Log("Slider " + i + " value: " + heights[i]);
+            }
+        }
     }
 }

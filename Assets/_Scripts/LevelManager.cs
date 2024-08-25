@@ -197,7 +197,7 @@ public class LevelManager : MonoBehaviour {
 
 
         BridgeDataManager.SetHeights(adjustedHeights);
-        BridgeDataManager.SetPlayableUnits(_playableUnits);
+        // BridgeDataManager.SetPlayableUnits(_playableUnits);
     }
 
     private int[] AssignRandomHeights() {

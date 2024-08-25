@@ -8,7 +8,7 @@ namespace BridgePackage {
     /// Controls the individual player unit.
     /// </summary>
     public class MoveUnit : MonoBehaviour {
-        private bool _controlEnabled = false;
+        [SerializeField] private bool _controlEnabled = false;
 
         private Rigidbody2D _rb; // Cached reference to the Rigidbody2D component
         public BoxCollider2D Collider; // Cached reference to the BoxCollider2D component

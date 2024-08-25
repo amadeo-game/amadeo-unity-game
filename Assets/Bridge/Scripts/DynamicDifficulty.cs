@@ -31,7 +31,7 @@ namespace BridgePackage {
         private bool _firstTrial = true;
 
         // Set to when the individuation starts
-        [SerializeField] private int _individuationStartLevel = 3;
+        [SerializeField] private int _individuationStartLevel = 2;
 
         // Should be greater than the individuation start level, because it is usually harder
         [SerializeField] private int _multiFingerSimultaneousStartLevel = 5;
@@ -43,6 +43,8 @@ namespace BridgePackage {
         [SerializeField] private int _numOfSuccessfulTrialsBeforeIncreasingHeightDifficulty = 2;
 
         [SerializeField] private int _numOfTrialsInLevel = 5;
+
+        private int _numOfStaticFingersIndividuation = 1;
 
         private int _numOfLevelsInGame;
 
@@ -116,7 +118,7 @@ namespace BridgePackage {
                 .Where(pair => pair.value)
                 .Select(pair => pair.index)
                 .ToHashSet();
-            
+
             if (_debug) {
                 Debug.Log("Active Fingers: " + string.Join(",", _allowedFingers));
             }
@@ -141,7 +143,10 @@ namespace BridgePackage {
                 InitSession();
                 _activeFingers.Add(_allowedFingers.First());
                 _firstTrial = false;
-                BridgeDataManager.Heights[_activeFingers.First()] = 1;
+                var initialHeights = BridgeDataManager.Heights;
+                initialHeights[_activeFingers.First()] = 1;
+
+                BridgeDataManager.SetHeights(initialHeights);
                 BridgeDataManager.SetPlayableUnits(new bool[5]);
                 BridgeDataManager.PlayableUnits[_activeFingers.First()] = true;
                 // _levelData.LastPlayedFingers.Clear();
@@ -153,6 +158,7 @@ namespace BridgePackage {
             if (_debug) {
                 Debug.Log("SessionData: Success ? " + sessionData.success);
             }
+
             if (_levelData.TrialCount >= _numOfTrialsInLevel) {
                 _levelData.TrialCount = 0;
                 _levelData.NumOfSuccessfulTrials = 0;
@@ -175,7 +181,7 @@ namespace BridgePackage {
             else {
                 _levelData.TrialCount++;
             }
-            
+
             if (sessionData.success) {
                 _levelData.NumOfSuccessfulTrials++;
             }
@@ -196,9 +202,6 @@ namespace BridgePackage {
                 }
             }
             else if (_fingerMethod is not FingerMethod.SingleFinger) {
-                 
-
-                
                 var lowerDifficulty = _levelData.NumOfFailedTrials >= _numOfFailedTrialsBeforeLoweringFingerMethod;
                 if (lowerDifficulty) {
                     if (_fingerMethod is FingerMethod.MultiFingerSimultaneous) {
@@ -226,11 +229,12 @@ namespace BridgePackage {
             if (_debug) {
                 Debug.Log("Last Played Fingers: " + string.Join(",", lastPlayedFingers));
             }
+
             foreach (var finger in lastPlayedFingers) {
                 if (sessionData.success) {
-                    if (_levelData.NumOfSuccessfulTrials >= _numOfSuccessfulTrialsBeforeIncreasingHeightDifficulty ) {
+                    if (_levelData.NumOfSuccessfulTrials >= _numOfSuccessfulTrialsBeforeIncreasingHeightDifficulty) {
                         _levelData.NumOfSuccessfulTrials = 0;
-                        
+
                         updatedHeights[finger] = Mathf.Min(_mvcToHeights[finger], updatedHeights[finger] + 1);
                     }
                 }
@@ -240,18 +244,18 @@ namespace BridgePackage {
                 }
             }
 
+            if (_allowedFingers.Count >= 1) {
+                // In this part, we will adjust the next playable fingers based on the finger method
+                switch (_fingerMethod) {
+                    case FingerMethod.SingleFinger:
+                        Debug.Log("UpdateDifficulty: SingleFinger");
+                        // if session was successful, increase the height of the active finger
 
-            // In this part, we will adjust the next playable fingers based on the finger method
-            switch (_fingerMethod) {
-                case FingerMethod.SingleFinger:
-                    Debug.Log("UpdateDifficulty: SingleFinger");
-                    // if session was successful, increase the height of the active finger
-                    if (_allowedFingers.Count >= 1) {
                         // Randomly select a finger from the allowed fingers
                         Debug.Log("allowedFingers: " + string.Join(",", _allowedFingers));
                         var randomFinger =
                             _allowedFingers.ElementAt(Random.Range(0, _allowedFingers.Count));
-                        
+
                         _activeFingers.Clear();
                         _activeFingers.Add(randomFinger);
                         // Make sure the current height for this finger is between the range of 1 and the MVC/4 of the finger
@@ -262,67 +266,90 @@ namespace BridgePackage {
                         else if (updatedHeights[randomFinger] > _mvcToHeights[randomFinger]) {
                             updatedHeights[randomFinger] = _mvcToHeights[randomFinger];
                         }
-                    }
-                    break;
-                case FingerMethod.Individuation:
-                    Debug.Log("UpdateDifficulty: Individuation");
-                    // in individuation, we want to make the same thing in single finger,
-                    // we choose a random finger from the allowed fingers and activate it with a height in the valid range 
-                    // but we want to make sure also to activate the other allowed fingers with a height of 0
 
-                    // Randomly select a finger from the allowed fingers
-                    var randomFingerIndividuation =
-                        _allowedFingers.ElementAt(UnityEngine.Random.Range(0, _allowedFingers.Count));
 
-                    // var howManySimultaneousFingers = _activeFingers.Count;
+                        break;
+                    case FingerMethod.Individuation:
+                        Debug.Log("UpdateDifficulty: Individuation");
+                        // in individuation, we want to make the same thing in single finger,
+                        // we choose a random finger from the allowed fingers and activate it with a height in the valid range 
+                        // but we want to make sure also to activate the other allowed fingers with a height of 0
 
-                    // Make sure the current height for this finger is between the range of 1 and the MVC/4 of the finger
-                    // If so, leave it as is, else set it to 1 or the MVC/4 of the finger
-                    if (updatedHeights[randomFingerIndividuation] == 0) {
-                        updatedHeights[randomFingerIndividuation] = 1;
-                    }
-                    else if (updatedHeights[randomFingerIndividuation] > _mvcToHeights[randomFingerIndividuation]) {
-                        updatedHeights[randomFingerIndividuation] = _mvcToHeights[randomFingerIndividuation];
-                    }
+                        // Randomly select a finger from the allowed fingers
+                        var randomFingerIndividuation =
+                            _allowedFingers.ElementAt(UnityEngine.Random.Range(0, _allowedFingers.Count));
 
-                    // Choose the number of howManyIndividuatedFingers from the allowed fingers
+                        // var howManySimultaneousFingers = _activeFingers.Count;
 
-                    // Activate the other allowed fingers with a height of 0
-                    foreach (var finger in _allowedFingers) {
-                        if (finger == randomFingerIndividuation) {
-                            continue;
+                        // Make sure the current height for this finger is between the range of 1 and the MVC/4 of the finger
+                        // If so, leave it as is, else set it to 1 or the MVC/4 of the finger
+                        if (updatedHeights[randomFingerIndividuation] == 0) {
+                            updatedHeights[randomFingerIndividuation] = 1;
+                        }
+                        else if (updatedHeights[randomFingerIndividuation] > _mvcToHeights[randomFingerIndividuation]) {
+                            updatedHeights[randomFingerIndividuation] = _mvcToHeights[randomFingerIndividuation];
                         }
 
-                        updatedHeights[finger] = 0;
-                    }
+                        // if the last session was a success,
+                        // increase the number of static fingers in individuation up to the allowed fingers count - 1
+                        if (sessionData.success) {
+                            _numOfStaticFingersIndividuation = Mathf.Min(_allowedFingers.Count - 1,
+                                _numOfStaticFingersIndividuation + 1);
+                        }
+                        else {
+                            _numOfStaticFingersIndividuation = Mathf.Max(1, _numOfStaticFingersIndividuation - 1);
+                        }
 
-                    _activeFingers.Clear();
+                        // Activate the other allowed fingers with a height of 0
+                        // choose _numOfStaticFingersIndividuation arbitrarily num fingers from _allowedFingers that is not the randomFingerIndividuation, and apply their height to be 0
+                        // it may be that the _numOfStaticFingersIndividuation is less than the number of allowed fingers, so we need to choose randomly from the allowed fingers
+                        var nonActiveFingersIndividuation = _allowedFingers.ToList();
+                        nonActiveFingersIndividuation.Remove(randomFingerIndividuation);
+                        for (int i = 0; i < _numOfStaticFingersIndividuation; i++) {
+                            if (_numOfStaticFingersIndividuation >= _allowedFingers.Count) {
+                                break;
+                            }
 
-                    // Add the random finger and the other fingers with a height of 0 to the active fingers
-                    _activeFingers.UnionWith(_allowedFingers);
-                    break;
-                case FingerMethod.MultiFingerSimultaneous:
-                    Debug.Log("UpdateDifficulty: MultiFingerSimultaneous");
-                    // in multi-finger simultaneous, we want to make the same thing in individuation, but we want to put all the fingers with height greater than 0
+                            var randomStaticFinger =
+                                nonActiveFingersIndividuation[Random.Range(0, nonActiveFingersIndividuation.Count)];
+                            updatedHeights[randomStaticFinger] = 0;
+                            nonActiveFingersIndividuation.Remove(randomStaticFinger);
+                        }
 
-                    
 
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                        _activeFingers.Clear();
+
+                        // Add the random finger and the other fingers with a height of 0 to the active fingers
+                        _activeFingers.UnionWith(_allowedFingers);
+                        break;
+                    case FingerMethod.MultiFingerSimultaneous:
+                        Debug.Log("UpdateDifficulty: MultiFingerSimultaneous");
+                        // in multi-finger simultaneous, we want to make the same thing in individuation, but we want to put all the fingers with height greater than 0
+
+
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
             }
-            
+
             // shuffle all the heights values that are not an active finger index, using the non-active fingers
             var nonActiveFingers = _nonActiveFingers.ToList();
             foreach (int finger in nonActiveFingers) {
                 updatedHeights[finger] = Random.Range(1, _mvcToHeights[finger]);
             }
-            
+
+            // Set the updated heights
             BridgeDataManager.SetHeights(updatedHeights);
 
+
+            // Set the playable units
+            bool[] playableUnits = new bool[5];
             for (int i = 0; i < BridgeDataManager.PlayableUnits.Length; i++) {
-                BridgeDataManager.PlayableUnits[i] = _activeFingers.Contains(i);
+                playableUnits[i] = _activeFingers.Contains(i);
             }
+
+            BridgeDataManager.SetPlayableUnits(playableUnits);
         }
     }
 

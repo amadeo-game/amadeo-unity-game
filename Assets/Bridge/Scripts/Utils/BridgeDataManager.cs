@@ -77,6 +77,7 @@ namespace BridgePackage {
         public static void SetHeights(int[] newHeights) {
             if (newHeights.Length == 5) {
                 BridgeData.heights = newHeights;
+                BridgeEvents.HeightValuesChanged?.Invoke(newHeights);
             }
             
         }
@@ -132,6 +133,10 @@ namespace BridgePackage {
         public static void SetPlayableUnits(bool[] newPlayableUnits) {
             if (newPlayableUnits.Length == 5) {
                 BridgeData.playableUnits = newPlayableUnits;
+                BridgeEvents.PlayableUnitsChanged?.Invoke(newPlayableUnits);
+            }
+            else {
+                Debug.LogWarning("Playable units must be an array of length 5.");
             }
         }
 
@@ -147,6 +152,7 @@ namespace BridgePackage {
         public static void SetUnitsGrace(float[] floats) {
             if (floats.Length == 5) {
                 BridgeData.unitsGrace = floats;
+                BridgeEvents.GraceValuesChanged?.Invoke(floats);
             }
         }
 
