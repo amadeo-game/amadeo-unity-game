@@ -709,11 +709,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debug: 1
-  _individuationStartLevel: 3
-  _multiFingerSimultaneousStartLevel: 5
-  _numOfFailedTrialsBeforeLoweringFingerMethod: 2
-  _numOfSuccessfulTrialsBeforeIncreasingHeightDifficulty: 2
-  _numOfTrialsInLevel: 5
+  _isolatedControlStartLevel: 2
+  _multiFingerControlStartLevel: 5
+  _failuresBeforeModeReduction: 2
+  _successesBeforeHeightIncrease: 2
+  _trialsPerLevel: 5
 --- !u!1 &502380573
 GameObject:
   m_ObjectHideFlags: 0
@@ -953,6 +953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87acfd3d3fc72d346b5b54f992424f67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debug: 1
   LevelManager: {fileID: 1439435748}
 --- !u!1 &980915679
 GameObject:

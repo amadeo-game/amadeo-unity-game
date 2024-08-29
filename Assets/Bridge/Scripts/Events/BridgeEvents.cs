@@ -58,8 +58,8 @@ namespace BridgePackage {
         public static Action GameFinishedState;
 
 
-        public static Action<bool> EnableIndividuation;
-        public static Action<bool> EnableMultiFingerSimultaneous;
+        public static Action<bool> EnableIsolatedControl;
+        public static Action<bool> EnableMultiFingerControl;
 
         internal static Action<FingerUnit, bool> UnitPlacementStatusChanged;
         internal static Action<int, bool> ActiveUnitChanged;

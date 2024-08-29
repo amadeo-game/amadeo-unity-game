@@ -37,7 +37,7 @@ namespace BridgePackage {
                     // Debug.Log("BridgeDataManager :: AFTER Heights accessed " + string.Join(",", BridgeData.heights));
                 }
 
-                Debug.Log("BridgeDataManager :: Heights accessed " + string.Join(",", BridgeData.heights));
+                // Debug.Log("BridgeDataManager :: Heights accessed " + string.Join(",", BridgeData.heights));
 
                 return BridgeData.heights;
             }

@@ -48,7 +48,6 @@ namespace BridgePackage {
 
         // Enable player units control
         private void EnablePlayerUnitControl() {
-            Debug.Log("UnitsControl: EnablePlayerUnitControl called");
             _setBestHeight = BridgeDataManager.IsFlexion
                 ? (height ,i) => _bestHeights[i] = Mathf.Min(height, _bestHeights[i])
                 : (height ,i) => _bestHeights[i] = Mathf.Max(height, _bestHeights[i]); 

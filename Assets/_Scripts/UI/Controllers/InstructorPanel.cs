@@ -27,6 +27,9 @@ public class InstructorPanel : MonoBehaviour {
     private List<string> levels;
     private Toggle[] _activeUnitToggles = new Toggle[5];
     private FloatField[] _graceFields = new FloatField[5];
+    
+    private Toggle _isolatedControlToggle;
+    private Toggle _multiFingerControlToggle;
 
 
     private void Start() {
@@ -380,13 +383,21 @@ public class InstructorPanel : MonoBehaviour {
 
         zeroFToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetZeroF(evt.newValue));
 
-        var autoPlayToggle = root.Q<Toggle>("auto_start_toggle");
-        if (autoPlayToggle == null) {
-            Debug.LogWarning("Failed to find toggle element with name:  + auto_start_toggle");
+        _isolatedControlToggle = root.Q<Toggle>("isolated_control_toggle");
+        if (_isolatedControlToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name:  + _isolatedControlToggle");
         }
 
-        autoPlayToggle.RegisterValueChangedCallback(evt => BridgeDataManager.SetAutoStart(evt.newValue));
+        _isolatedControlToggle.RegisterValueChangedCallback(evt => BridgeEvents.EnableIsolatedControl(evt.newValue));
 
+        _multiFingerControlToggle = root.Q<Toggle>("multi_finger_toggle");
+        if (_multiFingerControlToggle == null) {
+            Debug.LogWarning("Failed to find toggle element with name:  + _multiFingerControlToggle");
+        }
+        
+        
+        _multiFingerControlToggle.RegisterValueChangedCallback(evt => BridgeEvents.EnableMultiFingerControl(evt.newValue));
+        
         var dropdown = root.Q<DropdownField>("level_picker");
         if (dropdown != null) {
             dropdown.bindingPath = "level";

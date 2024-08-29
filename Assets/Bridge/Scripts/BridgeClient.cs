@@ -76,7 +76,6 @@ namespace BridgePackage {
 
         private void GetForcesFromInput() {
             if (_useInputSystem) {
- 
                 //
                 //
                 _forces[0] += Finger1.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
@@ -161,10 +160,6 @@ namespace BridgePackage {
             }
 
             if (inputType is InputType.EmulationMode) {
-                if (_debug) {
-                    Debug.Log("BridgeClient is in ZeroF state. Starting zeroing forces.");
-                }
-
                 BridgeEvents.FinishedZeroF?.Invoke();
                 return;
             }
@@ -189,9 +184,10 @@ namespace BridgePackage {
             try {
                 _udpClient = new UdpClient(_port); // Listen for data on port (should be 4444)
                 // you can use this to store and use specific endpoint
-             
-                _remoteEndPoint = new IPEndPoint(IPAddress.Parse("10.100.4.30"), 0); // Placeholder for any remote endpoint
-                                                                                     // Start receiving data asynchronously
+
+                _remoteEndPoint =
+                    new IPEndPoint(IPAddress.Parse("10.100.4.30"), 0); // Placeholder for any remote endpoint
+                // Start receiving data asynchronously
                 _udpClient.BeginReceive(ReceiveDataCallback, null);
             }
             catch (Exception ex) {
@@ -239,8 +235,6 @@ namespace BridgePackage {
                 if (_debug) {
                     Debug.Log("StartReceiveData :: Amadeo mode is true. Listening to data from Amadeo device...");
                 }
-
-                //ReceiveDataAmadeo(_cancellationTokenSource.Token);
             }
         }
 
@@ -260,42 +254,31 @@ namespace BridgePackage {
             }
         }
 
-        private void ReceiveDataCallback(IAsyncResult ar)
-        {
-            //Stopwatch stopwatch = new Stopwatch();
-            if (_isReceiving)
-            {
-                try
-                {
-                    // stopwatch.Start();
+        private void ReceiveDataCallback(IAsyncResult ar) {
+            if (_isReceiving) {
+                try {
                     byte[] receivedBytes = _udpClient.EndReceive(ar, ref _remoteEndPoint);
                     string receivedData = Encoding.ASCII.GetString(receivedBytes);
-                    //stopwatch.Stop();
 
-                    if (_debug)
-                    {
+
+                    if (_debug) {
                         Debug.Log("Receive Data from Amadeo");
 
                         Debug.Log($"Received data: {receivedData}");
                     }
 
                     HandleReceivedData(ParseDataFromAmadeo(receivedData));
-                    //Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
-                    //stopwatch.Reset();
                 }
-                catch (OperationCanceledException)
-                {
+                catch (OperationCanceledException) {
                     Debug.Log("Data reception was canceled.");
-
                 }
-                catch (Exception ex)
-                {
+                catch (Exception ex) {
                     Debug.LogError($"Exception in ReceiveData: {ex.Message}");
                 }
             }
+
             _udpClient.BeginReceive(ReceiveDataCallback, null);
         }
-
 
 
         private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
@@ -359,19 +342,10 @@ namespace BridgePackage {
             }
 
             string[] strForces = data.Split('\t');
-            // Debug.Log("strForces: " + string.Join(", ", strForces));
             if (strForces.Length != 11) {
                 Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
-
-            //Debug.Log($"Data received at: {Time.time}");
-            // // Parse the forces from the received data, str length is 11
-            // strForces.Select(str =>
-            //         float.Parse(str.Replace(",", "."), CultureInfo.InvariantCulture))
-            //     .Skip(strForces.Length - 5) // Skip to the last 5 elements
-            //     .ToArray()
-            //     .CopyTo(_forces, 0); // Copy to test array starting at index 0
 
             // Assuming strForces is a string array with at least 11 elements
             for (int i = 0; i < 5; i++) {
@@ -380,7 +354,6 @@ namespace BridgePackage {
                     CultureInfo.InvariantCulture);
                 _forces[i] = Mathf.Clamp(force, -5.0f, 5.0f);
             }
-
 
 
             OffsetForcesAndSend();
@@ -417,7 +390,8 @@ namespace BridgePackage {
                     _forces[i] = offsetValue2;
                     _forces[length - 1 - i] = offsetValue1;
                 }
-            } else {
+            }
+            else {
                 // Subtract zeroForces from forces
                 for (int i = 0; i < length; i++) {
                     _forces[i] -= _zeroForces[i];
@@ -430,7 +404,7 @@ namespace BridgePackage {
                 int midIndex = length / 2;
                 _forces[midIndex] -= _zeroForces[midIndex];
             }
-            
+
             // Mark the data as received
             _dataReceived = true;
 

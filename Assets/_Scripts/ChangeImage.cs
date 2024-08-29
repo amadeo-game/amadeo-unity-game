@@ -19,7 +19,7 @@ public class ChangeImage : MonoBehaviour
         }
 
         // Listen for the BridgeIsComplete event
-        Debug.Log("ChangeImage: Subscribing to BridgeIsComplete event.");
+        // Debug.Log("ChangeImage: Subscribing to BridgeIsComplete event.");
         BridgeEvents.BridgeCompletingState += ChangeSprite;
     }
         
@@ -33,11 +33,11 @@ public class ChangeImage : MonoBehaviour
 
     private void ChangeSprite()
     {
-        Debug.Log("ChangeSprite: Event triggered, changing sprite.");
+        // Debug.Log("ChangeSprite: Event triggered, changing sprite.");
         if (imageComponent != null && newSprite != null)
         {
             imageComponent.sprite = newSprite;
-            Debug.Log("ChangeSprite: Sprite changed successfully.");
+            // Debug.Log("ChangeSprite: Sprite changed successfully.");
         }
         else
         {
