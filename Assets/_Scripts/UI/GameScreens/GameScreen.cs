@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 [RequireComponent(typeof(UIDocument))]
 public class GameScreen : MonoBehaviour {
-    const float k_DelayWinScreen = 2f;
+    const float k_DelayWinScreen = 0.5f;
     [SerializeField] bool _openInstructorPanelAtStart = false;
 
     // string IDs
@@ -16,6 +16,8 @@ public class GameScreen : MonoBehaviour {
     VisualElement _instructorPanelRootElement;
     VisualElement _winScreenRootElement;
     VisualElement _loseScreenRootElement;
+    VisualElement _zerofScreenRootElement;
+    VisualElement _startingGameCountdownVisualElement;
 
 
     [FormerlySerializedAs("_pauseScreen")] [SerializeField]
@@ -24,8 +26,13 @@ public class GameScreen : MonoBehaviour {
     [SerializeField] UIDocument _instructorScreen;
     [SerializeField] UIDocument _instructorPanel;
 
-    [FormerlySerializedAs("m_WinScreen")] [SerializeField]
-    UIDocument m_WinLoseScreen;
+    [SerializeField] UIDocument m_WinLoseScreen;
+
+    [SerializeField] UIDocument _zerofScreen;
+    [SerializeField] UIDocument _startingGameCountdown;
+    
+    private int _countDownTime = 3;
+
 
     Slider _musicSlider;
     Slider _sfxSlider;
@@ -45,6 +52,7 @@ public class GameScreen : MonoBehaviour {
 
     bool m_IsGameOver;
 
+
     void OnEnable() {
         SetVisualElements();
         RegisterButtonCallbacks();
@@ -55,10 +63,40 @@ public class GameScreen : MonoBehaviour {
         GameplayEvents.WinScreenShown += OnGameWon;
         GameplayEvents.LoseScreenShown += OnGameLost;
         GameplayEvents.GameStarted += SetIdleStateScreen;
+        BridgeEvents.InZeroFState += ShowZeroFScreen;
+        BridgeEvents.StartingGameState += OnStartingGameState;
+        BridgeEvents.CountDown += UpdateCountDownLabel;
+        BridgeEvents.InGameState += OnInGameState;
+        
         BridgeEvents.OnTimeDurationChanged += UpdateTimeLabel;
+        BridgeEvents.IdleState += SetIdleStateScreen;
 
 
         GameplayEvents.SettingsUpdated += OnSettingsUpdated;
+    }
+
+    private void OnInGameState() {
+        ShowVisualElement(_startingGameCountdownVisualElement, false);
+    }
+
+    private void UpdateCountDownLabel(int timeText) {
+        if (timeText > _countDownTime) { // TODO : Wierd solution but for now its okay, need to find a better solution
+            _countDownTime = timeText;
+        }
+        if (_startingGameCountdownVisualElement != null) {
+            _startingGameCountdownVisualElement.Q<Label>("game_starting_countdown_label").text = timeText.ToString();
+        }
+    }
+
+    private void OnStartingGameState() {
+        ShowVisualElement(_zerofScreenRootElement, false);
+        ShowVisualElement(_startingGameCountdownVisualElement, true);
+        _startingGameCountdownVisualElement.Q<Label>("game_starting_countdown_label").text = _countDownTime.ToString();
+        
+    }
+
+    private void ShowZeroFScreen() {
+        ShowVisualElement(_zerofScreenRootElement, true);
     }
 
     private void UpdateTimeLabel(float newTime) {
@@ -74,8 +112,14 @@ public class GameScreen : MonoBehaviour {
     void OnDisable() {
         GameplayEvents.WinScreenShown -= OnGameWon;
         GameplayEvents.LoseScreenShown -= OnGameLost;
-        GameplayEvents.GameRestarted -= SetIdleStateScreen;
+        GameplayEvents.GameStarted -= SetIdleStateScreen;
+        BridgeEvents.InZeroFState -= ShowZeroFScreen;
+        BridgeEvents.StartingGameState -= OnStartingGameState;
+        BridgeEvents.CountDown -= UpdateCountDownLabel;
+        BridgeEvents.InGameState -= OnInGameState;
+        
         BridgeEvents.OnTimeDurationChanged -= UpdateTimeLabel;
+        BridgeEvents.IdleState -= SetIdleStateScreen;
 
 
         GameplayEvents.SettingsUpdated -= OnSettingsUpdated;
@@ -91,10 +135,14 @@ public class GameScreen : MonoBehaviour {
 
         _winScreenRootElement = m_WinLoseScreen.rootVisualElement.Q<VisualElement>("game-win__screen");
         _loseScreenRootElement = m_WinLoseScreen.rootVisualElement.Q<VisualElement>("game-lose__screen");
+        _zerofScreenRootElement = _zerofScreen.rootVisualElement.Q<VisualElement>("zero_f__screen");
+        _startingGameCountdownVisualElement = _startingGameCountdown.rootVisualElement.Q<VisualElement>("game_starting_countdown_screen");
 
         // set visible false to _winScreenRootElement and _loseScreenRootElement
         ShowVisualElement(_winScreenRootElement, false);
         ShowVisualElement(_loseScreenRootElement, false);
+        ShowVisualElement(_zerofScreenRootElement, false);
+        ShowVisualElement(_startingGameCountdownVisualElement, false);
 
         _settingsButton = _instructorScreenRootElement.Q<Button>("settings__button");
         _instructorButton = _instructorScreenRootElement.Q<Button>("instructor_panel__button");
@@ -144,7 +192,8 @@ public class GameScreen : MonoBehaviour {
         ShowVisualElement(_instructorPanelRootElement, _openInstructorPanelAtStart);
         ShowVisualElement(_winScreenRootElement, false);
         ShowVisualElement(_loseScreenRootElement, false);
-
+        ShowVisualElement(_zerofScreenRootElement, false);
+        ShowVisualElement(_startingGameCountdownVisualElement, false);
         BlurBackground(false);
     }
 
@@ -169,6 +218,7 @@ public class GameScreen : MonoBehaviour {
     }
 
     void SetIdleStateScreen() {
+        m_IsGameOver = false;
         // set visible false to _winScreenRootElement and _loseScreenRootElement
         ShowVisualElement(_winScreenRootElement, false);
         ShowVisualElement(_loseScreenRootElement, false);
@@ -211,26 +261,33 @@ public class GameScreen : MonoBehaviour {
 
     IEnumerator GameLostRoutine() {
         // wait, then show lose screen and blur bg
-        yield return new WaitForSeconds(k_DelayWinScreen);
+        //yield return new WaitForSeconds(k_DelayWinScreen);
+        yield return new WaitForSeconds(0f);
 
         // hide UI
         _settingsButton.style.display = DisplayStyle.None;
 
         AudioManager.PlayDefeatSound();
-        ShowVisualElement(_loseScreenRootElement, true);
+        if (m_IsGameOver) {
+            ShowVisualElement(_loseScreenRootElement, true);
+        }
+
         BlurBackground(true);
     }
 
     IEnumerator GameWonRoutine() {
         Time.timeScale = 0.5f;
-        yield return new WaitForSeconds(k_DelayWinScreen);
+        //yield return new WaitForSeconds(k_DelayWinScreen);
+        yield return new WaitForSeconds(0f);
 
         // hide the UI
         _settingsButton.style.display = DisplayStyle.None;
 
         AudioManager.PlayVictorySound();
         Debug.Log("Showing Win Screen");
-        ShowVisualElement(_winScreenRootElement, true);
+        if (m_IsGameOver) {
+            ShowVisualElement(_winScreenRootElement, true);
+        }
     }
 
     // volume settings
@@ -244,15 +301,11 @@ public class GameScreen : MonoBehaviour {
 
     // event-handling methods
     void OnGameWon() {
-
-
         m_IsGameOver = true;
         StartCoroutine(GameWonRoutine());
     }
 
     void OnGameLost() {
-
-
         m_IsGameOver = true;
         StartCoroutine(GameLostRoutine());
     }

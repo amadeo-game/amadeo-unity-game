@@ -1,16 +1,17 @@
+using System.Linq;
 using UnityEngine;
 
 namespace BridgePackage {
     public class BridgeDataManager : MonoBehaviour {
         private static BridgeData BridgeData = new BridgeData();
-        [SerializeField] BridgeCollectionSO bridgeCollection;
+        [SerializeField] BridgeCollectionSO _bridgeCollection;
+        
+        private void Awake() {
+            SetBridgeCollection(_bridgeCollection);
 
-        private void Start() {
-            if (this.bridgeCollection == null) {
+            if (this._bridgeCollection == null) {
                 Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
             }
-
-            SetBridgeCollection(bridgeCollection);
         }
 
         void OnEnable() {
@@ -36,13 +37,30 @@ namespace BridgePackage {
                     // Debug.Log("BridgeDataManager :: AFTER Heights accessed " + string.Join(",", BridgeData.heights));
                 }
 
+                // Debug.Log("BridgeDataManager :: Heights accessed " + string.Join(",", BridgeData.heights));
+
                 return BridgeData.heights;
             }
         }
 
-        public static BridgeTypeSO BridgeType => BridgeData.bridgeCollection.BridgeTypes[BridgeData.level];
+        public static int[] HeightsAbsolute => BridgeData.heights.Select( Mathf.Abs).ToArray();
+
+        public static BridgeTypeSO BridgeType {
+            get {
+                if (BridgeData.bridgeCollection == null) {
+                    Debug.LogError("BridgeCollectionSO is not assigned in BridgeDataManager, cannot proceed.");
+                }
+
+                if (BridgeData.bridgeCollection.BridgeTypes.Length == 0) {
+                    Debug.LogError("BridgeTypeSO is not assigned in BridgeDataManager, cannot proceed.");
+                }
+
+                return BridgeData.bridgeCollection.BridgeTypes[BridgeData.level] as BridgeTypeSO;
+            }
+        }
+
         public static int Level => BridgeData.level;
-        
+
         public static int NumberOfLevels => BridgeData.bridgeCollection.BridgeTypes.Length;
         public static bool IsLeftHand => BridgeData.isLeftHand;
         public static bool IsFlexion => BridgeData.isFlexion;
@@ -56,11 +74,12 @@ namespace BridgePackage {
         public static SessionData SessionData => BridgeData.SessionData;
 
         // write all the setters too
-
         public static void SetHeights(int[] newHeights) {
             if (newHeights.Length == 5) {
                 BridgeData.heights = newHeights;
+                BridgeEvents.HeightValuesChanged?.Invoke(newHeights);
             }
+            
         }
 
         public static void SetLevel(int newLevel) {
@@ -114,6 +133,10 @@ namespace BridgePackage {
         public static void SetPlayableUnits(bool[] newPlayableUnits) {
             if (newPlayableUnits.Length == 5) {
                 BridgeData.playableUnits = newPlayableUnits;
+                BridgeEvents.PlayableUnitsChanged?.Invoke(newPlayableUnits);
+            }
+            else {
+                Debug.LogWarning("Playable units must be an array of length 5.");
             }
         }
 
@@ -129,9 +152,10 @@ namespace BridgePackage {
         public static void SetUnitsGrace(float[] floats) {
             if (floats.Length == 5) {
                 BridgeData.unitsGrace = floats;
+                BridgeEvents.GraceValuesChanged?.Invoke(floats);
             }
         }
-        
+
         public static void SetUnitsGrace(int index, float value) {
             if (index < 0 || index > 4) {
                 Debug.LogWarning("Index must be between 0 and 4.");
@@ -150,8 +174,9 @@ namespace BridgePackage {
             BridgeData.autoStart = newAutoPlay;
         }
 
-        public static void SetSessionData(float[] bestHeights, bool isSuccessful) {
-            BridgeData.SessionData.heights = BridgeData.heights;
+        internal static void SetSessionData(int[] heights, float[] bestHeights, bool isSuccessful) {
+            BridgeData.SessionData.heights = BridgeData.heights.Select(x => Mathf.Abs(x)).ToArray();
+            Debug.Log("SetSessionData :: " + string.Join(",", BridgeData.SessionData.heights));
             BridgeData.SessionData.BestYPositions = bestHeights;
             BridgeData.SessionData.success = isSuccessful;
         }

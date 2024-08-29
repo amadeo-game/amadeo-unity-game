@@ -17,8 +17,8 @@ namespace UIToolkitDemo
 
         void OnEnable()
         {
-            BridgeEvents.WonSession += OnGameWon;
-            BridgeEvents.FailedSession += OnGameLost;
+            BridgeEvents.BridgeIsCompletedState += OnGameWon;
+            BridgeEvents.BridgeCollapsingState += OnGameLost;
 
             GameplayEvents.GamePaused += OnGamePaused;
             GameplayEvents.GameResumed += OnGameResumed;
@@ -31,8 +31,8 @@ namespace UIToolkitDemo
 
         void OnDisable()
         {
-            BridgeEvents.WonSession += OnGameWon;
-            BridgeEvents.FailedSession += OnGameLost;
+            BridgeEvents.BridgeIsCompletedState += OnGameWon;
+            BridgeEvents.BridgeCollapsingState += OnGameLost;
 
             GameplayEvents.GamePaused -= OnGamePaused;
             GameplayEvents.GameResumed -= OnGameResumed;

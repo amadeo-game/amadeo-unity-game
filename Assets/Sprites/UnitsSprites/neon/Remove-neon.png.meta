@@ -1,0 +1,2129 @@
+fileFormatVersion: 2
+guid: 4ce855f6701dba748bda01b3ac5639fd
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Remove-neon_0
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 870
+        width: 161
+        height: 147
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 343923490215bdc4fbff46112a388f18
+      internalID: -773546890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_1
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 891
+        width: 128
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 64f0eb7b312700f418ebe0324d081e72
+      internalID: 1097001548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_2
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 890
+        width: 136
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be8b76fe82fa2074ebcd3dad4eec6d17
+      internalID: 1655816709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_3
+      rect:
+        serializedVersion: 2
+        x: 471
+        y: 904
+        width: 115
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cb412058b07e9ce468a6653829d24b2e
+      internalID: -1715095509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_4
+      rect:
+        serializedVersion: 2
+        x: 594
+        y: 891
+        width: 120
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d83fe1e131600884dbd82416800c6003
+      internalID: -301027573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_5
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 893
+        width: 111
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a11b668d17364d44af847cb2f8b550e
+      internalID: 1545105771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_6
+      rect:
+        serializedVersion: 2
+        x: 837
+        y: 895
+        width: 112
+        height: 119
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07249cf16fad89d46842982520788cd1
+      internalID: -1571611030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_7
+      rect:
+        serializedVersion: 2
+        x: 954
+        y: 906
+        width: 70
+        height: 110
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f863ba64222d6741bcdcda7ca2c85ef
+      internalID: 1586170060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_8
+      rect:
+        serializedVersion: 2
+        x: 783
+        y: 892
+        width: 15
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5e7ac192de0408498ad303fe0439f97
+      internalID: -2080120403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_9
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 810
+        width: 165
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06ea376d1e7630649be39e41addc9213
+      internalID: 862427518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_10
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 859
+        width: 21
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bec31e71397cd614294fffba8f569efd
+      internalID: -1512661186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_11
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 794
+        width: 139
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8c4950905a514274da439bc53bed9a37
+      internalID: -1511381625
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_12
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 794
+        width: 132
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 203b59ad5b52320448338426eabcbd40
+      internalID: 925984917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_13
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 795
+        width: 93
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 505199d6b7732b34b9613c3d7922353f
+      internalID: -1458349886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_14
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 802
+        width: 94
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a4281bfc4801354f91b1236ae1b9914
+      internalID: 1032514053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_15
+      rect:
+        serializedVersion: 2
+        x: 710
+        y: 798
+        width: 106
+        height: 93
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d51cb2ae2253f0419b9ef35154b2a92
+      internalID: -1591262468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_16
+      rect:
+        serializedVersion: 2
+        x: 838
+        y: 804
+        width: 95
+        height: 86
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b891bff32aa096e49b35a9b733737282
+      internalID: 883534467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_17
+      rect:
+        serializedVersion: 2
+        x: 959
+        y: 796
+        width: 65
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de952ff3d9a2537488aca37f4d2b49d3
+      internalID: 260837064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_18
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 693
+        width: 166
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d88e2f12468eebd4abb2a871d529babb
+      internalID: -1876830486
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_19
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 710
+        width: 128
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a5e8af5284d241b4fb7fbb281e0fa414
+      internalID: -1181023832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_20
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 706
+        width: 137
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e012de6483e22444fa2fd34cf6818e20
+      internalID: 1199019818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_21
+      rect:
+        serializedVersion: 2
+        x: 491
+        y: 702
+        width: 93
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40307e91aab0d7f4aa1ca56d68f87538
+      internalID: -803353798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_22
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 706
+        width: 91
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26822d49d25f5af4da8b282a95de0975
+      internalID: 986723159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_23
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 771
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98a40ff9f41546148980b4e9b2d51d9f
+      internalID: -18207415
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_24
+      rect:
+        serializedVersion: 2
+        x: 722
+        y: 696
+        width: 93
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d32b08b7cbebff2459ad33b3cfd43ce3
+      internalID: 325332632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_25
+      rect:
+        serializedVersion: 2
+        x: 839
+        y: 707
+        width: 95
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f51442d97990dc4dbf6865065c0f4e2
+      internalID: -1273807752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_26
+      rect:
+        serializedVersion: 2
+        x: 954
+        y: 706
+        width: 70
+        height: 88
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75147db9a93f0944d81a190f09fa8bf6
+      internalID: 1568147808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_27
+      rect:
+        serializedVersion: 2
+        x: 825
+        y: 758
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a80fbb0c09083546984aa4ddb8f3236
+      internalID: 1591504138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_28
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 523
+        width: 162
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c262201c7d2a6547a5c618353fd20a5
+      internalID: -306555008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_29
+      rect:
+        serializedVersion: 2
+        x: 196
+        y: 615
+        width: 136
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcb9a814cfe151446bae66ac9104a451
+      internalID: -1671202380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_30
+      rect:
+        serializedVersion: 2
+        x: 335
+        y: 618
+        width: 136
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27cb5afa4503f004393588c72e0da891
+      internalID: -659811853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_31
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 603
+        width: 152
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b92b69344d51b014b8677c9ee7fd5868
+      internalID: 2082504010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_32
+      rect:
+        serializedVersion: 2
+        x: 637
+        y: 602
+        width: 93
+        height: 94
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8107cea72aebba2498c2bd930be73a10
+      internalID: -1628031825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_33
+      rect:
+        serializedVersion: 2
+        x: 742
+        y: 602
+        width: 102
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bf6d430b9dd3bed4aa1354bf77d47eac
+      internalID: 1638836291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_34
+      rect:
+        serializedVersion: 2
+        x: 857
+        y: 603
+        width: 89
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 924c8cab1bb85d842a360b1ff0f40900
+      internalID: 503119345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_35
+      rect:
+        serializedVersion: 2
+        x: 958
+        y: 606
+        width: 66
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20f2dd0450aa80e45bc1399d120cd267
+      internalID: 882643279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_36
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 600
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d505df8134886354b827cbcc17af275d
+      internalID: 1496519572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_37
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 597
+        width: 15
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3171b63830e3e7c47971433c9d9ad37e
+      internalID: -628356722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_38
+      rect:
+        serializedVersion: 2
+        x: 334
+        y: 523
+        width: 136
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b5b2cc4fbacff846b52e8955da39541
+      internalID: 285947108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_39
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 522
+        width: 84
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbeb8607943318a4299de292e9f6a814
+      internalID: 297626146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_40
+      rect:
+        serializedVersion: 2
+        x: 886
+        y: 407
+        width: 70
+        height: 194
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcacb0592838d2b48b931ff70e028d50
+      internalID: 252075005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_41
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 536
+        width: 138
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 411d1c153dceb23478e06ed050a7f8ff
+      internalID: 678485753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_42
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 562
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaca8c8d71e12a84abdaa3d69e96ef88
+      internalID: -1035495454
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_43
+      rect:
+        serializedVersion: 2
+        x: 598
+        y: 523
+        width: 168
+        height: 71
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1b332d41700b3a24e8dcd70064680573
+      internalID: 354984138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_44
+      rect:
+        serializedVersion: 2
+        x: 782
+        y: 522
+        width: 95
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c7fa5960f656234d8fe468c8758f984
+      internalID: 998592151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_45
+      rect:
+        serializedVersion: 2
+        x: 966
+        y: 408
+        width: 58
+        height: 191
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fdd0e7140dab0114785e1c16b1dd2746
+      internalID: 1669221307
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_46
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 406
+        width: 254
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ef6ebdf567169f4bbaaa1cfd0c38421
+      internalID: 473844922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_47
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 474
+        width: 175
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69702824887d53a43873038b63141716
+      internalID: 1310658895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_48
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 407
+        width: 214
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40b4a1ec9dcf72a4192ef9def73fba6e
+      internalID: -467230649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_49
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 473
+        width: 160
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5378f74d273bc5645b85eb9d0bf66d8c
+      internalID: 474439578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_50
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 404
+        width: 171
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd98e6ea1f8a19a41be440347bcf0ee9
+      internalID: -865553992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_51
+      rect:
+        serializedVersion: 2
+        x: 715
+        y: 425
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4a47be4d2dc45c48a0d4411801bc638
+      internalID: -1485200274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_52
+      rect:
+        serializedVersion: 2
+        x: 718
+        y: 424
+        width: 159
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbe68d02f8220e0419077a56d89c4d7e
+      internalID: 2135610996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_53
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 339
+        width: 255
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 551d7d880a2a556458cb008e76ffe860
+      internalID: -1091997377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_54
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 338
+        width: 163
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7030d13498a4aac46b0c4a4c5a2df682
+      internalID: 1961329993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_55
+      rect:
+        serializedVersion: 2
+        x: 493
+        y: 336
+        width: 212
+        height: 59
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8c785d764886649a59bfcafeacc3bb
+      internalID: 192245181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_56
+      rect:
+        serializedVersion: 2
+        x: 723
+        y: 338
+        width: 75
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16241779b98338c4c9726f3d7b3339a3
+      internalID: -530265139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_57
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 339
+        width: 59
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c8db99b54c61bf4880ce4d1210ba0d5
+      internalID: -287088691
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_58
+      rect:
+        serializedVersion: 2
+        x: 889
+        y: 335
+        width: 135
+        height: 67
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90b3931031e600b4e8513c893a65c3be
+      internalID: 1885033987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_59
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 292
+        width: 256
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e1c58000dfcbd248b9fb425eee8250a
+      internalID: 1883333593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_60
+      rect:
+        serializedVersion: 2
+        x: 301
+        y: 252
+        width: 173
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd0d8b530e115ad4eac8af68febf5948
+      internalID: 1760507328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_61
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 250
+        width: 208
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2baabce70c9ed2a4385ae42c6a57bfae
+      internalID: -481053205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_62
+      rect:
+        serializedVersion: 2
+        x: 790
+        y: 319
+        width: 5
+        height: 5
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5004fefcd8d7d3e4badd22b76dc002b0
+      internalID: 624961117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_63
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 297
+        width: 9
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c81b08b7dcab45143a48127676f6e1d3
+      internalID: -1124174399
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_64
+      rect:
+        serializedVersion: 2
+        x: 816
+        y: 166
+        width: 60
+        height: 164
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9659b403d4e77446aab368f29e4655e
+      internalID: -1415271271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_65
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 210
+        width: 260
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3fe439a897bfbf4ba0563053776213e
+      internalID: 203594182
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_66
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 255
+        width: 259
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ed7fb38cc89bc444b6556e8356f450c
+      internalID: 1556837201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_67
+      rect:
+        serializedVersion: 2
+        x: 725
+        y: 247
+        width: 102
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98347fe126ba04c4cb04210b5c387f5b
+      internalID: -1235666578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_68
+      rect:
+        serializedVersion: 2
+        x: 747
+        y: 244
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dba98c214b557f4dab68af6d356f81c
+      internalID: 1635347739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_69
+      rect:
+        serializedVersion: 2
+        x: 829
+        y: 0
+        width: 195
+        height: 318
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8e06e21381275943b5dba4cdeb10297
+      internalID: 1122778126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_70
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 214
+        width: 168
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15e94a96bf8b662468816133db4ad57f
+      internalID: -188718795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_71
+      rect:
+        serializedVersion: 2
+        x: 486
+        y: 117
+        width: 344
+        height: 124
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 188889b621592ed4280147f0a09acc7f
+      internalID: 1144407255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_72
+      rect:
+        serializedVersion: 2
+        x: 638
+        y: 239
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf9ae13f463e3814f9aff7d36620e243
+      internalID: -2026581043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_73
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 66
+        width: 262
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 067a070cb95aef840adc2fd0187ed96f
+      internalID: 639639186
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_74
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 170
+        width: 179
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15f7384c749b26946860d18d306a7783
+      internalID: -272903033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_75
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 119
+        width: 179
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07c58eb54b68b304ca2f1d92c8333f30
+      internalID: 1803856180
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_76
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 153
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4568479414e49e845b75b2397f3a13d2
+      internalID: 1612670483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_77
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 68
+        width: 175
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d420e46ddeb75a241a444d6a8a11b8ae
+      internalID: 1398346553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_78
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 111
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1696a37a15f64d41ad6df7ed4112d43
+      internalID: -808589532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_79
+      rect:
+        serializedVersion: 2
+        x: 687
+        y: 70
+        width: 139
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f82e3050d3f6e8b429c1f9daa10cda3b
+      internalID: 121130238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_80
+      rect:
+        serializedVersion: 2
+        x: 494
+        y: 70
+        width: 186
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ebd057d788b85764cb683065e6af9298
+      internalID: -495748724
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_81
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 16
+        width: 264
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4b9f3761e98cc048b37a043b4c8197d
+      internalID: -1794156965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_82
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 28
+        width: 175
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 873c54679f7c2094c854d92daf9c5218
+      internalID: 1168232599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_83
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 23
+        width: 181
+        height: 38
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ae966ac54f3e0943bc755c2634b5145
+      internalID: 111788452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_84
+      rect:
+        serializedVersion: 2
+        x: 682
+        y: 26
+        width: 144
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7f60804bf94e5448bf3f97cc554ff57
+      internalID: -883276527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_85
+      rect:
+        serializedVersion: 2
+        x: 818
+        y: 0
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 653454257f3db254fa5dc0bfb3f36112
+      internalID: 1512317769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_86
+      rect:
+        serializedVersion: 2
+        x: 981
+        y: 0
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53b5b1467285f1446a8d31fcc1802543
+      internalID: 1237076036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_87
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 114
+        width: 259
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8657f3ef15cfe74fb98f9f0844b0851
+      internalID: 628192362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_88
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 167
+        width: 261
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39fff3c1415f11340b2986981e002f33
+      internalID: -724054998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_89
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 621
+        width: 163
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0947b6466db54c841a397b79c8fc6b01
+      internalID: -514228305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Remove-neon_90
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 749
+        width: 167
+        height: 49
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 103205d1dfec1a348b9f60f7a111b885
+      internalID: -25577614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Remove-neon_0: -773546890
+      Remove-neon_1: 1097001548
+      Remove-neon_10: -1512661186
+      Remove-neon_11: -1511381625
+      Remove-neon_12: 925984917
+      Remove-neon_13: -1458349886
+      Remove-neon_14: 1032514053
+      Remove-neon_15: -1591262468
+      Remove-neon_16: 883534467
+      Remove-neon_17: 260837064
+      Remove-neon_18: -1876830486
+      Remove-neon_19: -1181023832
+      Remove-neon_2: 1655816709
+      Remove-neon_20: 1199019818
+      Remove-neon_21: -803353798
+      Remove-neon_22: 986723159
+      Remove-neon_23: -18207415
+      Remove-neon_24: 325332632
+      Remove-neon_25: -1273807752
+      Remove-neon_26: 1568147808
+      Remove-neon_27: 1591504138
+      Remove-neon_28: -306555008
+      Remove-neon_29: -1671202380
+      Remove-neon_3: -1715095509
+      Remove-neon_30: -659811853
+      Remove-neon_31: 2082504010
+      Remove-neon_32: -1628031825
+      Remove-neon_33: 1638836291
+      Remove-neon_34: 503119345
+      Remove-neon_35: 882643279
+      Remove-neon_36: 1496519572
+      Remove-neon_37: -628356722
+      Remove-neon_38: 285947108
+      Remove-neon_39: 297626146
+      Remove-neon_4: -301027573
+      Remove-neon_40: 252075005
+      Remove-neon_41: 678485753
+      Remove-neon_42: -1035495454
+      Remove-neon_43: 354984138
+      Remove-neon_44: 998592151
+      Remove-neon_45: 1669221307
+      Remove-neon_46: 473844922
+      Remove-neon_47: 1310658895
+      Remove-neon_48: -467230649
+      Remove-neon_49: 474439578
+      Remove-neon_5: 1545105771
+      Remove-neon_50: -865553992
+      Remove-neon_51: -1485200274
+      Remove-neon_52: 2135610996
+      Remove-neon_53: -1091997377
+      Remove-neon_54: 1961329993
+      Remove-neon_55: 192245181
+      Remove-neon_56: -530265139
+      Remove-neon_57: -287088691
+      Remove-neon_58: 1885033987
+      Remove-neon_59: 1883333593
+      Remove-neon_6: -1571611030
+      Remove-neon_60: 1760507328
+      Remove-neon_61: -481053205
+      Remove-neon_62: 624961117
+      Remove-neon_63: -1124174399
+      Remove-neon_64: -1415271271
+      Remove-neon_65: 203594182
+      Remove-neon_66: 1556837201
+      Remove-neon_67: -1235666578
+      Remove-neon_68: 1635347739
+      Remove-neon_69: 1122778126
+      Remove-neon_7: 1586170060
+      Remove-neon_70: -188718795
+      Remove-neon_71: 1144407255
+      Remove-neon_72: -2026581043
+      Remove-neon_73: 639639186
+      Remove-neon_74: -272903033
+      Remove-neon_75: 1803856180
+      Remove-neon_76: 1612670483
+      Remove-neon_77: 1398346553
+      Remove-neon_78: -808589532
+      Remove-neon_79: 121130238
+      Remove-neon_8: -2080120403
+      Remove-neon_80: -495748724
+      Remove-neon_81: -1794156965
+      Remove-neon_82: 1168232599
+      Remove-neon_83: 111788452
+      Remove-neon_84: -883276527
+      Remove-neon_85: 1512317769
+      Remove-neon_86: 1237076036
+      Remove-neon_87: 628192362
+      Remove-neon_88: -724054998
+      Remove-neon_89: -514228305
+      Remove-neon_9: 862427518
+      Remove-neon_90: -25577614
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

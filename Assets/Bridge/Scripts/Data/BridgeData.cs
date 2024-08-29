@@ -25,23 +25,17 @@ namespace BridgePackage {
             // constructor, starting values
             this.SessionData = new SessionData();
             this.TimeDuration = 60f;
-            this.heights = new int[5] { 0, 0, 0, 0, 0 };
+            this.heights = new int[5] { 0, 1, 0, 0, 0 };
             this.bridgeCollection = null;
             this.level = 1;
             this.isLeftHand = true;
             this.isFlexion = true;
-            this.mvcValuesExtension = new float[5] { 1, 1, 1, 1, 1 };
-            this.mvcValuesFlexion = new float[5] { 1, 1, 1, 1, 1 };
-            this.playableUnits = new bool[5] { false, false, false, true, true };
-            this.unitsGrace = new float[5] { 0, 0, 0, 0, 0 };
-            this.zeroF = false;
-            this.autoStart = false;
-        }
-
-
-        // setter for isLeftHand
-        public void SetIsLeftHand(bool leftHand) {
-            this.isLeftHand = leftHand;
+            this.mvcValuesExtension = new float[5] { 20, 20, 20, 20, 20 };
+            this.mvcValuesFlexion = new float[5] { 20, 20, 20, 20, 20 };
+            this.playableUnits = new bool[5] { false, true, false, false, false};
+            this.unitsGrace = new float[5] { 1, 1, 1, 1, 1 };
+            this.zeroF = true;
+            this.autoStart = true;
         }
 
         public string ToJson() {
