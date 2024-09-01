@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8111590682049343279}
-  - component: {fileID: 5236456366724980912}
   - component: {fileID: 6205020137206850874}
   - component: {fileID: 1110752615264533323}
   - component: {fileID: 7585684475137183281}
@@ -18,6 +17,7 @@ GameObject:
   - component: {fileID: 8619089270259660289}
   - component: {fileID: 8934312213478833874}
   - component: {fileID: 3799182644623730036}
+  - component: {fileID: 1784498615880679742}
   m_Layer: 0
   m_Name: BridgeGenerator
   m_TagString: Untagged
@@ -40,18 +40,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5236456366724980912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9053538703292718950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6525c8342d66e794e9d97467ab41059a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6205020137206850874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,171 +134,51 @@ MonoBehaviour:
   _port: 4444
   _debug: 1
   _zeroFBuffer: 100
-  _emulationSpeed: 0.6
-  Finger1:
-    m_Name: Finger 1 Down
+  _emulationSpeed: 10
+  _finger1:
+    m_Name: Finger 1
     m_Type: 1
     m_ExpectedControlType: 
-    m_Id: 3857b55b-6e5c-43cb-8f59-41ce0b790060
+    m_Id: c6f69dbb-2229-4d06-9581-f79a2cc75cb1
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 1D Axis
-      m_Id: bc400cde-089d-4507-ad2f-c80b71c0ff90
-      m_Path: 1DAxis
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 1 Down
-      m_Flags: 4
-    - m_Name: negative
-      m_Id: e90096be-e0e1-44f1-b7dc-9adce6e33a86
-      m_Path: <Keyboard>/h
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 1 Down
-      m_Flags: 8
-    - m_Name: positive
-      m_Id: ede81183-59d7-4d1c-87ae-5af80291f5a5
-      m_Path: <Keyboard>/y
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 1 Down
-      m_Flags: 8
+    m_SingletonActionBindings: []
     m_Flags: 0
-  Finger2:
-    m_Name: Finger 2 Down
+  _finger2:
+    m_Name: Finger 2
     m_Type: 1
     m_ExpectedControlType: 
-    m_Id: 8f8f4d7a-c0c5-4d82-be09-0a7161dd63fc
+    m_Id: 826dbf8e-2358-46c3-852a-eb0f61c55d47
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 1D Axis
-      m_Id: 05841b4f-bee5-4399-a5bb-ec27dc0e9cd2
-      m_Path: 1DAxis
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 2 Down
-      m_Flags: 4
-    - m_Name: negative
-      m_Id: ed8402aa-24b0-468b-8630-aebc20bd9fc9
-      m_Path: <Keyboard>/j
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 2 Down
-      m_Flags: 8
-    - m_Name: positive
-      m_Id: 07e76ad6-293a-427a-b7b8-361c50b2936a
-      m_Path: <Keyboard>/u
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 2 Down
-      m_Flags: 8
+    m_SingletonActionBindings: []
     m_Flags: 0
-  Finger3:
-    m_Name: Finger 3 Down
+  _finger3:
+    m_Name: Finger 3
     m_Type: 1
     m_ExpectedControlType: 
-    m_Id: 7f02844c-3dfa-43f0-aadf-607e8c679683
+    m_Id: 62d55123-bb4c-417a-9891-e6f0942d5325
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 1D Axis
-      m_Id: f84bf968-ae98-4a14-9c1d-b4c9cc72fc40
-      m_Path: 1DAxis
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 3 Down
-      m_Flags: 4
-    - m_Name: negative
-      m_Id: 55690af0-1f04-45a1-b776-3dce98179edd
-      m_Path: <Keyboard>/k
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 3 Down
-      m_Flags: 8
-    - m_Name: positive
-      m_Id: 7d5428a2-e6c9-4b9a-85e8-5cb32fc29a03
-      m_Path: <Keyboard>/i
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 3 Down
-      m_Flags: 8
+    m_SingletonActionBindings: []
     m_Flags: 0
-  Finger4:
-    m_Name: Finger 4 Down
+  _finger4:
+    m_Name: Finger 4
     m_Type: 1
     m_ExpectedControlType: 
-    m_Id: 01ad15f3-1308-482b-ad18-d26c2936e918
+    m_Id: b3dbc573-9a6d-48bd-b214-94a0b0db6f7c
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 1D Axis
-      m_Id: 9e5cec5b-9b19-4c40-9d5f-8cfdd7385df9
-      m_Path: 1DAxis
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 4 Down
-      m_Flags: 4
-    - m_Name: negative
-      m_Id: 5eb67dfb-0a0b-42f9-9541-31a9729f077c
-      m_Path: <Keyboard>/l
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 4 Down
-      m_Flags: 8
-    - m_Name: positive
-      m_Id: 2fcc7a75-de3b-4f54-85e1-3ef702c97c7a
-      m_Path: <Keyboard>/o
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 4 Down
-      m_Flags: 8
+    m_SingletonActionBindings: []
     m_Flags: 0
-  Finger5:
-    m_Name: Finger 5 Down
+  _finger5:
+    m_Name: Finger 5
     m_Type: 1
     m_ExpectedControlType: 
-    m_Id: e5c9120c-8156-40fa-9a15-281488c662c3
+    m_Id: 3e64e25c-37b3-4e27-acca-21520ac6fa0f
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 1D Axis
-      m_Id: a80859ee-55f0-417e-b764-7a50876de279
-      m_Path: 1DAxis
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 5 Down
-      m_Flags: 4
-    - m_Name: negative
-      m_Id: 876af78c-2f6f-4a7d-bd26-0f789c8173d6
-      m_Path: <Keyboard>/semicolon
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 5 Down
-      m_Flags: 8
-    - m_Name: positive
-      m_Id: 309fd256-f138-436a-87ff-3944259bd337
-      m_Path: <Keyboard>/p
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Finger 5 Down
-      m_Flags: 8
+    m_SingletonActionBindings: []
     m_Flags: 0
 --- !u!114 &8619089270259660289
 MonoBehaviour:
@@ -349,3 +217,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bridgeCollection: {fileID: 11400000, guid: 17bc6dfdd59483c4bb4a1c2dcb16f914, type: 2}
+--- !u!114 &1784498615880679742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053538703292718950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1cc2d8f3ea67a94bbf2bc2398e46215, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debug: 1
+  _isolatedControlStartLevel: 2
+  _multiFingerControlStartLevel: 5
+  _failuresBeforeModeReduction: 2
+  _successesBeforeHeightIncrease: 2
+  _trialsPerLevel: 5

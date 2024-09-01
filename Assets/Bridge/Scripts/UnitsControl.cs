@@ -4,39 +4,32 @@ using Unity.Collections;
 using System.Linq;
 using BridgePackage;
 using UnityEngine;
-
 using UnityEngine.Serialization;
 
 namespace BridgePackage {
     [RequireComponent(typeof(BridgeDataManager))]
     public class UnitsControl : MonoBehaviour {
+        private const short NUMOFUNITS = 5;
         [SerializeField] private float _graceGrowthRate = 0.5f;
         private GameObject[] _playerUnits;
         private MoveUnit[] _moveUnits; // Array to store MoveUnit components
         private BoxCollider2D[] _unitsColliders; // Array to store colliders of player units
-        private readonly bool[] _unitsRotated = new bool[5];
+        private readonly bool[] _unitsRotated = new bool[NUMOFUNITS];
         private bool _unitsInitialized = false;
-        private Int16 NUMOFUNITS = 5;
-        
-        private float[] _bestHeights = new float[5];
-        
+        private readonly float[] _bestHeights = new float[NUMOFUNITS];
+
         SetBestHeight _setBestHeight;
 
         delegate void SetBestHeight(float height, int index);
-        public float BestHeights(int index) => _bestHeights[index];
-            
 
         private void Start() {
-            _moveUnits = new MoveUnit[5];
+            _moveUnits = new MoveUnit[NUMOFUNITS];
         }
 
         private void OnEnable() {
             BridgeEvents.StartingGameState += EnablePlayerUnitControl;
 
-            // BridgeEvents.BridgeStateChanged += OnBridgeStateChanged;
             BridgeEvents.ActiveUnitChanged += OnActiveUnitChanged;
-            BridgeEvents.MvcExtensionUpdated += OnMvcExtensionUpdated;
-            BridgeEvents.MvcFlexionUpdated += OnMvcFlexionUpdated;
             BridgeEvents.UnitGraceUpdated += OnUnitGraceUpdated;
 
             BridgeEvents.GamePausedState += OnPausedState;
@@ -49,8 +42,8 @@ namespace BridgePackage {
         // Enable player units control
         private void EnablePlayerUnitControl() {
             _setBestHeight = BridgeDataManager.IsFlexion
-                ? (height ,i) => _bestHeights[i] = Mathf.Min(height, _bestHeights[i])
-                : (height ,i) => _bestHeights[i] = Mathf.Max(height, _bestHeights[i]); 
+                ? (height, i) => _bestHeights[i] = Mathf.Min(height, _bestHeights[i])
+                : (height, i) => _bestHeights[i] = Mathf.Max(height, _bestHeights[i]);
             var playables = BridgeDataManager.PlayableUnits;
             for (int i = 0; i < _moveUnits.Length; i++) {
                 if (playables[i]) {
@@ -58,10 +51,10 @@ namespace BridgePackage {
                     _moveUnits[i].SetControl(true);
                 }
             }
-            
+
             EnableGuideUnits();
         }
-        
+
         private void EnableGuideUnits() {
             StartCoroutine(EnableGuideUnitsRoutine());
         }
@@ -75,10 +68,8 @@ namespace BridgePackage {
         private void OnDisable() {
             BridgeEvents.StartingGameState -= EnablePlayerUnitControl;
 
-            // BridgeEvents.BridgeStateChanged -= OnBridgeStateChanged;
             BridgeEvents.ActiveUnitChanged -= OnActiveUnitChanged;
-            BridgeEvents.MvcExtensionUpdated -= OnMvcExtensionUpdated;
-            BridgeEvents.MvcFlexionUpdated -= OnMvcFlexionUpdated;
+
             BridgeEvents.UnitGraceUpdated -= OnUnitGraceUpdated;
 
             BridgeEvents.GamePausedState -= OnPausedState;
@@ -104,31 +95,14 @@ namespace BridgePackage {
             _unitsColliders[fingerIndex].size = newSize;
         }
 
-        private void OnMvcExtensionUpdated(int fingerIndex, float mvcValue) {
-            if (!_unitsInitialized) {
-                return;
-            }
-
-            _moveUnits[fingerIndex].MvcE = mvcValue;
-        }
-
-        private void OnMvcFlexionUpdated(int fingerIndex, float mvcValue) {
-            if (!_unitsInitialized) {
-                return;
-            }
-
-            _moveUnits[fingerIndex].MvcF = mvcValue;
-        }
-
 
         private void OnGameOverState() {
-            var heights = BridgeDataManager.Heights;
-            for (int i = 0; i < _moveUnits.Length; i++) {
-                _moveUnits[i].SetControl(false);
-                _unitsInitialized = false;
+            foreach (var unit in _moveUnits) {
+                unit.SetControl(false);
             }
-            _moveUnits = new MoveUnit[5];
-            
+
+            _unitsInitialized = false;
+            _moveUnits = new MoveUnit[NUMOFUNITS];
         }
 
         private void OnResumeState() {
@@ -157,25 +131,11 @@ namespace BridgePackage {
                 return;
             }
 
-            // if (_moveUnits[unitIndex] != null) {
-            //     _moveUnits[unitIndex].SetControl(isEnable);
-            //     _moveUnits[unitIndex].ResetPosition();
-            // }
-
+            if (_moveUnits[unitIndex] != null) {
+                _moveUnits[unitIndex].SetControl(isEnable);
+                _moveUnits[unitIndex].ResetPosition();
+            }
         }
-
-        // private void OnBridgeStateChanged(BridgeStates state) {
-        //
-        //     if (state is BridgeStates.StartingGame) {
-        //         foreach (var moveUnit in _moveUnits) {
-        //             moveUnit.SetControl(false);
-        //         }
-        //
-        //     }
-        //     else if (state is BridgeStates.InGame) {
-        //
-        //     }
-        // }
 
 
         // Set player units, When Bridge is built 
@@ -203,18 +163,8 @@ namespace BridgePackage {
             _unitsInitialized = true;
         }
 
-        // internal void OnForcesUpdated(float[] forces) {
-        //     for (int i = 0; i < NUMOFUNITS; i++) {
-        //         var height = forces[i]; // There is a fixed size of total 5 units, so forces is always of size 5
-        //         _moveUnits[i].OnForcesUpdated(height);
-        //         _setBestHeight(height, i);
-        //     }
-        // }
-        
-        internal void OnForcesUpdated(NativeArray<float> forces)
-        {
-            for (int i = 0; i < forces.Length; i++)
-            {
+        internal void OnForcesUpdated(NativeArray<float> forces) {
+            for (int i = 0; i < forces.Length; i++) {
                 float height = forces[i]; // Forces array is a NativeArray<float> of fixed size
                 _moveUnits[i].OnForcesUpdated(height);
                 _setBestHeight(height, i);
@@ -223,7 +173,7 @@ namespace BridgePackage {
 
         public void CollectSessionData(bool success) {
             _unitsInitialized = false;
-            BridgeDataManager.SetSessionData(Bridge.PlayerUnitsHeights,_bestHeights, success);
+            BridgeDataManager.SetSessionData(Bridge.PlayerUnitsHeights, _bestHeights, success);
         }
     }
 }

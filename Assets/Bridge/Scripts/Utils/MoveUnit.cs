@@ -13,9 +13,6 @@ namespace BridgePackage {
         private Rigidbody2D _rb; // Cached reference to the Rigidbody2D component
         public BoxCollider2D Collider; // Cached reference to the BoxCollider2D component
 
-        private bool _heightChanged = true;
-
-        private readonly Queue<float> _heightQueue = new Queue<float>();
         private float _sum = 0f;
         [SerializeField] private int _queueSize = 5;
 
@@ -23,13 +20,9 @@ namespace BridgePackage {
         private int _fingerIndex;
         private FingerUnit _fingerUnit;
 
-        internal float MvcE = 1;
-        internal float MvcF = 1;
-
         private float _height;
 
 
-        private bool _isFlexion;
         private bool _isRbNotNull;
 
 
@@ -47,15 +40,8 @@ namespace BridgePackage {
                 Debug.LogError("BoxCollider2D component not found on " + gameObject.name);
             }
 
-            _isFlexion = BridgeDataManager.IsFlexion;
-
-            MvcE = BridgeDataManager.MvcValuesExtension[_fingerIndex];
-            MvcF = BridgeDataManager.MvcValuesFlexion[_fingerIndex];
-
-
             // Initialize the buffer if not already done
             _heightBuffer ??= new float[_queueSize];
-
         }
 
         internal void SetFingerUnit(FingerUnit unit, int index) {
@@ -73,7 +59,7 @@ namespace BridgePackage {
                 return;
             }
 
-            
+
             // Subtract the old value from the sum and add the new force
             _sum -= _heightBuffer[_currentIndex];
             _sum += force;
@@ -96,33 +82,7 @@ namespace BridgePackage {
 
             MoveUnitPosition();
         }
-
-        // internal void OnForcesUpdated(float force) {
-        //     // Add new value to the queue and update the running sum
-        //     if (!_controlEnabled) {
-        //         return;
-        //     }
-        //     _heightQueue.Enqueue(force);
-        //     _sum += force;
-        //
-        //
-        //     if (_heightQueue.Count > _queueSize) {
-        //         _sum -= _heightQueue.Dequeue();
-        //     }
-        //
-        //     // Calculate the average height from the queue
-        //     float averageHeight = _sum / _queueSize;
-        //
-        //     _height = averageHeight;
-        //
-        //     MoveUnitPosition();
-        //     
-        // }
-
-        /// <summary>
-        /// Applies the specified force to the unit.
-        /// </summary>
-        /// <param name="force">Force to apply.</param>
+        
         private void MoveUnitPosition() {
             if (_isRbNotNull) {
                 Vector2 targetPosition = new Vector2(transform.position.x, _height);
@@ -138,7 +98,7 @@ namespace BridgePackage {
 
         internal void ResetPosition() {
             _height = 0;
-            
+
             var transform1 = transform;
             Vector2 targetPosition = new Vector2(transform1.position.x, _height);
             transform1.position = targetPosition;

@@ -22,7 +22,9 @@ public enum InputType {
 namespace BridgePackage {
     [RequireComponent(typeof(BridgeStateMachine), typeof(UnitsControl))]
     public class BridgeClient : MonoBehaviour {
-        [SerializeField] InputType inputType = InputType.Amadeo;
+        [SerializeField] InputType _inputType = InputType.Amadeo;
+        private const float MIN_FORCE = -5.0f;
+        private const float MAX_FORCE = 5.0f;
         UnitsControl _unitsControl;
 
         // input system on button
@@ -49,10 +51,6 @@ namespace BridgePackage {
         // you can use this to store and use specific endpoint
         private IPEndPoint _remoteEndPoint;
 
-        // private float[] _forces = new float[5];
-        //
-        // private readonly float[] _zeroForces = new float[5]; // Store zeroing forces
-
         // NativeArrays to hold forces and zeroForces
         private NativeArray<float> _forces;
         private NativeArray<float> _zeroForces;
@@ -60,34 +58,28 @@ namespace BridgePackage {
 
         private bool _dataReceived = false;
 
-        private float[] _emulationForces = new float[5]; // Store forces from emulation file
-
-        // TODO: Check if still need to use this
         private bool _isLeftHand = false;
 
         // Set Input System to listen on buttons {'y', 'u', 'i', 'o', 'p'}
 
-        [SerializeField] InputAction Finger1 = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger2 = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger3 = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger4 = new InputAction(type: InputActionType.Button);
-        [SerializeField] InputAction Finger5 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction _finger1 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction _finger2 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction _finger3 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction _finger4 = new InputAction(type: InputActionType.Button);
+        [SerializeField] InputAction _finger5 = new InputAction(type: InputActionType.Button);
 
 
         private void GetForcesFromInput() {
             if (_useInputSystem) {
-                //
-                //
-                _forces[0] += Finger1.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
-                _forces[1] += Finger2.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
-                _forces[2] += Finger3.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
-                _forces[3] += Finger4.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
-                _forces[4] += Finger5.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[0] += _finger1.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[1] += _finger2.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[2] += _finger3.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[3] += _finger4.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
+                _forces[4] += _finger5.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
                 for (int i = 0; i < _forces.Length; i++) {
-                    _forces[i] = Mathf.Clamp(_forces[i], -5.0f, 5.0f);
+                    _forces[i] = Mathf.Clamp(_forces[i], MIN_FORCE, MAX_FORCE);
                 }
 
-                // Debug.Log("Input System Forces: " + string.Join(", ", _forces));
                 _unitsControl.OnForcesUpdated(_forces);
             }
         }
@@ -105,11 +97,11 @@ namespace BridgePackage {
 
         private void OnEnable() {
             // Enable the input system
-            Finger1.Enable();
-            Finger2.Enable();
-            Finger3.Enable();
-            Finger4.Enable();
-            Finger5.Enable();
+            _finger1.Enable();
+            _finger2.Enable();
+            _finger3.Enable();
+            _finger4.Enable();
+            _finger5.Enable();
 
 
             BridgeEvents.BuildingState += () => _isLeftHand = BridgeDataManager.IsLeftHand;
@@ -122,11 +114,11 @@ namespace BridgePackage {
 
         private void OnDisable() {
             // Disable the input system
-            Finger1.Disable();
-            Finger2.Disable();
-            Finger3.Disable();
-            Finger4.Disable();
-            Finger5.Disable();
+            _finger1.Disable();
+            _finger2.Disable();
+            _finger3.Disable();
+            _finger4.Disable();
+            _finger5.Disable();
 
 
             BridgeEvents.BuildingState -= () => _isLeftHand = BridgeDataManager.IsLeftHand;
@@ -159,7 +151,7 @@ namespace BridgePackage {
                 Debug.Log("BridgeClient is in ZeroF state. Starting zeroing forces.");
             }
 
-            if (inputType is InputType.EmulationMode) {
+            if (_inputType is InputType.EmulationMode) {
                 BridgeEvents.FinishedZeroF?.Invoke();
                 return;
             }
@@ -217,14 +209,14 @@ namespace BridgePackage {
         private void StartReceiveData() {
             _isReceiving = true;
 
-            if (inputType == InputType.FileMode) {
+            if (_inputType == InputType.FileMode) {
                 if (_debug) {
                     Debug.Log("StartReceiveData :: FileMode mode is true. Listening to data from demo file...");
                 }
 
                 HandleIncomingDataFileMode(_cancellationTokenSource.Token);
             }
-            else if (inputType is InputType.EmulationMode) {
+            else if (_inputType is InputType.EmulationMode) {
                 if (_debug) {
                     Debug.Log("StartReceiveData :: Emulation mode is true. Starting emulation data.");
                 }
@@ -244,7 +236,7 @@ namespace BridgePackage {
             }
 
             _isReceiving = false;
-            if (inputType is InputType.EmulationMode) {
+            if (_inputType is InputType.EmulationMode) {
                 _useInputSystem = false;
             }
 
@@ -278,36 +270,6 @@ namespace BridgePackage {
             }
 
             _udpClient.BeginReceive(ReceiveDataCallback, null);
-        }
-
-
-        private async void ReceiveDataAmadeo(CancellationToken cancellationToken) {
-            Debug.Log("Receive Data from Amadeo");
-            Stopwatch stopwatch = new Stopwatch();
-            while (_isReceiving && !cancellationToken.IsCancellationRequested) {
-                try {
-                    stopwatch.Start();
-                    UdpReceiveResult result = await _udpClient.ReceiveAsync();
-                    string receivedData = Encoding.ASCII.GetString(result.Buffer);
-                    stopwatch.Stop();
-
-                    if (_debug) {
-                        Debug.Log($"Received data: {receivedData}");
-                    }
-
-                    HandleReceivedData(ParseDataFromAmadeo(receivedData));
-                    Debug.Log($"Data processing time: {stopwatch.ElapsedMilliseconds} ms");
-                    stopwatch.Reset();
-                }
-                catch (OperationCanceledException) {
-                    Debug.Log("Data reception was canceled.");
-                    break;
-                }
-                catch (Exception ex) {
-                    Debug.LogError($"Exception in ReceiveData: {ex.Message}");
-                    break;
-                }
-            }
         }
 
 
@@ -358,17 +320,6 @@ namespace BridgePackage {
 
             OffsetForcesAndSend();
         }
-
-        // private void OffsetForcesAndSend() {
-        //     // Fixing the offset of the forces
-        //     _forces = _forces.Select((force, i) => force - _zeroForces[i]).ToArray();
-        //
-        //     _forces = _forces.Reverse().ToArray();
-        //
-        //     // BridgeEvents.ForcesUpdated?.Invoke(_forces);
-        //     
-        //     _dataReceived = true;
-        // }
 
         private void OffsetForcesAndSend() {
             // Ensure the NativeArrays are the same length
@@ -450,7 +401,7 @@ namespace BridgePackage {
             int numOfLinesToRead = _zeroFBuffer;
             string[] lines = new string[numOfLinesToRead];
             try {
-                if (inputType is InputType.FileMode) {
+                if (_inputType is InputType.FileMode) {
                     // read the only 100 first lines from file, and add them only if it is not an empty line
                     using (StreamReader reader = new StreamReader(FileModeDataFile)) {
                         string line;
