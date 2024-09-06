@@ -20,7 +20,6 @@ namespace BridgePackage {
         [SerializeField, Tooltip("x-axis value from where the bridge will rise"), Min(0)]
         private int bridgeRiseDownOffset = 12;
 
-        private BridgeAnimationManager animationManager;
         private BridgeStateMachine stateMachine;
         private UnitsControl _unitsControl;
         // private GameObject _bridgeHolder;
@@ -87,7 +86,6 @@ namespace BridgePackage {
 
 
         private void Awake() {
-            animationManager = GetComponent<BridgeAnimationManager>();
             stateMachine = GetComponent<BridgeStateMachine>();
             _unitsControl = GetComponent<UnitsControl>();
 
