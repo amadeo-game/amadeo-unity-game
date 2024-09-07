@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace BridgePackage {
-    internal enum FingerMethod {
+    internal enum ControlMethod {
         IndividualControl,
         IsolatedControl,
         SimultaneousMultiFingerControl
@@ -15,8 +15,8 @@ namespace BridgePackage {
         [SerializeField] private bool _debug;
 
         // The current finger method, easiest is Individual Control, then Isolated-Control, then multi-finger Simultaneous-MultiFinger-Control
-        private FingerMethod _fingerMethod;
-        private bool _allowIndividuation = false;
+        private ControlMethod _controlMethod;
+        private bool _allowIsolatedControl = false;
         private bool _allowMultiFingerSimultaneous = false;
 
         private HashSet<int> _allowedFingers;
@@ -71,7 +71,7 @@ namespace BridgePackage {
 
         private void Awake() {
             // set default finger method
-            _fingerMethod = FingerMethod.IndividualControl;
+            _controlMethod = ControlMethod.IndividualControl;
         }
 
         // ------------ Event Handlers ------------
@@ -86,7 +86,7 @@ namespace BridgePackage {
         }
 
         private void OnIsolatedControl(bool isIsolatedControl) {
-            _allowIndividuation = isIsolatedControl;
+            _allowIsolatedControl = isIsolatedControl;
         }
 
         private void OnDisable() {
@@ -102,7 +102,7 @@ namespace BridgePackage {
             _activeFingers = new HashSet<int>();
             SetMvcHeights();
 
-            if (_allowMultiFingerSimultaneous && !_allowIndividuation) {
+            if (_allowMultiFingerSimultaneous && !_allowIsolatedControl) {
                 _multiFingerControlStartLevel = _isolatedControlStartLevel;
             } // If the multi-finger simultaneous is allowed, but Isolated-Control is not, then the multi-finger simultaneous start level should be the same as the Isolated-Control start level.
             else if (_multiFingerControlStartLevel < _isolatedControlStartLevel) {
@@ -140,7 +140,7 @@ namespace BridgePackage {
 
         // Should be called at the start of each session
         private void InitSession() {
-            _fingerMethod = FingerMethod.IndividualControl;
+            _controlMethod = ControlMethod.IndividualControl;
             // Get the indexes of the active fingers
             _allowedFingers = new HashSet<int>();
             for (int i = 0; i < BridgeDataManager.PlayableUnits.Length; i++) {
@@ -172,8 +172,6 @@ namespace BridgePackage {
         }
 
         private void UpdateDifficulty() {
-            Debug.Log("UpdateDifficulty: Start");
-
             if (_firstTrial) {
                 InitSession();
                 _activeFingers.Add(_allowedFingers.First());
@@ -221,6 +219,8 @@ namespace BridgePackage {
             if (_activeFingers.Count == 0) return;
 
             int[] updatedHeights = BridgeDataManager.HeightsAbsolute;
+            UpdateGraceValues(sessionData, _activeFingers, updatedHeights);
+
             AdjustHeightsForFingers(sessionData, _activeFingers, updatedHeights);
             UpdateNextPlayableFingers(sessionData, updatedHeights);
 
@@ -237,8 +237,6 @@ namespace BridgePackage {
             }
 
             BridgeDataManager.SetPlayableUnits(playableUnits);
-
-            UpdateGraceValues(sessionData, _activeFingers, updatedHeights);
         }
 
 
@@ -261,10 +259,10 @@ namespace BridgePackage {
             BridgeDataManager.SetLevel(_levelData.Level);
 
             if (_levelData.Level >= _multiFingerControlStartLevel && _allowMultiFingerSimultaneous) {
-                _fingerMethod = FingerMethod.SimultaneousMultiFingerControl;
+                _controlMethod = ControlMethod.SimultaneousMultiFingerControl;
             }
-            else if (_levelData.Level >= _isolatedControlStartLevel && _allowIndividuation) {
-                _fingerMethod = FingerMethod.IsolatedControl;
+            else if (_levelData.Level >= _isolatedControlStartLevel && _allowIsolatedControl) {
+                _controlMethod = ControlMethod.IsolatedControl;
             }
 
             return false;
@@ -282,12 +280,15 @@ namespace BridgePackage {
 
             if (sessionData.success) {
                 // Increase difficulty back if it was lowered
-                if (currentLevel >= _isolatedControlStartLevel && _fingerMethod == FingerMethod.IndividualControl) {
-                    _fingerMethod = FingerMethod.IsolatedControl;
+                if (_allowIsolatedControl && currentLevel >= _isolatedControlStartLevel &&
+                    _controlMethod == ControlMethod.IndividualControl) {
+                    _controlMethod = ControlMethod.IsolatedControl;
                 }
                 else if (currentLevel >= _multiFingerControlStartLevel &&
-                         _fingerMethod == FingerMethod.IsolatedControl) {
-                    _fingerMethod = FingerMethod.SimultaneousMultiFingerControl;
+                         _controlMethod == (_allowIsolatedControl
+                             ? ControlMethod.IsolatedControl
+                             : ControlMethod.IndividualControl)) {
+                    _controlMethod = ControlMethod.SimultaneousMultiFingerControl;
                 }
             }
             else {
@@ -295,11 +296,13 @@ namespace BridgePackage {
 
                 if (lowerDifficulty) {
                     _levelData.NumOfFailedTrials = 0;
-                    if (_fingerMethod == FingerMethod.SimultaneousMultiFingerControl) {
-                        _fingerMethod = FingerMethod.IsolatedControl;
+                    if (_controlMethod == ControlMethod.SimultaneousMultiFingerControl) {
+                        _controlMethod = (_allowIsolatedControl
+                            ? ControlMethod.IsolatedControl
+                            : ControlMethod.IndividualControl);
                     }
-                    else if (_fingerMethod == FingerMethod.IsolatedControl) {
-                        _fingerMethod = FingerMethod.IndividualControl;
+                    else if (_controlMethod == ControlMethod.IsolatedControl) {
+                        _controlMethod = ControlMethod.IndividualControl;
                     }
                 }
             }
@@ -308,20 +311,20 @@ namespace BridgePackage {
         private void UpdateNextPlayableFingers(SessionData sessionData, int[] updatedHeights) {
             _activeFingers.Clear();
 
-            switch (_fingerMethod) {
-                case FingerMethod.IndividualControl:
+            switch (_controlMethod) {
+                case ControlMethod.IndividualControl:
                     var randomFinger = GetRandomAllowedFinger();
                     _activeFingers.Add(randomFinger);
                     SetFingerHeightInRange(randomFinger, updatedHeights);
                     break;
 
-                case FingerMethod.IsolatedControl:
+                case ControlMethod.IsolatedControl:
                     var randomFingerIsolatedControl = GetRandomAllowedFinger();
                     SetFingerHeightInRange(randomFingerIsolatedControl, updatedHeights);
                     UpdateStaticFingersForIsolatedControl(randomFingerIsolatedControl, updatedHeights, sessionData);
                     break;
 
-                case FingerMethod.SimultaneousMultiFingerControl:
+                case ControlMethod.SimultaneousMultiFingerControl:
                     UpdateMultiFingerControl(updatedHeights, sessionData);
                     break;
 
@@ -428,8 +431,13 @@ namespace BridgePackage {
                     updatedGraceValues[finger] = Mathf.Max(MinGraceValue, updatedGraceValues[finger] - 1);
                 }
                 else {
-                    if (Mathf.Abs(bestYPositions[finger] - updatedHeights[finger]) < 1) {
+                    Debug.Log("Best Y Position: " + bestYPositions[finger] + " Updated Height: " + updatedHeights[finger] +
+                              " Difference: " + Mathf.Abs(bestYPositions[finger] - updatedHeights[finger]) +
+                              " Grace Value: " + updatedGraceValues[finger]);
+                    if (Mathf.Abs(bestYPositions[finger] - updatedHeights[finger]) <= 1) {
                         updatedGraceValues[finger] = Mathf.Min(MaxGraceValue, updatedGraceValues[finger] + 1);
+                        Debug.Log("Grace Value Increased, finger: " + finger + " Grace Value: " +
+                                  updatedGraceValues[finger]);
                     }
                 }
             }
