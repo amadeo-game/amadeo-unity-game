@@ -30,7 +30,7 @@ public class GameScreen : MonoBehaviour {
 
     [SerializeField] UIDocument _zerofScreen;
     [SerializeField] UIDocument _startingGameCountdown;
-    
+
     private int _countDownTime = 3;
 
 
@@ -62,17 +62,18 @@ public class GameScreen : MonoBehaviour {
 
         GameplayEvents.WinScreenShown += OnGameWon;
         GameplayEvents.LoseScreenShown += OnGameLost;
-        GameplayEvents.GameStarted += SetIdleStateScreen;
-        BridgeEvents.InZeroFState += ShowZeroFScreen;
-        BridgeEvents.StartingGameState += OnStartingGameState;
-        BridgeEvents.CountDown += UpdateCountDownLabel;
-        BridgeEvents.InGameState += OnInGameState;
-        
-        BridgeEvents.OnTimeDurationChanged += UpdateTimeLabel;
-        BridgeEvents.IdleState += SetIdleStateScreen;
-
-
+        GameEvents.GameBuilding += SetIdleStateScreen;
         GameplayEvents.SettingsUpdated += OnSettingsUpdated;
+
+        GameEvents.GameInZeroF += ShowZeroFScreen;
+        GameEvents.GameStarting += OnStartingGameState;
+        GameEvents.GameIsRunning += OnInGameState;
+        GameEvents.GameIdle += SetIdleStateScreen;
+
+        // BridgeEvents.OnTimeDurationChanged += UpdateTimeLabel;
+
+
+        GameConfigEvents.CountDown += UpdateCountDownLabel;
     }
 
     private void OnInGameState() {
@@ -80,9 +81,11 @@ public class GameScreen : MonoBehaviour {
     }
 
     private void UpdateCountDownLabel(int timeText) {
-        if (timeText > _countDownTime) { // TODO : Wierd solution but for now its okay, need to find a better solution
+        if (timeText > _countDownTime) {
+            // TODO : Wierd solution but for now its okay for now, need to find a better solution
             _countDownTime = timeText;
         }
+
         if (_startingGameCountdownVisualElement != null) {
             _startingGameCountdownVisualElement.Q<Label>("game_starting_countdown_label").text = timeText.ToString();
         }
@@ -92,37 +95,37 @@ public class GameScreen : MonoBehaviour {
         ShowVisualElement(_zerofScreenRootElement, false);
         ShowVisualElement(_startingGameCountdownVisualElement, true);
         _startingGameCountdownVisualElement.Q<Label>("game_starting_countdown_label").text = _countDownTime.ToString();
-        
     }
 
     private void ShowZeroFScreen() {
         ShowVisualElement(_zerofScreenRootElement, true);
     }
 
-    private void UpdateTimeLabel(float newTime) {
-        if (_gameTimer != null) {
-            _gameTimer.text = newTime.ToString("F0"); // Format as needed
-        }
-
-        if (_instructorTimer != null) {
-            _instructorTimer.text = newTime.ToString("F0");
-        }
-    }
+    // private void UpdateTimeLabel(float newTime) {
+    //     if (_gameTimer != null) {
+    //         _gameTimer.text = newTime.ToString("F0"); // Format as needed
+    //     }
+    //
+    //     if (_instructorTimer != null) {
+    //         _instructorTimer.text = newTime.ToString("F0");
+    //     }
+    // }
 
     void OnDisable() {
         GameplayEvents.WinScreenShown -= OnGameWon;
         GameplayEvents.LoseScreenShown -= OnGameLost;
-        GameplayEvents.GameStarted -= SetIdleStateScreen;
-        BridgeEvents.InZeroFState -= ShowZeroFScreen;
-        BridgeEvents.StartingGameState -= OnStartingGameState;
-        BridgeEvents.CountDown -= UpdateCountDownLabel;
-        BridgeEvents.InGameState -= OnInGameState;
-        
-        BridgeEvents.OnTimeDurationChanged -= UpdateTimeLabel;
-        BridgeEvents.IdleState -= SetIdleStateScreen;
-
-
+        GameEvents.GameBuilding -= SetIdleStateScreen;
         GameplayEvents.SettingsUpdated -= OnSettingsUpdated;
+
+        GameEvents.GameInZeroF -= ShowZeroFScreen;
+        GameEvents.GameStarting -= OnStartingGameState;
+        GameEvents.GameIsRunning -= OnInGameState;
+        GameEvents.GameIdle -= SetIdleStateScreen;
+
+        // BridgeEvents.OnTimeDurationChanged -= UpdateTimeLabel;
+
+
+        GameConfigEvents.CountDown -= UpdateCountDownLabel;
     }
 
     void SetVisualElements() {
@@ -136,7 +139,8 @@ public class GameScreen : MonoBehaviour {
         _winScreenRootElement = m_WinLoseScreen.rootVisualElement.Q<VisualElement>("game-win__screen");
         _loseScreenRootElement = m_WinLoseScreen.rootVisualElement.Q<VisualElement>("game-lose__screen");
         _zerofScreenRootElement = _zerofScreen.rootVisualElement.Q<VisualElement>("zero_f__screen");
-        _startingGameCountdownVisualElement = _startingGameCountdown.rootVisualElement.Q<VisualElement>("game_starting_countdown_screen");
+        _startingGameCountdownVisualElement =
+            _startingGameCountdown.rootVisualElement.Q<VisualElement>("game_starting_countdown_screen");
 
         // set visible false to _winScreenRootElement and _loseScreenRootElement
         ShowVisualElement(_winScreenRootElement, false);
@@ -202,6 +206,8 @@ public class GameScreen : MonoBehaviour {
             Debug.Log("VisualElement is null");
             return;
         }
+
+        Debug.Log("GameScreen: ShowVisualElement" + " " + visualElement.name + " " + state);
 
         visualElement.style.display = (state) ? DisplayStyle.Flex : DisplayStyle.None;
     }

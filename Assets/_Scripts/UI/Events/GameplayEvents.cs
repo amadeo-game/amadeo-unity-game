@@ -7,7 +7,10 @@ public static class GameplayEvents {
     // Triggered after the bridge is collapse
     public static Action LoseScreenShown;
     
-    public static Action GameStarted;
+    
+    
+    
+    
 
     public static Action<GameData> SettingsUpdated;
 

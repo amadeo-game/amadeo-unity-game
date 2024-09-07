@@ -9,13 +9,13 @@ using Random = UnityEngine.Random;
 
 public class InstructorPanel : MonoBehaviour {
     [SerializeField] private bool _debug = false;
-    public LevelManager LevelManager;
     // Containers for UI elements
     private VisualElement _preGameConfigs;
     private VisualElement _endPauseButtons;
 
     // UI action buttons
     private Button _endSessionButton;
+    private Button _endTrialButton;
     private Button _pauseSessionButton;
     private Button _resumeSessionButton;
     private Button _playTrialButton;
@@ -27,7 +27,7 @@ public class InstructorPanel : MonoBehaviour {
     private List<string> levels;
     private Toggle[] _activeUnitToggles = new Toggle[5];
     private FloatField[] _graceFields = new FloatField[5];
-    
+
     private Toggle _isolatedControlToggle;
     private Toggle _multiFingerControlToggle;
 
@@ -44,10 +44,15 @@ public class InstructorPanel : MonoBehaviour {
         // Set up button callbacks
         SetupButtonCallbacks(rootVisualElement);
 
+        // // SetVisibility(_endPauseButtons, false);
+        // SetVisibility(_resumeSessionButton, false);
+        // SetVisibility(_playTrialButton, true);
+        // SetVisibility(_startSessionButton, true);
+
         SetVisibility(_endPauseButtons, false);
-        SetVisibility(_resumeSessionButton, false);
-        SetVisibility(_playTrialButton, true);
-        SetVisibility(_startSessionButton, true);
+        SetInteractability(_endPauseButtons, false);
+
+        SetIdleButtons(interactable: true, visible: true);
     }
 
     private void SetupButtonCallbacks(VisualElement root) {
@@ -60,6 +65,12 @@ public class InstructorPanel : MonoBehaviour {
         _endPauseButtons = root.Q<VisualElement>("end_pause_buttons");
         if (_endPauseButtons == null) {
             Debug.LogError("Failed to find 'Action Buttons' container.");
+            return;
+        }
+
+        _endTrialButton = root.Q<Button>("end_trial_button");
+        if (_endTrialButton == null) {
+            Debug.LogError("Failed to find 'End Trial' button.");
             return;
         }
 
@@ -86,46 +97,74 @@ public class InstructorPanel : MonoBehaviour {
             Debug.LogError("Failed to find 'PLAY TRIAL' button.");
             return;
         }
-        
+
         _startSessionButton = root.Q<Button>("start_session_button");
         if (_startSessionButton == null) {
             Debug.LogError("Failed to find 'Start Session' button.");
             return;
         }
 
-        _endSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ForceEndSession());
+        _endSessionButton.RegisterCallback<ClickEvent>(OnEndSessionPressed);
+
+        _endTrialButton.RegisterCallback<ClickEvent>(evt => GameActions.ForceDestroyBridge());
 
         _pauseSessionButton.RegisterCallback<ClickEvent>(evt => OnPausePressed());
 
-        _resumeSessionButton.RegisterCallback<ClickEvent>(evt => LevelManager.ResumeSession());
+        _resumeSessionButton.RegisterCallback<ClickEvent>(evt => OnResumePressed());
 
-        _playTrialButton.RegisterCallback<ClickEvent>(evt => LevelManager.StartSession());
-        _startSessionButton.RegisterCallback<ClickEvent>(evt => BridgeEvents.PlaySession());
+        _playTrialButton.RegisterCallback<ClickEvent>(evt => OnPlayTrialPressed());
+        _startSessionButton.RegisterCallback<ClickEvent>(evt => OnStartSessionPressed());
+    }
+
+    private void OnEndSessionPressed(ClickEvent evt) {
+        GameActions.GameFinishedAction?.Invoke();
+        SetInteractability(_endPauseButtons, false);
+    }
+
+    private void OnPlayTrialPressed() {
+        StartingGameButtons();
+        GameActions.PlayTrial();
+    }
+
+    private void OnStartSessionPressed() {
+        StartingGameButtons();
+        GameActions.PlaySession();
     }
 
     private void OnPausePressed() {
         SetInteractability(_pauseSessionButton, false);
-        LevelManager.PauseSession();
+        SetVisibility(_pauseSessionButton, false);
+        SetInteractability(_resumeSessionButton, true);
+        SetVisibility(_resumeSessionButton, true);
+
+        GameActions.PauseGameAction();
+    }
+
+    private void OnResumePressed() {
+        SetInteractability(_resumeSessionButton, false);
+        SetVisibility(_resumeSessionButton, false);
+
+        SetInteractability(_pauseSessionButton, true);
+        SetVisibility(_pauseSessionButton, true);
+
+        GameActions.ResumeGameAction();
     }
 
     private void OnEnable() {
-        // BridgeEvents.BridgeStateChanged += OnBridgeStateChange;
-        
-        
-        BridgeEvents.IdleState += OnIdleState;
-        BridgeEvents.BuildingState += OnBuildingState;
-        BridgeEvents.GamePausedState += OnPausedState;
-        BridgeEvents.StartingGameState += OnStartingGameState;
-        BridgeEvents.InGameState += OnInGameState;
-        BridgeEvents.BridgeCollapsingState += OnBridgeCollapsingState;
-        BridgeEvents.BridgeCompletingState += OnBridgeCompletingState;
-        BridgeEvents.GameFailedState += OnGameFailedState;
-        BridgeEvents.GameWonState += OnGameWonState;
-        
+        GameEvents.GameIdle += IdleStateButtons;
+        // GameEvents.GameBuilding += OnStartingGameButtons;
+        GameEvents.GamePausedState += OnPausedState;
+        GameEvents.GameStarting += OnStartingGameState;
+        GameEvents.GameIsRunning += OnInGameState;
+        GameEvents.TrialFailing += OnBridgeCollapsingState;
+        GameEvents.TrialCompleting += OnBridgeCompletingState;
+        // GameEvents.TrialFailed += OnGameFailedState;
+        // GameEvents.TrialCompleted += OnGameWonState;
+
         // On Field Changes
-        BridgeEvents.PlayableUnitsChanged += OnActiveUnitsChanged;
-        BridgeEvents.GraceValuesChanged += OnGraceChanged;
-        BridgeEvents.HeightValuesChanged += OnHeightsChanged;
+        GameConfigEvents.PlayableUnitsChanged += OnActiveUnitsChanged;
+        GameConfigEvents.GraceValuesChanged += OnGraceChanged;
+        GameConfigEvents.HeightValuesChanged += OnHeightsChanged;
     }
 
     private void OnGameFailedState() {
@@ -137,8 +176,7 @@ public class InstructorPanel : MonoBehaviour {
         SetInteractability(_startSessionButton, true);
     }
 
-    private void OnGameWonState()
-    {
+    private void OnGameWonState() {
         SetVisibility(_endPauseButtons, false);
         SetVisibility(_playTrialButton, true);
         SetVisibility(_startSessionButton, true);
@@ -148,35 +186,25 @@ public class InstructorPanel : MonoBehaviour {
     }
 
     private void OnDisable() {
-        BridgeEvents.IdleState -= OnIdleState;
-        BridgeEvents.BuildingState -= OnBuildingState;
-        BridgeEvents.GamePausedState -= OnPausedState;
-        BridgeEvents.StartingGameState -= OnStartingGameState;
-        BridgeEvents.InGameState -= OnInGameState;
-        BridgeEvents.BridgeCollapsingState -= OnBridgeCollapsingState;
-        BridgeEvents.BridgeCompletingState -= OnBridgeCompletingState;
-        BridgeEvents.GameFailedState -= OnGameFailedState;
-        BridgeEvents.GameWonState -= OnGameWonState;
-        
+        GameEvents.GameIdle -= IdleStateButtons;
+        // GameEvents.GameBuilding -= OnStartingGameButtons;
+        GameEvents.GamePausedState -= OnPausedState;
+        GameEvents.GameStarting -= OnStartingGameState;
+        GameEvents.GameIsRunning -= OnInGameState;
+        GameEvents.TrialFailing -= OnBridgeCollapsingState;
+        GameEvents.TrialCompleting -= OnBridgeCompletingState;
+        // GameEvents.TrialFailed -= OnGameFailedState;
+        // GameEvents.TrialCompleted -= OnGameWonState;
+
         // On Field Changes
-        BridgeEvents.PlayableUnitsChanged -= OnActiveUnitsChanged;
-        BridgeEvents.GraceValuesChanged -= OnGraceChanged;
-        BridgeEvents.HeightValuesChanged -= OnHeightsChanged;
-    }
-    
-    private void OnIdleState() {
-        SetInteractability(_preGameConfigs, true);
-        SetVisibility(_endPauseButtons, false);
-        SetVisibility(_playTrialButton, true);
-        SetVisibility(_startSessionButton, true);
-        SetInteractability(_playTrialButton, true);
-        SetInteractability(_startSessionButton, true);
+        GameConfigEvents.PlayableUnitsChanged -= OnActiveUnitsChanged;
+        GameConfigEvents.GraceValuesChanged -= OnGraceChanged;
+        GameConfigEvents.HeightValuesChanged -= OnHeightsChanged;
     }
 
-    private void OnBuildingState() {
+
+    private void OnStartingGameButtons() {
         SetInteractability(_preGameConfigs, false);
-        SetInteractability(_playTrialButton, false);
-        SetInteractability(_startSessionButton, false);
     }
 
     private void OnPausedState() {
@@ -188,16 +216,13 @@ public class InstructorPanel : MonoBehaviour {
     }
 
     private void OnStartingGameState() {
-        SetInteractability(_resumeSessionButton, false);
+        // set Idle buttons to false
+        SetIdleButtons(false, false);
+        SetInGameButtons(false, true);
     }
 
     private void OnInGameState() {
-        SetVisibility(_playTrialButton, false);
-        SetVisibility(_startSessionButton, false);
-        SetInteractability(_endPauseButtons, true);
-        SetVisibility(_pauseSessionButton, true);
-        SetVisibility(_resumeSessionButton, false);
-        SetVisibility(_endSessionButton, true);
+        SetInGameButtons(true, true);
     }
 
     private void OnBridgeCollapsingState() {
@@ -206,6 +231,37 @@ public class InstructorPanel : MonoBehaviour {
 
     private void OnBridgeCompletingState() {
         SetInteractability(_endPauseButtons, false);
+    }
+
+    private void SetIdleButtons(bool interactable, bool visible) {
+        SetInteractability(_playTrialButton, interactable);
+        SetInteractability(_startSessionButton, interactable);
+        SetVisibility(_playTrialButton, visible);
+        SetVisibility(_startSessionButton, visible);
+    }
+
+    private void StartingGameButtons() {
+        PreGameConfigsEnabled(enable: false);
+        SetIdleButtons(interactable: false, visible: true);
+    }
+
+    private void IdleStateButtons() {
+        Debug.Log("Instruction Panel: Idle State Buttons Called");
+        PreGameConfigsEnabled(enable: true);
+        SetIdleButtons(interactable: true, visible: true);
+        SetInGameButtons(interactable: false, visible: false);
+    }
+
+
+    private void SetInGameButtons(bool interactable, bool visible) {
+        SetInteractability(_endPauseButtons, interactable);
+        SetVisibility(_endPauseButtons, visible);
+        SetInteractability(_resumeSessionButton, !visible);
+        SetVisibility(_resumeSessionButton, !visible);
+    }
+
+    private void PreGameConfigsEnabled(bool enable) {
+        SetInteractability(_preGameConfigs, enable);
     }
 
     /// <summary>
@@ -224,7 +280,8 @@ public class InstructorPanel : MonoBehaviour {
     private void SetVisibility(VisualElement container, bool visible) {
         if (container == null) return;
 
-        container.visible = visible; // Directly set the enabled state of the container
+        container.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        // container.visible = visible; // Directly set the enabled state of the container
         foreach (var child in container.Children()) {
             SetVisibility(child, visible); // Recursively disable/enable child elements
         }
@@ -388,16 +445,18 @@ public class InstructorPanel : MonoBehaviour {
             Debug.LogWarning("Failed to find toggle element with name:  + _isolatedControlToggle");
         }
 
-        _isolatedControlToggle.RegisterValueChangedCallback(evt => BridgeEvents.EnableIsolatedControl(evt.newValue));
+        _isolatedControlToggle.RegisterValueChangedCallback(evt =>
+            GameConfigEvents.EnableIsolatedControl(evt.newValue));
 
         _multiFingerControlToggle = root.Q<Toggle>("multi_finger_toggle");
         if (_multiFingerControlToggle == null) {
             Debug.LogWarning("Failed to find toggle element with name:  + _multiFingerControlToggle");
         }
-        
-        
-        _multiFingerControlToggle.RegisterValueChangedCallback(evt => BridgeEvents.EnableMultiFingerControl(evt.newValue));
-        
+
+
+        _multiFingerControlToggle.RegisterValueChangedCallback(evt =>
+            GameConfigEvents.EnableMultiFingerControl(evt.newValue));
+
         var dropdown = root.Q<DropdownField>("level_picker");
         if (dropdown != null) {
             dropdown.bindingPath = "level";
@@ -468,24 +527,25 @@ public class InstructorPanel : MonoBehaviour {
     private void UpdateActiveUnit(int index, bool newState) {
         BridgeDataManager.SetPlayableUnit(index: index, value: newState);
     }
-    
+
     private void OnActiveUnitsChanged(bool[] activeUnits) {
         for (int i = 0; i < activeUnits.Length; i++) {
             // if not active do not apply the green color
             // _activeUnitToggles[i].style.color = activeUnits[i] ? Color.green : Color.white;
-            _activeUnitToggles[i].Q<VisualElement>("unity-checkmark").style.backgroundColor = activeUnits[i] ? Color.green : Color.white;
+            _activeUnitToggles[i].Q<VisualElement>("unity-checkmark").style.backgroundColor =
+                activeUnits[i] ? Color.green : Color.white;
             if (_debug) {
                 Debug.Log($"Unit {i + 1} is active: {activeUnits[i]}");
             }
         }
     }
-    
+
     private void OnGraceChanged(float[] graceValues) {
         for (int i = 0; i < graceValues.Length; i++) {
             _graceFields[i].value = graceValues[i];
         }
     }
-    
+
     private void OnHeightsChanged(int[] heights) {
         for (int i = 0; i < heights.Length; i++) {
             _sliders[i].value = Mathf.Abs(heights[i]);

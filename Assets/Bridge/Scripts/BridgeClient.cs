@@ -155,7 +155,8 @@ namespace BridgePackage {
                 BridgeEvents.FinishedZeroF?.Invoke();
                 return;
             }
-
+            // If performing zeroing, notify external component (e.g. UI) that zeroing is in progress
+            GameEvents.GameInZeroF?.Invoke();
             StartZeroF();
         }
 

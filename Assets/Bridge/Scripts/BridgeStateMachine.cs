@@ -56,7 +56,7 @@ namespace BridgePackage {
 
         private void OnEnable() {
             BridgeTimer.OnTimerComplete += HandleTimerComplete;
-            BridgeEvents.UnitPlacementStatusChanged += UnitPlaced;
+            GameConfigEvents.UnitPlacementStatusChanged += UnitPlaced;
 
             // Listen to all returned events
             BridgeEvents.FinishedBuildingBridge += () => ChangeState(BridgeStates.AnimationBuilding);
@@ -67,25 +67,19 @@ namespace BridgePackage {
 
 
             // --- Action Events ---
-            BridgeEvents.PlayTrial += OnBuildBridgeAction;
-            BridgeEvents.PlaySession += StartSession;
-            BridgeEvents.EnableGameInteraction += () => {
-                // ChangeState(BridgeStates.InZeroF);
-                // TODO: fix the problem of crashing when we dont want zeroF (in ::UnitsControl :: OnInGameState())
-                Debug.Log("BridgeStateMachine :: EnableGameInteraction called, ZeroF: " + BridgeDataManager.ZeroF);
-                ChangeState(
-                    BridgeStates.StartingGame);
-            };
-            BridgeEvents.PauseGameAction += () => {
+            GameActions.PlayTrial += OnBuildBridgeAction;
+            GameActions.PlaySession += StartSession;
+            GameActions.EnableGameInteraction += PrepareAndStartGame;
+            GameActions.PauseGameAction += () => {
                 _isPaused = true;
                 ChangeState(BridgeStates.Paused);
             };
-            BridgeEvents.ResumeGameAction += () => { ChangeState(BridgeStates.InGame); };
-            BridgeEvents.CollapseBridgeAction += ForceCollapseBridge;
+            GameActions.ResumeGameAction += () => { ChangeState(BridgeStates.InGame); };
+            GameActions.ForceDestroyBridge += ForceCollapseBridge;
 
-            BridgeEvents.RestartGameAction += () => { ChangeState(BridgeStates.Idle); };
+            GameActions.RestartGameAction += () => { ChangeState(BridgeStates.Idle); };
 
-            BridgeEvents.GameFinishedAction += OnGameFinishedAction;
+            GameActions.GameFinishedAction += OnGameFinishedAction;
 
 
             // --- Animation Events ---
@@ -101,15 +95,15 @@ namespace BridgePackage {
             _inSessionMode = false;
 
             // Destroy the current bridge, and invoke for final screen
-            BridgeEvents.ForceDestroyBridge?.Invoke();
-
-            ChangeState(BridgeStates.Idle);
-            BridgeEvents.GameFinishedState?.Invoke();
+            DynamicDifficulty._firstTrial = true;
+            GameActions.ForceDestroyBridge?.Invoke();
+            // ChangeState(BridgeStates.Idle);
+            GameEvents.SessionEnded?.Invoke();
         }
 
         private void OnDisable() {
             BridgeTimer.OnTimerComplete -= HandleTimerComplete;
-            BridgeEvents.UnitPlacementStatusChanged -= UnitPlaced;
+            GameConfigEvents.UnitPlacementStatusChanged -= UnitPlaced;
 
             BridgeEvents.FinishedBuildingBridge -= () => ChangeState(BridgeStates.AnimationBuilding);
             BridgeEvents.FinishedAnimatingBuildingState -= () =>
@@ -120,20 +114,17 @@ namespace BridgePackage {
             BridgeEvents.FinishStartingGameProcess -= () => ChangeState(BridgeStates.InGame);
 
             // --- Action Events ---
-            BridgeEvents.PlayTrial -= OnBuildBridgeAction;
-            BridgeEvents.PlaySession -= StartSession;
-            BridgeEvents.EnableGameInteraction -= () => {
-                // ChangeState(BridgeStates.InZeroF);
-                // TODO: fix the problem of crashing when we dont want zeroF (in ::UnitsControl :: OnInGameState())
-                ChangeState(
-                    BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.InGame);
-            };
-            BridgeEvents.PauseGameAction -= () => ChangeState(BridgeStates.Paused);
-            BridgeEvents.CollapseBridgeAction -= ForceCollapseBridge;
+            GameActions.PlayTrial -= OnBuildBridgeAction;
+            GameActions.PlaySession -= StartSession;
+            GameActions.EnableGameInteraction -= PrepareAndStartGame;
+            GameActions.PauseGameAction -= () => ChangeState(BridgeStates.Paused);
+            GameActions.ResumeGameAction -= () => { ChangeState(BridgeStates.InGame); };
 
-            BridgeEvents.RestartGameAction -= () => { ChangeState(BridgeStates.Idle); };
+            GameActions.ForceDestroyBridge -= ForceCollapseBridge;
 
-            BridgeEvents.GameFinishedAction -= OnGameFinishedAction;
+            GameActions.RestartGameAction -= () => { ChangeState(BridgeStates.Idle); };
+
+            GameActions.GameFinishedAction -= OnGameFinishedAction;
 
             // --- Animation Events ---
             BridgeEvents.FinishedAnimatingBridgeCollapsingState -= () => ChangeState(BridgeStates.GameFailed);
@@ -143,7 +134,7 @@ namespace BridgePackage {
 
         private void StartSession() {
             _inSessionMode = true;
-            BridgeEvents.PrepareBridgeConfigs?.Invoke();
+            GameConfigEvents.PrepareBridgeConfigs?.Invoke();
             OnBuildBridgeAction();
         }
 
@@ -172,7 +163,7 @@ namespace BridgePackage {
 
         internal void ForceCollapseBridge() {
             if (currentState is BridgeStates.InGame || currentState is BridgeStates.Paused) {
-                BridgeTimer.ResetTimer();
+                // BridgeTimer.ResetTimer();
                 ChangeState(BridgeStates.BridgeCollapsing);
             }
         }
@@ -186,10 +177,13 @@ namespace BridgePackage {
             switch (state) {
                 case BridgeStates.Idle:
                     BridgeEvents.IdleState?.Invoke();
+                    GameEvents.GameIdle?.Invoke();
                     break;
 
                 case BridgeStates.Building:
                     BridgeEvents.BuildingState?.Invoke();
+                    GameEvents.GameBuilding?.Invoke();
+
                     break;
 
                 case BridgeStates.AnimationBuilding:
@@ -199,16 +193,17 @@ namespace BridgePackage {
                 case BridgeStates.BridgeReady:
                     BridgeEvents.BridgeReadyState?.Invoke();
                     // Change this if you don't want to start the game automatically
-                    ChangeState(BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.StartingGame);
+                    PrepareAndStartGame();
                     break;
 
                 case BridgeStates.InZeroF:
                     BridgeEvents.InZeroFState?.Invoke();
+
                     break;
 
                 case BridgeStates.StartingGame:
                     BridgeEvents.StartingGameState?.Invoke();
-
+                    GameEvents.GameStarting?.Invoke();
                     break;
 
                 case BridgeStates.InGame:
@@ -228,6 +223,7 @@ namespace BridgePackage {
 
                 case BridgeStates.BridgeCollapsing:
                     BridgeEvents.BridgeCollapsingState?.Invoke();
+                    GameEvents.TrialFailing?.Invoke();
                     BridgeTimer.ResetTimer();
                     ChangeState(BridgeStates.AnimationBridgeCollapsing);
                     break;
@@ -243,10 +239,15 @@ namespace BridgePackage {
                         TrialEnded();
                     }
 
+                    if (DynamicDifficulty._firstTrial) {
+                        ChangeState(BridgeStates.Idle);
+                    }
+
                     break;
 
                 case BridgeStates.BridgeCompleting:
                     BridgeEvents.BridgeCompletingState?.Invoke();
+                    GameEvents.TrialCompleting?.Invoke();
                     BridgeTimer.ResetTimer();
                     ChangeState(BridgeStates.AnimationBridgeCompleting);
                     break;
@@ -259,8 +260,10 @@ namespace BridgePackage {
                     if (_inSessionMode) {
                         TrialEnded();
                     }
+                    else {
+                        ChangeState(BridgeStates.GameWon);
+                    }
 
-                    BridgeEvents.BridgeIsCompletedState?.Invoke();
                     break;
 
                 case BridgeStates.GameWon:
@@ -273,31 +276,44 @@ namespace BridgePackage {
             }
         }
 
+        private void PrepareAndStartGame() {
+            if (currentState is BridgeStates.BridgeReady) {
+                ChangeState(BridgeDataManager.ZeroF ? BridgeStates.InZeroF : BridgeStates.StartingGame);
+            }
+        }
+
         private void TrialEnded() {
-            BridgeEvents.PrepareBridgeConfigs?.Invoke();
-            OnBuildBridgeAction();
+            GameConfigEvents.PrepareBridgeConfigs?.Invoke();
+            if (!DynamicDifficulty._firstTrial) {
+                OnBuildBridgeAction();
+            }
         }
 
 
         private void HandleGameWinOrLose(bool won) {
             if (won) {
                 BridgeEvents.GameWonState?.Invoke();
+                GameEvents.TrialCompleted?.Invoke();
             }
             else {
                 BridgeEvents.GameFailedState?.Invoke();
+                GameEvents.TrialFailed?.Invoke();
             }
+
+            ChangeState(BridgeStates.Idle);
         }
 
         internal IEnumerator StartingGame() {
             // Wait for 3 seconds before starting the game (for the player to see the bridge, and for Animation to start), and update the UI with the countdown
             for (int i = 3; i >= 0; i--) {
                 // Play Animation (countdown on Screen)
-                BridgeEvents.CountDown?.Invoke(i);
+                GameConfigEvents.CountDown?.Invoke(i);
                 yield return new WaitForSecondsRealtime(0.2f);
             }
 
             StartCoroutine(BridgeTimer.StartTimer()); // Start the timer with the configured duration
             BridgeEvents.InGameState?.Invoke();
+            GameEvents.GameIsRunning?.Invoke();
         }
 
         private void StartBuilding() {

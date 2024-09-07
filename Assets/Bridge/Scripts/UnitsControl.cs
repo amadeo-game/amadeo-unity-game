@@ -29,11 +29,11 @@ namespace BridgePackage {
         private void OnEnable() {
             BridgeEvents.StartingGameState += EnablePlayerUnitControl;
 
-            BridgeEvents.ActiveUnitChanged += OnActiveUnitChanged;
-            BridgeEvents.UnitGraceUpdated += OnUnitGraceUpdated;
+            GameConfigEvents.ActiveUnitChanged += OnActiveUnitChanged;
+            GameConfigEvents.UnitGraceUpdated += OnUnitGraceUpdated;
 
             BridgeEvents.GamePausedState += OnPausedState;
-            BridgeEvents.ResumeGameAction += OnResumeState;
+            GameActions.ResumeGameAction += OnResumeState;
 
             BridgeEvents.BridgeCollapsingState += OnGameOverState;
             BridgeEvents.BridgeCompletingState += OnGameOverState;
@@ -68,12 +68,12 @@ namespace BridgePackage {
         private void OnDisable() {
             BridgeEvents.StartingGameState -= EnablePlayerUnitControl;
 
-            BridgeEvents.ActiveUnitChanged -= OnActiveUnitChanged;
+            GameConfigEvents.ActiveUnitChanged -= OnActiveUnitChanged;
 
-            BridgeEvents.UnitGraceUpdated -= OnUnitGraceUpdated;
+            GameConfigEvents.UnitGraceUpdated -= OnUnitGraceUpdated;
 
             BridgeEvents.GamePausedState -= OnPausedState;
-            BridgeEvents.ResumeGameAction -= OnResumeState;
+            GameActions.ResumeGameAction -= OnResumeState;
 
             BridgeEvents.BridgeCollapsingState -= OnGameOverState;
             BridgeEvents.BridgeCompletingState -= OnGameOverState;

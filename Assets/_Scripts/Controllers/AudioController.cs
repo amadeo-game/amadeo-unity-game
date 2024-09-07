@@ -6,8 +6,13 @@ using UnityEngine;
 
 public class AudioController : MonoBehaviour {
     private void OnEnable() {
-        BridgeEvents.BridgeCollapsingState += PlayVictorySound;
-        BridgeEvents.BridgeCompletingState += PlayDefeatSound;
+        GameEvents.TrialCompleting += PlayVictorySound;
+        GameEvents.TrialFailing += PlayDefeatSound;
+    }
+    
+    private void OnDisable() {
+        GameEvents.TrialCompleting -= PlayVictorySound;
+        GameEvents.TrialFailing -= PlayDefeatSound;
     }
 
     private void PlayVictorySound() {

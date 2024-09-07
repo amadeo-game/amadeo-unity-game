@@ -15,7 +15,7 @@ namespace BridgePackage {
         }
 
         void OnEnable() {
-            BridgeEvents.OnBridgeDataUpdated += OnBridgeDataUpdated;
+            GameConfigEvents.OnBridgeDataUpdated += OnBridgeDataUpdated;
         }
 
         private static void OnBridgeDataUpdated(BridgeData bridgeData) {
@@ -23,7 +23,7 @@ namespace BridgePackage {
         }
 
         void OnDisable() {
-            BridgeEvents.OnBridgeDataUpdated -= OnBridgeDataUpdated;
+            GameConfigEvents.OnBridgeDataUpdated -= OnBridgeDataUpdated;
         }
 
         public static int[] Heights {
@@ -77,7 +77,7 @@ namespace BridgePackage {
         public static void SetHeights(int[] newHeights) {
             if (newHeights.Length == 5) {
                 BridgeData.heights = newHeights;
-                BridgeEvents.HeightValuesChanged?.Invoke(newHeights);
+                GameConfigEvents.HeightValuesChanged?.Invoke(newHeights);
             }
             
         }
@@ -117,7 +117,7 @@ namespace BridgePackage {
             }
 
             BridgeData.mvcValuesExtension[index] = value;
-            BridgeEvents.MvcExtensionUpdated?.Invoke(index, value);
+            GameConfigEvents.MvcExtensionUpdated?.Invoke(index, value);
         }
 
         public static void SetMvcValuesFlexion(int index, float value) {
@@ -127,13 +127,13 @@ namespace BridgePackage {
             }
 
             BridgeData.mvcValuesFlexion[index] = value;
-            BridgeEvents.MvcFlexionUpdated?.Invoke(index, value);
+            GameConfigEvents.MvcFlexionUpdated?.Invoke(index, value);
         }
 
         public static void SetPlayableUnits(bool[] newPlayableUnits) {
             if (newPlayableUnits.Length == 5) {
                 BridgeData.playableUnits = newPlayableUnits;
-                BridgeEvents.PlayableUnitsChanged?.Invoke(newPlayableUnits);
+                GameConfigEvents.PlayableUnitsChanged?.Invoke(newPlayableUnits);
             }
             else {
                 Debug.LogWarning("Playable units must be an array of length 5.");
@@ -142,7 +142,7 @@ namespace BridgePackage {
 
         public static void SetPlayableUnit(int index, bool value) {
             BridgeData.playableUnits[index] = value;
-            BridgeEvents.ActiveUnitChanged?.Invoke(index, value);
+            GameConfigEvents.ActiveUnitChanged?.Invoke(index, value);
         }
 
         public static void SetTimeDuration(float newTimeDuration) {
@@ -152,7 +152,7 @@ namespace BridgePackage {
         public static void SetUnitsGrace(float[] floats) {
             if (floats.Length == 5) {
                 BridgeData.unitsGrace = floats;
-                BridgeEvents.GraceValuesChanged?.Invoke(floats);
+                GameConfigEvents.GraceValuesChanged?.Invoke(floats);
             }
         }
 
@@ -163,7 +163,7 @@ namespace BridgePackage {
             }
 
             BridgeData.unitsGrace[index] = value;
-            BridgeEvents.UnitGraceUpdated?.Invoke(index, value);
+            GameConfigEvents.UnitGraceUpdated?.Invoke(index, value);
         }
 
         public static void SetZeroF(bool newZeroF) {

@@ -111,11 +111,11 @@ namespace BridgePackage {
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
-            BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
+            GameConfigEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, true);
         }
 
         private void OnTriggerExit2D(Collider2D other) {
-            BridgeEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
+            GameConfigEvents.UnitPlacementStatusChanged?.Invoke(_fingerUnit, false);
         }
     }
 }
