@@ -70,7 +70,7 @@ public class GameScreen : MonoBehaviour {
         GameEvents.GameIsRunning += OnInGameState;
         GameEvents.GameIdle += SetIdleStateScreen;
 
-        // BridgeEvents.OnTimeDurationChanged += UpdateTimeLabel;
+        GameConfigEvents.OnTimeDurationChanged += UpdateTimeLabel;
 
 
         GameConfigEvents.CountDown += UpdateCountDownLabel;
@@ -101,15 +101,15 @@ public class GameScreen : MonoBehaviour {
         ShowVisualElement(_zerofScreenRootElement, true);
     }
 
-    // private void UpdateTimeLabel(float newTime) {
-    //     if (_gameTimer != null) {
-    //         _gameTimer.text = newTime.ToString("F0"); // Format as needed
-    //     }
-    //
-    //     if (_instructorTimer != null) {
-    //         _instructorTimer.text = newTime.ToString("F0");
-    //     }
-    // }
+    private void UpdateTimeLabel(float newTime) {
+        if (_gameTimer != null) {
+            _gameTimer.text = newTime.ToString("F0"); // Format as needed
+        }
+    
+        if (_instructorTimer != null) {
+            _instructorTimer.text = newTime.ToString("F0");
+        }
+    }
 
     void OnDisable() {
         GameplayEvents.WinScreenShown -= OnGameWon;
@@ -122,7 +122,7 @@ public class GameScreen : MonoBehaviour {
         GameEvents.GameIsRunning -= OnInGameState;
         GameEvents.GameIdle -= SetIdleStateScreen;
 
-        // BridgeEvents.OnTimeDurationChanged -= UpdateTimeLabel;
+        GameConfigEvents.OnTimeDurationChanged -= UpdateTimeLabel;
 
 
         GameConfigEvents.CountDown -= UpdateCountDownLabel;

@@ -15,5 +15,6 @@ namespace BridgePackage {
         public static Action<int> CountDown;
         public static Action PrepareBridgeConfigs;
         public static Action<BridgeData> OnBridgeDataUpdated;
+        public static Action<float> OnTimeDurationChanged;
     }
 }

@@ -3,8 +3,6 @@ using BridgePackage;
 
 namespace BridgePackage {
     internal static class BridgeEvents {
-        internal static Action<float> OnTimeDurationChanged;
-
         // State events
 
         // Initial state of the bridge
@@ -51,10 +49,7 @@ namespace BridgePackage {
 
         // The game has been won
         internal static Action GameWonState;
-
-
-        // For adjusting difficulty
-
+        
 
         // ---- RETURN EVENTS ----
 

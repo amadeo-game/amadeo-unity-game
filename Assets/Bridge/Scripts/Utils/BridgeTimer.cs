@@ -24,7 +24,7 @@ namespace BridgePackage {
                     ResetTimer();
                     
                 }
-                BridgeEvents.OnTimeDurationChanged?.Invoke(--timer);
+                GameConfigEvents.OnTimeDurationChanged?.Invoke(--timer);
                 yield return new WaitForSecondsRealtime(1);
 
             }
@@ -38,7 +38,9 @@ namespace BridgePackage {
         
         public static void ResetTimer() {
             isRunning = false;
+            
             timer = BridgeDataManager.TimeDuration;
+            GameConfigEvents.OnTimeDurationChanged?.Invoke(timer);
         }
     }
 }

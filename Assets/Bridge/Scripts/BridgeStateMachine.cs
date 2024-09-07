@@ -163,118 +163,246 @@ namespace BridgePackage {
 
         internal void ForceCollapseBridge() {
             if (currentState is BridgeStates.InGame || currentState is BridgeStates.Paused) {
-                // BridgeTimer.ResetTimer();
                 ChangeState(BridgeStates.BridgeCollapsing);
             }
         }
 
+        // private void ChangeState(BridgeStates state) {
+        //     if (_debugMode) {
+        //         Debug.Log("BridgeStateMachine :: Changing state from " + currentState + " to " + state);
+        //     }
+        //
+        //     currentState = state;
+        //     switch (state) {
+        //         case BridgeStates.Idle:
+        //             BridgeEvents.IdleState?.Invoke();
+        //             GameEvents.GameIdle?.Invoke();
+        //             break;
+        //
+        //         case BridgeStates.Building:
+        //             BridgeEvents.BuildingState?.Invoke();
+        //             GameEvents.GameBuilding?.Invoke();
+        //
+        //             break;
+        //
+        //         case BridgeStates.AnimationBuilding:
+        //             BridgeEvents.AnimatingBuildingState?.Invoke();
+        //             break;
+        //
+        //         case BridgeStates.BridgeReady:
+        //             BridgeEvents.BridgeReadyState?.Invoke();
+        //             // Change this if you don't want to start the game automatically
+        //             PrepareAndStartGame();
+        //             break;
+        //
+        //         case BridgeStates.InZeroF:
+        //             BridgeEvents.InZeroFState?.Invoke();
+        //
+        //             break;
+        //
+        //         case BridgeStates.StartingGame:
+        //             BridgeEvents.StartingGameState?.Invoke();
+        //             GameEvents.GameStarting?.Invoke();
+        //             break;
+        //
+        //         case BridgeStates.InGame:
+        //             StartCoroutine(StartingGame());
+        //             if (!_isPaused) {
+        //                 SetPlayerUnitsDictionary();
+        //             }
+        //
+        //             _isPaused = false;
+        //             break;
+        //
+        //         case BridgeStates.Paused:
+        //             _isPaused = true;
+        //             BridgeEvents.GamePausedState?.Invoke();
+        //             BridgeTimer.PauseTimer();
+        //             break;
+        //
+        //         case BridgeStates.BridgeCollapsing:
+        //             BridgeEvents.BridgeCollapsingState?.Invoke();
+        //             GameEvents.TrialFailing?.Invoke();
+        //             BridgeTimer.ResetTimer();
+        //             ChangeState(BridgeStates.AnimationBridgeCollapsing);
+        //             break;
+        //
+        //         case BridgeStates.AnimationBridgeCollapsing:
+        //             BridgeEvents.AnimatingBridgeCollapsingState?.Invoke();
+        //             break;
+        //
+        //         case BridgeStates.GameFailed:
+        //
+        //             HandleGameWinOrLose(won: false);
+        //             if (_inSessionMode) {
+        //                 TrialEnded();
+        //             }
+        //
+        //             if (DynamicDifficulty._firstTrial) {
+        //                 ChangeState(BridgeStates.Idle);
+        //             }
+        //
+        //             break;
+        //
+        //         case BridgeStates.BridgeCompleting:
+        //             BridgeEvents.BridgeCompletingState?.Invoke();
+        //             GameEvents.TrialCompleting?.Invoke();
+        //             BridgeTimer.ResetTimer();
+        //             ChangeState(BridgeStates.AnimationBridgeCompleting);
+        //             break;
+        //
+        //         case BridgeStates.AnimationBridgeCompleting:
+        //             BridgeEvents.AnimatingBridgeCompletingState?.Invoke();
+        //             break;
+        //
+        //         case BridgeStates.BridgeCompleted:
+        //             if (_inSessionMode) {
+        //                 TrialEnded();
+        //             }
+        //             else {
+        //                 ChangeState(BridgeStates.GameWon);
+        //             }
+        //
+        //             break;
+        //
+        //         case BridgeStates.GameWon:
+        //             Debug.Log("GameWon State Called");
+        //             HandleGameWinOrLose(won: true);
+        //             break;
+        //
+        //         default:
+        //             throw new ArgumentOutOfRangeException(nameof(state), state, null);
+        //     }
+        // }
+
         private void ChangeState(BridgeStates state) {
             if (_debugMode) {
-                Debug.Log("BridgeStateMachine :: Changing state from " + currentState + " to " + state);
+                Debug.Log($"BridgeStateMachine :: Changing state from {currentState} to {state}");
             }
 
             currentState = state;
+            HandleStateAction(state);
+        }
+
+        private void HandleStateAction(BridgeStates state) {
             switch (state) {
                 case BridgeStates.Idle:
-                    BridgeEvents.IdleState?.Invoke();
-                    GameEvents.GameIdle?.Invoke();
+                    HandleIdleState();
                     break;
-
                 case BridgeStates.Building:
-                    BridgeEvents.BuildingState?.Invoke();
-                    GameEvents.GameBuilding?.Invoke();
-
+                    HandleBuildingState();
                     break;
-
                 case BridgeStates.AnimationBuilding:
                     BridgeEvents.AnimatingBuildingState?.Invoke();
                     break;
-
                 case BridgeStates.BridgeReady:
                     BridgeEvents.BridgeReadyState?.Invoke();
-                    // Change this if you don't want to start the game automatically
                     PrepareAndStartGame();
                     break;
-
                 case BridgeStates.InZeroF:
                     BridgeEvents.InZeroFState?.Invoke();
-
                     break;
-
                 case BridgeStates.StartingGame:
                     BridgeEvents.StartingGameState?.Invoke();
                     GameEvents.GameStarting?.Invoke();
                     break;
-
                 case BridgeStates.InGame:
-                    StartCoroutine(StartingGame());
-                    if (!_isPaused) {
-                        SetPlayerUnitsDictionary();
-                    }
-
-                    _isPaused = false;
+                    HandleInGameState();
                     break;
-
                 case BridgeStates.Paused:
-                    _isPaused = true;
-                    BridgeEvents.GamePausedState?.Invoke();
-                    BridgeTimer.PauseTimer();
+                    HandlePausedState();
                     break;
-
                 case BridgeStates.BridgeCollapsing:
-                    BridgeEvents.BridgeCollapsingState?.Invoke();
-                    GameEvents.TrialFailing?.Invoke();
-                    BridgeTimer.ResetTimer();
-                    ChangeState(BridgeStates.AnimationBridgeCollapsing);
+                    HandleBridgeCollapsingState();
                     break;
-
                 case BridgeStates.AnimationBridgeCollapsing:
                     BridgeEvents.AnimatingBridgeCollapsingState?.Invoke();
                     break;
-
                 case BridgeStates.GameFailed:
-
-                    HandleGameWinOrLose(won: false);
-                    if (_inSessionMode) {
-                        TrialEnded();
-                    }
-
-                    if (DynamicDifficulty._firstTrial) {
-                        ChangeState(BridgeStates.Idle);
-                    }
-
+                    HandleGameFailedState();
                     break;
-
                 case BridgeStates.BridgeCompleting:
-                    BridgeEvents.BridgeCompletingState?.Invoke();
-                    GameEvents.TrialCompleting?.Invoke();
-                    BridgeTimer.ResetTimer();
-                    ChangeState(BridgeStates.AnimationBridgeCompleting);
+                    HandleBridgeCompletingState();
                     break;
-
                 case BridgeStates.AnimationBridgeCompleting:
                     BridgeEvents.AnimatingBridgeCompletingState?.Invoke();
                     break;
-
                 case BridgeStates.BridgeCompleted:
-                    if (_inSessionMode) {
-                        TrialEnded();
-                    }
-                    else {
-                        ChangeState(BridgeStates.GameWon);
-                    }
-
+                    HandleBridgeCompletedState();
                     break;
-
                 case BridgeStates.GameWon:
-                    Debug.Log("GameWon State Called");
-                    HandleGameWinOrLose(won: true);
+                    HandleGameWonState();
                     break;
-
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                    throw new ArgumentOutOfRangeException(nameof(state), state,
+                        "Unhandled state in BridgeStateMachine");
             }
         }
+
+        private void HandleIdleState() {
+            BridgeEvents.IdleState?.Invoke();
+            GameEvents.GameIdle?.Invoke();
+        }
+
+        private void HandleBuildingState() {
+            BridgeEvents.BuildingState?.Invoke();
+            GameEvents.GameBuilding?.Invoke();
+        }
+
+        private void HandleInGameState() {
+            StartCoroutine(StartingGame());
+            if (!_isPaused) {
+                SetPlayerUnitsDictionary();
+            }
+
+            _isPaused = false;
+        }
+
+        private void HandlePausedState() {
+            _isPaused = true;
+            BridgeEvents.GamePausedState?.Invoke();
+            BridgeTimer.PauseTimer();
+        }
+
+        private void HandleBridgeCollapsingState() {
+            BridgeEvents.BridgeCollapsingState?.Invoke();
+            GameEvents.TrialFailing?.Invoke();
+            BridgeTimer.ResetTimer();
+            ChangeState(BridgeStates.AnimationBridgeCollapsing);
+        }
+
+        private void HandleGameFailedState() {
+            HandleGameWinOrLose(won: false);
+            if (_inSessionMode) {
+                TrialEnded();
+            }
+
+            if (DynamicDifficulty._firstTrial) {
+                ChangeState(BridgeStates.Idle);
+            }
+        }
+
+        private void HandleBridgeCompletingState() {
+            BridgeEvents.BridgeCompletingState?.Invoke();
+            GameEvents.TrialCompleting?.Invoke();
+            BridgeTimer.ResetTimer();
+            ChangeState(BridgeStates.AnimationBridgeCompleting);
+        }
+
+        private void HandleBridgeCompletedState() {
+            if (_inSessionMode) {
+                TrialEnded();
+            }
+            else {
+                ChangeState(BridgeStates.GameWon);
+            }
+        }
+
+        private void HandleGameWonState() {
+            Debug.Log("GameWon State Called");
+            HandleGameWinOrLose(won: true);
+        }
+
 
         private void PrepareAndStartGame() {
             if (currentState is BridgeStates.BridgeReady) {

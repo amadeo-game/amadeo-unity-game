@@ -1067,6 +1067,14 @@ PrefabInstance:
       propertyPath: _finger5.m_SingletonActionBindings.Array.data[2].m_Action
       value: Finger 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: fallAnimDuration
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585684475137183281, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
+      propertyPath: riseAnimDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8111590682049343279, guid: 529085a545aba8e41a1548435d4859f5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1226,7 +1234,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _debug: 1
-  LevelManager: {fileID: 1439435748}
 --- !u!1 &878746813
 GameObject:
   m_ObjectHideFlags: 0
