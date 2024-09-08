@@ -25,51 +25,50 @@ namespace BridgePackage {
         [SerializeField] InputType _inputType = InputType.Amadeo;
         private const float MIN_FORCE = -5.0f;
         private const float MAX_FORCE = 5.0f;
-        UnitsControl _unitsControl;
+        UnitsControl _unitsControl;             // Controls what Units (Fingers) the player can move. All Modes.
 
         // input system on button
-        private bool _useInputSystem = false;
+        private bool _useInputSystem = false;   // Emulation Mode
 
 
+        // Amadeo mode:
+        [SerializeField, Tooltip("Internal IP address should be 10.100.4.30 for Amadeo connection")]
+        private string _ip_address = "10.100.4.30";   
         [SerializeField, Tooltip("Port should be 4444 for Amadeo connection"), Range(1024, 49151)]
-        private int _port = 4444;
+        private int _port = 4444;   
 
-        [SerializeField] bool _debug = false;
+        [SerializeField] bool _debug = false;    // Change from Inspector to activate Debug Logs.
 
-        // On emulation file, recommended to be small value because of high changes in data lines
-        // On Amadeo, recommended to be around 100
-        [SerializeField] private int _zeroFBuffer = 100;
+        // Determines the number of samples to average. Amadeo / File mode.
+        // On File Mode, recommended to be small value because of high changes in data lines
+        // On Amadeo Mode, recommended to be around 100.
+        [SerializeField] private int _zeroFBuffer = 100;  
 
-        private CancellationTokenSource _cancellationTokenSource;
-        private bool _isReceiving = false;
-        private UdpClient _udpClient;
-        private const string FileModeDataFile = "Assets/AmadeoRecords/force_data.txt";
+        private CancellationTokenSource _cancellationTokenSource;   // Amadeo mode. Not in use(?)
+        private bool _isReceiving = false;      // Amadeo / File mode
+        private UdpClient _udpClient;           // Amadeo mode
+        private const string FileModeDataFile = "Assets/AmadeoRecords/force_data.txt";  // File mode
 
-        // Emulation Mode
-        [SerializeField] float _emulationSpeed = 0.01f;
+        [SerializeField] float _emulationSpeed = 0.01f;  // Emulation mode
 
         // you can use this to store and use specific endpoint
-        private IPEndPoint _remoteEndPoint;
+        private IPEndPoint _remoteEndPoint;              // Amadeo mode 
 
         // NativeArrays to hold forces and zeroForces
-        private NativeArray<float> _forces;
-        private NativeArray<float> _zeroForces;
+        private NativeArray<float> _zeroForces;          // Updated at the ZeroF phase. For Amadeo / File mode (in Emulation, there is no need to ZeroF).
+        private NativeArray<float> _forces;              // Updated whenever we get new data. For Amadeo / File / Emulation mode. Takes MIN_FORCE, MAX_FORCE and ZeroF into account.
 
+        private bool _dataReceived = false;              // Amadeo / File mode 
+        private bool _isLeftHand = false;                // Should we invert ZeroF results? For Amadeo / File mode.
 
-        private bool _dataReceived = false;
-
-        private bool _isLeftHand = false;
-
-        // Set Input System to listen on buttons {'y', 'u', 'i', 'o', 'p'}
-
+        // Emulation mode. Set Input System to listen on buttons {'y', 'u', 'i', 'o', 'p'} and {'h', 'j', 'k', 'l', ';'}
         [SerializeField] InputAction _finger1 = new InputAction(type: InputActionType.Button);
         [SerializeField] InputAction _finger2 = new InputAction(type: InputActionType.Button);
         [SerializeField] InputAction _finger3 = new InputAction(type: InputActionType.Button);
         [SerializeField] InputAction _finger4 = new InputAction(type: InputActionType.Button);
         [SerializeField] InputAction _finger5 = new InputAction(type: InputActionType.Button);
 
-
-        private void GetForcesFromInput() {
+        private void GetForcesFromInput() {    // Emulation Mode:
             if (_useInputSystem) {
                 _forces[0] += _finger1.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
                 _forces[1] += _finger2.ReadValue<float>() * _emulationSpeed * Time.fixedDeltaTime;
@@ -174,12 +173,12 @@ namespace BridgePackage {
         private void Start() {
             _unitsControl = GetComponent<UnitsControl>();
             // Initialize the UdpClient
-            try {
+            try {     // Amadeo Mode
                 _udpClient = new UdpClient(_port); // Listen for data on port (should be 4444)
                 // you can use this to store and use specific endpoint
 
                 _remoteEndPoint =
-                    new IPEndPoint(IPAddress.Parse("10.100.4.30"), 0); // Placeholder for any remote endpoint
+                    new IPEndPoint(IPAddress.Parse(_ip_address), 0); // Placeholder for any remote endpoint
                 // Start receiving data asynchronously
                 _udpClient.BeginReceive(ReceiveDataCallback, null);
             }
@@ -224,7 +223,7 @@ namespace BridgePackage {
 
                 _useInputSystem = true;
             }
-            else {
+            else { // (_inputType is InputType.AmadeoMode) {
                 if (_debug) {
                     Debug.Log("StartReceiveData :: Amadeo mode is true. Listening to data from Amadeo device...");
                 }
@@ -247,16 +246,14 @@ namespace BridgePackage {
             }
         }
 
-        private void ReceiveDataCallback(IAsyncResult ar) {
+        private void ReceiveDataCallback(IAsyncResult ar) {   // Amadeo Mode
             if (_isReceiving) {
                 try {
                     byte[] receivedBytes = _udpClient.EndReceive(ar, ref _remoteEndPoint);
                     string receivedData = Encoding.ASCII.GetString(receivedBytes);
 
-
                     if (_debug) {
                         Debug.Log("Receive Data from Amadeo");
-
                         Debug.Log($"Received data: {receivedData}");
                     }
 
@@ -305,7 +302,8 @@ namespace BridgePackage {
             }
 
             string[] strForces = data.Split('\t');
-            if (strForces.Length != 11) {
+            if (strForces.Length != 11) {  // 11 Fields: timestamp + 5 irrelevant fingers + 5 relevant fingers. Example:
+                                           // <Amadeo>17:48:48,13	-0,250	-0,602	-0,561	-0,639	-0,751	-0,000	-0,000	-0,000	-0,400	0,000</Amadeo>
                 Debug.Log("Received data does not contain exactly 11 values. Ignoring...");
                 return; // Ensuring we have exactly 11 values (1 time + 10 forces)
             }
@@ -315,10 +313,8 @@ namespace BridgePackage {
                 // Parse the last 5 elements from strForces and assign them to _forces
                 float force = float.Parse(strForces[strForces.Length - 5 + i].Replace(",", "."),
                     CultureInfo.InvariantCulture);
-                _forces[i] = Mathf.Clamp(force, -5.0f, 5.0f);
+                _forces[i] = Mathf.Clamp(force, MIN_FORCE, MAX_FORCE);
             }
-
-
             OffsetForcesAndSend();
         }
 

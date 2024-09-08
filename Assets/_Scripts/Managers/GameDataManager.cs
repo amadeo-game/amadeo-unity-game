@@ -12,7 +12,6 @@ public class GameDataManager : MonoBehaviour {
     }
 
     SaveManager m_SaveManager;
-    bool m_IsGameDataInitialized;
 
     void OnEnable() {
         SettingsEvents.SettingsUpdated += OnSettingsUpdated;
@@ -29,9 +28,6 @@ public class GameDataManager : MonoBehaviour {
     void Start() {
         //if saved data exists, load saved data
         m_SaveManager.LoadGame();
-
-        // flag that GameData is loaded the first time
-        m_IsGameDataInitialized = true;
     }
 
     // update values from SettingsScreen
