@@ -36,8 +36,23 @@ The control menu is opened in Display 1; simultaneously, the game runs at Displa
 * Isolated Mode: if marked, then in Level 2 onwards, only one finger from the "Active Units" set will have to move, and the others will have to remain at rest.
 * Multiple Fingers: if marked, then in Level 5 onwards, two or more fingers (up to the maximum Active Units) will have to move simultaneously.
 
+### Displays
+
+Display 1 is used for the control menu.
+Display 2 is used for the game itself.
+
+UI Toolkit is used to control the two displays simultanously.
+* IntructorOptions object controls the control menu. InstructorPanelSettings tells UI toolkit to show it on  Display 1.
+* GameScreen object controls the game screen. PanelSettings tells UI toolkit to show it on  Display 2.
+
+We need two cameras: MainCamera for Display 1, and SecondCamera for Display 2.
 
 
+### Managers
 
+* GameManager - not relevant.
+* GameDataManager - preparation for future. Currently not used.
+* AudioManager - preparation for future, e.g. for background music. Some features are not used.
+* MonitorManager - activates the two displays.
 
 
