@@ -99,7 +99,7 @@ public class SaveManager : MonoBehaviour {
 
     // Update the GameDataManager data and save
     void OnSettingsUpdated(GameData gameData) {
-        Debug.Log("SaveManager.OnSettingsUpdated: GameData updated.");
+        // Debug.Log("SaveManager.OnSettingsUpdated: GameData updated.");
 
         m_GameDataManager.GameData = gameData;
         SaveGame();

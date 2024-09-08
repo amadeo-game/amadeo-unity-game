@@ -16,5 +16,7 @@ namespace BridgePackage {
         public static Action PrepareBridgeConfigs;
         public static Action<BridgeData> OnBridgeDataUpdated;
         public static Action<float> OnTimeDurationChanged;
+        public static Action<int> CurrentLevelChanged;
+        public static Action<int> NumOfLevelsUpdated;
     }
 }

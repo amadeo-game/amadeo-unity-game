@@ -534,9 +534,7 @@ public class InstructorPanel : MonoBehaviour {
             // _activeUnitToggles[i].style.color = activeUnits[i] ? Color.green : Color.white;
             _activeUnitToggles[i].Q<VisualElement>("unity-checkmark").style.backgroundColor =
                 activeUnits[i] ? Color.green : Color.white;
-            if (_debug) {
-                Debug.Log($"Unit {i + 1} is active: {activeUnits[i]}");
-            }
+
         }
     }
 
@@ -549,9 +547,7 @@ public class InstructorPanel : MonoBehaviour {
     private void OnHeightsChanged(int[] heights) {
         for (int i = 0; i < heights.Length; i++) {
             _sliders[i].value = Mathf.Abs(heights[i]);
-            if (_debug) {
-                Debug.Log("Slider " + i + " value: " + heights[i]);
-            }
+
         }
     }
 }

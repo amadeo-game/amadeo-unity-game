@@ -5,7 +5,7 @@ namespace BridgePackage {
     public class BridgeDataManager : MonoBehaviour {
         private static BridgeData BridgeData = new BridgeData();
         [SerializeField] BridgeCollectionSO _bridgeCollection;
-        
+
         private void Awake() {
             SetBridgeCollection(_bridgeCollection);
 
@@ -43,7 +43,7 @@ namespace BridgePackage {
             }
         }
 
-        public static int[] HeightsAbsolute => BridgeData.heights.Select( Mathf.Abs).ToArray();
+        public static int[] HeightsAbsolute => BridgeData.heights.Select(Mathf.Abs).ToArray();
 
         public static BridgeTypeSO BridgeType {
             get {
@@ -79,15 +79,16 @@ namespace BridgePackage {
                 BridgeData.heights = newHeights;
                 GameConfigEvents.HeightValuesChanged?.Invoke(newHeights);
             }
-            
         }
 
         public static void SetLevel(int newLevel) {
-            BridgeData.level = newLevel;
+            BridgeData.level = Mathf.Max(1, newLevel);
+            GameConfigEvents.CurrentLevelChanged?.Invoke(newLevel);
         }
 
         public static void SetBridgeCollection(BridgeCollectionSO newBridgeCollection) {
             BridgeData.bridgeCollection = newBridgeCollection;
+            GameConfigEvents.NumOfLevelsUpdated?.Invoke(newBridgeCollection.BridgeTypes.Length);
         }
 
         public static void SetIsLeftHand(bool leftHand) {

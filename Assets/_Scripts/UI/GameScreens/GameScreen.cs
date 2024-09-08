@@ -18,6 +18,8 @@ public class GameScreen : MonoBehaviour {
     VisualElement _loseScreenRootElement;
     VisualElement _zerofScreenRootElement;
     VisualElement _startingGameCountdownVisualElement;
+    Label _currentLevelVisualElement;
+    Label _totalLevelsVisualElement;
 
 
     [FormerlySerializedAs("_pauseScreen")] [SerializeField]
@@ -71,9 +73,16 @@ public class GameScreen : MonoBehaviour {
         GameEvents.GameIdle += SetIdleStateScreen;
 
         GameConfigEvents.OnTimeDurationChanged += UpdateTimeLabel;
+        GameConfigEvents.CurrentLevelChanged += OnCurrentLevelChanged;
+        GameConfigEvents.NumOfLevelsUpdated += SetNumOfLevels;
 
 
         GameConfigEvents.CountDown += UpdateCountDownLabel;
+    }
+    
+    private void SetNumOfLevels(int levels) {
+        Debug.Log("GameScreen: SetNumOfLevels " + levels);
+        _totalLevelsVisualElement.text = (levels-1).ToString();
     }
 
     private void OnInGameState() {
@@ -110,6 +119,12 @@ public class GameScreen : MonoBehaviour {
             _instructorTimer.text = newTime.ToString("F0");
         }
     }
+    
+    private void OnCurrentLevelChanged(int currentLevel) {
+        if (_currentLevelVisualElement != null) {
+            _currentLevelVisualElement.text = currentLevel.ToString();
+        }
+    }
 
     void OnDisable() {
         GameplayEvents.WinScreenShown -= OnGameWon;
@@ -123,9 +138,12 @@ public class GameScreen : MonoBehaviour {
         GameEvents.GameIdle -= SetIdleStateScreen;
 
         GameConfigEvents.OnTimeDurationChanged -= UpdateTimeLabel;
+        GameConfigEvents.CurrentLevelChanged -= OnCurrentLevelChanged;
+        GameConfigEvents.NumOfLevelsUpdated -= SetNumOfLevels;
 
 
         GameConfigEvents.CountDown -= UpdateCountDownLabel;
+        
     }
 
     void SetVisualElements() {
@@ -153,6 +171,8 @@ public class GameScreen : MonoBehaviour {
 
         _instructorTimer = _instructorScreenRootElement.Q<Label>("game-timer__label");
         _gameTimer = gameScreenRootElement.Q<Label>("game-timer__label");
+        _currentLevelVisualElement = gameScreenRootElement.Q<Label>("current-level__label");
+        _totalLevelsVisualElement = gameScreenRootElement.Q<Label>("total-levels__label");
         _settingsResumeButton = _settingsScreenRootElement.Q<Button>("settings__resume-button");
         _settingsQuitButton = _settingsScreenRootElement.Q<Button>("settings__quit-button");
         _settingsBackButton = _settingsScreenRootElement.Q<Button>("settings__back-button");
@@ -198,6 +218,7 @@ public class GameScreen : MonoBehaviour {
         ShowVisualElement(_loseScreenRootElement, false);
         ShowVisualElement(_zerofScreenRootElement, false);
         ShowVisualElement(_startingGameCountdownVisualElement, false);
+        _totalLevelsVisualElement.text = BridgeDataManager.NumberOfLevels.ToString();
         BlurBackground(false);
     }
 
@@ -207,7 +228,6 @@ public class GameScreen : MonoBehaviour {
             return;
         }
 
-        Debug.Log("GameScreen: ShowVisualElement" + " " + visualElement.name + " " + state);
 
         visualElement.style.display = (state) ? DisplayStyle.Flex : DisplayStyle.None;
     }

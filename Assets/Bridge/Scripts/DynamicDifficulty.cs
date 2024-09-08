@@ -131,8 +131,6 @@ namespace BridgePackage {
 
             if (_debug) {
                 Debug.Log("DynamicDifficulty :: SetMVCHeights");
-                Debug.Log("Trial Count: " + _levelData.TrialCount + " Level: " + _levelData.Level);
-                Debug.Log("MVC to Heights: " + string.Join(",", _mvcToHeights));
             }
         }
 
@@ -141,6 +139,9 @@ namespace BridgePackage {
         // Should be called at the start of each session
         private void InitSession() {
             _controlMethod = ControlMethod.IndividualControl;
+            _levelData.Level = BridgeDataManager.Level;
+            GameConfigEvents.CurrentLevelChanged?.Invoke(_levelData.Level);
+            GameConfigEvents.NumOfLevelsUpdated?.Invoke(_numOfLevelsInGame);
             // Get the indexes of the active fingers
             _allowedFingers = new HashSet<int>();
             for (int i = 0; i < BridgeDataManager.PlayableUnits.Length; i++) {
